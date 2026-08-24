@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Mi Panel - wasa.chat</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}body{font-family:'Plus Jakarta Sans',system-ui;background:#E6F0FF;color:#1E293B}
+.nav{height:64px;background:#1D4ED8;display:flex;align-items:center;justify-content:space-between;padding:0 5%;position:fixed;top:0;left:0;right:0;z-index:10}
+.nav .logo{color:white;font-weight:800}.nav .links{color:rgba(255,255,255,.7);font-size:11px;font-weight:700}.nav .links a{color:white;text-decoration:none;margin-left:12px}
+.layout{display:flex;max-width:1100px;margin:0 auto;padding-top:64px;min-height:100vh}
+.sidebar{width:240px;background:#C2D9FF;border-right:2px solid #93B4FF;padding:20px 14px}
+.content{flex:1;padding:24px 20px}
+@media(max-width:800px){.layout{flex-direction:column}.sidebar{width:100%}}
+.card{background:white;border:2px solid #93B4FF;border-radius:20px;padding:18px;margin-bottom:16px}
+.eyebrow{font-size:10px;font-weight:800;letter-spacing:.14em;opacity:.6;color:#1E3A8A;text-transform:uppercase}
+.title{font-size:18px;font-weight:800;margin-top:4px}
+.stat-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin-top:14px}
+@media(max-width:700px){.stat-grid{grid-template-columns:1fr}}
+.stat{background:#E6F0FF;border:1px solid #93B4FF;border-radius:14px;padding:12px}
+.stat .num{font-size:20px;font-weight:800}.stat .lbl{font-size:11px;opacity:.6;margin-top:2px}
+.menu-item{display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:12px;cursor:pointer;font-size:13px;font-weight:600;margin-bottom:6px}
+.menu-item.active{background:#1D4ED8;color:white}.menu-item:hover{background:#93B4FF}
+.table{width:100%;border-collapse:collapse;margin-top:12px;font-size:12px}
+.table th{font-size:10px;text-align:left;opacity:.6;padding:6px 8px;border-bottom:1px solid #93B4FF}
+.table td{padding:8px;border-bottom:1px solid #E6F0FF}
+.badge{font-size:10px;font-weight:800;padding:3px 8px;border-radius:999px;background:#FFD60A;color:black}
+.btn{height:40px;padding:0 16px;border-radius:12px;border:0;background:#0A101F;color:white;font-weight:800;cursor:pointer;font-size:12px}
+.input{height:40px;border-radius:10px;border:1px solid #93B4FF;padding:0 12px;width:100%;margin-top:8px}
+.hidden{display:none}
+</style>
+</head>
+<body>
+<nav class="nav"><div class="logo">wasa.chat/founders / panel</div><div class="links"><span id="navEmail"></span> <a href="#" onclick="logout()">SALIR</a></div></nav>
+<div class="layout">
+<div class="sidebar">
+<div style="font-size:11px;font-weight:800;opacity:.5;margin-bottom:10px">MENU</div>
+<div class="menu-item active" data-view="datos" onclick="switchView('datos')">DATOS DE USUARIO</div>
+<div class="menu-item" data-view="historial" onclick="switchView('historial')">HISTORIAL DE REPARTO</div>
+<div class="menu-item" data-view="transferir" onclick="switchView('transferir')">TRANSFERIR WASABLOCKS</div>
+<div class="menu-item" data-view="hologramas" onclick="switchView('hologramas')">MIS HOLOGRAMAS</div>
+</div>
+<div class="content">
+<div id="view-datos" class="view"><div class="card"><div class="eyebrow">DATOS DE USUARIO</div><div class="title" id="userEmailTitle">Cargando...</div>
+<div class="stat-grid"><div class="stat"><div class="num" id="statSlots">-</div><div class="lbl">WASABLOCKS</div></div><div class="stat"><div class="num" id="statPercent">-</div><div class="lbl">% PERPETUO</div></div><div class="stat"><div class="num" id="statWallet">-</div><div class="lbl">WALLET</div></div></div></div>
+<div class="card"><div class="eyebrow">MIS CODIGOS</div><table class="table" id="codesTable"><thead><tr><th>Codigo</th><th>Slots</th><th>%</th><th>USDT</th><th>Fecha</th></tr></thead><tbody></tbody></table></div></div>
+<div id="view-historial" class="view hidden"><div class="card"><div class="eyebrow">HISTORIAL REPARTO</div><div class="title">Repartos desde 15 Abril 2027</div><table class="table" id="historyTable"><thead><tr><th>Fecha</th><th>Monto</th><th>Estado</th></tr></thead><tbody></tbody></table></div></div>
+<div id="view-transferir" class="view hidden"><div class="card"><div class="eyebrow">TRANSFERIR</div><div class="title">Transferir a otro usuario</div>
+<label style="font-size:11px;font-weight:700;margin-top:14px;display:block">Email destinatario</label><input class="input" id="transferEmail" placeholder="nuevo@email.com">
+<label style="font-size:11px;font-weight:700;margin-top:10px;display:block">Slots</label><input class="input" id="transferSlots" type="number" min="1" placeholder="1">
+<button class="btn" style="margin-top:12px;width:100%" onclick="requestTransfer()">Solicitar</button><div id="transferMsg" style="font-size:12px;margin-top:10px;display:none"></div></div></div>
+<div id="view-hologramas" class="view hidden"><div class="card"><div class="eyebrow">HOLOGRAMAS</div><div class="title">Tus certificados</div><div id="hologramsList" style="margin-top:12px;display:grid;gap:12px"></div></div></div>
+</div>
+</div>
+<script>
+const CONFIG={WEBHOOK_URL:'https://script.google.com/macros/s/AKfycbyCzKxGfe8U5Ip0ETO86rqx4K6e4S5MeYer4oebBkAFN3zqYMVphSVrnBMW1q_h9cgvBw/exec'};
+function logout(){ localStorage.removeItem('wasa_token'); localStorage.removeItem('wasa_email'); window.location.href='/panel/'; }
+function switchView(v){ document.querySelectorAll('.view').forEach(el=>el.classList.add('hidden')); document.getElementById('view-'+v).classList.remove('hidden'); document.querySelectorAll('.menu-item').forEach(el=>el.classList.remove('active')); document.querySelector(`[data-view="${v}"]`).classList.add('active'); }
+async function loadData(){ let token=localStorage.getItem('wasa_token'); let email=localStorage.getItem('wasa_email'); if(!token){ window.location.href='/panel/'; return; } document.getElementById('navEmail').textContent=email; try{ let r=await fetch(CONFIG.WEBHOOK_URL+'?action=userData&token='+encodeURIComponent(token)); let j=await r.json(); if(!j.ok){ alert(j.error); logout(); return; } let d=j.data; document.getElementById('userEmailTitle').textContent=d.email; document.getElementById('statSlots').textContent=d.totalSlots; document.getElementById('statPercent').textContent=d.percent.toFixed(1)+'%'; document.getElementById('statWallet').textContent=d.wallet ? d.wallet.slice(0,6)+'...'+d.wallet.slice(-4) : '-'; let tbody=document.querySelector('#codesTable tbody'); tbody.innerHTML=d.codes.map(c=>`<tr><td><b>${c.codeId}</b></td><td>${c.slots}</td><td>${c.percent}%</td><td>$${c.usdt}</td><td>${(c.date||'').slice(0,10)}</td></tr>`).join(''); let htbody=document.querySelector('#historyTable tbody'); htbody.innerHTML=d.history.map(h=>`<tr><td>${h.date}</td><td>$${h.amount} USDT</td><td><span class="badge">${h.status}</span></td></tr>`).join(''); let hlist=document.getElementById('hologramsList'); hlist.innerHTML=d.codes.map(c=>`<div style="background:#E6F0FF;border:1px solid #93B4FF;border-radius:12px;padding:10px;display:flex;justify-content:space-between"><div><b>${c.codeId}</b><div style="font-size:11px;opacity:.6">${c.slots} slots</div></div><div style="font-size:11px">En email</div></div>`).join(''); }catch(e){ alert('Error: '+e.message); } }
+async function requestTransfer(){ let token=localStorage.getItem('wasa_token'); let toEmail=document.getElementById('transferEmail').value.trim(); let slots=document.getElementById('transferSlots').value; if(!toEmail||!slots){ alert('Completa'); return; } let msg=document.getElementById('transferMsg'); msg.style.display='block'; msg.textContent='Enviando...'; try{ let res=await fetch(CONFIG.WEBHOOK_URL,{method:'POST',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify({action:'transfer', token:token, toEmail:toEmail, slots:slots})}); let j=await res.json(); msg.textContent=j.ok? 'Solicitud enviada - te contactaremos' : 'Error: '+j.error; }catch(e){ msg.textContent='Error: '+e.message; } }
+loadData();
+</script>
+</body>
+</html>
