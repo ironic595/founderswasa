@@ -55,7 +55,7 @@
   </div>
 </div>
 <script>
-const CONFIG={WEBHOOK_URL:'https://script.google.com/macros/s/AKfycbyhWudUb9iDfC8WeVhgbBRAH_uZajRqR3Vi5IOVXGHGxB4DxzrUcPetNIncOB3RWQjFPw/exec', DASHBOARD:'/panel/dashboard.html'};
+const CONFIG={WEBHOOK_URL:'https://script.google.com/macros/s/AKfycbyhWudUb9iDfC8WeVhgbBRAH_uZajRqR3Vi5IOVXGHGxB4DxzrUcPetNIncOB3RWQjFPw/exec', DASHBOARD:'/dashboard.html'};
 let validatedEmail='', validatedCode='';
 function switchTab(t){ document.getElementById('tabNew').classList.toggle('active', t==='new'); document.getElementById('tabLogin').classList.toggle('active', t==='login'); document.getElementById('viewNew').classList.toggle('hidden', t!=='new'); document.getElementById('viewLogin').classList.toggle('hidden', t!=='login'); }
 (function(){ let p=new URLSearchParams(location.search); let e=p.get('email'); let c=p.get('code'); if(e){document.getElementById('newEmail').value=e;document.getElementById('loginEmail').value=e;} if(c){document.getElementById('newCode').value=c.toUpperCase();} })();
