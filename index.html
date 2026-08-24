@@ -35,7 +35,7 @@
 </div>
 </div></div>
 <script>
-const CONFIG={WEBHOOK_URL:'https://script.google.com/macros/s/AKfycbyCzKxGfe8U5Ip0ETO86rqx4K6e4S5MeYer4oebBkAFN3zqYMVphSVrnBMW1q_h9cgvBw/exec', DASHBOARD:'/dashboard.html'};
+const CONFIG={WEBHOOK_URL:'https://script.google.com/macros/s/AKfycbx2RQsajxrctkhjiKw6pijf_wLV1lr8Cv0h4FU2bI-ROD7sdo9vFdxKSML3NhjWt04gzQ/exec', DASHBOARD:'/dashboard.html'};
 let validatedEmail='', validatedCode='';
 function switchTab(t){document.getElementById('tabNew').classList.toggle('active',t==='new');document.getElementById('tabLogin').classList.toggle('active',t==='login');document.getElementById('viewNew').classList.toggle('hidden',t!=='new');document.getElementById('viewLogin').classList.toggle('hidden',t!=='login');document.getElementById('mainSub').textContent=t==='new'?'INGRESA EL CODIGO DE 8 DIGITOS QUE TE ENVIAMOS A TU EMAIL':'Ingresa con tu email y contraseña';}
 (function(){let p=new URLSearchParams(location.search);let e=p.get('email');let c=p.get('code');if(e) document.getElementById('newEmail').value=e;if(c) document.getElementById('newCode').value=c.toUpperCase();if(e&&c) setTimeout(()=>validateCode(),800);})();
