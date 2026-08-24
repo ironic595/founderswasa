@@ -1,26 +1,10 @@
 <!DOCTYPE html>
 <html lang="es">
-<head>
-<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Panel Inversores - wasa.chat</title>
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Panel Inversores</title>
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
-<style>
-*{box-sizing:border-box;margin:0;padding:0}body{font-family:'Plus Jakarta Sans',system-ui;background:#E6F0FF;color:#1E293B;min-height:100vh}
-.nav{height:64px;background:#1D4ED8;display:flex;align-items:center;justify-content:space-between;padding:0 5%}
-.nav.logo{color:white;font-weight:800}.nav.links a{color:rgba(255,255,255,.7);text-decoration:none;font-size:11px;font-weight:700;margin-left:16px}
-.wrap{max-width:480px;margin:0 auto;padding:100px 20px 40px}
-.card{background:#C2D9FF;border:2px solid #93B4FF;border-radius:24px;padding:24px;box-shadow:0 12px 32px rgba(29,78,216,.12)}
-.title{font-size:22px;font-weight:800;text-align:center}.sub{font-size:12px;opacity:.7;text-align:center;margin-top:8px;line-height:1.4}
-.btn{width:100%;height:48px;border-radius:14px;border:0;font-weight:800;cursor:pointer;display:flex;align-items:center;justify-content:center;margin-top:12px}
-.btn-primary{background:#0A101F;color:white;border:1px solid #3B82F6}.btn-secondary{background:white;color:#1E293B;border:1px solid #93B4FF}
-.input{width:100%;height:44px;border-radius:12px;border:1px solid #93B4FF;padding:0 14px;margin-top:10px;font-size:14px}
-.label{font-size:11px;font-weight:700;margin-top:14px;display:block;opacity:.7}
-.tabs{display:flex;gap:8px;margin-top:18px}.tab{flex:1;height:42px;border-radius:12px;border:1px solid #93B4FF;background:#E6F0FF;font-weight:700;font-size:13px;cursor:pointer}.tab.active{background:#1D4ED8;color:white;border-color:#1D4ED8}
-.alert{padding:10px 12px;border-radius:10px;font-size:12px;margin-top:12px;display:none}.alert-error{background:#FEF2F2;border:1px solid #FECACA;color:#DC2626}.alert-success{background:#F0FDF4;border:1px solid #BBF7D0;color:#16A34A}.hidden{display:none!important}.divider{height:1px;background:#93B4FF;margin:18px 0;opacity:.5}
-</style>
+<style>*{box-sizing:border-box;margin:0;padding:0}body{font-family:'Plus Jakarta Sans',system-ui;background:#E6F0FF;color:#1E293B;min-height:100vh}.nav{height:64px;background:#1D4ED8;display:flex;align-items:center;justify-content:space-between;padding:0 5%}.wrap{max-width:480px;margin:0 auto;padding:100px 20px 40px}.card{background:#C2D9FF;border:2px solid #93B4FF;border-radius:24px;padding:24px}.title{font-size:22px;font-weight:800;text-align:center}.sub{font-size:12px;opacity:.7;text-align:center;margin-top:8px;line-height:1.4}.btn{width:100%;height:48px;border-radius:14px;border:0;font-weight:800;cursor:pointer;display:flex;align-items:center;justify-content:center;margin-top:12px}.btn-primary{background:#0A101F;color:white}.btn-secondary{background:white;border:1px solid #93B4FF}.input{width:100%;height:44px;border-radius:12px;border:1px solid #93B4FF;padding:0 14px;margin-top:10px}.label{font-size:11px;font-weight:700;margin-top:14px;display:block;opacity:.7}.tabs{display:flex;gap:8px;margin-top:18px}.tab{flex:1;height:42px;border-radius:12px;border:1px solid #93B4FF;background:#E6F0FF;font-weight:700;cursor:pointer}.tab.active{background:#1D4ED8;color:white}.alert{padding:10px 12px;border-radius:10px;font-size:12px;margin-top:12px;display:none}.alert-error{background:#FEF2F2;border:1px solid #FECACA;color:#DC2626}.alert-success{background:#F0FDF4;border:1px solid #BBF7D0;color:#16A34A}.hidden{display:none!important}.divider{height:1px;background:#93B4FF;margin:18px 0;opacity:.5}</style>
 </head>
 <body>
-<nav class="nav"><div class="logo">wasa.chat<span style="color:#D4AF37;">/founders</span> / panel</div><div class="links"><a href="https://wasa.chat/founders.html">COMPRAR</a></div></nav>
 <div class="wrap"><div class="card">
 <div style="font-size:10px;font-weight:800;letter-spacing:.14em;opacity:.6;text-align:center;color:#1E3A8A">PANEL DE INVERSORES</div>
 <div class="title" id="mainTitle">Bienvenido Founder</div>
@@ -29,93 +13,70 @@
 <div id="viewNew">
   <div id="stepCodeWrapper">
     <label class="label">Email de compra</label><input class="input" id="newEmail" placeholder="tu@email.com">
-    <label class="label">INGRESA EL CODIGO DE 8 DIGITOS QUE TE ENVIAMOS A TU EMAIL</label><input class="input" id="newCode" placeholder="C77J8622" style="text-transform:uppercase;letter-spacing:2px;font-weight:800">
+    <label class="label">INGRESA EL CODIGO DE 8 DIGITOS QUE TE ENVIAMOS A TU EMAIL</label><input class="input" id="newCode" placeholder="" style="text-transform:uppercase;letter-spacing:2px;font-weight:800">
     <div class="alert alert-error" id="newError"></div><div class="alert alert-success" id="newSuccess"></div>
     <button class="btn btn-primary" id="btnValidateCode" onclick="validateCode()">Validar codigo</button>
   </div>
   <div id="createPassSection" class="hidden">
     <div class="divider"></div>
     <div class="title" style="font-size:18px">Crea tu contraseña</div>
-    <div class="sub">Codigo validado para <b id="validatedEmailLabel"></b></div>
-    <label class="label">Contraseña (min 8)</label><input class="input" id="newPass" type="password" placeholder="••••••••">
-    <label class="label">Repetir</label><input class="input" id="newPass2" type="password" placeholder="••••••••">
+    <div class="sub">Codigo <b id="validatedCodeLabel"></b> validado para <b id="validatedEmailLabel"></b></div>
+    <label class="label">Contraseña (min 8)</label><input class="input" id="newPass" type="password">
+    <label class="label">Repetir</label><input class="input" id="newPass2" type="password">
     <div class="alert alert-error" id="passError"></div>
     <button class="btn btn-primary" onclick="registerUser()">Crear cuenta y entrar</button>
     <button class="btn btn-secondary" onclick="backToCode()">Volver</button>
   </div>
 </div>
 <div id="viewLogin" class="hidden">
-  <label class="label">Email</label><input class="input" id="loginEmail" placeholder="tu@email.com">
-  <label class="label">Contraseña</label><input class="input" id="loginPass" type="password" placeholder="••••••••">
-  <div class="alert alert-error" id="loginError"></div>
-  <button class="btn btn-primary" onclick="loginUser()">Ingresar</button>
+  <label class="label">Email</label><input class="input" id="loginEmail"><label class="label">Contraseña</label><input class="input" id="loginPass" type="password"><div class="alert alert-error" id="loginError"></div><button class="btn btn-primary" onclick="loginUser()">Ingresar</button>
 </div>
 </div></div>
 <script>
 const CONFIG={WEBHOOK_URL:'https://script.google.com/macros/s/AKfycbygwyJHPGkNRBNJ_43OyMMeLaQ36VO-ZEonqIrZdD9XeWh51BHJDxzmfyfey6G4-5x-Uw/exec', DASHBOARD:'/dashboard.html'};
 let validatedEmail='', validatedCode='';
-function switchTab(t){
-  document.getElementById('tabNew').classList.toggle('active',t==='new');
-  document.getElementById('tabLogin').classList.toggle('active',t==='login');
-  document.getElementById('viewNew').classList.toggle('hidden',t!=='new');
-  document.getElementById('viewLogin').classList.toggle('hidden',t!=='login');
-  document.getElementById('mainSub').textContent=t==='new'?'INGRESA EL CODIGO DE 8 DIGITOS QUE TE ENVIAMOS A TU EMAIL':'Ingresa con tu email y contraseña';
-  if(t==='new') document.getElementById('mainTitle').textContent='Bienvenido Founder';
-}
-function backToCode(){
-  document.getElementById('stepCodeWrapper').classList.remove('hidden');
-  document.getElementById('createPassSection').classList.add('hidden');
-  document.getElementById('mainTitle').textContent='Bienvenido Founder';
-  document.getElementById('mainSub').textContent='INGRESA EL CODIGO DE 8 DIGITOS QUE TE ENVIAMOS A TU EMAIL';
-}
+function switchTab(t){document.getElementById('tabNew').classList.toggle('active',t==='new');document.getElementById('tabLogin').classList.toggle('active',t==='login');document.getElementById('viewNew').classList.toggle('hidden',t!=='new');document.getElementById('viewLogin').classList.toggle('hidden',t!=='login');}
+function backToCode(){document.getElementById('stepCodeWrapper').classList.remove('hidden');document.getElementById('createPassSection').classList.add('hidden');document.getElementById('mainTitle').textContent='Bienvenido Founder';}
 (function(){
   let p=new URLSearchParams(location.search);
-  let e=p.get('email'); let c=p.get('code'); let tab=p.get('tab');
-  if(e) document.getElementById('newEmail').value=e;
-  if(c) document.getElementById('newCode').value=c.toUpperCase();
-  if(tab==='new') switchTab('new');
-  if(e&&c) setTimeout(()=>validateCode(),800);
+  let e=p.get('email');
+  // SOLO EMAIL, el codigo de 8 digitos queda VACIO a proposito
+  if(e){document.getElementById('newEmail').value=e;document.getElementById('loginEmail').value=e;}
+  if(p.get('tab')==='new') switchTab('new');
 })();
 function showError(id,msg){let el=document.getElementById(id);el.textContent=msg;el.style.display='block';}
-function hideError(id){let el=document.getElementById(id); if(el) el.style.display='none';}
+function hideError(id){document.getElementById(id).style.display='none';}
 async function validateCode(){
   let email=document.getElementById('newEmail').value.trim();
   let code=document.getElementById('newCode').value.trim().toUpperCase();
   if(!email||!code){showError('newError','Completa email y codigo');return;}
   hideError('newError');
-  let btn=document.getElementById('btnValidateCode'); btn.textContent='Validando...'; btn.disabled=true;
+  let btn=document.getElementById('btnValidateCode');btn.textContent='Validando...';btn.disabled=true;
   try{
     let r=await fetch(CONFIG.WEBHOOK_URL+'?action=validatePanelCode&email='+encodeURIComponent(email)+'&code='+encodeURIComponent(code));
     let j=await r.json();
     if(j.ok){
-      validatedEmail=email; validatedCode=code;
+      validatedEmail=email;validatedCode=code;
       document.getElementById('stepCodeWrapper').classList.add('hidden');
       document.getElementById('createPassSection').classList.remove('hidden');
       document.getElementById('validatedEmailLabel').textContent=email;
+      document.getElementById('validatedCodeLabel').textContent=code;
       document.getElementById('mainTitle').textContent='Crea tu contraseña';
-      document.getElementById('mainSub').textContent='Codigo validado correctamente';
-      document.getElementById('newPass').focus();
-    }else{showError('newError',j.error||'Codigo invalido');}
+      document.getElementById('mainSub').textContent='Codigo de 8 digitos validado correctamente';
+    }else{showError('newError',j.error||'Codigo invalido o vencido');}
   }catch(e){showError('newError','Error: '+e.message);}
-  finally{btn.textContent='Validar codigo'; btn.disabled=false;}
+  finally{btn.textContent='Validar codigo';btn.disabled=false;}
 }
 async function registerUser(){
-  let p1=document.getElementById('newPass').value; let p2=document.getElementById('newPass2').value;
-  if(p1.length<8){showError('passError','Min 8');return;}
-  if(p1!==p2){showError('passError','No coinciden');return;}
-  hideError('passError');
-  try{
-    let res=await fetch(CONFIG.WEBHOOK_URL,{method:'POST',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify({action:'register',email:validatedEmail,code:validatedCode,password:p1})});
-    let j=await res.json();
-    if(j.ok){localStorage.setItem('wasa_token',j.token);localStorage.setItem('wasa_email',validatedEmail);location.href=CONFIG.DASHBOARD;}
-    else{showError('passError',j.error);}
-  }catch(e){showError('passError',e.message);}
+  let p1=document.getElementById('newPass').value;let p2=document.getElementById('newPass2').value;
+  if(p1.length<8){showError('passError','Min 8');return;}if(p1!==p2){showError('passError','No coinciden');return;}
+  let res=await fetch(CONFIG.WEBHOOK_URL,{method:'POST',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify({action:'register',email:validatedEmail,code:validatedCode,password:p1})});
+  let j=await res.json(); if(j.ok){localStorage.setItem('wasa_token',j.token);localStorage.setItem('wasa_email',validatedEmail);location.href=CONFIG.DASHBOARD;}else{showError('passError',j.error);}
 }
 async function loginUser(){
-  let email=document.getElementById('loginEmail').value.trim(); let pass=document.getElementById('loginPass').value;
-  if(!email||!pass){showError('loginError','Completa');return;}
+  let email=document.getElementById('loginEmail').value.trim();let pass=document.getElementById('loginPass').value;
   let res=await fetch(CONFIG.WEBHOOK_URL,{method:'POST',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify({action:'login',email:email,password:pass})});
-  let j=await res.json(); if(j.ok){localStorage.setItem('wasa_token',j.token);localStorage.setItem('wasa_email',email);location.href=CONFIG.DASHBOARD;} else{showError('loginError',j.error);}
+  let j=await res.json(); if(j.ok){localStorage.setItem('wasa_token',j.token);localStorage.setItem('wasa_email',email);location.href=CONFIG.DASHBOARD;}else{showError('loginError',j.error);}
 }
 </script>
 </body>
