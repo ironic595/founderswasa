@@ -35,14 +35,14 @@
 <button class="btn" style="width:100%;height:48px" onclick="location.href='/dashboard.html'">Ir a mi panel (ver mis WASABLOCKS, mis anuncios, historial tipo wallet)</button>
 </div>
 </div>
+<script src="/wasa-config.js"></script>
 <script>
-const WEBHOOK_URL = 'https://script.google.com/macros/s/AKfycbyi8njSlvRNdDxUdr8lzdwDo6nmLJ4Tjuykwd9TMFN2kBipdebJtEm0m5NHz2LS_PMVBA/exec';
 
 async function loadMarket(){
   document.getElementById('navEmail').textContent = localStorage.getItem('wasa_email')||'';
   try{
     // NUEVO ENDPOINT PUBLICO - trae todos los activos
-    let r = await fetch(WEBHOOK_URL+'?action=market');
+    let r = await fetch(WASA_WEBHOOK_URL+'?action=market');
     let j = await r.json();
     if(!j.ok){ document.querySelector('#marketTable tbody').innerHTML=`<tr><td colspan="6" class="empty">Error: ${j.error}</td></tr>`; return; }
     let listings = j.listings || [];
@@ -70,7 +70,7 @@ async function buy(id){
   let token=localStorage.getItem('wasa_token');
   if(!token){ alert('Tenés que loguearte en el panel primero'); location.href='/dashboard.html'; return; }
   if(!confirm('¿Comprar '+id+'? Se te debitará USDT BSC y recibirás el WASABLOCK')) return;
-  let res=await fetch(WEBHOOK_URL,{method:'POST',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify({action:'buyListing', token:token, listingId:id})});
+  let res=await fetch(WASA_WEBHOOK_URL,{method:'POST',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify({action:'buyListing', token:token, listingId:id})});
   let j=await res.json();
   alert(j.ok?'Compra iniciada. Seguí instrucciones de pago.':'Error: '+j.error);
   loadMarket();
