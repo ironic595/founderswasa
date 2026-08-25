@@ -103,10 +103,10 @@
   </div>
 </div>
 
-<!-- VENDER -->
+<!-- VENDER - AHORA PRECIO POR UNIDAD -->
 <div id="view-vender" class="view hidden">
-  <div class="card"><div class="eyebrow">MERCADO / VENDER - MIN 0.01</div><div class="title">Poner a la venta</div>
-  <div class="sub">Fracción mínima 0.01 y múltiplos de 0.01. Ej: 0.01, 0.02, 0.15. Si tenés 0.05 y querés vender 0.06 -> falla por saldo. Si vendés tu último 0.01 y quedás en 0, pasás a EX_FOUNDER.<br><b id="availSell"></b></div>
+  <div class="card"><div class="eyebrow">MERCADO / VENDER - MIN 0.01 - PRECIO POR UNIDAD</div><div class="title">Poner a la venta</div>
+  <div class="sub">Fracción mínima 0.01 y múltiplos de 0.01. Ej: 0.01, 0.02, 0.15. El precio que ponés es <b>POR 1 WASABLOCK ENTERO</b>. El sistema calcula el total automáticamente.<br><b id="availSell"></b></div>
   <label style="font-size:11px;font-weight:700;margin-top:14px;display:block">Cantidad a vender (0.01 mínimo)</label>
   <div class="qty-row">
     <button class="qty-btn" onclick="chg(-0.01)">-</button>
@@ -114,17 +114,20 @@
     <button class="qty-btn" onclick="chg(0.01)">+</button>
   </div>
   <div style="background:#E6F0FF;border:1px solid #93B4FF;border-radius:12px;padding:10px;margin-top:10px;font-size:11px"><div id="calcLine">0.01 WASABLOCK = 0.005%</div></div>
-  <label style="font-size:11px;font-weight:700;margin-top:14px;display:block">Precio que pedís (USDT) - Sin techo</label>
-  <input class="input" id="sellPrice" type="number" min="1" placeholder="Ej: 3.5 por 0.01, 350 por 1 entero" oninput="calc()">
+  
+  <label style="font-size:11px;font-weight:700;margin-top:14px;display:block">Precio POR UNIDAD (por 1 WASABLOCK entero) - USDT</label>
+  <input class="input" id="sellPricePerUnit" type="number" min="1" placeholder="Ej: 350 = $350 por cada 1 entero. Si vendés 0.01 a $350/unidad, total $3.5" oninput="calc()">
+  
   <div style="background:#FEF9C3;border:1px dashed #EAB308;border-radius:10px;padding:10px;margin-top:10px;font-size:11px">
-    <div>Precio por 1 entero: <b id="perOne">$0</b> | Comisión 10%: <b id="fee">$0</b> | Recibís: <b id="recv">$0</b></div>
-    <div style="opacity:.6">Solo crypto. Venta entera transfiere mismo ID. Fracción crea hijo.</div>
+    <div>Unidades a vender: <b id="unitsToSell">0.01</b> | Precio por unidad: <b id="perOne">$0</b></div>
+    <div style="margin-top:4px;font-size:13px">Total a pedir: <b id="totalPrice" style="font-size:14px">$0</b> | Comisión 10%: <b id="fee">$0</b> | Vos recibís: <b id="recv" style="color:#16a34a">$0</b></div>
+    <div style="opacity:.6;margin-top:4px">Fórmula: Total = Cantidad x PrecioUnidad. Ej: 0.05 x $400 = $20 total</div>
   </div>
   <button class="btn" id="btnPublish" style="margin-top:12px;width:100%" onclick="publish()">PUBLICAR ANUNCIO</button>
   <div id="pubMsg" class="hidden" style="margin-top:10px;font-size:12px;padding:10px;border-radius:10px"></div>
   </div>
   <div class="card"><div class="eyebrow">MIS ANUNCIOS ACTIVOS</div>
-  <table class="table" id="myListings"><thead><tr><th>Anuncio ID</th><th>Cantidad</th><th>Precio</th><th>Por 1</th><th>Estado</th><th></th></tr></thead><tbody><tr><td colspan="6" class="empty">No tenés anuncios</td></tr></tbody></table>
+  <table class="table" id="myListings"><thead><tr><th>Anuncio ID</th><th>Cantidad</th><th>Precio total</th><th>Por unidad</th><th>Estado</th><th></th></tr></thead><tbody><tr><td colspan="6" class="empty">No tenés anuncios</td></tr></tbody></table>
   </div>
 </div>
 
@@ -140,7 +143,7 @@
 </div>
 </div>
 <script>
-const CONFIG={WEBHOOK_URL:'https://script.google.com/macros/s/AKfycbwnVH20T8JITdbCsAWlW61K7Z_k3nT5lYm6rLVDKI4DnKRaLjUiWfKS7JYRpBkZjuzcbQ/exec'};
+const CONFIG={WEBHOOK_URL:'https://script.google.com/macros/s/AKfycbzcy6Siwlg6r-QU3hsrisuQjSs05A1iab67j4eNfZDksHXsHgOlvugviUHQb-qvLqdXJQ/exec'};
 function logout(){localStorage.removeItem('wasa_token');localStorage.removeItem('wasa_email');location.href='/';}
 function toggleMercado(){document.getElementById('subMercado').classList.toggle('show');}
 function switchView(v){
@@ -163,15 +166,18 @@ function chg(d){
 }
 function calc(){
   let s=parseFloat(document.getElementById('sellSlots').value||0);
-  let p=parseFloat(document.getElementById('sellPrice').value||0);
+  let pricePerUnit=parseFloat(document.getElementById('sellPricePerUnit').value||0);
   if(isNaN(s)||s<0.01)s=0.01;
   s=Math.round(s*100)/100;
+  if(isNaN(pricePerUnit)) pricePerUnit=0;
   let pct=s*0.5;
+  let totalPrice = s * pricePerUnit;
   document.getElementById('calcLine').textContent=s.toFixed(2)+' WASABLOCKS = '+pct.toFixed(3)+'%';
-  let perOne=s>0?p/s:0;
-  document.getElementById('perOne').textContent='$'+perOne.toFixed(2);
-  document.getElementById('fee').textContent='$'+(p*0.1).toFixed(2);
-  document.getElementById('recv').textContent='$'+(p*0.9).toFixed(2);
+  document.getElementById('unitsToSell').textContent=s.toFixed(2);
+  document.getElementById('perOne').textContent='$'+pricePerUnit.toFixed(2);
+  document.getElementById('totalPrice').textContent='$'+totalPrice.toFixed(2);
+  document.getElementById('fee').textContent='$'+(totalPrice*0.1).toFixed(2);
+  document.getElementById('recv').textContent='$'+(totalPrice*0.9).toFixed(2);
 }
 async function loadData(){
   let token=localStorage.getItem('wasa_token'); if(!token){location.href='/';return;}
@@ -179,51 +185,60 @@ async function loadData(){
   document.getElementById('navEmail').textContent=localEmail;
   document.getElementById('userEmailTitle').textContent=localEmail;
   try{
-    let r=await fetch(CONFIG.WEBHOOK_URL+'?action=userData&token='+encodeURIComponent(token));
+    let r=await fetch(CONFIG.WEBHOOK_URL+'?action=userdata&token='+encodeURIComponent(token));
     let j=await r.json(); if(!j.ok){alert(j.error);logout();return;}
-    let d=j.data;
-    // FIX CARGANDO - ahora si muestra email
+    let d=j.data || j;
+    // FIXES - siempre arrays para evitar .map crash
+    let codes = d.codes || d.purchases || [];
+    let listings = d.listings || [];
+    let market = d.market || [];
+    let marketTx = d.marketTx || [];
+    
     document.getElementById('userEmailTitle').textContent=d.email||localEmail||'Founder';
     document.getElementById('navEmail').textContent=d.email||localEmail;
-    document.getElementById('statSlots').textContent=d.totalSlots.toFixed(2);
-    document.getElementById('statPercent').textContent=(d.percent||0).toFixed(3)+'%';
-    document.getElementById('statWallet').textContent=d.wallet?d.wallet.slice(0,6)+'...'+d.wallet.slice(-4):'-';
-    document.getElementById('editWalletInput').value=d.wallet||'';
-    document.getElementById('availSell').textContent='Disponible: '+d.totalSlots.toFixed(2)+' WASABLOCKS (mín 0.01)';
-    if(d.totalSlots==0){
+    document.getElementById('statSlots').textContent=(d.totalSlots||0).toFixed(2);
+    // FIX 0.000% -> ahora calcula bien
+    let percentVal = d.percent || d.totalPercent || (d.totalSlots*0.5) || 0;
+    document.getElementById('statPercent').textContent=percentVal.toFixed(3)+'%';
+    // FIX wallet vacía
+    let walletVal = d.wallet || '';
+    document.getElementById('statWallet').textContent=walletVal?walletVal.slice(0,6)+'...'+walletVal.slice(-4):'-';
+    document.getElementById('editWalletInput').value=walletVal||'';
+    document.getElementById('availSell').textContent='Disponible: '+(d.totalSlots||0).toFixed(2)+' WASABLOCKS (mín 0.01)';
+    if((d.totalSlots||0)==0){
       document.getElementById('zeroMsg').classList.remove('hidden');
       document.getElementById('menuHistorial').classList.add('locked');
       document.getElementById('btnPublish').disabled=true;
     }
-    document.querySelector('#codesTable tbody').innerHTML=d.codes.map(c=>`<tr><td><b>${c.codeId}</b></td><td>${c.slots.toFixed(2)}</td><td>${(c.percent||c.slots*0.5).toFixed(3)}%</td><td style="font-size:10px">${c.parentId||'GENESIS'}</td></tr>`).join('')||'<tr><td colspan="4" class="empty">Sin códigos - vendiste todo</td></tr>';
-    if(d.listings&&d.listings.length){
-      document.querySelector('#myListings tbody').innerHTML=d.listings.map(l=>`<tr><td>${l.id}</td><td>${l.slots.toFixed(2)}</td><td>$${l.price}</td><td>$${(l.price/l.slots).toFixed(2)}</td><td><span class="badge badge-warn">${l.status}</span></td><td><button class="btn btn-sm" onclick="cancelList('${l.id}')">Cancelar</button></td></tr>`).join('');
+    // FIX map crash - (codes||[]).map
+    document.querySelector('#codesTable tbody').innerHTML=(codes||[]).map(c=>`<tr><td><b>${c.codeId||'-'}</b></td><td>${(c.slots||0).toFixed(2)}</td><td>${(c.percent|| (c.slots||0)*0.5).toFixed(3)}%</td><td style="font-size:10px">${c.parentId||'GENESIS'}</td></tr>`).join('')||'<tr><td colspan="4" class="empty">Sin códigos - vendiste todo</td></tr>';
+    if(listings&&listings.length){
+      document.querySelector('#myListings tbody').innerHTML=listings.map(l=>`<tr><td style="font-size:10px">${l.id}</td><td>${(l.slots||0).toFixed(2)}</td><td>$${(l.price||0).toFixed(2)}</td><td>$${((l.pricePerUnit|| (l.price/l.slots))||0).toFixed(2)}</td><td><span class="badge badge-warn">${l.status}</span></td><td><button class="btn btn-sm" onclick="cancelList('${l.id}')">Cancelar</button></td></tr>`).join('');
+    } else {
+      document.querySelector('#myListings tbody').innerHTML='<tr><td colspan="6" class="empty">No tenés anuncios</td></tr>';
     }
-    if(d.market&&d.market.length){
-      document.querySelector('#marketTable tbody').innerHTML=d.market.map(m=>`<tr><td>${m.slots.toFixed(2)}</td><td>${m.percent.toFixed(3)}%</td><td>$${m.price}</td><td>$${(m.price/m.slots).toFixed(2)}</td><td>${m.seller.slice(0,3)}***</td><td><button class="btn btn-sm" onclick="buy('${m.id}')">Comprar</button></td></tr>`).join('');
+    if(market&&market.length){
+      document.querySelector('#marketTable tbody').innerHTML=market.map(m=>`<tr><td>${(m.slots||0).toFixed(2)}</td><td>${(m.percent||0).toFixed(3)}%</td><td>$${(m.price||0).toFixed(2)}</td><td>$${((m.price/(m.slots||1))||0).toFixed(2)}</td><td>${(m.seller||'').slice(0,3)}***</td><td><button class="btn btn-sm" onclick="buy('${m.id}')">Comprar</button></td></tr>`).join('');
     } else {
       document.querySelector('#marketTable tbody').innerHTML='<tr><td colspan="6" class="empty">No hay ofertas</td></tr>';
     }
-    if(d.marketTx&&d.marketTx.length){
-      document.querySelector('#txTable tbody').innerHTML=d.marketTx.map(t=>`<tr><td>${t.date.slice(0,10)}</td><td><span class="badge ${t.type=='COMPRA'?'badge-ok':'badge-info'}">${t.type}</span></td><td>${t.slots.toFixed(2)}</td><td>${(t.percent||t.slots*0.5).toFixed(3)}%</td><td>$${t.price}</td><td style="font-size:10px">${(t.hash||'').slice(0,10)}...</td><td>${t.counterparty}</td><td style="font-size:10px">${t.codeId}</td></tr>`).join('');
+    if(marketTx&&marketTx.length){
+      document.querySelector('#txTable tbody').innerHTML=marketTx.map(t=>`<tr><td>${(t.date||'').slice(0,10)}</td><td><span class="badge ${t.type=='COMPRA'?'badge-ok':'badge-info'}">${t.type||''}</span></td><td>${(t.slots||0).toFixed(2)}</td><td>${(t.percent|| (t.slots||0)*0.5).toFixed(3)}%</td><td>$${(t.price||0).toFixed(2)}</td><td style="font-size:10px">${(t.hash||'').slice(0,10)}...</td><td>${t.counterparty||''}</td><td style="font-size:10px">${t.codeId||''}</td></tr>`).join('');
     }
-    if(d.totalSlots>0 && d.history && d.history.length){
-      document.getElementById('histEmpty').classList.add('hidden');
-      document.getElementById('historyTable').classList.remove('hidden');
-      document.querySelector('#historyTable tbody').innerHTML=d.history.map(h=>`<tr><td>${h.date}</td><td>$${h.totalCompany}</td><td>${(h.myPercent||0).toFixed(3)}%</td><td>$${h.myAmount}</td><td style="font-size:10px">${h.hash}</td><td><span class="badge badge-ok">${h.status}</span></td></tr>`).join('');
-    }
-    document.getElementById('holoList').innerHTML=d.codes.map(c=>`<div style="background:#E6F0FF;border:1px solid #93B4FF;border-radius:12px;padding:10px;display:flex;justify-content:space-between"><div><b>${c.codeId}</b><div style="font-size:11px">${c.slots.toFixed(2)} slots - ${(c.percent||c.slots*0.5).toFixed(3)}%</div></div><div style="font-size:11px">En email</div></div>`).join('')||'<div class="empty">Sin hologramas</div>';
+    document.getElementById('holoList').innerHTML=(codes||[]).map(c=>`<div style="background:#E6F0FF;border:1px solid #93B4FF;border-radius:12px;padding:10px;display:flex;justify-content:space-between"><div><b>${c.codeId||''}</b><div style="font-size:11px">${(c.slots||0).toFixed(2)} slots - ${(c.percent|| (c.slots||0)*0.5).toFixed(3)}%</div></div><div style="font-size:11px">En email</div></div>`).join('')||'<div class="empty">Sin hologramas</div>';
     calc();
-  }catch(e){alert('Error '+e.message);}
+  }catch(e){console.error(e); alert('Error '+e.message);}
 }
 async function publish(){
   let slots=parseFloat(document.getElementById('sellSlots').value); 
-  let price=parseFloat(document.getElementById('sellPrice').value);
+  let pricePerUnit=parseFloat(document.getElementById('sellPricePerUnit').value);
   if(isNaN(slots)||slots<0.01||Math.round(slots*100)%1!=0){alert('Fracción mínima 0.01 y múltiplos de 0.01. Ej: 0.01, 0.02, 0.15, 1.23');return;}
-  if(!price||price<1){alert('Precio mínimo $1 USDT por 0.01');return;}
-  let msg=document.getElementById('pubMsg'); msg.classList.remove('hidden'); msg.style.background='#E6F0FF'; msg.textContent='Publicando...';
-  let res=await fetch(CONFIG.WEBHOOK_URL,{method:'POST',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify({action:'createListing', token:localStorage.getItem('wasa_token'), slots: Math.round(slots*100)/100, percent: Math.round(slots*100)/100*0.5, price})});
-  let j=await res.json(); if(j.ok){msg.style.background='#F0FDF4'; msg.textContent='Publicado ID '+j.listingId; loadData();} else {msg.style.background='#FEF2F2'; msg.textContent='Error: '+j.error;}
+  if(!pricePerUnit||pricePerUnit<1){alert('Precio por unidad mínimo $1 USDT. Ej: 350');return;}
+  let totalPrice = slots * pricePerUnit;
+  if(!confirm(`Vas a vender ${slots.toFixed(2)} WASABLOCKS a $${pricePerUnit.toFixed(2)} por unidad. Total: $${totalPrice.toFixed(2)}. ¿Confirmar?`)) return;
+  let msg=document.getElementById('pubMsg'); msg.classList.remove('hidden'); msg.style.background='#E6F0FF'; msg.textContent='Publicando... Total $'+totalPrice.toFixed(2);
+  let res=await fetch(CONFIG.WEBHOOK_URL,{method:'POST',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify({action:'createListing', token:localStorage.getItem('wasa_token'), slots: Math.round(slots*100)/100, percent: Math.round(slots*100)/100*0.5, price: totalPrice, pricePerUnit: pricePerUnit})});
+  let j=await res.json(); if(j.ok){msg.style.background='#F0FDF4'; msg.textContent='Publicado ID '+j.listingId+' - Total $'+totalPrice.toFixed(2); loadData();} else {msg.style.background='#FEF2F2'; msg.textContent='Error: '+j.error;}
 }
 async function buy(id){ if(!confirm('Comprar '+id+'? Pagás en USDT BSC. Mín 0.01'))return; let r=await fetch(CONFIG.WEBHOOK_URL,{method:'POST',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify({action:'buyListing', token:localStorage.getItem('wasa_token'), listingId:id})}); let j=await r.json(); alert(j.ok?'Solicitud creada, pagá USDT':'Error '+j.error); }
 async function cancelList(id){ let r=await fetch(CONFIG.WEBHOOK_URL,{method:'POST',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify({action:'cancelListing', token:localStorage.getItem('wasa_token'), listingId:id})}); let j=await r.json(); alert(j.ok?'Cancelado':'Error'); loadData(); }
