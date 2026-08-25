@@ -2,141 +2,80 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Marketplace WASABLOCKS - wasa.chat</title>
+<title>Marketplace - wasa.chat/founders</title>
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
 <style>
-*{box-sizing:border-box;margin:0;padding:0}body{font-family:'Plus Jakarta Sans',system-ui;background:#E6F0FF;color:#1E293B;min-height:100vh}
-.nav{height:64px;background:#1D4ED8;display:flex;align-items:center;justify-content:space-between;padding:0 5%;position:fixed;top:0;left:0;right:0;z-index:10}
-.nav .logo{color:white;font-weight:800}.nav .links{font-size:11px;font-weight:700;color:rgba(255,255,255,.8)}.nav .links a{color:white;text-decoration:none;margin-left:12px}
-.wrap{max-width:480px;margin:0 auto;padding:90px 18px 40px}
-.card{background:white;border:2px solid #93B4FF;border-radius:24px;padding:22px;box-shadow:0 12px 32px rgba(29,78,216,.12);margin-bottom:14px}
+*{box-sizing:border-box;margin:0;padding:0}body{font-family:'Plus Jakarta Sans',system-ui;background:#E6F0FF;color:#1E293B}
+.nav{height:64px;background:#1D4ED8;display:flex;align-items:center;justify-content:space-between;padding:0 5%;position:fixed;top:0;left:0;right:0;z-index:20}
+.nav .logo{color:white;font-weight:800}.nav .links a{color:white;text-decoration:none;margin-left:12px;font-size:11px;font-weight:700}
+.wrap{max-width:900px;margin:0 auto;padding:84px 18px 40px}
+.card{background:white;border:2px solid #93B4FF;border-radius:20px;padding:18px;margin-bottom:14px}
 .eyebrow{font-size:10px;font-weight:800;letter-spacing:.14em;opacity:.6;color:#1E3A8A;text-transform:uppercase;text-align:center}
-.title{font-size:20px;font-weight:800;margin-top:6px;text-align:center}
-.sub{font-size:11px;opacity:.7;margin-top:8px;text-align:center;line-height:1.4}
-.btn{width:100%;height:48px;border-radius:14px;border:0;font-weight:800;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;margin-top:12px}
-.btn-primary{background:#0A101F;color:white;border:1px solid #3B82F6}
-.btn-secondary{background:white;color:#1E293B;border:1px solid #93B4FF}
-.input{width:100%;height:44px;border-radius:12px;border:1px solid #93B4FF;padding:0 14px;margin-top:10px;font-size:14px}
-.label{font-size:11px;font-weight:700;margin-top:14px;display:block;opacity:.7}
-.tabs{display:flex;gap:8px;margin-top:18px}
-.tab{flex:1;height:42px;border-radius:12px;border:1px solid #93B4FF;background:#E6F0FF;font-weight:700;font-size:13px;cursor:pointer}
-.tab.active{background:#1D4ED8;color:white;border-color:#1D4ED8}
-.divider{height:1px;background:#93B4FF;margin:18px 0;opacity:.5}
-.alert{padding:10px 12px;border-radius:10px;font-size:12px;margin-top:12px;display:none}
-.alert-error{background:#FEF2F2;border:1px solid #FECACA;color:#DC2626}
-.alert-success{background:#F0FDF4;border:1px solid #BBF7D0;color:#16A34A}
-.hidden{display:none!important}
-/* marketplace logged */
-.wrap-market{max-width:1000px}
-.table{width:100%;border-collapse:collapse;margin-top:12px;font-size:12px}
+.title{font-size:20px;font-weight:800;text-align:center;margin-top:4px}
+.sub{font-size:11px;opacity:.6;text-align:center;margin-top:8px;line-height:1.4}
+.table{width:100%;border-collapse:collapse;margin-top:14px;font-size:12px}
 .table th{font-size:10px;text-align:left;opacity:.6;padding:8px;border-bottom:1px solid #93B4FF;text-transform:uppercase}
-.table td{padding:10px 8px;border-bottom:1px solid #E6F0FF}
-.empty{padding:24px;text-align:center;opacity:.6;font-size:12px}
+.table td{padding:12px 8px;border-bottom:1px solid #E6F0FF}
+.badge{font-size:10px;font-weight:800;padding:3px 8px;border-radius:999px;background:#FEF08A}
+.btn{height:36px;padding:0 14px;border-radius:10px;border:0;background:#0A101F;color:white;font-weight:800;cursor:pointer;font-size:11px}
+.btn-sm{height:32px}
+.empty{padding:28px;text-align:center;opacity:.6;font-size:12px}
 </style>
 </head>
 <body>
-<nav class="nav"><div class="logo">wasa.chat/founders / marketplace</div><div class="links"><span id="navEmail"></span> <a href="/dashboard.html" id="linkPanel" class="hidden">PANEL</a> <a href="#" id="linkLogout" class="hidden" onclick="logout()">SALIR</a></div></nav>
-
-<!-- VISTA NO LOGUEADO - LOGIN/REGISTRO PROPIO DEL MARKETPLACE -->
-<div class="wrap" id="authWrap">
-  <div class="card">
-    <div class="eyebrow">MARKETPLACE WASABLOCKS</div>
-    <div class="title">Comprar y vender WASABLOCKS</div>
-    <div class="sub">En 2028 la preventa de founders.html ya cerró. Acá te registrás directo con email y contraseña para comprar WASABLOCKS que otros founders venden. Solo crypto (USDT BSC). Precio lo elige el vendedor, sin techo.<br><br>1 WASABLOCK = 0.5% perpetuo. Mínimo 0.1 = 0.05%. Si la empresa factura $2M/mes, 0.5% = $10k/mes.</div>
-    <div class="tabs"><button class="tab active" id="tabNew" onclick="switchTab('new')">REGISTRARME EN MARKETPLACE</button><button class="tab" id="tabLogin" onclick="switchTab('login')">YA TENGO CUENTA</button></div>
-    
-    <div id="viewNew">
-      <label class="label">Email</label><input class="input" id="regEmail" placeholder="tu@email.com">
-      <label class="label">Contraseña (min 8)</label><input class="input" id="regPass" type="password" placeholder="••••••••">
-      <label class="label">Repetir contraseña</label><input class="input" id="regPass2" type="password" placeholder="••••••••">
-      <label class="label">Wallet BSC receptora de ganancias (0x...)</label><input class="input" id="regWallet" placeholder="0x1234...">
-      <div class="alert alert-error" id="regError"></div><div class="alert alert-success" id="regSuccess"></div>
-      <button class="btn btn-primary" onclick="registerMarket()">Crear cuenta marketplace</button>
-      <div class="sub" style="margin-top:12px">Al registrarte acá no necesitás código de 8 dígitos. Ese sistema es solo para la venta original en founders.html hasta 30/08/2026.</div>
-    </div>
-
-    <div id="viewLogin" class="hidden">
-      <label class="label">Email</label><input class="input" id="loginEmail" placeholder="tu@email.com">
-      <label class="label">Contraseña</label><input class="input" id="loginPass" type="password" placeholder="••••••••">
-      <div class="alert alert-error" id="loginError"></div>
-      <button class="btn btn-primary" onclick="loginMarket()">Ingresar al marketplace</button>
-    </div>
-  </div>
+<nav class="nav"><div class="logo">wasa.chat/founders / marketplace</div><div class="links"><span id="navEmail"></span> <a href="/dashboard.html">PANEL</a> <a href="#" onclick="localStorage.clear();location.href='/'">SALIR</a></div></nav>
+<div class="wrap">
+<div class="card">
+<div class="eyebrow">MERCADO SECUNDARIO - SOLO CRYPTO</div>
+<div class="title">Ofertas activas</div>
+<div class="sub">Compra directa. Si comprás 1 entero, se transfiere mismo ID WASA-.... Si comprás 0.1, se crea hijo. Si vendés tu último 0.1 y quedás en 0, pasás a EX_FOUNDER y no ves más HISTORIAL DE REPARTO en dashboard.<br>Precio por unidad x cantidad = total. Ej: 0.05 x $1000 = $50 total</div>
+<table class="table" id="marketTable"><thead><tr><th>CANTIDAD</th><th>%</th><th>PRECIO USDT</th><th>PRECIO X 1 ENTERO</th><th>VENDEDOR</th><th></th></tr></thead><tbody><tr><td colspan="6" class="empty">Cargando...</td></tr></tbody></table>
 </div>
-
-<!-- VISTA LOGUEADO - MARKETPLACE -->
-<div class="wrap wrap-market hidden" id="marketWrap">
-  <div class="card">
-    <div class="eyebrow">MERCADO SECUNDARIO - SOLO CRYPTO</div>
-    <div class="title">Ofertas activas</div>
-    <div class="sub">Comprás directo. Si comprás 1 entero, se transfiere mismo ID WASA-... Si comprás 0.1, se crea ID hijo. Si vendés tu último 0.1 y quedás en 0, pasás a EX_FOUNDER y no ves más HISTORIAL DE REPARTO en dashboard.</div>
-    <table class="table" id="marketTable"><thead><tr><th>Cantidad</th><th>%</th><th>Precio USDT</th><th>Precio x 1 entero</th><th>Vendedor</th><th></th></tr></thead><tbody><tr><td colspan="6" class="empty">Cargando...</td></tr></tbody></table>
-  </div>
-  <div class="card">
-    <button class="btn btn-secondary" onclick="location.href='/dashboard.html'">Ir a mi panel (ver mis WASABLOCKS, mis anuncios, historial tipo wallet)</button>
-  </div>
+<div class="card" style="text-align:center">
+<button class="btn" style="width:100%;height:48px" onclick="location.href='/dashboard.html'">Ir a mi panel (ver mis WASABLOCKS, mis anuncios, historial tipo wallet)</button>
 </div>
-
+</div>
 <script>
-const CONFIG={WEBHOOK_URL:'https://script.google.com/macros/s/AKfycbzcy6Siwlg6r-QU3hsrisuQjSs05A1iab67j4eNfZDksHXsHgOlvugviUHQb-qvLqdXJQ/exec'};
-function switchTab(t){ document.getElementById('tabNew').classList.toggle('active', t==='new'); document.getElementById('tabLogin').classList.toggle('active', t==='login'); document.getElementById('viewNew').classList.toggle('hidden', t!=='new'); document.getElementById('viewLogin').classList.toggle('hidden', t!=='login'); }
-function showErr(id,msg){ let el=document.getElementById(id); el.textContent=msg; el.style.display='block'; }
-function hideErr(id){ document.getElementById(id).style.display='none'; }
-function logout(){ localStorage.removeItem('wasa_token'); localStorage.removeItem('wasa_email'); location.reload(); }
+const WEBHOOK_URL = 'https://script.google.com/macros/s/AKfycbxlTcTivT8wnRgD1tt-Nmh2PjhXgyjo9vUYLD6YiV6mjKPntCHeKz7msmbDvNpxWAKRQA/exec';
 
-async function registerMarket(){
-  let email=document.getElementById('regEmail').value.trim(); let p1=document.getElementById('regPass').value; let p2=document.getElementById('regPass2').value; let wallet=document.getElementById('regWallet').value.trim();
-  if(!email||!p1||!wallet){ showErr('regError','Completa email, pass y wallet'); return; }
-  if(p1.length<8){ showErr('regError','Min 8 caracteres'); return; }
-  if(p1!==p2){ showErr('regError','Contraseñas no coinciden'); return; }
-  if(!wallet.startsWith('0x')||wallet.length<20){ showErr('regError','Wallet BSC inválida'); return; }
-  hideErr('regError');
+async function loadMarket(){
+  document.getElementById('navEmail').textContent = localStorage.getItem('wasa_email')||'';
   try{
-    let res=await fetch(CONFIG.WEBHOOK_URL,{method:'POST',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify({action:'registerMarketplace', email, password:p1, wallet})});
-    let j=await res.json();
-    if(j.ok){
-      localStorage.setItem('wasa_token', j.token); localStorage.setItem('wasa_email', email);
-      document.getElementById('regSuccess').textContent='Cuenta creada. Entrando al marketplace...'; document.getElementById('regSuccess').style.display='block';
-      setTimeout(()=>{ checkAuth(); },800);
-    } else { showErr('regError', j.error); }
-  }catch(e){ showErr('regError', e.message); }
-}
-async function loginMarket(){
-  let email=document.getElementById('loginEmail').value.trim(); let pass=document.getElementById('loginPass').value;
-  if(!email||!pass){ showErr('loginError','Completa datos'); return; }
-  hideErr('loginError');
-  try{
-    let res=await fetch(CONFIG.WEBHOOK_URL,{method:'POST',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify({action:'login', email, password:pass})});
-    let j=await res.json();
-    if(j.ok){ localStorage.setItem('wasa_token', j.token); localStorage.setItem('wasa_email', email); checkAuth(); }
-    else { showErr('loginError', j.error); }
-  }catch(e){ showErr('loginError', e.message); }
-}
-async function checkAuth(){
-  let token=localStorage.getItem('wasa_token'); if(!token){ return; }
-  document.getElementById('authWrap').classList.add('hidden');
-  document.getElementById('marketWrap').classList.remove('hidden');
-  document.getElementById('linkPanel').classList.remove('hidden');
-  document.getElementById('linkLogout').classList.remove('hidden');
-  document.getElementById('navEmail').textContent=localStorage.getItem('wasa_email');
-  try{
-    let r=await fetch(CONFIG.WEBHOOK_URL+'?action=userData&token='+encodeURIComponent(token));
-    let j=await r.json(); if(!j.ok){ logout(); return; }
-    let market=j.data.market||[];
-    if(market.length==0){
-      document.querySelector('#marketTable tbody').innerHTML='<tr><td colspan="6" class="empty">No hay ofertas ahora. Sé el primero en vender desde dashboard.html</td></tr>';
-    } else {
-      document.querySelector('#marketTable tbody').innerHTML=market.map(m=>`<tr><td><b>${m.slots}</b></td><td>${m.percent}%</td><td>$${m.price}</td><td>$${(m.price/m.slots).toFixed(2)}</td><td>${m.seller.slice(0,4)}***</td><td><button class="btn" style="height:32px;font-size:11px" onclick="buy('${m.id}', ${m.slots}, ${m.price})">Comprar</button></td></tr>`).join('');
+    // NUEVO ENDPOINT PUBLICO - trae todos los activos
+    let r = await fetch(WEBHOOK_URL+'?action=market');
+    let j = await r.json();
+    if(!j.ok){ document.querySelector('#marketTable tbody').innerHTML=`<tr><td colspan="6" class="empty">Error: ${j.error}</td></tr>`; return; }
+    let listings = j.listings || [];
+    if(listings.length===0){
+      document.querySelector('#marketTable tbody').innerHTML='<tr><td colspan="6" class="empty">No hay ofertas activas aún. Publicá una en PANEL -> VENDER WASABLOCK</td></tr>';
+      return;
     }
-  }catch(e){ console.error(e); }
+    document.querySelector('#marketTable tbody').innerHTML = listings.map(m=>{
+      let perUnit = m.pricePerUnit || (m.price / (m.slots||1));
+      let percent = (m.slots||0)*0.5;
+      return `<tr>
+        <td><b>${(m.slots||0).toFixed(2)}</b></td>
+        <td>${percent.toFixed(3)}%</td>
+        <td>$${(m.price||0).toFixed(2)}</td>
+        <td>$${perUnit.toFixed(2)}</td>
+        <td>${(m.seller||'').slice(0,3)}***</td>
+        <td><button class="btn btn-sm" onclick="buy('${m.id}')">Comprar</button></td>
+      </tr>`;
+    }).join('');
+  }catch(e){
+    document.querySelector('#marketTable tbody').innerHTML=`<tr><td colspan="6" class="empty">Error cargando: ${e.message}</td></tr>`;
+  }
 }
-async function buy(id, slots, price){
-  if(!confirm(`Comprar ${slots} WASABLOCKS por $${price} USDT?`)) return;
+async function buy(id){
   let token=localStorage.getItem('wasa_token');
-  let res=await fetch(CONFIG.WEBHOOK_URL,{method:'POST',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify({action:'buyListing', token, listingId:id})});
-  let j=await res.json(); alert(j.ok?`Compra iniciada. Pagá ${price} USDT. Hash guardado.`:`Error ${j.error}`);
+  if(!token){ alert('Tenés que loguearte en el panel primero'); location.href='/dashboard.html'; return; }
+  if(!confirm('¿Comprar '+id+'? Se te debitará USDT BSC y recibirás el WASABLOCK')) return;
+  let res=await fetch(WEBHOOK_URL,{method:'POST',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify({action:'buyListing', token:token, listingId:id})});
+  let j=await res.json();
+  alert(j.ok?'Compra iniciada. Seguí instrucciones de pago.':'Error: '+j.error);
+  loadMarket();
 }
-checkAuth();
+loadMarket();
 </script>
 </body>
 </html>
