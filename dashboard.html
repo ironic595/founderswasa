@@ -182,7 +182,7 @@ async function loadData(){
   document.getElementById('navEmail').textContent=localEmail;
   document.getElementById('userEmailTitle').textContent=localEmail;
   try{
-    let r=await fetch(CONFIG.WEBHOOK_URL+'?action=userdata&token='+encodeURIComponent(token));
+    let r=await fetch(WASA_WEBHOOK_URL+'?action=userdata&token='+encodeURIComponent(token));
     let j=await r.json(); if(!j.ok){alert(j.error);logout();return;}
     let d=j.data || j;
     let codes = d.codes || d.purchases || [];
@@ -230,17 +230,17 @@ async function publish(){
   let totalPrice = slots * pricePerUnit;
   if(!confirm(`Vas a vender ${slots.toFixed(2)} WASABLOCKS a $${pricePerUnit.toFixed(2)} por unidad. Total: $${totalPrice.toFixed(2)}. ¿Confirmar?`)) return;
   let msg=document.getElementById('pubMsg'); msg.classList.remove('hidden'); msg.style.background='#E6F0FF'; msg.textContent='Publicando... Total $'+totalPrice.toFixed(2);
-  let res=await fetch(CONFIG.WEBHOOK_URL,{method:'POST',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify({action:'createListing', token:localStorage.getItem('wasa_token'), slots: Math.round(slots*100)/100, percent: Math.round(slots*100)/100*0.5, price: totalPrice, pricePerUnit: pricePerUnit})});
+  let res=await fetch(WASA_WEBHOOK_URL,{method:'POST',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify({action:'createListing', token:localStorage.getItem('wasa_token'), slots: Math.round(slots*100)/100, percent: Math.round(slots*100)/100*0.5, price: totalPrice, pricePerUnit: pricePerUnit})});
   let j=await res.json(); if(j.ok){msg.style.background='#F0FDF4'; msg.textContent='Publicado ID '+j.listingId+' - Total $'+totalPrice.toFixed(2); loadData();} else {msg.style.background='#FEF2F2'; msg.textContent='Error: '+j.error;}
 }
-async function buy(id){ if(!confirm('Comprar '+id+'? Pagás en USDT BSC. Mín 0.01'))return; let r=await fetch(CONFIG.WEBHOOK_URL,{method:'POST',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify({action:'buyListing', token:localStorage.getItem('wasa_token'), listingId:id})}); let j=await r.json(); alert(j.ok?'Solicitud creada, pagá USDT':'Error '+j.error); }
-async function cancelList(id){ let r=await fetch(CONFIG.WEBHOOK_URL,{method:'POST',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify({action:'cancelListing', token:localStorage.getItem('wasa_token'), listingId:id})}); let j=await r.json(); alert(j.ok?'Cancelado':'Error'); loadData(); }
+async function buy(id){ if(!confirm('Comprar '+id+'? Pagás en USDT BSC. Mín 0.01'))return; let r=await fetch(WASA_WEBHOOK_URL,{method:'POST',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify({action:'buyListing', token:localStorage.getItem('wasa_token'), listingId:id})}); let j=await r.json(); alert(j.ok?'Solicitud creada, pagá USDT':'Error '+j.error); }
+async function cancelList(id){ let r=await fetch(WASA_WEBHOOK_URL,{method:'POST',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify({action:'cancelListing', token:localStorage.getItem('wasa_token'), listingId:id})}); let j=await r.json(); alert(j.ok?'Cancelado':'Error'); loadData(); }
 async function saveWallet(){
   let w=document.getElementById('editWalletInput').value.trim();
   if(!w.startsWith('0x')||w.length<20){alert('Wallet BSC inválida, debe ser 0x...');return;}
   let msg=document.getElementById('walletMsg'); msg.style.display='block'; msg.style.background='#E6F0FF'; msg.style.color='#1E293B'; msg.textContent='Guardando...';
   try{
-    let res=await fetch(CONFIG.WEBHOOK_URL,{method:'POST',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify({action:'updateWallet', token:localStorage.getItem('wasa_token'), wallet:w})});
+    let res=await fetch(WASA_WEBHOOK_URL,{method:'POST',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify({action:'updateWallet', token:localStorage.getItem('wasa_token'), wallet:w})});
     let j=await res.json();
     if(j.ok){ msg.style.background='#F0FDF4'; msg.style.color='#166534'; msg.textContent='Wallet actualizada. Acá recibirás ganancias mensuales con hash.'; document.getElementById('statWallet').textContent=w.slice(0,6)+'...'+w.slice(-4); }
     else { msg.style.background='#FEF2F2'; msg.style.color='#991B1B'; msg.textContent='Error: '+j.error; }
