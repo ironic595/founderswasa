@@ -47,100 +47,25 @@
 <div style="font-size:11px;font-weight:800;opacity:.5;margin-bottom:10px">MENU</div>
 <div class="menu-item active" data-view="datos" onclick="switchView('datos')">DATOS DE USUARIO</div>
 <div class="menu-item" data-view="historial" id="menuHistorial" onclick="switchView('historial')">HISTORIAL DE REPARTO</div>
-
 <div class="menu-item" onclick="toggleMercado()">MERCADO <span style="font-size:10px">▼</span></div>
 <div class="menu-sub show" id="subMercado">
   <div class="menu-sub-item" data-view="comprar" onclick="switchView('comprar')">COMPRAR WASABLOCK</div>
   <div class="menu-sub-item" data-view="vender" onclick="switchView('vender')">VENDER WASABLOCK</div>
   <div class="menu-sub-item" data-view="tx" onclick="switchView('tx')">HISTORIAL COMPRAS/VENTAS</div>
 </div>
-
 <div class="menu-item" data-view="hologramas" onclick="switchView('hologramas')">MIS HOLOGRAMAS</div>
 </div>
-
 <div class="content">
-
-<div id="view-datos" class="view">
-  <div class="card">
-    <div class="eyebrow">DATOS DE USUARIO - MIN 0.01 = 0.005%</div>
-    <div class="title" id="userEmailTitle">Cargando...</div>
-    <div class="stat-grid">
-      <div class="stat"><div class="num" id="statSlots">-</div><div class="lbl">WASABLOCKS</div></div>
-      <div class="stat"><div class="num" id="statPercent">-</div><div class="lbl">% PERPETUO</div></div>
-      <div class="stat"><div class="num" id="statWallet">-</div><div class="lbl">WALLET GANANCIAS</div></div>
-    </div>
-
-    <div style="margin-top:16px;background:#E6F0FF;border:1px solid #93B4FF;border-radius:12px;padding:12px">
-      <div style="font-size:11px;font-weight:800;opacity:.7">WALLET RECEPTORA DE GANANCIAS (USDT BSC) - EDITABLE</div>
-      <div style="font-size:11px;opacity:.6;margin-top:4px">Acá te pagamos el 15 de cada mes desde abril 2027 con hash TX. Podés cambiarla.</div>
-      <input class="input" id="editWalletInput" placeholder="0x..." style="font-family:monospace;font-size:12px">
-      <div style="display:flex;gap:8px;margin-top:8px">
-        <button class="btn" style="height:36px;font-size:11px;flex:1" onclick="saveWallet()">GUARDAR WALLET</button>
-        <button class="btn" style="height:36px;font-size:11px;background:white;color:#1E293B;border:1px solid #93B4FF;flex:1" onclick="copyWallet()">COPIAR</button>
-      </div>
-      <div id="walletMsg" style="font-size:11px;margin-top:8px;display:none;padding:8px;border-radius:8px"></div>
-    </div>
-
-    <div id="zeroMsg" class="hidden" style="margin-top:12px;background:#FEF2F2;border:1px solid #FECACA;color:#B91C1C;padding:12px;border-radius:12px;font-size:12px;line-height:1.4">Balance 0. No tenés WASABLOCKS. No podés ver HISTORIAL DE REPARTO ni cobrar ganancias. Comprá mínimo 0.01 en MERCADO -> COMPRAR. 0.01 = 0.005%. Total mercado: 5000 fracciones.</div>
-  </div>
-  <div class="card"><div class="eyebrow">MIS CODIGOS - GENESIS Y HIJOS - 0.01 MIN</div><div class="sub">Cada código es un WASABLOCK. Si vendés entero, se transfiere el mismo ID. Si vendés fracción 0.01, se crea hijo WASA-...-Fxx.</div>
-  <table class="table" id="codesTable"><thead><tr><th>Código</th><th>Slots</th><th>%</th><th>Parent</th></tr></thead><tbody></tbody></table></div>
-</div>
-
-<div id="view-historial" class="view hidden">
-  <div class="card"><div class="eyebrow">HISTORIAL REPARTO - SOLO SI TENES >0</div><div class="title">Repartos desde 15 Abril 2027</div><div class="sub">Monitoreo de pagos mensuales con hash TX en BSC. Se llena 1 vez por mes. Necesitás al menos 0.01.</div>
-  <div id="histEmpty" class="empty">Aún no hay repartos. Los repartos comienzan el <b>15 Abril 2027</b> mensual.</div>
-  <table class="table hidden" id="historyTable"><thead><tr><th>Fecha</th><th>Monto total empresa</th><th>Tu %</th><th>Tu pago</th><th>Hash TX</th><th>Estado</th></tr></thead><tbody></tbody></table>
-  </div>
-</div>
-
-<div id="view-comprar" class="view hidden">
-  <div class="card"><div class="eyebrow">MERCADO / COMPRAR - MIN 0.01</div><div class="title">Comprar WASABLOCKS</div><div class="sub">Ofertas de otros founders. Solo USDT BSC. 1 entero = 0.5% | 0.01 = 0.005% | Total 5000 fracciones | Entrada $1</div>
-  <table class="table" id="marketTable"><thead><tr><th>Cantidad</th><th>%</th><th>Precio USDT</th><th>Precio x 1 entero</th><th>Vendedor</th><th></th></tr></thead><tbody><tr><td colspan="6" class="empty">Cargando marketplace...</td></tr></tbody></table>
-  </div>
-</div>
-
-<div id="view-vender" class="view hidden">
-  <div class="card"><div class="eyebrow">MERCADO / VENDER - MIN 0.01 - PRECIO POR UNIDAD</div><div class="title">Poner a la venta</div>
-  <div class="sub">Fracción mínima 0.01 y múltiplos de 0.01. Ej: 0.01, 0.02, 0.15. El precio que ponés es <b>POR 1 WASABLOCK ENTERO</b>. El sistema calcula el total automáticamente.<br><b id="availSell"></b></div>
-  <label style="font-size:11px;font-weight:700;margin-top:14px;display:block">Cantidad a vender (0.01 mínimo)</label>
-  <div class="qty-row">
-    <button class="qty-btn" onclick="chg(-0.01)">-</button>
-    <input class="input" id="sellSlots" type="number" step="0.01" min="0.01" value="0.01" style="margin-top:0;text-align:center;font-weight:800" oninput="calc()">
-    <button class="qty-btn" onclick="chg(0.01)">+</button>
-  </div>
-  <div style="background:#E6F0FF;border:1px solid #93B4FF;border-radius:12px;padding:10px;margin-top:10px;font-size:11px"><div id="calcLine">0.01 WASABLOCK = 0.005%</div></div>
-  
-  <label style="font-size:11px;font-weight:700;margin-top:14px;display:block">Precio POR UNIDAD (por 1 WASABLOCK entero) - USDT</label>
-  <input class="input" id="sellPricePerUnit" type="number" min="1" placeholder="Ej: 350 = $350 por cada 1 entero. Si vendés 0.01 a $350/unidad, total $3.5" oninput="calc()">
-  
-  <div style="background:#FEF9C3;border:1px dashed #EAB308;border-radius:10px;padding:10px;margin-top:10px;font-size:11px">
-    <div>Unidades a vender: <b id="unitsToSell">0.01</b> | Precio por unidad: <b id="perOne">$0</b></div>
-    <div style="margin-top:4px;font-size:13px">Total a pedir: <b id="totalPrice" style="font-size:14px">$0</b> | Comisión 10%: <b id="fee">$0</b> | Vos recibís: <b id="recv" style="color:#16a34a">$0</b></div>
-    <div style="opacity:.6;margin-top:4px">Fórmula: Total = Cantidad x PrecioUnidad. Ej: 0.05 x $400 = $20 total</div>
-  </div>
-  <button class="btn" id="btnPublish" style="margin-top:12px;width:100%" onclick="publish()">PUBLICAR ANUNCIO</button>
-  <div id="pubMsg" class="hidden" style="margin-top:10px;font-size:12px;padding:10px;border-radius:10px"></div>
-  </div>
-  <div class="card"><div class="eyebrow">MIS ANUNCIOS ACTIVOS</div>
-  <table class="table" id="myListings"><thead><tr><th>Anuncio ID</th><th>Cantidad</th><th>Precio total</th><th>Por unidad</th><th>Estado</th><th></th></tr></thead><tbody><tr><td colspan="6" class="empty">No tenés anuncios</td></tr></tbody></table>
-  </div>
-</div>
-
-<div id="view-tx" class="view hidden">
-  <div class="card"><div class="eyebrow">MERCADO / HISTORIAL WALLET</div><div class="title">Historial compras y ventas tipo wallet</div><div class="sub">Entradas, salidas, hash TX, contraparte, código WASA.</div>
-  <table class="table" id="txTable"><thead><tr><th>Fecha</th><th>Tipo</th><th>Cantidad</th><th>%</th><th>Precio USDT</th><th>Hash TX</th><th>Contraparte</th><th>Código</th></tr></thead><tbody><tr><td colspan="8" class="empty">Sin movimientos aún</td></tr></tbody></table>
-  </div>
-</div>
-
+<div id="view-datos" class="view"><div class="card"><div class="eyebrow">DATOS DE USUARIO - MIN 0.01 = 0.005%</div><div class="title" id="userEmailTitle">Cargando...</div><div class="stat-grid"><div class="stat"><div class="num" id="statSlots">-</div><div class="lbl">WASABLOCKS</div></div><div class="stat"><div class="num" id="statPercent">-</div><div class="lbl">% PERPETUO</div></div><div class="stat"><div class="num" id="statWallet">-</div><div class="lbl">WALLET GANANCIAS</div></div></div><div style="margin-top:16px;background:#E6F0FF;border:1px solid #93B4FF;border-radius:12px;padding:12px"><div style="font-size:11px;font-weight:800;opacity:.7">WALLET RECEPTORA DE GANANCIAS (USDT BSC) - EDITABLE</div><div style="font-size:11px;opacity:.6;margin-top:4px">Acá te pagamos el 15 de cada mes desde abril 2027 con hash TX. Podés cambiarla.</div><input class="input" id="editWalletInput" placeholder="0x..." style="font-family:monospace;font-size:12px"><div style="display:flex;gap:8px;margin-top:8px"><button class="btn" style="height:36px;font-size:11px;flex:1" onclick="saveWallet()">GUARDAR WALLET</button><button class="btn" style="height:36px;font-size:11px;background:white;color:#1E293B;border:1px solid #93B4FF;flex:1" onclick="copyWallet()">COPIAR</button></div><div id="walletMsg" style="font-size:11px;margin-top:8px;display:none;padding:8px;border-radius:8px"></div></div><div id="zeroMsg" class="hidden" style="margin-top:12px;background:#FEF2F2;border:1px solid #FECACA;color:#B91C1C;padding:12px;border-radius:12px;font-size:12px;line-height:1.4">Balance 0. No tenés WASABLOCKS. No podés ver HISTORIAL DE REPARTO ni cobrar ganancias. Comprá mínimo 0.01 en MERCADO -> COMPRAR. 0.01 = 0.005%. Total mercado: 5000 fracciones.</div></div><div class="card"><div class="eyebrow">MIS CODIGOS - GENESIS Y HIJOS - 0.01 MIN</div><div class="sub">Cada código es un WASABLOCK. Si vendés entero, se transfiere el mismo ID. Si vendés fracción 0.01, se crea hijo WASA-...-Fxx.</div><table class="table" id="codesTable"><thead><tr><th>Código</th><th>Slots</th><th>%</th><th>Parent</th></tr></thead><tbody></tbody></table></div></div>
+<div id="view-historial" class="view hidden"><div class="card"><div class="eyebrow">HISTORIAL REPARTO - SOLO SI TENES >0</div><div class="title">Repartos desde 15 Abril 2027</div><div class="sub">Monitoreo de pagos mensuales con hash TX en BSC. Se llena 1 vez por mes. Necesitás al menos 0.01.</div><div id="histEmpty" class="empty">Aún no hay repartos. Los repartos comienzan el <b>15 Abril 2027</b> mensual.</div><table class="table hidden" id="historyTable"><thead><tr><th>Fecha</th><th>Monto total empresa</th><th>Tu %</th><th>Tu pago</th><th>Hash TX</th><th>Estado</th></tr></thead><tbody></tbody></table></div></div>
+<div id="view-comprar" class="view hidden"><div class="card"><div class="eyebrow">MERCADO / COMPRAR - MIN 0.01</div><div class="title">Comprar WASABLOCKS</div><div class="sub">Ofertas de otros founders. Solo USDT BSC. 1 entero = 0.5% | 0.01 = 0.005% | Total 5000 fracciones | Entrada $1</div><table class="table" id="marketTable"><thead><tr><th>Cantidad</th><th>%</th><th>Precio USDT</th><th>Precio x 1 entero</th><th>Vendedor</th><th></th></tr></thead><tbody><tr><td colspan="6" class="empty">Cargando marketplace...</td></tr></tbody></table></div></div>
+<div id="view-vender" class="view hidden"><div class="card"><div class="eyebrow">MERCADO / VENDER - MIN 0.01 - PRECIO POR UNIDAD</div><div class="title">Poner a la venta</div><div class="sub">Fracción mínima 0.01 y múltiplos de 0.01. Ej: 0.01, 0.02, 0.15. El precio que ponés es <b>POR 1 WASABLOCK ENTERO</b>. El sistema calcula el total automáticamente.<br><b id="availSell"></b></div><label style="font-size:11px;font-weight:700;margin-top:14px;display:block">Cantidad a vender (0.01 mínimo)</label><div class="qty-row"><button class="qty-btn" onclick="chg(-0.01)">-</button><input class="input" id="sellSlots" type="number" step="0.01" min="0.01" value="0.01" style="margin-top:0;text-align:center;font-weight:800" oninput="calc()"><button class="qty-btn" onclick="chg(0.01)">+</button></div><div style="background:#E6F0FF;border:1px solid #93B4FF;border-radius:12px;padding:10px;margin-top:10px;font-size:11px"><div id="calcLine">0.01 WASABLOCK = 0.005%</div></div><label style="font-size:11px;font-weight:700;margin-top:14px;display:block">Precio POR UNIDAD (por 1 WASABLOCK entero) - USDT</label><input class="input" id="sellPricePerUnit" type="number" min="1" placeholder="Ej: 350 = $350 por cada 1 entero. Si vendés 0.01 a $350/unidad, total $3.5" oninput="calc()"><div style="background:#FEF9C3;border:1px dashed #EAB308;border-radius:10px;padding:10px;margin-top:10px;font-size:11px"><div>Unidades a vender: <b id="unitsToSell">0.01</b> | Precio por unidad: <b id="perOne">$0</b></div><div style="margin-top:4px;font-size:13px">Total a pedir: <b id="totalPrice" style="font-size:14px">$0</b> | Comisión 10%: <b id="fee">$0</b> | Vos recibís: <b id="recv" style="color:#16a34a">$0</b></div><div style="opacity:.6;margin-top:4px">Fórmula: Total = Cantidad x PrecioUnidad. Ej: 0.05 x $400 = $20 total</div></div><button class="btn" id="btnPublish" style="margin-top:12px;width:100%" onclick="publish()">PUBLICAR ANUNCIO</button><div id="pubMsg" class="hidden" style="margin-top:10px;font-size:12px;padding:10px;border-radius:10px"></div></div><div class="card"><div class="eyebrow">MIS ANUNCIOS ACTIVOS</div><table class="table" id="myListings"><thead><tr><th>Anuncio ID</th><th>Cantidad</th><th>Precio total</th><th>Por unidad</th><th>Estado</th><th></th></tr></thead><tbody><tr><td colspan="6" class="empty">No tenés anuncios</td></tr></tbody></table></div></div>
+<div id="view-tx" class="view hidden"><div class="card"><div class="eyebrow">MERCADO / HISTORIAL WALLET</div><div class="title">Historial compras y ventas tipo wallet</div><div class="sub">Entradas, salidas, hash TX, contraparte, código WASA.</div><table class="table" id="txTable"><thead><tr><th>Fecha</th><th>Tipo</th><th>Cantidad</th><th>%</th><th>Precio USDT</th><th>Hash TX</th><th>Contraparte</th><th>Código</th></tr></thead><tbody><tr><td colspan="8" class="empty">Sin movimientos aún</td></tr></tbody></table></div></div>
 <div id="view-hologramas" class="view hidden"><div class="card"><div class="eyebrow">HOLOGRAMAS</div><div class="title">Tus certificados</div><div id="holoList" style="margin-top:12px;display:grid;gap:10px"></div></div></div>
-
 </div>
 </div>
-<!-- CONFIG CENTRALIZADA - UNICA FUENTE -->
-<script src="/wasa-config.js"></script>
+<script src="/wasa-config.js?v=20260827"></script>
 <script>
-const CONFIG={WEBHOOK_URL:WASA_WEBHOOK_URL};
 function logout(){localStorage.removeItem('wasa_token');localStorage.removeItem('wasa_email');location.href='/';}
 function toggleMercado(){document.getElementById('subMercado').classList.toggle('show');}
 function switchView(v){
@@ -182,14 +107,13 @@ async function loadData(){
   document.getElementById('navEmail').textContent=localEmail;
   document.getElementById('userEmailTitle').textContent=localEmail;
   try{
-    let r=await fetch(WASA_WEBHOOK_URL+'?action=userdata&token='+encodeURIComponent(token));
-    let j=await r.json(); if(!j.ok){alert(j.error);logout();return;}
-    let d=j.data || j;
+    let r=await fetch(WASA_WEBHOOK_URL+'?action=userdata&token='+encodeURIComponent(token)+'&v='+Date.now());
+    let j=await r.json(); if(!j.ok){alert('Error dashboard: '+j.error); if(j.error.includes('forbidden')||j.error.includes('sesion')) logout(); return;}
+    let d=j;
     let codes = d.codes || d.purchases || [];
     let listings = d.listings || [];
     let market = d.market || [];
     let marketTx = d.marketTx || [];
-    
     document.getElementById('userEmailTitle').textContent=d.email||localEmail||'Founder';
     document.getElementById('navEmail').textContent=d.email||localEmail;
     document.getElementById('statSlots').textContent=(d.totalSlots||0).toFixed(2);
