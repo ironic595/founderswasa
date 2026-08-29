@@ -6,7 +6,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
-body{font-family:'Plus Jakarta Sans',system-ui;background:#2d81ff;color:#1E293B;min-height:100vh;display:flex;align-items:center;justify-content:center;padding:18px}
+body{font-family:'Plus Jakarta Sans',system-ui;background:#E6F0FF;color:#1E293B;min-height:100vh;display:flex;align-items:center;justify-content:center;padding:18px}
 .layout{max-width:1100px;width:100%;display:grid;grid-template-columns:1.15fr 0.85fr;gap:40px;align-items:center}
 @media(max-width:900px){.layout{grid-template-columns:1fr;gap:20px} body{align-items:flex-start;padding-top:24px}}
 
@@ -50,7 +50,7 @@ body{font-family:'Plus Jakarta Sans',system-ui;background:#2d81ff;color:#1E293B;
 <div class="layout">
   <!-- LEFT - PC: izquierda grande, texto alineado izquierda -->
   <div class="left">
-    <div class="eyebrow">WASA.CHAT - PROGRAMA DE REFERIDOS 10% <span class="badge">REF-XXXX</span></div>
+    <div class="eyebrow">FOUNDERS.WASA.CHAT - PROGRAMA DE REFERIDOS 10% <span class="badge">REF-XXXX</span></div>
     <h1 class="big-title">
       <span>GANA DINERO</span>
       <span>COMPARTIENDO</span>
@@ -58,8 +58,8 @@ body{font-family:'Plus Jakarta Sans',system-ui;background:#2d81ff;color:#1E293B;
     </h1>
     <div class="sub-big">POR CADA VENTA RECIBES EL 10%</div>
     <div class="sub-small">
-      Cualquiera puede registrarse. <b>NO necesitás comprar WASABLOCKS.</b><br>
-      Tu link será <b>wasa.chat/founders.html?ref=REF-XXXXXX</b> (distinto a tu WASA ID). Cobrás 10% automático solo cuando tu referido CONCRETA compra validada on-chain.
+      Si ya compraste Wasablocks, ya sos referidor. <b>1 solo login para todo.</b><br> Si no compraste, registrate acá y ya podés referir.<br>
+      Tu link será <b>founders.wasa.chat/?ref=REF-XXXXXX</b> (distinto a tu WASA ID). Cobrás 10% automático solo cuando tu referido CONCRETA compra validada on-chain.
     </div>
     <div class="bullet">
       <div class="bullet-item"><div class="bullet-icon">1</div><div><b>REF-XXXXXX instantáneo</b> - Se genera en ref_users al registrarte, distinto a tu WASA ID.</div></div>
@@ -88,20 +88,38 @@ body{font-family:'Plus Jakarta Sans',system-ui;background:#2d81ff;color:#1E293B;
       <input class="input" id="loginEmail" type="email" placeholder="tu@email.com" autocomplete="email">
       <input class="input" id="loginPass" type="password" placeholder="Contraseña" autocomplete="current-password">
       <button class="btn" id="btnLogin" onclick="login()">ENTRAR A MI PANEL DE REFERIDOS</button>
-      <div style="text-align:center;margin-top:12px"><a href="/founders.html" class="link">← Volver a founders</a> | <a href="/dashboard.html" class="link">Panel Founders</a></div>
+      <div style="text-align:center;margin-top:12px"><a href="/index.html" class="link">← Volver a founders</a> | <a href="/dashboard.html" class="link">Panel Founders</a></div>
     </div>
 
     <div id="msg" class="msg"></div>
 
     <div style="margin-top:14px;background:#E6F0FF;border:1px solid #93B4FF;border-radius:12px;padding:12px;font-size:11px;line-height:1.4">
-      <b>Tu D1 real:</b> ref_users (email, codeId, wallet, password_hash, type) + panel_users_auth (email, pass_hash). Se crea en ambas al registrarte.
+      <b>Tu D1 real:</b> 1 solo login unificado: panel_users_auth (email, pass_hash). Se crea panel_users (slots) + ref_users (REF-XXXX) con wallet vacía. La wallet de referidos la configurás después en /dashboard.html o /affiliate.html
     </div>
-    <div style="text-align:center;margin-top:12px;font-size:11px"><a href="/founders.html" class="link">¿Qué es WASA? Ver founders</a></div>
+    <div style="text-align:center;margin-top:12px;font-size:11px"><a href="/index.html" class="link">¿Qué es WASA? Ver founders</a></div>
   </div>
 </div>
 
 <script src="/wasa-config.js?v=20260827"></script>
 <script>
+
+// AUTO-LOGIN UNIFICADO: si ya tenés cuenta de compra, ya sos referidor
+(async function(){
+  let token=localStorage.getItem('wasa_token');
+  if(token){
+    try{
+      let r=await fetch(WASA_WEBHOOK_URL,{method:'POST',headers:{'Content-Type':'text/plain'},body:JSON.stringify({action:'dashboard', token})});
+      let j=await r.json();
+      if(j.ok){
+        // Ya tiene cuenta unificada, no pedir registro de nuevo
+        document.body.innerHTML = '<div style="display:grid;place-items:center;min-height:100vh;background:#E6F0FF;font-family:Plus Jakarta Sans"><div style="background:white;border:2px solid #93B4FF;border-radius:20px;padding:24px;text-align:center;max-width:400px"><div style="font-size:12px;font-weight:800;color:#166534">✅ Ya tenés cuenta unificada como '+j.email+'</div><div style="font-size:11px;opacity:.6;margin-top:8px">Tu cuenta de compra ya habilita referidos. Tu REF es '+(j.refUser?.codeId||j.panelUser?.codeId||'')+'</div><div style="margin-top:14px;display:flex;gap:8px"><a href="/referrals_FINAL.html" style="flex:1;background:#1D4ED8;color:white;padding:12px;border-radius:12px;text-decoration:none;font-weight:800;font-size:12px;text-align:center">IR A MI PANEL DE REFERIDOS</a><a href="/dashboard.html" style="flex:1;background:#E6F0FF;border:1px solid #93B4FF;padding:12px;border-radius:12px;text-decoration:none;font-weight:800;font-size:12px;text-align:center;color:#1E293B">DASHBOARD</a></div></div></div>';
+        setTimeout(()=>{ location.href='/referrals_FINAL.html'; }, 1500);
+        return;
+      }
+    }catch{}
+  }
+})();
+
 let currentTab='reg';
 function switchTab(t){
   currentTab=t;
@@ -136,7 +154,7 @@ async function register(){
       showMsg(`✅ Cuenta creada.<br>Tu REF es <b>${j.codeId}</b> (distinto a WASA). Entrando...`,true);
       localStorage.setItem('wasa_token', j.token);
       localStorage.setItem('wasa_email', email);
-      setTimeout(()=>location.href='/referrals.html',1000);
+      setTimeout(()=>location.href='/dashboard.html',1000);
     } else {
       if(j.error && j.error.includes('ya registrado')){
         showMsg(`⚠️ ${j.error}<br>Probá en <b>YA TENGO CUENTA</b> con tu contraseña.`,false);
@@ -161,7 +179,7 @@ async function login(){
       showMsg('✅ Login OK. Entrando a referrals...',true);
       localStorage.setItem('wasa_token', j.token);
       localStorage.setItem('wasa_email', email);
-      setTimeout(()=>location.href='/referrals.html',600);
+      setTimeout(()=>location.href='/dashboard.html',600);
     } else {
       showMsg('❌ Error: '+j.error,false);
       btn.disabled=false; btn.textContent='ENTRAR A MI PANEL DE REFERIDOS';
