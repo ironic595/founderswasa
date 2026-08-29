@@ -2,30 +2,32 @@
 <html lang="es">
 <head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Panel Inversores - founders.wasa.chat/login.html</title>
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
-<style>*{box-sizing:border-box;margin:0;padding:0}body{font-family:'Plus Jakarta Sans',system-ui;background:#E6F0FF;color:#1E293B;min-height:100vh}.nav{height:64px;background:#1D4ED8;display:flex;align-items:center;justify-content:space-between;padding:0 5%}.nav .logo{color:white;font-weight:800}.wrap{max-width:480px;margin:0 auto;padding:100px 20px 40px}.card{background:#C2D9FF;border:2px solid #93B4FF;border-radius:24px;padding:24px;box-shadow:0 8px 24px rgba(29,78,216,.08)}.title{font-size:22px;font-weight:800;text-align:center}.sub{font-size:12px;opacity:.7;text-align:center;margin-top:8px;line-height:1.4}.btn{width:100%;height:48px;border-radius:14px;border:0;font-weight:800;cursor:pointer;display:flex;align-items:center;justify-content:center;margin-top:12px}.btn-primary{background:#0A101F;color:white}.btn-secondary{background:white;border:1px solid #93B4FF;color:#1E293B}.input{width:100%;height:44px;border-radius:12px;border:1px solid #93B4FF;padding:0 14px;margin-top:10px;background:white}.label{font-size:11px;font-weight:700;margin-top:14px;display:block;opacity:.7}.tabs{display:flex;gap:8px;margin-top:18px}.tab{flex:1;height:42px;border-radius:12px;border:1px solid #93B4FF;background:#E6F0FF;font-weight:700;cursor:pointer;font-size:11px}.tab.active{background:#1D4ED8;color:white;border-color:#1D4ED8}.alert{padding:10px 12px;border-radius:10px;font-size:12px;margin-top:12px;display:none;line-height:1.4}.alert-error{background:#FEF2F2;border:1px solid #FECACA;color:#DC2626}.alert-success{background:#F0FDF4;border:1px solid #BBF7D0;color:#16A34A}.hidden{display:none!important}.divider{height:1px;background:#93B4FF;margin:18px 0;opacity:.5}.info-box{background:white;border:1px solid #93B4FF;border-radius:12px;padding:12px;margin-top:12px;font-size:11px;line-height:1.4}</style>
+<style>*{box-sizing:border-box;margin:0;padding:0}body{font-family:'Plus Jakarta Sans',system-ui;background:#E6F0FF;color:#1E293B;min-height:100vh}.wrap{max-width:480px;margin:0 auto;padding:100px 20px 40px}.card{background:#C2D9FF;border:2px solid #93B4FF;border-radius:24px;padding:24px;box-shadow:0 8px 24px rgba(29,78,216,.08)}.title{font-size:22px;font-weight:800;text-align:center}.sub{font-size:12px;opacity:.7;text-align:center;margin-top:8px;line-height:1.4}.btn{width:100%;height:48px;border-radius:14px;border:0;font-weight:800;cursor:pointer;display:flex;align-items:center;justify-content:center;margin-top:12px}.btn-primary{background:#0A101F;color:white}.btn-secondary{background:white;border:1px solid #93B4FF;color:#1E293B}.input{width:100%;height:44px;border-radius:12px;border:1px solid #93B4FF;padding:0 14px;margin-top:10px;background:white}.label{font-size:11px;font-weight:700;margin-top:14px;display:block;opacity:.7}.tabs{display:flex;gap:8px;margin-top:18px}.tab{flex:1;height:42px;border-radius:12px;border:1px solid #93B4FF;background:#E6F0FF;font-weight:700;cursor:pointer;font-size:11px}.tab.active{background:#1D4ED8;color:white;border-color:#1D4ED8}.alert{padding:10px 12px;border-radius:10px;font-size:12px;margin-top:12px;display:none;line-height:1.4}.alert-error{background:#FEF2F2;border:1px solid #FECACA;color:#DC2626}.alert-success{background:#F0FDF4;border:1px solid #BBF7D0;color:#16A34A}.hidden{display:none!important}.info-box{background:white;border:1px solid #93B4FF;border-radius:12px;padding:12px;margin-top:12px;font-size:11px;line-height:1.4}</style>
 </head>
 <body>
 <div class="wrap"><div class="card">
 <div style="font-size:10px;font-weight:800;letter-spacing:.14em;opacity:.6;text-align:center;color:#1E3A8A">PANEL DE INVERSORES - 1 SOLO LOGIN</div>
 <div class="title" id="mainTitle">Bienvenido Founder</div>
 <div class="sub" id="mainSub">Creá tu cuenta con email y contraseña. Si ya compraste, usá la misma contraseña.</div>
-<div class="tabs"><button class="tab active" id="tabNew" onclick="switchTab('new')">SOY UN NUEVO USUARIO</button><button class="tab" id="tabLogin" onclick="switchTab('login')">INGRESAR A MI CUENTA</button></div>
+<div class="tabs">
+<button type="button" class="tab active" id="tabNew" onclick="switchTab('new')">SOY UN NUEVO USUARIO</button>
+<button type="button" class="tab" id="tabLogin" onclick="switchTab('login')">INGRESAR A MI CUENTA</button>
+</div>
 
 <div id="viewNew">
   <label class="label">Email</label><input class="input" id="newEmail" placeholder="tu@email.com" autocomplete="email">
   <label class="label">Contraseña (mín 6)</label><input class="input" id="newPass" type="password" placeholder="Tu contraseña" autocomplete="new-password">
   <label class="label">Repetir contraseña</label><input class="input" id="newPass2" type="password" placeholder="Repetir contraseña" autocomplete="new-password">
   <div class="alert alert-error" id="newError"></div><div class="alert alert-success" id="newSuccess"></div>
-  <button class="btn btn-primary" id="btnRegister" onclick="registerUser()">CREAR CUENTA UNIFICADA</button>
+  <button type="button" class="btn btn-primary" id="btnRegister" onclick="registerUser()">CREAR CUENTA UNIFICADA</button>
   <div class="info-box">
-    <b>Sin código de 8 dígitos:</b> Ya no necesitás el código para registrarte. Te registrás directo con email + contraseña y se crea tu cuenta en <code>panel_users_auth</code> + <code>panel_users (0 slots)</code> + <code>ref_users (REF-XXXX)</code>.<br><br>
-    <b>¿Tenés código?</b> Si compraste y te llegó un código de 8 dígitos por email, podés usarlo después para vincular tu compra (opcional) en el botón de abajo, o simplemente comprá logueado y se suma a tu misma cuenta automáticamente.
+    <b>Sin código de 8 dígitos:</b> Ya no necesitás el código para registrarte. Te registrás directo con email + contraseña.<br><br>
+    <b>¿Tenés código?</b> Si te llegó un código de 8 dígitos por email, podés usarlo después (opcional).
   </div>
-  <button class="btn btn-secondary" onclick="openCodeSection()">Tengo un código de 8 dígitos (opcional)</button>
+  <button type="button" class="btn btn-secondary" onclick="openCodeSection()">Tengo un código de 8 dígitos (opcional)</button>
   <div id="codeSection" class="hidden" style="margin-top:12px">
-    <div class="divider"></div>
-    <label class="label">Código de 8 dígitos (si te llegó por email)</label><input class="input" id="newCode" placeholder="ABCD1234" style="text-transform:uppercase;letter-spacing:2px;font-weight:800">
-    <button class="btn btn-secondary" onclick="validateAndLinkCode()">Validar y vincular código</button>
+    <label class="label">Código de 8 dígitos</label><input class="input" id="newCode" placeholder="ABCD1234" style="text-transform:uppercase;letter-spacing:2px;font-weight:800">
+    <button type="button" class="btn btn-secondary" onclick="validateAndLinkCode()">Validar y vincular código</button>
   </div>
 </div>
 
@@ -34,7 +36,7 @@
   <label class="label">Contraseña</label><input class="input" id="loginPass" type="password" placeholder="Tu contraseña" autocomplete="current-password">
   <div class="alert alert-error" id="loginError"></div>
   <div class="alert alert-success" id="loginSuccess"></div>
-  <button class="btn btn-primary" onclick="loginUser()">INGRESAR A DASHBOARD</button>
+  <button type="button" class="btn btn-primary" onclick="loginUser()">INGRESAR A DASHBOARD</button>
   <div style="text-align:center;margin-top:12px"><a href="/index.html" style="font-size:11px;color:#1D4ED8;text-decoration:none;font-weight:700">← Volver a comprar Wasablocks</a> | <a href="/refer-register.html" style="font-size:11px;color:#1D4ED8;text-decoration:none;font-weight:700">Programa referidos</a></div>
 </div>
 
@@ -44,56 +46,65 @@
 <script>
 const WEBHOOK_URL = window.WASA_WORKER_URL || window.WASA_WEBHOOK_URL || 'https://founderswasablocks.javimsites.workers.dev';
 const DASHBOARD_URL = '/dashboard.html';
-let validatedEmail='', validatedCode='';
 
 function switchTab(t){
-  document.getElementById('tabNew').classList.toggle('active',t==='new');
-  document.getElementById('tabLogin').classList.toggle('active',t==='login');
-  document.getElementById('viewNew').classList.toggle('hidden',t!=='new');
-  document.getElementById('viewLogin').classList.toggle('hidden',t!=='login');
-  document.getElementById('mainTitle').textContent = t==='new' ? 'Bienvenido Founder' : 'Ingresar a mi cuenta';
-  document.getElementById('mainSub').textContent = t==='new' ? 'Creá tu cuenta con email y contraseña. 1 solo login para comprar y referir.' : 'Entrá con tu email y contraseña unificada.';
+  console.log('switchTab',t);
+  var tabNew = document.getElementById('tabNew');
+  var tabLogin = document.getElementById('tabLogin');
+  var viewNew = document.getElementById('viewNew');
+  var viewLogin = document.getElementById('viewLogin');
+  var mainTitle = document.getElementById('mainTitle');
+  var mainSub = document.getElementById('mainSub');
+  if(t==='new'){
+    tabNew.classList.add('active'); tabLogin.classList.remove('active');
+    viewNew.classList.remove('hidden'); viewLogin.classList.add('hidden');
+    mainTitle.textContent='Bienvenido Founder';
+    mainSub.textContent='Creá tu cuenta con email y contraseña. 1 solo login para comprar y referir.';
+  } else {
+    tabLogin.classList.add('active'); tabNew.classList.remove('active');
+    viewLogin.classList.remove('hidden'); viewNew.classList.add('hidden');
+    mainTitle.textContent='Ingresar a mi cuenta';
+    mainSub.textContent='Entrá con tu email y contraseña unificada.';
+  }
 }
-function showError(id,msg){let el=document.getElementById(id);el.textContent=msg;el.style.display='block';}
-function showSuccess(id,msg){let el=document.getElementById(id);el.textContent=msg;el.style.display='block';el.className='alert alert-success';}
-function hideError(id){document.getElementById(id).style.display='none';}
-function openCodeSection(){document.getElementById('codeSection').classList.toggle('hidden');}
+function showError(id,msg){var el=document.getElementById(id);el.textContent=msg;el.style.display='block';el.className='alert alert-error';}
+function showSuccess(id,msg){var el=document.getElementById(id);el.textContent=msg;el.style.display='block';el.className='alert alert-success';}
+function hideError(id){var el=document.getElementById(id);if(el) el.style.display='none';}
+function openCodeSection(){var el=document.getElementById('codeSection');el.classList.toggle('hidden');}
 
-(async()=>{
-  let p=new URLSearchParams(location.search);
-  let e=p.get('email');
+(function(){
+  var p=new URLSearchParams(location.search);
+  var e=p.get('email');
   if(e){document.getElementById('newEmail').value=e;document.getElementById('loginEmail').value=e;}
-  let token=localStorage.getItem('wasa_token');
+  var tab=p.get('tab');
+  if(tab==='login'){ switchTab('login'); }
+  var token=localStorage.getItem('wasa_token');
   if(token){
-    try{
-      let r=await fetch(WEBHOOK_URL,{method:'POST',headers:{'Content-Type':'text/plain'},body:JSON.stringify({action:'dashboard', token})});
-      let j=await r.json();
-      if(j.ok){ location.href=DASHBOARD_URL; }
-    }catch{}
+    fetch(WEBHOOK_URL,{method:'POST',headers:{'Content-Type':'text/plain'},body:JSON.stringify({action:'dashboard', token:token})})
+    .then(function(r){return r.json();}).then(function(j){ if(j.ok){ location.href=DASHBOARD_URL; } }).catch(function(){});
   }
 })();
 
 async function registerUser(){
-  let email=document.getElementById('newEmail').value.trim().toLowerCase();
-  let p1=document.getElementById('newPass').value;
-  let p2=document.getElementById('newPass2').value;
-  if(!email||!email.includes('@')){ showError('newError','Email inválido'); return; }
+  var email=document.getElementById('newEmail').value.trim().toLowerCase();
+  var p1=document.getElementById('newPass').value;
+  var p2=document.getElementById('newPass2').value;
+  if(!email||email.indexOf('@')===-1){ showError('newError','Email inválido'); return; }
   if(p1.length<6){ showError('newError','Contraseña mínima 6 caracteres'); return; }
   if(p1!==p2){ showError('newError','Contraseñas no coinciden'); return; }
   hideError('newError');
-  let btn=document.getElementById('btnRegister'); btn.textContent='Creando cuenta...'; btn.disabled=true;
+  var btn=document.getElementById('btnRegister'); btn.textContent='Creando cuenta...'; btn.disabled=true;
   try{
-    // NUEVO: registro unificado directo sin código - usa registerReferrer que crea las 3 tablas
-    let res=await fetch(WEBHOOK_URL,{method:'POST',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify({action:'registerreferrer', email:email, password:p1, wallet:''})});
-    let j=await res.json();
+    var res=await fetch(WEBHOOK_URL,{method:'POST',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify({action:'registerreferrer', email:email, password:p1, wallet:''})});
+    var j=await res.json();
     if(j.ok){
       localStorage.setItem('wasa_token', j.token);
       localStorage.setItem('wasa_email', email);
-      showSuccess('newSuccess', `✅ Cuenta creada! REF: ${j.codeId} - Entrando a dashboard...`);
-      setTimeout(()=>location.href=DASHBOARD_URL,1000);
+      showSuccess('newSuccess', '✅ Cuenta creada! REF: '+j.codeId+' - Entrando...');
+      setTimeout(function(){location.href=DASHBOARD_URL;},1000);
     } else {
-      if((j.error||'').includes('ya registrado')){
-        showError('newError', '⚠️ '+j.error+' Probá en INGRESAR A MI CUENTA');
+      if((j.error||'').indexOf('ya registrado')!==-1){
+        showError('newError', '⚠ '+j.error+' Probá en INGRESAR A MI CUENTA');
         switchTab('login');
         document.getElementById('loginEmail').value=email;
       } else {
@@ -105,34 +116,30 @@ async function registerUser(){
 }
 
 async function validateAndLinkCode(){
-  let email=document.getElementById('newEmail').value.trim().toLowerCase();
-  let code=document.getElementById('newCode').value.trim().toUpperCase();
+  var email=document.getElementById('newEmail').value.trim().toLowerCase();
+  var code=document.getElementById('newCode').value.trim().toUpperCase();
   if(!email||!code){ showError('newError','Completá email y código'); return; }
   try{
-    let r=await fetch(WEBHOOK_URL+'?action=validatePanelCode&email='+encodeURIComponent(email)+'&code='+encodeURIComponent(code));
-    let j=await r.json();
-    if(j.ok){
-      showSuccess('newSuccess','✅ Código validado! Ahora creá tu contraseña arriba con el mismo email y te vincula la compra.');
-      validatedEmail=email; validatedCode=code;
-    } else {
-      showError('newError', j.error||'Código inválido');
-    }
+    var r=await fetch(WEBHOOK_URL+'?action=validatePanelCode&email='+encodeURIComponent(email)+'&code='+encodeURIComponent(code));
+    var j=await r.json();
+    if(j.ok){ showSuccess('newSuccess','✅ Código validado! Ahora creá tu contraseña arriba con el mismo email.'); }
+    else { showError('newError', j.error||'Código inválido'); }
   }catch(e){ showError('newError','Error: '+e.message); }
 }
 
 async function loginUser(){
-  let email=document.getElementById('loginEmail').value.trim().toLowerCase();
-  let pass=document.getElementById('loginPass').value;
+  var email=document.getElementById('loginEmail').value.trim().toLowerCase();
+  var pass=document.getElementById('loginPass').value;
   if(!email||!pass){ showError('loginError','Falta email y contraseña'); return; }
   hideError('loginError');
   try{
-    let res=await fetch(WEBHOOK_URL,{method:'POST',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify({action:'login', email:email, password:pass})});
-    let j=await res.json();
+    var res=await fetch(WEBHOOK_URL,{method:'POST',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify({action:'login', email:email, password:pass})});
+    var j=await res.json();
     if(j.ok){
       localStorage.setItem('wasa_token', j.token);
       localStorage.setItem('wasa_email', email);
       showSuccess('loginSuccess','✅ Login OK, entrando...');
-      setTimeout(()=>location.href=DASHBOARD_URL,600);
+      setTimeout(function(){location.href=DASHBOARD_URL;},600);
     } else {
       showError('loginError', j.error||'Credenciales incorrectas');
     }
