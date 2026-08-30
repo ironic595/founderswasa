@@ -112,8 +112,8 @@ body{font-family:'Plus Jakarta Sans',system-ui;background:#E6F0FF;color:#1E293B;
       let j=await r.json();
       if(j.ok){
         // Ya tiene cuenta unificada, no pedir registro de nuevo
-        document.body.innerHTML = '<div style="display:grid;place-items:center;min-height:100vh;background:#E6F0FF;font-family:Plus Jakarta Sans"><div style="background:white;border:2px solid #93B4FF;border-radius:20px;padding:24px;text-align:center;max-width:400px"><div style="font-size:12px;font-weight:800;color:#166534">✅ Ya tenés cuenta unificada como '+j.email+'</div><div style="font-size:11px;opacity:.6;margin-top:8px">Tu cuenta de compra ya habilita referidos. Tu REF es '+(j.refUser?.codeId||j.panelUser?.codeId||'')+'</div><div style="margin-top:14px;display:flex;gap:8px"><a href="/referrals_FINAL.html" style="flex:1;background:#1D4ED8;color:white;padding:12px;border-radius:12px;text-decoration:none;font-weight:800;font-size:12px;text-align:center">IR A MI PANEL DE REFERIDOS</a><a href="/dashboard.html" style="flex:1;background:#E6F0FF;border:1px solid #93B4FF;padding:12px;border-radius:12px;text-decoration:none;font-weight:800;font-size:12px;text-align:center;color:#1E293B">DASHBOARD</a></div></div></div>';
-        setTimeout(()=>{ location.href='/referrals_FINAL.html'; }, 1500);
+        document.body.innerHTML = '<div style="display:grid;place-items:center;min-height:100vh;background:#E6F0FF;font-family:Plus Jakarta Sans"><div style="background:white;border:2px solid #93B4FF;border-radius:20px;padding:24px;text-align:center;max-width:400px"><div style="font-size:12px;font-weight:800;color:#166534">✅ Ya tenés cuenta unificada como '+j.email+'</div><div style="font-size:11px;opacity:.6;margin-top:8px">Tu cuenta de compra ya habilita referidos. Tu REF es '+(j.refUser?.codeId||j.panelUser?.codeId||'')+'</div><div style="margin-top:14px;display:flex;gap:8px"><a href="/referrals_FINAL.html" style="flex:1;background:#1D4ED8;color:white;padding:12px;border-radius:12px;text-decoration:none;font-weight:800;font-size:12px;text-align:center">IR A MI PANEL DE REFERIDOS</a><a href="/refer.html" style="flex:1;background:#E6F0FF;border:1px solid #93B4FF;padding:12px;border-radius:12px;text-decoration:none;font-weight:800;font-size:12px;text-align:center;color:#1E293B">DASHBOARD</a></div></div></div>';
+        setTimeout(()=>{ location.href='/refer.html'; }, 1500);
         return;
       }
     }catch{}
@@ -154,7 +154,7 @@ async function register(){
       showMsg(`✅ Cuenta creada.<br>Tu REF es <b>${j.codeId}</b> (distinto a WASA). Entrando...`,true);
       localStorage.setItem('wasa_token', j.token);
       localStorage.setItem('wasa_email', email);
-      setTimeout(()=>location.href='/dashboard.html',1000);
+      setTimeout(()=>location.href='/refer.html',1000);
     } else {
       if(j.error && j.error.includes('ya registrado')){
         showMsg(`⚠️ ${j.error}<br>Probá en <b>YA TENGO CUENTA</b> con tu contraseña.`,false);
@@ -179,7 +179,7 @@ async function login(){
       showMsg('✅ Login OK. Entrando a referrals...',true);
       localStorage.setItem('wasa_token', j.token);
       localStorage.setItem('wasa_email', email);
-      setTimeout(()=>location.href='/dashboard.html',600);
+      setTimeout(()=>location.href='/refer.html',600);
     } else {
       showMsg('❌ Error: '+j.error,false);
       btn.disabled=false; btn.textContent='ENTRAR A MI PANEL DE REFERIDOS';
