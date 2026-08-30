@@ -66,7 +66,7 @@ body{font-family:'Plus Jakarta Sans',system-ui;background:#2d81ff;color:#1E293B}
 <div class="links">
 <a href="/index.html">HOME</a>
 <a href="/dashboard.html" id="navDashboard" style="display:none">DASHBOARD</a>
-<a href="/refer.html" id="navRefer" class="highlight">GANA dinero aquí</a>
+<a href="#" onclick="goReferidos();return false;" id="navRefer" class="highlight">GANA dinero aquí</a>
 <a href="#" id="navLogin" onclick="openAuthModal('login');return false;">LOGIN</a>
 </div>
 <span id="navUser" class="user-badge"></span>
@@ -174,7 +174,7 @@ let CONFIG_DYNAMIC=null, qty=1, accountFull='';
 (function(){ const p=new URLSearchParams(location.search); const ref=p.get('ref'); if(ref){ localStorage.setItem('wasa_ref', ref.toUpperCase()); document.getElementById('refCodeShow').textContent=ref.toUpperCase(); document.getElementById('refBanner').style.display='block'; fetch(WASA_WEBHOOK_URL+'?action=refclick&ref='+encodeURIComponent(ref)).catch(()=>{});} })();
 async function loadDynamicConfig(){ try{ let r=await fetch(WASA_WEBHOOK_URL+'?action=getconfig&v='+Date.now()); let j=await r.json(); CONFIG_DYNAMIC=j; document.getElementById('costoLabel').textContent=`0.5% = $${j.PRICE_PER_SLOT} USDT • ${j.PERCENT_PER_SLOT}% c/u`; document.getElementById('contratoLabel').textContent=`Contrato: ${j.USDT_CONTRACT.slice(0,10)}...`; document.getElementById('sheetLive').textContent=`Worker: ${j.TOTAL_SLOTS} slots | $${j.PRICE_PER_SLOT}/slot OK`; update(); }catch(e){ document.getElementById('sheetLive').textContent='Error: '+e.message; } }
 function bajarSeccion(){document.getElementById('buyCard').scrollIntoView({behavior:'smooth'});}
-function goReferidos(){ if(localStorage.getItem('wasa_token')){ location.href='/referrals_FINAL.html'; } else { location.href='/refer-register.html'; } }
+function goReferidos(){ if(localStorage.getItem('wasa_token')){ location.href='/refer.html'; } else { location.href='/refer-register.html'; } }
 let qtyVal=document.getElementById('qtyVal'),range=document.getElementById('range'),totalEl=document.getElementById('total');
 function formatPrice(v){ return Number(v).toFixed(4); }
 function update(){ if(!CONFIG_DYNAMIC) return; qtyVal.textContent=qty; range.value=qty; let t=qty*Number(CONFIG_DYNAMIC.PRICE_PER_SLOT); totalEl.textContent=formatPrice(t); document.getElementById('btnUSDT').textContent=`Pagar ${formatPrice(t)} USDT`; document.getElementById('qtyPercent').textContent=(qty*Number(CONFIG_DYNAMIC.PERCENT_PER_SLOT)).toFixed(1)+'%'; document.getElementById('qtySlots').textContent=qty===1?'1 slot':qty+' slots'; }
@@ -212,7 +212,7 @@ function hideBuyIfNotAuth(isAuth){
 }
 async function checkAuth(){
   let token=localStorage.getItem('wasa_token'); if(!token){ hideBuyIfNotAuth(false); return false; }
-  try{ let r=await fetch(WASA_WEBHOOK_URL,{method:'POST',headers:{'Content-Type':'text/plain'},body:JSON.stringify({action:'dashboard', token})}); let j=await r.json(); if(j.ok){ document.getElementById('navUser').textContent=j.email; document.getElementById('navUser').style.display='inline-flex'; document.getElementById('navLogin').textContent='SALIR'; document.getElementById('navLogin').onclick=(e)=>{e.preventDefault(); logout(); return false;}; hideBuyIfNotAuth(true); return true; } else { localStorage.removeItem('wasa_token'); } }catch{}
+  try{ let r=await fetch(WASA_WEBHOOK_URL,{method:'POST',headers:{'Content-Type':'text/plain'},body:JSON.stringify({action:'dashboard', token})}); let j=await r.json(); if(j.ok){ document.getElementById('navUser').textContent=j.email; document.getElementById('navUser').style.display='inline-flex'; document.getElementById('navLogin').textContent='SALIR'; document.getElementById('navLogin').onclick=(e)=>{e.preventDefault(); logout(); return false;}; hideBuyIfNotAuth(true); let fd=document.getElementById('footerDashboard'); if(fd) fd.style.display='block'; return true; } else { localStorage.removeItem('wasa_token'); } }catch{}
   hideBuyIfNotAuth(false); return false;
 }
 function logout(){ localStorage.removeItem('wasa_token'); location.reload(); }
@@ -265,5 +265,25 @@ async function fetchLive(){ try{ let r=await fetch(WASA_WEBHOOK_URL+'?action=rea
 (async()=>{ await loadDynamicConfig(); update(); fetchLive(); setInterval(fetchLive,10000); await checkAuth(); })();
 function checkDeadline(){ const now=new Date(); const diff=DEADLINE-now; if(diff<=0){ ['cdD','cdH','cdM','cdS'].forEach(id=>document.getElementById(id).textContent='00'); return; } const d=Math.floor(diff/86400000); const h=Math.floor((diff%86400000)/3600000); const m=Math.floor((diff%3600000)/60000); const s=Math.floor((diff%60000)/1000); document.getElementById('cdD').textContent=String(d).padStart(2,'0'); document.getElementById('cdH').textContent=String(h).padStart(2,'0'); document.getElementById('cdM').textContent=String(m).padStart(2,'0'); document.getElementById('cdS').textContent=String(s).padStart(2,'0'); } setInterval(checkDeadline,1000); checkDeadline();
 </script>
+
+<footer style="background:#0A101F;color:white;padding:32px 5% 24px;margin-top:40px">
+<div style="max-width:720px;margin:0 auto;display:flex;flex-wrap:wrap;gap:24px;justify-content:space-between;align-items:flex-start">
+<div style="flex:1;min-width:200px">
+<div style="font-weight:800;font-size:16px;margin-bottom:8px">founders.wasa.chat</div>
+<div style="font-size:11px;opacity:.6;line-height:1.5">Ronda founder perpetua 2026. 50 slots = 25% total ganancias. 1 solo login en popup para comprar y referir. USDT BSC.</div>
+</div>
+<div style="display:flex;flex-direction:column;gap:10px;align-items:flex-start">
+<a href="mailto:founders@wasa.chat" style="display:inline-flex;align-items:center;gap:6px;background:#1D4ED8;color:white;padding:10px 18px;border-radius:999px;font-size:12px;font-weight:800;text-decoration:none">📩 CONTACTO</a>
+<a href="/dashboard.html" id="footerDashboard" style="color:rgba(255,255,255,.7);font-size:11px;text-decoration:none;display:none">Dashboard</a>
+<a href="/refer-register.html" style="color:#FFD60A;font-size:11px;font-weight:800;text-decoration:none">GANA dinero aquí → 10% referidos</a>
+<a href="/terminos_FINAL.html" style="color:rgba(255,255,255,.5);font-size:10px;text-decoration:underline">Términos</a>
+</div>
+</div>
+<div style="max-width:720px;margin:24px auto 0;padding-top:16px;border-top:1px solid rgba(255,255,255,.1);display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px;font-size:10px;opacity:.4">
+<span>© 2026 founders.wasa.chat • 1 login unificado</span>
+<span>USDT BSC • Worker con clave • Popup auth</span>
+</div>
+</footer>
+
 </body>
 </html>
