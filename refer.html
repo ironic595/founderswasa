@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Referidos</title>
+<title>Referidos - Founders Pass</title>
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
 <style>
 *{box-sizing:border-box;margin:0;padding:0}body{font-family:'Plus Jakarta Sans',system-ui;background:#E6F0FF;color:#1E293B}
@@ -30,11 +30,11 @@
 <nav class="nav"><div class="logo">wasa.chat/founders / referidos</div><div class="links"><span id="navEmail"></span> <a href="/dashboard.html">PANEL</a> <a href="#" onclick="localStorage.clear();location.href='/'">SALIR</a></div></nav>
 <div class="wrap">
 <div class="card">
-<div class="eyebrow">PROGRAMA DE REFERIDOS - GANA 10% POR VENTA</div>
+<div class="eyebrow">PROGRAMA DE REFERIDOS - FOUNDERS PASS - 10% POR VENTA</div>
 <div class="title" id="title">Tu link de referido</div>
-<div class="sub" id="sub">Solo cobrás si tu referido CONCRETA compra validada on-chain. Nada de clicks. Comisión automática 10% del total en USDT. Se envia a tu billetera en 48 hs.</div>
+<div class="sub" id="sub">Solo cobrás si tu referido CONCRETA compra de Founders Pass validada on-chain BSC. Nada de clicks. Comisión automática 10% del total en USDT. Se envía a tu billetera registrada en 48 hs. Válido solo en pre-market Founders Pass (50 unidades).</div>
 <div style="margin-top:14px;background:#E6F0FF;border:1px solid #93B4FF;border-radius:12px;padding:12px">
-<div style="font-size:11px;font-weight:800">TU ENLACE ÚNICO (tu codeId genesis)</div>
+<div style="font-size:11px;font-weight:800">TU ENLACE ÚNICO (tu REF-XXXXXX)</div>
 <input class="input" id="refLink" readonly value="Cargando...">
 <div style="display:flex;gap:8px;margin-top:10px">
 <button class="btn" style="flex:1" onclick="copyLink()">COPIAR ENLACE</button>
@@ -45,25 +45,26 @@
 <div class="stat-grid">
 <div class="stat"><div class="num" id="statClicks">0</div><div class="lbl">CLICKS EN TU LINK</div></div>
 <div class="stat"><div class="num" id="statSales">0</div><div class="lbl">VENTAS CONCRETADAS</div></div>
-<div class="stat"><div class="num" id="statComm">$0</div><div class="lbl">COMISIÓN TOTAL (5%)</div></div>
+<div class="stat"><div class="num" id="statComm">$0</div><div class="lbl">COMISIÓN TOTAL (10%)</div></div>
 </div>
 </div>
 
 <div class="card">
-<div class="eyebrow">HISTORIAL DE REFERIDOS </div>
-<div class="sub">Solo aparecen acá los que compraron y la TX fue validada en BSC. Comisión automática.</div>
-<table class="table" id="refTable"><thead><tr><th>Fecha</th><th>Referido</th><th>Slots</th><th>Total venta</th><th>Tu comisión 5%</th><th>Estado</th></tr></thead><tbody><tr><td colspan="6" class="empty">Cargando referidos...</td></tr></tbody></table>
+<div class="eyebrow">HISTORIAL DE REFERIDOS - FOUNDERS PASS</div>
+<div class="sub">Solo aparecen acá los que compraron Founders Pass y la TX fue validada en BSC. Comisión 10% automática. No aplica al mercado secundario de fracciones 0.01 (5000 porciones).</div>
+<table class="table" id="refTable"><thead><tr><th>Fecha</th><th>Referido</th><th>Slots</th><th>Total venta</th><th>Tu comisión 10%</th><th>Estado</th></tr></thead><tbody><tr><td colspan="6" class="empty">Cargando referidos...</td></tr></tbody></table>
 </div>
 
 <div class="card" style="background:#FEF9C3;border:1px dashed #EAB308">
-<div style="font-size:11px;font-weight:800">¿Cómo funciona?</div>
+<div style="font-size:11px;font-weight:800">¿Cómo funciona? (Solo Founders Pass)</div>
 <div style="font-size:11px;margin-top:6px;line-height:1.5">
-1. Solo founders con al menos 0.01 WASABLOCK pueden referir (evita spam).<br>
-2. Tu link es con tu WASA-CODE genesis, no podés generar infinitos.<br>
-3. Si alguien entra con tu link y compra en founders.html, queda guardado en localStorage.<br>
-4. Solo cuando paga USDT y la TX es validada on-chain, se genera comisión 5% automática en la hoja <b>referrals</b>.<br>
+1. Cualquier usuario registrado (REF-XXXXXX) puede referir Founders Pass en pre-market. No necesitas tener Wasablock para ser referidor.<br>
+2. Tu link es con tu código REF-XXXXXX (distinto a tu WASA-XXXX ID de Wasablock). No podés generar infinitos, es uno solo por cuenta.<br>
+3. Si alguien entra con tu link ?ref=REF-XXXXXX y compra Founders Pass en index.html, queda guardado.<br>
+4. Solo cuando paga USDT y la TX es validada on-chain BSC, se genera comisión 10% automática en la tabla <b>referrals</b>.<br>
 5. Si cancela o la TX falla, no hay comisión.<br>
-6. Cobrás junto con tus ganancias mensuales el 15, en tu wallet registrada.
+6. Cobrás junto con tus ganancias mensuales el 15, en tu wallet registrada.<br>
+7. Este programa NO aplica al mercado secundario de fracciones 0.01 (las 5000 porciones) - ahí solo hay fee 7.5% de plataforma.
 </div>
 </div>
 </div>
@@ -72,7 +73,7 @@
 <script>
 const WASA_WEBHOOK_URL = window.WASA_WORKER_URL || window.WASA_WEBHOOK_URL || 'https://founderswasablocks.javimsites.workers.dev';
 function copyLink(){ let v=document.getElementById('refLink').value; navigator.clipboard.writeText(v); let m=document.getElementById('msg'); m.style.display='block'; m.style.background='#F0FDF4'; m.textContent='Copiado: '+v; setTimeout(()=>m.style.display='none',3000); }
-function shareWpp(){ let v=document.getElementById('refLink').value; let txt=encodeURIComponent('Compra WASABLOCKS con mi link founder: '+v); window.open('https://wa.me/?text='+txt,'_blank'); }
+function shareWpp(){ let v=document.getElementById('refLink').value; let txt=encodeURIComponent('Compra tu Founders Pass con mi link founder: '+v); window.open('https://wa.me/?text='+txt,'_blank'); }
 
 async function load(){
   let token=localStorage.getItem('wasa_token');
@@ -88,23 +89,24 @@ async function load(){
       j=await rr.json();
     }
     if(!j.ok){ document.querySelector('#refTable tbody').innerHTML=`<tr><td colspan="6" class="empty">Error: ${j.error}</td></tr>`; document.getElementById('refLink').value=j.error||'Error'; return; }
-    // Compatibilidad con ambos formatos viejo y nuevo
+    // Compatibilidad: ahora solo REF-
     let codeId=j.codeId || j.ref_code || j.refUser?.codeId || '';
+    // Asegurar que sea REF- si viene WASA- por error viejo, mostrar igual pero aclarar
     let link=j.link || `https://founders.wasa.chat/?ref=${codeId}`;
     let clicks=j.clicks || j.ref_clicks || 0;
     let referrals=j.referrals || [];
     let sales=referrals.length;
     let totalComm=j.totalCommission || j.commission || referrals.reduce((s,r)=>s+Number(r.commission||0),0) || 0;
     
-    document.getElementById('refLink').value = codeId ? link : 'No tenés REF aún - comprá o registrate';
-    document.getElementById('title').textContent = codeId ? `Tu link activo: ${codeId}` : 'Activá tu link';
-    document.getElementById('sub').textContent = codeId ? `Link con tu código ${codeId} - Comisión 10% automática solo si vende validado on-chain` : 'Registrate para obtener tu REF';
+    document.getElementById('refLink').value = codeId ? link : 'No tenés REF aún - registrate en refer-register.html';
+    document.getElementById('title').textContent = codeId ? `Tu link activo: ${codeId}` : 'Activá tu link REF-';
+    document.getElementById('sub').textContent = codeId ? `Link con tu código ${codeId} - Comisión 10% automática solo Founders Pass validado on-chain. No aplica a mercado de fracciones 0.01.` : 'Registrate para obtener tu REF- de Founders Pass';
     document.getElementById('statClicks').textContent = clicks;
     document.getElementById('statSales').textContent = sales;
     document.getElementById('statComm').textContent = '$'+Number(totalComm).toFixed(2);
     
     if(referrals.length===0){
-      document.querySelector('#refTable tbody').innerHTML='<tr><td colspan="6" class="empty">Aún no hay ventas con tu link. Compartí: '+link+'</td></tr>';
+      document.querySelector('#refTable tbody').innerHTML='<tr><td colspan="6" class="empty">Aún no hay ventas de Founders Pass con tu link. Compartí: '+link+'</td></tr>';
     } else {
       document.querySelector('#refTable tbody').innerHTML = referrals.map(r=>`
         <tr>
