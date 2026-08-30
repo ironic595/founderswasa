@@ -5,96 +5,164 @@
 <title>Panel Founders - wasa.chat</title>
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
 <style>
-*{box-sizing:border-box;margin:0;padding:0}body{font-family:'Plus Jakarta Sans',system-ui;background:#E6F0FF;color:#1E293B}
-.nav{height:64px;background:#1D4ED8;display:flex;align-items:center;justify-content:space-between;padding:0 5%;position:fixed;top:0;left:0;right:0;z-index:20}
-.nav .logo{color:white;font-weight:800}
-.nav .links{font-size:11px;font-weight:700;color:rgba(255,255,255,.8)}.nav .links a{color:white;text-decoration:none;margin-left:12px}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Plus Jakarta Sans',system-ui;background:#E6F0FF;color:#1E293B;overflow-x:hidden}
+.nav{height:64px;background:#1D4ED8;display:flex;align-items:center;justify-content:space-between;padding:0 16px;position:fixed;top:0;left:0;right:0;z-index:50}
+.nav .logo{color:white;font-weight:800;font-size:14px;white-space:nowrap}
+.nav .right{display:flex;align-items:center;gap:10px}
+.nav .email{font-size:11px;font-weight:700;color:rgba(255,255,255,.8);max-width:160px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.nav .hamb{width:38px;height:38px;border-radius:10px;border:1px solid rgba(255,255,255,.3);background:rgba(255,255,255,.15);color:white;display:none;place-items:center;cursor:pointer;font-weight:800}
+@media(max-width:900px){.nav .hamb{display:grid} .nav .email{display:none}}
 .layout{display:flex;max-width:1200px;margin:0 auto;padding-top:64px;min-height:100vh}
-.sidebar{width:270px;background:#C2D9FF;border-right:2px solid #93B4FF;padding:18px 12px;position:sticky;top:64px;height:calc(100vh - 64px);overflow:auto}
-.content{flex:1;padding:22px 18px}
-@media(max-width:900px){.layout{flex-direction:column}.sidebar{width:100%;position:static;height:auto}}
+.sidebar{width:280px;background:#C2D9FF;border-right:2px solid #93B4FF;padding:16px 12px;position:sticky;top:64px;height:calc(100vh - 64px);overflow:auto;display:flex;flex-direction:column;justify-content:space-between;transition:transform .22s ease;z-index:40}
+.content{flex:1;padding:20px 18px;min-width:0}
 .card{background:white;border:2px solid #93B4FF;border-radius:20px;padding:18px;margin-bottom:14px}
 .eyebrow{font-size:10px;font-weight:800;letter-spacing:.14em;opacity:.6;color:#1E3A8A;text-transform:uppercase}
 .title{font-size:18px;font-weight:800;margin-top:4px}
-.sub{font-size:11px;opacity:.6;margin-top:6px;line-height:1.4}
-.stat-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-top:14px}
+.sub{font-size:11px;opacity:.6;margin-top:6px;line-height:1.5}
+.stat-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:14px}
+@media(max-width:600px){.stat-grid{grid-template-columns:1fr}}
 .stat{background:#E6F0FF;border:1px solid #93B4FF;border-radius:14px;padding:12px}
-.stat .num{font-size:19px;font-weight:800}.stat .lbl{font-size:10px;opacity:.6;margin-top:2px;text-transform:uppercase}
-.menu-item{padding:10px 12px;border-radius:12px;cursor:pointer;font-size:13px;font-weight:600;margin-bottom:4px;display:flex;justify-content:space-between;align-items:center}
+.stat .num{font-size:18px;font-weight:800}.stat .lbl{font-size:10px;opacity:.6;margin-top:2px;text-transform:uppercase}
+.menu-item{padding:11px 12px;border-radius:12px;cursor:pointer;font-size:13px;font-weight:600;margin-bottom:4px;display:flex;justify-content:space-between;align-items:center;transition:.15s}
 .menu-item.active{background:#1D4ED8;color:white}
-.menu-sub{margin-left:14px;margin-bottom:8px;display:none}.menu-sub.show{display:block}
-.menu-sub-item{padding:8px 12px;border-radius:10px;cursor:pointer;font-size:12px;font-weight:500;margin-bottom:3px;background:rgba(255,255,255,.5)}
+.menu-item:hover{background:rgba(29,78,216,.1)}
+.menu-item.active:hover{background:#1D4ED8}
+.menu-sub{margin-left:12px;margin-bottom:8px;display:none}.menu-sub.show{display:block}
+.menu-sub-item{padding:9px 12px;border-radius:10px;cursor:pointer;font-size:12px;font-weight:500;margin-bottom:3px;background:rgba(255,255,255,.6)}
 .menu-sub-item.active{background:#1D4ED8;color:white}
-.table{width:100%;border-collapse:collapse;margin-top:10px;font-size:12px}
-.table th{font-size:10px;text-align:left;opacity:.6;padding:6px 8px;border-bottom:1px solid #93B4FF;text-transform:uppercase}
-.table td{padding:10px 8px;border-bottom:1px solid #E6F0FF}
+.table-wrap{overflow:auto;-webkit-overflow-scrolling:touch;margin-top:10px;border-radius:12px;border:1px solid #E6F0FF}
+.table{width:100%;border-collapse:collapse;font-size:12px;min-width:520px}
+.table th{font-size:10px;text-align:left;opacity:.6;padding:8px 10px;border-bottom:1px solid #93B4FF;text-transform:uppercase;white-space:nowrap;position:sticky;top:0;background:white}
+.table td{padding:10px;border-bottom:1px solid #E6F0FF;white-space:nowrap}
 .badge{font-size:10px;font-weight:800;padding:3px 8px;border-radius:999px}
 .badge-warn{background:#FEF08A;color:#854D0E}.badge-ok{background:#BBF7D0;color:#166534}.badge-info{background:#DBEAFE;color:#1E40AF}
 .btn{height:42px;padding:0 16px;border-radius:12px;border:0;background:#0A101F;color:white;font-weight:800;cursor:pointer;font-size:12px;display:inline-flex;align-items:center;justify-content:center}
 .btn:disabled{opacity:.4}
 .btn-sm{height:32px;font-size:11px;padding:0 12px}
-.input{height:42px;border-radius:10px;border:1px solid #93B4FF;padding:0 12px;width:100%;margin-top:8px}
+.btn-ghost{background:white;color:#1E293B;border:1px solid #93B4FF}
+.input{height:44px;border-radius:12px;border:1px solid #93B4FF;padding:0 12px;width:100%;margin-top:8px;background:#F8FBFF}
 .hidden{display:none!important}
 .empty{padding:28px 16px;text-align:center;opacity:.6;font-size:12px;line-height:1.5}
-.qty-row{display:flex;gap:8px;align-items:center;margin-top:8px}.qty-btn{width:42px;height:42px;border-radius:10px;border:1px solid #93B4FF;background:#E6F0FF;font-weight:800;cursor:pointer}
+.qty-row{display:flex;gap:8px;align-items:center;margin-top:8px;flex-wrap:wrap}.qty-btn{width:42px;height:42px;border-radius:10px;border:1px solid #93B4FF;background:#E6F0FF;font-weight:800;cursor:pointer}
 .locked{opacity:.4;pointer-events:none;filter:grayscale(.3)}
+/* mobile drawer */
+.overlay{display:none;position:fixed;inset:0;background:rgba(10,16,31,.5);z-index:35}
+@media(max-width:900px){
+  .layout{flex-direction:column}
+  .sidebar{position:fixed;top:64px;left:0;bottom:0;height:auto;transform:translateX(-100%);width:84%;max-width:320px;box-shadow:8px 0 24px rgba(0,0,0,.2)}
+  .sidebar.open{transform:translateX(0)}
+  .overlay.show{display:block}
+  .content{padding:16px 12px}
+}
+.section-pagos{margin-top:12px;border-top:2px dashed #93B4FF;padding-top:12px}
 </style>
 </head>
 <body>
-<nav class="nav"><div class="logo">wasa.chat/founders / panel</div><div class="links"><span id="navEmail"></span><a href="#" onclick="logout()">SALIR</a></div></nav>
+<nav class="nav">
+  <div class="logo">wasa.chat/founders / panel</div>
+  <div class="right">
+    <span class="email" id="navEmail"></span>
+    <a href="/marketplace_FINAL.html" style="color:white;text-decoration:none;font-size:11px;font-weight:700;display:none" id="navMarket">MARKET</a>
+    <a href="/refer.html" style="color:#FFD60A;text-decoration:none;font-size:11px;font-weight:800">REFS</a>
+    <a href="#" onclick="logout();return false" style="color:white;text-decoration:none;font-size:11px;font-weight:700">SALIR</a>
+    <button class="hamb" id="hambBtn" onclick="toggleSidebar()">☰</button>
+  </div>
+</nav>
+<div class="overlay" id="overlay" onclick="toggleSidebar()"></div>
 <div class="layout">
-<div class="sidebar">
-<div style="font-size:11px;font-weight:800;opacity:.5;margin-bottom:10px">MENU</div>
-<div class="menu-item active" data-view="datos" onclick="switchView('datos')">DATOS DE USUARIO</div>
-<div class="menu-item" data-view="historial" id="menuHistorial" onclick="switchView('historial')">HISTORIAL DE REPARTO</div>
-<div class="menu-item" onclick="toggleMercado()">MERCADO <span style="font-size:10px">▼</span></div>
-<div class="menu-sub show" id="subMercado">
-  <div class="menu-sub-item" data-view="comprar" onclick="switchView('comprar')">COMPRAR WASABLOCK</div>
-  <div class="menu-sub-item" data-view="vender" onclick="switchView('vender')">VENDER WASABLOCK</div>
-  <div class="menu-sub-item" data-view="tx" onclick="switchView('tx')">HISTORIAL COMPRAS/VENTAS</div>
-</div>
-<div class="menu-item" data-view="hologramas" onclick="switchView('hologramas')">MIS HOLOGRAMAS</div>
+<div class="sidebar" id="sidebar">
+  <div>
+    <div style="font-size:11px;font-weight:800;opacity:.5;margin-bottom:10px">MENU</div>
+    <div class="menu-item active" data-view="datos" onclick="switchView('datos')">DATOS DE USUARIO</div>
+    <div class="menu-item" data-view="historial" id="menuHistorial" onclick="switchView('historial')">HISTORIAL DE REPARTO</div>
+    <div class="menu-item" onclick="toggleMercado()">MERCADO <span style="font-size:10px">▼</span></div>
+    <div class="menu-sub show" id="subMercado">
+      <div class="menu-sub-item" data-view="comprar" onclick="switchView('comprar')">COMPRAR WASABLOCK</div>
+      <div class="menu-sub-item" data-view="vender" onclick="switchView('vender')">VENDER WASABLOCK</div>
+      <div class="menu-sub-item" data-view="tx" onclick="switchView('tx')">HISTORIAL COMPRAS/VENTAS</div>
+    </div>
+    <div class="menu-item" data-view="hologramas" onclick="switchView('hologramas')">MIS HOLOGRAMAS</div>
+  </div>
+  <div class="section-pagos">
+    <div style="font-size:11px;font-weight:800;opacity:.5;margin-bottom:8px">PAGOS Y WALLETS</div>
+    <div class="menu-item" data-view="pagos" onclick="switchView('pagos')" style="background:#FEF9C3;border:1px dashed #EAB308">💳 PAGOS - EDITAR WALLETS</div>
+    <div style="font-size:10px;opacity:.5;margin-top:8px;line-height:1.4">Ganancias 15/mes + referidos. Desde abril 2027 con hash TX BSC.</div>
+  </div>
 </div>
 <div class="content">
-<div id="view-datos" class="view"><div class="card"><div class="eyebrow">DATOS DE USUARIO - MIN 0.01 = 0.005%</div><div class="title" id="userEmailTitle">Cargando...</div><div class="stat-grid"><div class="stat"><div class="num" id="statSlots">-</div><div class="lbl">WASABLOCKS</div></div><div class="stat"><div class="num" id="statPercent">-</div><div class="lbl">% PERPETUO</div></div><div class="stat"><div class="num" id="statWallet">-</div><div class="lbl">WALLET GANANCIAS</div></div></div><div style="margin-top:16px;background:#E6F0FF;border:1px solid #93B4FF;border-radius:12px;padding:12px"><div style="font-size:11px;font-weight:800;opacity:.7">WALLET RECEPTORA DE GANANCIAS (USDT BSC) - EDITABLE</div><div style="font-size:11px;opacity:.6;margin-top:4px">Acá te pagamos el 15 de cada mes desde abril 2027 con hash TX. Podés cambiarla.</div><input class="input" id="editWalletInput" placeholder="0x..." style="font-family:monospace;font-size:12px"><div style="display:flex;gap:8px;margin-top:8px"><button class="btn" style="height:36px;font-size:11px;flex:1" onclick="saveWallet()">GUARDAR WALLET</button><button class="btn" style="height:36px;font-size:11px;background:white;color:#1E293B;border:1px solid #93B4FF;flex:1" onclick="copyWallet()">COPIAR</button></div><div id="walletMsg" style="font-size:11px;margin-top:8px;display:none;padding:8px;border-radius:8px"></div></div><div id="zeroMsg" class="hidden" style="margin-top:12px;background:#FEF2F2;border:1px solid #FECACA;color:#B91C1C;padding:12px;border-radius:12px;font-size:12px;line-height:1.4">Balance 0. No tenés WASABLOCKS. No podés ver HISTORIAL DE REPARTO ni cobrar ganancias. Comprá mínimo 0.01 en MERCADO -> COMPRAR. 0.01 = 0.005%. Total mercado: 5000 fracciones.</div></div><div class="card"><div class="eyebrow">MIS CODIGOS - GENESIS Y HIJOS - 0.01 MIN</div><div class="sub">Cada código es un WASABLOCK. Si vendés entero, se transfiere el mismo ID. Si vendés fracción 0.01, se crea hijo WASA-...-Fxx.</div><table class="table" id="codesTable"><thead><tr><th>Código</th><th>Slots</th><th>%</th><th>Parent</th></tr></thead><tbody></tbody></table></div></div>
-<div id="view-historial" class="view hidden"><div class="card"><div class="eyebrow">HISTORIAL REPARTO - SOLO SI TENES >0</div><div class="title">Repartos desde 15 Abril 2027</div><div class="sub">Monitoreo de pagos mensuales con hash TX en BSC. Se llena 1 vez por mes. Necesitás al menos 0.01.</div><div id="histEmpty" class="empty">Aún no hay repartos. Los repartos comienzan el <b>15 Abril 2027</b> mensual.</div><table class="table hidden" id="historyTable"><thead><tr><th>Fecha</th><th>Monto total empresa</th><th>Tu %</th><th>Tu pago</th><th>Hash TX</th><th>Estado</th></tr></thead><tbody></tbody></table></div></div>
-<div id="view-comprar" class="view hidden"><div class="card"><div class="eyebrow">MERCADO / COMPRAR - MIN 0.01</div><div class="title">Comprar WASABLOCKS</div><div class="sub">Ofertas de otros founders. Solo USDT BSC. 1 entero = 0.5% | 0.01 = 0.005% | Total 5000 fracciones | Entrada $1</div><table class="table" id="marketTable"><thead><tr><th>Cantidad</th><th>%</th><th>Precio USDT</th><th>Precio x 1 entero</th><th>Vendedor</th><th></th></tr></thead><tbody><tr><td colspan="6" class="empty">Cargando marketplace...</td></tr></tbody></table></div></div>
-<div id="view-vender" class="view hidden"><div class="card"><div class="eyebrow">MERCADO / VENDER - MIN 0.01 - PRECIO POR UNIDAD</div><div class="title">Poner a la venta</div><div class="sub">Fracción mínima 0.01 y múltiplos de 0.01. Ej: 0.01, 0.02, 0.15. El precio que ponés es <b>POR 1 WASABLOCK ENTERO</b>. El sistema calcula el total automáticamente.<br><b id="availSell"></b></div><label style="font-size:11px;font-weight:700;margin-top:14px;display:block">Cantidad a vender (0.01 mínimo)</label><div class="qty-row"><button class="qty-btn" onclick="chg(-0.01)">-</button><input class="input" id="sellSlots" type="number" step="0.01" min="0.01" value="0.01" style="margin-top:0;text-align:center;font-weight:800" oninput="calc()"><button class="qty-btn" onclick="chg(0.01)">+</button></div><div style="background:#E6F0FF;border:1px solid #93B4FF;border-radius:12px;padding:10px;margin-top:10px;font-size:11px"><div id="calcLine">0.01 WASABLOCK = 0.005%</div></div><label style="font-size:11px;font-weight:700;margin-top:14px;display:block">Precio POR UNIDAD (por 1 WASABLOCK entero) - USDT</label><input class="input" id="sellPricePerUnit" type="number" min="1" placeholder="Ej: 350 = $350 por cada 1 entero. Si vendés 0.01 a $350/unidad, total $3.5" oninput="calc()"><div style="background:#FEF9C3;border:1px dashed #EAB308;border-radius:10px;padding:10px;margin-top:10px;font-size:11px"><div>Unidades a vender: <b id="unitsToSell">0.01</b> | Precio por unidad: <b id="perOne">$0</b></div><div style="margin-top:4px;font-size:13px">Total a pedir: <b id="totalPrice" style="font-size:14px">$0</b> | Comisión 10%: <b id="fee">$0</b> | Vos recibís: <b id="recv" style="color:#16a34a">$0</b></div><div style="opacity:.6;margin-top:4px">Fórmula: Total = Cantidad x PrecioUnidad. Ej: 0.05 x $400 = $20 total</div></div><button class="btn" id="btnPublish" style="margin-top:12px;width:100%" onclick="publish()">PUBLICAR ANUNCIO</button><div id="pubMsg" class="hidden" style="margin-top:10px;font-size:12px;padding:10px;border-radius:10px"></div></div><div class="card"><div class="eyebrow">MIS ANUNCIOS ACTIVOS</div><table class="table" id="myListings"><thead><tr><th>Anuncio ID</th><th>Cantidad</th><th>Precio total</th><th>Por unidad</th><th>Estado</th><th></th></tr></thead><tbody><tr><td colspan="6" class="empty">No tenés anuncios</td></tr></tbody></table></div></div>
-<div id="view-tx" class="view hidden"><div class="card"><div class="eyebrow">MERCADO / HISTORIAL WALLET</div><div class="title">Historial compras y ventas tipo wallet</div><div class="sub">Entradas, salidas, hash TX, contraparte, código WASA.</div><table class="table" id="txTable"><thead><tr><th>Fecha</th><th>Tipo</th><th>Cantidad</th><th>%</th><th>Precio USDT</th><th>Hash TX</th><th>Contraparte</th><th>Código</th></tr></thead><tbody><tr><td colspan="8" class="empty">Sin movimientos aún</td></tr></tbody></table></div></div>
+<!-- DATOS -->
+<div id="view-datos" class="view"><div class="card"><div class="eyebrow">DATOS DE USUARIO - MIN 0.01 = 0.005%</div><div class="title" id="userEmailTitle">Cargando...</div><div class="stat-grid"><div class="stat"><div class="num" id="statSlots">-</div><div class="lbl">WASABLOCKS</div></div><div class="stat"><div class="num" id="statPercent">-</div><div class="lbl">% PERPETUO</div></div><div class="stat"><div class="num" id="statWallet">-</div><div class="lbl">WALLET GANANCIAS</div></div></div><div id="zeroMsg" class="hidden" style="margin-top:12px;background:#FEF2F2;border:1px solid #FECACA;color:#B91C1C;padding:12px;border-radius:12px;font-size:12px;line-height:1.4">Balance 0. No tenés WASABLOCKS. No podés ver HISTORIAL DE REPARTO ni cobrar ganancias. Comprá mínimo 0.01 en MERCADO -> COMPRAR. 0.01 = 0.005%. Total mercado: 5000 fracciones.</div></div><div class="card"><div class="eyebrow">MIS CODIGOS - GENESIS Y HIJOS - 0.01 MIN</div><div class="sub">Cada código es un WASABLOCK. Si vendés entero, se transfiere el mismo ID. Si vendés fracción 0.01, se crea hijo WASA-...-Fxx.</div><div class="table-wrap"><table class="table" id="codesTable"><thead><tr><th>Código</th><th>Slots</th><th>%</th><th>Parent</th></tr></thead><tbody></tbody></table></div></div></div>
+<!-- HISTORIAL -->
+<div id="view-historial" class="view hidden"><div class="card"><div class="eyebrow">HISTORIAL REPARTO - SOLO SI TENES >0</div><div class="title">Repartos desde 15 Abril 2027</div><div class="sub">Monitoreo de pagos mensuales con hash TX en BSC. Se llena 1 vez por mes. Necesitás al menos 0.01.</div><div id="histEmpty" class="empty">Aún no hay repartos. Los repartos comienzan el <b>15 Abril 2027</b> mensual.</div><div class="table-wrap hidden" id="historyWrap"><table class="table" id="historyTable"><thead><tr><th>Fecha</th><th>Monto total empresa</th><th>Tu %</th><th>Tu pago</th><th>Hash TX</th><th>Estado</th></tr></thead><tbody></tbody></table></div></div></div>
+<!-- COMPRAR -->
+<div id="view-comprar" class="view hidden"><div class="card"><div class="eyebrow">MERCADO / COMPRAR - MIN 0.01</div><div class="title">Comprar WASABLOCKS</div><div class="sub">Ofertas de otros founders. Solo USDT BSC. 1 entero = 0.5% | 0.01 = 0.005% | Total 5000 fracciones | Entrada $1</div><div class="table-wrap"><table class="table" id="marketTable"><thead><tr><th>Cantidad</th><th>%</th><th>Precio USDT</th><th>Precio x 1 entero</th><th>Vendedor</th><th></th></tr></thead><tbody><tr><td colspan="6" class="empty">Cargando marketplace...</td></tr></tbody></table></div></div></div>
+<!-- VENDER -->
+<div id="view-vender" class="view hidden"><div class="card"><div class="eyebrow">MERCADO / VENDER - MIN 0.01 - PRECIO POR UNIDAD</div><div class="title">Poner a la venta</div><div class="sub">Fracción mínima 0.01 y múltiplos de 0.01. Ej: 0.01, 0.02, 0.15. El precio que ponés es <b>POR 1 WASABLOCK ENTERO</b>. El sistema calcula el total automáticamente.<br><b id="availSell"></b></div><label style="font-size:11px;font-weight:700;margin-top:14px;display:block">Cantidad a vender (0.01 mínimo)</label><div class="qty-row"><button class="qty-btn" onclick="chg(-0.01)">-</button><input class="input" id="sellSlots" type="number" step="0.01" min="0.01" value="0.01" style="margin-top:0;text-align:center;font-weight:800;max-width:120px" oninput="calc()"><button class="qty-btn" onclick="chg(0.01)">+</button><span id="calcLine" style="font-size:11px;font-weight:700">0.01 = 0.005%</span></div><label style="font-size:11px;font-weight:700;margin-top:14px;display:block">Precio POR UNIDAD (por 1 WASABLOCK entero) - USDT</label><input class="input" id="sellPricePerUnit" type="number" min="1" placeholder="Ej: 350 = $350 por cada 1 entero. Si vendés 0.01 a $350/u, total $3.5" oninput="calc()"><div style="background:#FEF9C3;border:1px dashed #EAB308;border-radius:10px;padding:10px;margin-top:10px;font-size:11px"><div>Unidades: <b id="unitsToSell">0.01</b> | Por unidad: <b id="perOne">$0</b></div><div style="margin-top:4px;font-size:13px">Total: <b id="totalPrice">$0</b> | Comisión 10%: <b id="fee">$0</b> | Vos recibís: <b id="recv" style="color:#16a34a">$0</b></div><div style="opacity:.6;margin-top:4px">Total = Cantidad x PrecioUnidad. Ej: 0.05 x $400 = $20</div></div><button class="btn" id="btnPublish" style="margin-top:12px;width:100%" onclick="publish()">PUBLICAR ANUNCIO</button><div id="pubMsg" class="hidden" style="margin-top:10px;font-size:12px;padding:10px;border-radius:10px"></div></div><div class="card"><div class="eyebrow">MIS ANUNCIOS ACTIVOS</div><div class="table-wrap"><table class="table" id="myListings"><thead><tr><th>ID</th><th>Cantidad</th><th>Total</th><th>Por unidad</th><th>Estado</th><th></th></tr></thead><tbody><tr><td colspan="6" class="empty">No tenés anuncios</td></tr></tbody></table></div></div></div>
+<!-- TX -->
+<div id="view-tx" class="view hidden"><div class="card"><div class="eyebrow">MERCADO / HISTORIAL WALLET</div><div class="title">Historial compras y ventas tipo wallet</div><div class="sub">Entradas, salidas, hash TX, contraparte, código WASA.</div><div class="table-wrap"><table class="table" id="txTable"><thead><tr><th>Fecha</th><th>Tipo</th><th>Cantidad</th><th>%</th><th>Precio</th><th>Hash</th><th>Contraparte</th><th>Código</th></tr></thead><tbody><tr><td colspan="8" class="empty">Sin movimientos aún</td></tr></tbody></table></div></div></div>
+<!-- HOLOGRAMAS -->
 <div id="view-hologramas" class="view hidden"><div class="card"><div class="eyebrow">HOLOGRAMAS</div><div class="title">Tus certificados</div><div id="holoList" style="margin-top:12px;display:grid;gap:10px"></div></div></div>
+<!-- PAGOS - NUEVO APARTADO -->
+<div id="view-pagos" class="view hidden">
+  <div class="card" style="border-color:#EAB308;background:#FFFEF5">
+    <div class="eyebrow" style="color:#854D0E">PAGOS - CONFIGURA TUS WALLETS - EDITABLE</div>
+    <div class="title">💳 Dónde querés cobrar</div>
+    <div class="sub">Acá configurás las 2 wallets. Podés usar la misma o distintas. Se guardan en <b>panel_users.wallet</b> (ganancias) y <b>ref_users.wallet</b> (referidos). Pago el 15 de cada mes desde abril 2027 con hash TX visible.</div>
+    <div style="margin-top:16px;display:grid;gap:14px">
+      <div style="background:white;border:2px solid #93B4FF;border-radius:14px;padding:14px">
+        <div style="font-size:12px;font-weight:800">1. WALLET GANANCIAS FOUNDERS (USDT BSC)</div>
+        <div style="font-size:11px;opacity:.6;margin-top:4px">Tu % perpetuo mensual. Ej: 1 slot = 0.5% de ganancias totales. Se paga en USDT BEP20.</div>
+        <input class="input" id="editWalletInput" placeholder="0x..." style="font-family:monospace;font-size:12px">
+        <div style="display:flex;gap:8px;margin-top:10px;flex-wrap:wrap"><button class="btn" style="flex:1;min-width:140px" onclick="saveWallet()">GUARDAR WALLET GANANCIAS</button><button class="btn btn-ghost" style="flex:1;min-width:120px" onclick="copyWallet()">COPIAR</button></div>
+        <div id="walletMsg" style="font-size:11px;margin-top:10px;display:none;padding:10px;border-radius:8px"></div>
+        <div style="font-size:10px;opacity:.5;margin-top:8px">Actual: <span id="currentWalletGanancias">-</span></div>
+      </div>
+      <div style="background:white;border:2px solid #16a34a;border-radius:14px;padding:14px">
+        <div style="font-size:12px;font-weight:800">2. WALLET REFERIDOS (USDT BSC) - 10%</div>
+        <div style="font-size:11px;opacity:.6;margin-top:4px">Comisión por cada referido que compra validado on-chain. Si no configurás, usamos la misma de ganancias.</div>
+        <input class="input" id="editRefWalletInput" placeholder="0x... (opcional, si vacío usa la de ganancias)" style="font-family:monospace;font-size:12px">
+        <div style="display:flex;gap:8px;margin-top:10px;flex-wrap:wrap"><button class="btn" style="flex:1;min-width:140px;background:#16a34a" onclick="saveRefWallet()">GUARDAR WALLET REFERIDOS</button><button class="btn btn-ghost" style="flex:1;min-width:120px" onclick="copyRefWallet()">COPIAR</button></div>
+        <div id="refWalletMsg" style="font-size:11px;margin-top:10px;display:none;padding:10px;border-radius:8px"></div>
+        <div style="font-size:10px;opacity:.5;margin-top:8px">Actual: <span id="currentWalletRefs">-</span></div>
+      </div>
+      <div style="background:#E6F0FF;border:1px solid #93B4FF;border-radius:12px;padding:12px;font-size:11px;line-height:1.5">
+        <b>ℹ️ Cómo cobrás:</b><br>
+        • El 15 de cada mes desde abril 2027 se hace snapshot de tu %.<br>
+        • Se paga automático en USDT BSC a estas wallets con hash TX que verás en HISTORIAL DE REPARTO.<br>
+        • Podés cambiar la wallet cuando quieras antes del día 10.<br>
+        • Mínimo de cobro: $10 USDT (si no llegás, se acumula).
+      </div>
+    </div>
+  </div>
 </div>
 </div>
-<script src="/wasa-config.js?v=20260827"></script>
+</div>
+<script src="/wasa-config.js?v=20260830"></script>
 <script>
 function logout(){localStorage.removeItem('wasa_token');localStorage.removeItem('wasa_email');location.href='/';}
+function toggleSidebar(){document.getElementById('sidebar').classList.toggle('open');document.getElementById('overlay').classList.toggle('show')}
 function toggleMercado(){document.getElementById('subMercado').classList.toggle('show');}
 function switchView(v){
   document.querySelectorAll('.view').forEach(e=>e.classList.add('hidden'));
   document.getElementById('view-'+v).classList.remove('hidden');
   document.querySelectorAll('.menu-item, .menu-sub-item').forEach(e=>e.classList.remove('active'));
   let el=document.querySelector(`[data-view="${v}"]`); if(el) el.classList.add('active');
+  if(window.innerWidth<=900) toggleSidebar();
   if(v==='historial'){
     let slots=parseFloat(document.getElementById('statSlots').textContent||'0');
-    if(slots===0){ alert('Balance 0: No podés ver HISTORIAL DE REPARTO. Comprá mínimo 0.01'); switchView('comprar'); }
+    if(slots===0){ alert('Balance 0: No podés ver HISTORIAL DE REPARTO. Comprá mínimo 0.01'); switchView('datos'); }
   }
 }
-function chg(d){
-  let i=document.getElementById('sellSlots');
-  let v=parseFloat(i.value||0)+d;
-  if(v<0.01)v=0.01;
-  v=Math.round(v*100)/100;
-  i.value=v.toFixed(2);
-  calc();
-}
+function chg(d){let i=document.getElementById('sellSlots');let v=parseFloat(i.value||0)+d;if(v<0.01)v=0.01;v=Math.round(v*100)/100;i.value=v.toFixed(2);calc();}
 function calc(){
   let s=parseFloat(document.getElementById('sellSlots').value||0);
   let pricePerUnit=parseFloat(document.getElementById('sellPricePerUnit').value||0);
-  if(isNaN(s)||s<0.01)s=0.01;
-  s=Math.round(s*100)/100;
+  if(isNaN(s)||s<0.01)s=0.01; s=Math.round(s*100)/100;
   if(isNaN(pricePerUnit)) pricePerUnit=0;
   let pct=s*0.5;
   let totalPrice = s * pricePerUnit;
-  document.getElementById('calcLine').textContent=s.toFixed(2)+' WASABLOCKS = '+pct.toFixed(3)+'%';
+  document.getElementById('calcLine').textContent=s.toFixed(2)+' = '+pct.toFixed(3)+'%';
   document.getElementById('unitsToSell').textContent=s.toFixed(2);
   document.getElementById('perOne').textContent='$'+pricePerUnit.toFixed(2);
   document.getElementById('totalPrice').textContent='$'+totalPrice.toFixed(2);
@@ -108,9 +176,14 @@ async function loadData(){
   document.getElementById('userEmailTitle').textContent=localEmail;
   try{
     let r=await fetch(WASA_WEBHOOK_URL+'?action=userdata&token='+encodeURIComponent(token)+'&v='+Date.now());
-    let j=await r.json(); if(!j.ok){alert('Error dashboard: '+j.error); if(j.error.includes('forbidden')||j.error.includes('sesion')) logout(); return;}
+    let j=await r.json(); 
+    if(!j.ok){
+      let rr=await fetch(WASA_WEBHOOK_URL,{method:'POST',headers:{'Content-Type':'text/plain'},body:JSON.stringify({action:'dashboard', token})});
+      j=await rr.json();
+    }
+    if(!j.ok){alert('Error dashboard: '+j.error); if((j.error||'').includes('sesion')||(j.error||'').includes('token')) logout(); return;}
     let d=j;
-    let codes = d.codes || d.purchases || [];
+    let codes = d.codes || d.purchases || d.compras?.map(c=>({codeId:c.codeId, slots:c.slots, percent:c.percent||c.slots*0.5, parentId:'GENESIS'})) || [];
     let listings = d.listings || [];
     let market = d.market || [];
     let marketTx = d.marketTx || [];
@@ -119,9 +192,13 @@ async function loadData(){
     document.getElementById('statSlots').textContent=(d.totalSlots||0).toFixed(2);
     let percentVal = d.percent || d.totalPercent || (d.totalSlots*0.5) || 0;
     document.getElementById('statPercent').textContent=percentVal.toFixed(3)+'%';
-    let walletVal = d.wallet || '';
+    let walletVal = d.wallet || d.panelUser?.wallet || '';
+    let refWalletVal = d.refUser?.wallet || '';
     document.getElementById('statWallet').textContent=walletVal?walletVal.slice(0,6)+'...'+walletVal.slice(-4):'-';
     document.getElementById('editWalletInput').value=walletVal||'';
+    document.getElementById('editRefWalletInput').value=refWalletVal||'';
+    document.getElementById('currentWalletGanancias').textContent=walletVal||'No configurada';
+    document.getElementById('currentWalletRefs').textContent=refWalletVal||(walletVal?'(usando la de ganancias)':'No configurada');
     document.getElementById('availSell').textContent='Disponible: '+(d.totalSlots||0).toFixed(2)+' WASABLOCKS (mín 0.01)';
     if((d.totalSlots||0)==0){
       document.getElementById('zeroMsg').classList.remove('hidden');
@@ -129,19 +206,8 @@ async function loadData(){
       document.getElementById('btnPublish').disabled=true;
     }
     document.querySelector('#codesTable tbody').innerHTML=(codes||[]).map(c=>`<tr><td><b>${c.codeId||'-'}</b></td><td>${(c.slots||0).toFixed(2)}</td><td>${(c.percent|| (c.slots||0)*0.5).toFixed(3)}%</td><td style="font-size:10px">${c.parentId||'GENESIS'}</td></tr>`).join('')||'<tr><td colspan="4" class="empty">Sin códigos - vendiste todo</td></tr>';
-    if(listings&&listings.length){
-      document.querySelector('#myListings tbody').innerHTML=listings.map(l=>`<tr><td style="font-size:10px">${l.id}</td><td>${(l.slots||0).toFixed(2)}</td><td>$${(l.price||0).toFixed(2)}</td><td>$${((l.pricePerUnit|| (l.price/l.slots))||0).toFixed(2)}</td><td><span class="badge badge-warn">${l.status}</span></td><td><button class="btn btn-sm" onclick="cancelList('${l.id}')">Cancelar</button></td></tr>`).join('');
-    } else {
-      document.querySelector('#myListings tbody').innerHTML='<tr><td colspan="6" class="empty">No tenés anuncios</td></tr>';
-    }
-    if(market&&market.length){
-      document.querySelector('#marketTable tbody').innerHTML=market.map(m=>`<tr><td>${(m.slots||0).toFixed(2)}</td><td>${(m.percent||0).toFixed(3)}%</td><td>$${(m.price||0).toFixed(2)}</td><td>$${((m.price/(m.slots||1))||0).toFixed(2)}</td><td>${(m.seller||'').slice(0,3)}***</td><td><button class="btn btn-sm" onclick="buy('${m.id}')">Comprar</button></td></tr>`).join('');
-    } else {
-      document.querySelector('#marketTable tbody').innerHTML='<tr><td colspan="6" class="empty">No hay ofertas</td></tr>';
-    }
-    if(marketTx&&marketTx.length){
-      document.querySelector('#txTable tbody').innerHTML=marketTx.map(t=>`<tr><td>${(t.date||'').slice(0,10)}</td><td><span class="badge ${t.type=='COMPRA'?'badge-ok':'badge-info'}">${t.type||''}</span></td><td>${(t.slots||0).toFixed(2)}</td><td>${(t.percent|| (t.slots||0)*0.5).toFixed(3)}%</td><td>$${(t.price||0).toFixed(2)}</td><td style="font-size:10px">${(t.hash||'').slice(0,10)}...</td><td>${t.counterparty||''}</td><td style="font-size:10px">${t.codeId||''}</td></tr>`).join('');
-    }
+    document.querySelector('#myListings tbody').innerHTML=(listings&&listings.length)?listings.map(l=>`<tr><td style="font-size:10px">${l.id}</td><td>${(l.slots||0).toFixed(2)}</td><td>$${(l.price||0).toFixed(2)}</td><td>$${((l.pricePerUnit|| (l.price/l.slots))||0).toFixed(2)}</td><td><span class="badge badge-warn">${l.status}</span></td><td><button class="btn btn-sm" onclick="cancelList('${l.id}')">Cancelar</button></td></tr>`).join(''):'<tr><td colspan="6" class="empty">No tenés anuncios</td></tr>';
+    document.querySelector('#marketTable tbody').innerHTML=(market&&market.length)?market.map(m=>`<tr><td>${(m.slots||0).toFixed(2)}</td><td>${(m.percent||0).toFixed(3)}%</td><td>$${(m.price||0).toFixed(2)}</td><td>$${((m.price/(m.slots||1))||0).toFixed(2)}</td><td>${(m.seller||'').slice(0,3)}***</td><td><button class="btn btn-sm" onclick="buy('${m.id}')">Comprar</button></td></tr>`).join(''):'<tr><td colspan="6" class="empty">No hay ofertas</td></tr>';
     document.getElementById('holoList').innerHTML=(codes||[]).map(c=>`<div style="background:#E6F0FF;border:1px solid #93B4FF;border-radius:12px;padding:10px;display:flex;justify-content:space-between"><div><b>${c.codeId||''}</b><div style="font-size:11px">${(c.slots||0).toFixed(2)} slots - ${(c.percent|| (c.slots||0)*0.5).toFixed(3)}%</div></div><div style="font-size:11px">En email</div></div>`).join('')||'<div class="empty">Sin hologramas</div>';
     calc();
   }catch(e){console.error(e); alert('Error '+e.message);}
@@ -161,16 +227,28 @@ async function buy(id){ if(!confirm('Comprar '+id+'? Pagás en USDT BSC. Mín 0.
 async function cancelList(id){ let r=await fetch(WASA_WEBHOOK_URL,{method:'POST',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify({action:'cancelListing', token:localStorage.getItem('wasa_token'), listingId:id})}); let j=await r.json(); alert(j.ok?'Cancelado':'Error'); loadData(); }
 async function saveWallet(){
   let w=document.getElementById('editWalletInput').value.trim();
-  if(!w.startsWith('0x')||w.length<20){alert('Wallet BSC inválida, debe ser 0x...');return;}
+  if(!w.startsWith('0x')||w.length<42){alert('Wallet BSC inválida, debe ser 0x... 42 chars');return;}
   let msg=document.getElementById('walletMsg'); msg.style.display='block'; msg.style.background='#E6F0FF'; msg.style.color='#1E293B'; msg.textContent='Guardando...';
   try{
     let res=await fetch(WASA_WEBHOOK_URL,{method:'POST',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify({action:'updateWallet', token:localStorage.getItem('wasa_token'), wallet:w})});
     let j=await res.json();
-    if(j.ok){ msg.style.background='#F0FDF4'; msg.style.color='#166534'; msg.textContent='Wallet actualizada. Acá recibirás ganancias mensuales con hash.'; document.getElementById('statWallet').textContent=w.slice(0,6)+'...'+w.slice(-4); }
+    if(j.ok){ msg.style.background='#F0FDF4'; msg.style.color='#166534'; msg.textContent='Wallet ganancias actualizada.'; document.getElementById('statWallet').textContent=w.slice(0,6)+'...'+w.slice(-4); document.getElementById('currentWalletGanancias').textContent=w; }
+    else { msg.style.background='#FEF2F2'; msg.style.color='#991B1B'; msg.textContent='Error: '+j.error; }
+  }catch(e){ msg.textContent='Error: '+e.message; }
+}
+async function saveRefWallet(){
+  let w=document.getElementById('editRefWalletInput').value.trim();
+  if(w && (!w.startsWith('0x')||w.length<42)){alert('Wallet ref inválida, debe ser 0x...');return;}
+  let msg=document.getElementById('refWalletMsg'); msg.style.display='block'; msg.style.background='#E6F0FF'; msg.style.color='#1E293B'; msg.textContent='Guardando...';
+  try{
+    let res=await fetch(WASA_WEBHOOK_URL,{method:'POST',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify({action:'updateReferrerWallet', token:localStorage.getItem('wasa_token'), wallet:w})});
+    let j=await res.json();
+    if(j.ok){ msg.style.background='#F0FDF4'; msg.style.color='#166534'; msg.textContent=w?'Wallet referidos actualizada.':'Wallet referidos borrada, se usará la de ganancias.'; document.getElementById('currentWalletRefs').textContent=w||document.getElementById('currentWalletGanancias').textContent; }
     else { msg.style.background='#FEF2F2'; msg.style.color='#991B1B'; msg.textContent='Error: '+j.error; }
   }catch(e){ msg.textContent='Error: '+e.message; }
 }
 function copyWallet(){ let v=document.getElementById('editWalletInput').value; navigator.clipboard.writeText(v); alert('Copiado: '+v); }
+function copyRefWallet(){ let v=document.getElementById('editRefWalletInput').value||document.getElementById('editWalletInput').value; navigator.clipboard.writeText(v); alert('Copiado: '+v); }
 loadData();
 </script>
 </body>
