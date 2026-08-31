@@ -444,100 +444,106 @@
       padding: 40px 28px 80px;
     }
 
-    /* --- CARD RECAUDADO CON ESTILO CÁLIDO (AMARILLO/NARANJA) --- */
+    /* --- CARD RECAUDADO CON ESTILO HERO (AZUL/VIOLETA) --- */
     .card-recaudado {
-      background: linear-gradient(180deg, #FEF3C7 0%, #FDE68A 40%, #FCD34D 100%);
-      border: 3px solid #F59E0B;
+      background: linear-gradient(145deg, #EEF2FF 0%, #E0E7FF 100%);
+      border: 1px solid rgba(79, 70, 229, 0.15);
       border-radius: 28px;
-      padding: 16px;
+      padding: 20px;
       margin-bottom: 28px;
-      box-shadow: var(--shadow-warm), 0 0 60px rgba(245, 158, 11, 0.12);
+      box-shadow: 0 12px 40px -8px rgba(79, 70, 229, 0.12), 0 0 0 1px rgba(79, 70, 229, 0.05) inset;
       position: relative;
       overflow: hidden;
-      animation: borderPulse 3s ease-in-out infinite;
+      transition: var(--transition);
     }
 
     .card-recaudado::before {
       content: '📊 RECAUDACIÓN EN VIVO';
       position: absolute;
-      top: 12px;
+      top: 14px;
       right: -28px;
-      background: #2563EB;
+      background: linear-gradient(135deg, #4F46E5, #7C3AED);
       color: white;
       font-size: 9px;
       font-weight: 800;
       padding: 3px 36px;
       transform: rotate(45deg);
       letter-spacing: 0.06em;
-      box-shadow: 0 2px 12px rgba(37, 99, 235, 0.30);
+      box-shadow: 0 2px 12px rgba(79, 70, 229, 0.30);
       z-index: 2;
+      border-radius: 4px;
     }
 
     .card-recaudado .card {
-      background: rgba(255, 255, 255, 0.92);
+      background: rgba(255, 255, 255, 0.70);
       backdrop-filter: blur(12px);
-      border: 2px solid rgba(245, 158, 11, 0.20);
-      box-shadow: 0 8px 32px rgba(245, 158, 11, 0.08);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.50);
+      box-shadow: 0 4px 16px rgba(79, 70, 229, 0.04);
       margin: 0;
-      padding: 32px 36px;
+      padding: 28px 32px;
       border-radius: var(--radius-lg);
+      transition: var(--transition);
     }
 
     .card-recaudado .card .eyebrow {
-      color: #B45309;
+      color: #4F46E5;
+      letter-spacing: 0.08em;
     }
 
     .card-recaudado .card .title {
-      color: #78350F;
+      color: #1E1B4B;
+      font-size: 20px;
     }
 
     .card-recaudado .card .amount {
-      color: #78350F;
+      color: #1E1B4B;
+      font-size: 32px;
     }
 
     .card-recaudado .card .amount span {
-      background: linear-gradient(135deg, #D97706, #B45309);
+      background: linear-gradient(135deg, #4F46E5, #7C3AED);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       background-clip: text;
     }
 
     .card-recaudado .card .live {
-      background: linear-gradient(135deg, rgba(16, 185, 129, 0.15), rgba(6, 182, 212, 0.10));
-      border: 1px solid rgba(16, 185, 129, 0.25);
-      color: #059669;
+      background: linear-gradient(135deg, rgba(79, 70, 229, 0.08), rgba(124, 58, 237, 0.05));
+      border: 1px solid rgba(79, 70, 229, 0.15);
+      color: #4F46E5;
     }
 
     .card-recaudado .progress-bar {
-      background: #FEF3C7;
-      border-color: #F59E0B;
+      background: #E0E7FF;
+      border-color: rgba(79, 70, 229, 0.15);
     }
 
     .card-recaudado .progress-fill {
-      background: linear-gradient(90deg, #F59E0B, #D97706, #F59E0B);
+      background: linear-gradient(90deg, #4F46E5, #7C3AED, #4F46E5);
       background-size: 200% 100%;
       animation: shimmerProgress 2.5s ease-in-out infinite;
     }
 
-    /* --- CARD COMPRAS CON MISMA ANIMACIÓN DE BORDE --- */
+    /* --- CARD COMPRAS CON ESTILO HERO (AZUL/VIOLETA) --- */
     .card-outer {
-      background: linear-gradient(180deg, #FEF3C7 0%, #FDE68A 40%, #FCD34D 100%);
-      border: 3px solid #F59E0B;
+      background: linear-gradient(145deg, #EEF2FF 0%, #E0E7FF 100%);
+      border: 1px solid rgba(79, 70, 229, 0.15);
       border-radius: 28px;
-      padding: 16px;
+      padding: 20px;
       margin-bottom: 32px;
-      box-shadow: var(--shadow-warm), 0 0 60px rgba(245, 158, 11, 0.15);
+      box-shadow: 0 12px 40px -8px rgba(79, 70, 229, 0.12), 0 0 0 1px rgba(79, 70, 229, 0.05) inset;
       position: relative;
       overflow: hidden;
-      animation: borderPulse 3s ease-in-out infinite 0.5s;
+      transition: var(--transition);
     }
 
     .card-outer::before {
       content: '🔥 OFERTA LIMITADA';
       position: absolute;
-      top: 16px;
+      top: 18px;
       right: -32px;
-      background: #DC2626;
+      background: linear-gradient(135deg, #DC2626, #B91C1C);
       color: white;
       font-size: 10px;
       font-weight: 800;
@@ -546,77 +552,90 @@
       letter-spacing: 0.08em;
       box-shadow: 0 2px 12px rgba(220, 38, 38, 0.30);
       z-index: 2;
+      border-radius: 4px;
     }
 
     .card-outer .card {
-      background: rgba(255, 255, 255, 0.92);
+      background: rgba(255, 255, 255, 0.70);
       backdrop-filter: blur(12px);
-      border: 2px solid rgba(245, 158, 11, 0.20);
-      box-shadow: 0 8px 32px rgba(245, 158, 11, 0.10);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.50);
+      box-shadow: 0 4px 16px rgba(79, 70, 229, 0.04);
       margin: 0;
+      padding: 28px 32px;
+      border-radius: var(--radius-lg);
+      transition: var(--transition);
     }
 
     .card-outer .card .eyebrow {
-      color: #B45309;
+      color: #4F46E5;
+      letter-spacing: 0.08em;
     }
 
     .card-outer .card .title {
-      color: #78350F;
+      color: #1E1B4B;
+      font-size: 20px;
     }
 
     .card-outer .qty-btn {
-      background: #FEF3C7;
-      border-color: #F59E0B;
+      background: #EEF2FF;
+      border-color: rgba(79, 70, 229, 0.2);
+      color: #1E1B4B;
       min-height: 48px;
       min-width: 48px;
+      transition: var(--transition);
     }
 
     .card-outer .qty-btn:hover {
-      background: linear-gradient(135deg, #F59E0B, #D97706);
+      background: linear-gradient(135deg, #4F46E5, #7C3AED);
       color: white;
-      border-color: #D97706;
+      border-color: #4F46E5;
+      transform: scale(1.05);
     }
 
     .card-outer .range::-webkit-slider-thumb {
-      background: linear-gradient(135deg, #F59E0B, #D97706);
-      box-shadow: 0 2px 12px rgba(245, 158, 11, 0.50);
+      background: linear-gradient(135deg, #4F46E5, #7C3AED);
+      box-shadow: 0 2px 12px rgba(79, 70, 229, 0.40);
+      border: 3px solid white;
     }
 
     .card-outer .total-box {
-      background: #FEF3C7;
-      border-color: #F59E0B;
+      background: #EEF2FF;
+      border-color: rgba(79, 70, 229, 0.15);
+      color: #1E1B4B;
+      border-radius: var(--radius-md);
+      padding: 16px 20px;
     }
 
     .card-outer .total-box b {
-      background: linear-gradient(135deg, #D97706, #B45309);
+      background: linear-gradient(135deg, #4F46E5, #7C3AED);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       background-clip: text;
+      font-size: 18px;
     }
 
     .card-outer .buyback {
-      background: linear-gradient(135deg, #FEF3C7, #FDE68A);
-      border-color: #F59E0B;
-      color: #78350F;
+      background: linear-gradient(135deg, #EEF2FF, #E0E7FF);
+      border-color: rgba(79, 70, 229, 0.15);
+      color: #4338CA;
+      border-radius: var(--radius-md);
+      padding: 14px 18px;
     }
 
     .card-outer .method {
-      background: #FFFBEB;
-      border-color: #F59E0B;
+      background: #F8FAFC;
+      border-color: rgba(79, 70, 229, 0.10);
+      border-radius: var(--radius-md);
+      padding: 20px 22px;
     }
 
-    /* --- ANIMACIONES PARA BORDES Y BARRAS --- */
-    @keyframes borderPulse {
-      0%, 100% {
-        border-color: #F59E0B;
-        box-shadow: var(--shadow-warm), 0 0 60px rgba(245, 158, 11, 0.12);
-      }
-      50% {
-        border-color: #D97706;
-        box-shadow: var(--shadow-warm), 0 0 80px rgba(245, 158, 11, 0.25), 0 0 120px rgba(245, 158, 11, 0.08);
-      }
+    .card-outer .method .tag-validated {
+      background: linear-gradient(135deg, #10B981, #059669);
+      color: white;
     }
 
+    /* --- ANIMACIONES --- */
     @keyframes shimmerProgress {
       0% {
         background-position: 200% 0;
@@ -626,16 +645,11 @@
       }
     }
 
-    /* Progress bar con animación de carga al entrar */
     .progress-fill {
       height: 100%;
       border-radius: var(--radius-full);
       transition: width 1.2s cubic-bezier(0.22, 1, 0.36, 1);
-      background: linear-gradient(90deg, var(--accent-electric) 0%, var(--accent-violet) 100%);
-    }
-
-    .card-recaudado .progress-fill {
-      background: linear-gradient(90deg, #F59E0B, #D97706, #F59E0B);
+      background: linear-gradient(90deg, #4F46E5, #7C3AED, #4F46E5);
       background-size: 200% 100%;
       animation: shimmerProgress 2.5s ease-in-out infinite;
     }
@@ -661,7 +675,7 @@
     }
 
     .btn-primary {
-      background: linear-gradient(135deg, var(--accent-electric), var(--accent-violet));
+      background: linear-gradient(135deg, #4F46E5, #7C3AED);
       color: white;
       box-shadow: 0 4px 20px rgba(79, 70, 229, 0.25);
     }
@@ -724,16 +738,16 @@
       gap: 8px;
     }
 
-    /* Aplicar estilos unificados a botones existentes */
+    /* Botones específicos de las cards */
     .card-outer .btn {
-      background: linear-gradient(135deg, #F59E0B, #D97706);
-      color: #0B1120;
-      box-shadow: 0 4px 20px rgba(245, 158, 11, 0.30);
+      background: linear-gradient(135deg, #4F46E5, #7C3AED);
+      color: white;
+      box-shadow: 0 4px 20px rgba(79, 70, 229, 0.25);
       border: none;
     }
 
     .card-outer .btn:hover {
-      box-shadow: 0 8px 32px rgba(245, 158, 11, 0.45);
+      box-shadow: 0 8px 32px rgba(79, 70, 229, 0.35);
       transform: translateY(-2px);
     }
 
@@ -743,12 +757,8 @@
       transform: none;
     }
 
-    #btnConnect, #btnUSDT {
-      border: none;
-    }
-
     #btnConnect:not(.btn-warm):not(.btn-primary) {
-      background: linear-gradient(135deg, var(--accent-electric), var(--accent-violet));
+      background: linear-gradient(135deg, #4F46E5, #7C3AED);
       color: white;
       box-shadow: 0 4px 20px rgba(79, 70, 229, 0.25);
     }
@@ -762,7 +772,7 @@
       font-size: 12px;
       font-weight: 800;
       letter-spacing: 0.12em;
-      color: var(--accent-primary);
+      color: #4F46E5;
       text-transform: uppercase;
       margin-bottom: 8px;
     }
@@ -770,7 +780,7 @@
     .title {
       font-size: 24px;
       font-weight: 800;
-      color: var(--text-main);
+      color: #1E1B4B;
       letter-spacing: -0.02em;
     }
 
@@ -778,20 +788,20 @@
       font-size: 36px;
       font-weight: 800;
       margin-top: 14px;
-      color: var(--text-main);
+      color: #1E1B4B;
     }
 
     .amount span {
-      background: linear-gradient(135deg, var(--accent-electric), var(--accent-violet));
+      background: linear-gradient(135deg, #4F46E5, #7C3AED);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       background-clip: text;
     }
 
     .live {
-      background: linear-gradient(135deg, rgba(16, 185, 129, 0.12), rgba(6, 182, 212, 0.08));
-      border: 1px solid rgba(16, 185, 129, 0.20);
-      color: #059669;
+      background: linear-gradient(135deg, rgba(79, 70, 229, 0.08), rgba(124, 58, 237, 0.05));
+      border: 1px solid rgba(79, 70, 229, 0.15);
+      color: #4F46E5;
       font-size: 11px;
       font-weight: 800;
       padding: 4px 14px;
@@ -802,10 +812,10 @@
 
     .progress-bar {
       height: 14px;
-      background: var(--bg-subtle);
+      background: #E0E7FF;
       border-radius: var(--radius-full);
       overflow: hidden;
-      border: 1px solid var(--border-color);
+      border: 1px solid rgba(79, 70, 229, 0.10);
       margin-top: 16px;
     }
 
@@ -821,9 +831,9 @@
       width: 48px;
       height: 48px;
       border-radius: var(--radius-md);
-      border: 1px solid var(--border-color);
-      background: var(--bg-subtle);
-      color: var(--text-main);
+      border: 1px solid rgba(79, 70, 229, 0.15);
+      background: #EEF2FF;
+      color: #1E1B4B;
       font-size: 20px;
       font-weight: 800;
       cursor: pointer;
@@ -835,13 +845,20 @@
       min-width: 48px;
     }
 
+    .qty-btn:hover {
+      background: linear-gradient(135deg, #4F46E5, #7C3AED);
+      color: white;
+      border-color: #4F46E5;
+      transform: scale(1.05);
+    }
+
     .qty-val {
       width: 72px;
       height: 48px;
       border-radius: var(--radius-md);
-      border: 1px solid var(--border-color);
-      background: var(--bg-card);
-      color: var(--text-main);
+      border: 1px solid rgba(79, 70, 229, 0.15);
+      background: white;
+      color: #1E1B4B;
       display: grid;
       place-items: center;
       font-weight: 800;
@@ -855,7 +872,7 @@
       appearance: none;
       height: 8px;
       border-radius: var(--radius-full);
-      background: var(--bg-subtle);
+      background: #E0E7FF;
       outline: none;
     }
 
@@ -864,10 +881,10 @@
       width: 24px;
       height: 24px;
       border-radius: 50%;
-      background: linear-gradient(135deg, var(--accent-electric), var(--accent-violet));
+      background: linear-gradient(135deg, #4F46E5, #7C3AED);
       border: 3px solid #FFFFFF;
       cursor: pointer;
-      box-shadow: 0 2px 12px rgba(79, 70, 229, 0.50);
+      box-shadow: 0 2px 12px rgba(79, 70, 229, 0.40);
       transition: var(--transition);
     }
 
@@ -877,22 +894,23 @@
 
     .total-box {
       margin-top: 20px;
-      background: var(--bg-subtle);
-      border: 1px solid var(--border-color);
+      background: #EEF2FF;
+      border: 1px solid rgba(79, 70, 229, 0.10);
       border-radius: var(--radius-md);
-      padding: 18px 22px;
+      padding: 16px 20px;
       display: flex;
       justify-content: space-between;
       align-items: center;
       font-size: 16px;
+      color: #1E1B4B;
     }
 
     .buyback {
-      background: linear-gradient(135deg, #FEFCE8, #F3E8FF);
-      border: 1px dashed rgba(124, 58, 237, 0.30);
-      color: #5B21B6;
+      background: linear-gradient(135deg, #EEF2FF, #E0E7FF);
+      border: 1px dashed rgba(79, 70, 229, 0.20);
+      color: #4338CA;
       border-radius: var(--radius-md);
-      padding: 16px 20px;
+      padding: 14px 18px;
       margin-top: 18px;
       font-size: 13px;
       line-height: 1.5;
@@ -900,10 +918,10 @@
 
     .method {
       margin-top: 24px;
-      background: var(--bg-subtle);
-      border: 1px solid var(--border-color);
+      background: #F8FAFC;
+      border: 1px solid rgba(79, 70, 229, 0.08);
       border-radius: var(--radius-lg);
-      padding: 24px 28px;
+      padding: 20px 22px;
     }
 
     .tag {
@@ -940,9 +958,9 @@
 
     .ref-banner {
       display: none;
-      background: linear-gradient(135deg, #FEFCE8, #F3E8FF);
-      border: 1px solid rgba(124, 58, 237, 0.20);
-      color: #5B21B6;
+      background: linear-gradient(135deg, #EEF2FF, #E0E7FF);
+      border: 1px solid rgba(79, 70, 229, 0.15);
+      color: #4338CA;
       border-radius: var(--radius-md);
       padding: 14px 20px;
       font-size: 13px;
@@ -972,7 +990,7 @@
     }
 
     .user-badge {
-      background: linear-gradient(135deg, var(--accent-electric), var(--accent-violet));
+      background: linear-gradient(135deg, #4F46E5, #7C3AED);
       color: white;
       padding: 6px 18px;
       border-radius: var(--radius-full);
@@ -981,7 +999,7 @@
       display: none;
     }
 
-    /* --- FAQ ACCORDION --- */
+    /* --- FAQ ACCORDION CON ESTILO HERO (AZUL/VIOLETA) --- */
     #faqs {
       margin-top: 56px;
     }
@@ -992,25 +1010,27 @@
       font-weight: 800;
       letter-spacing: -0.02em;
       margin-bottom: 28px;
-      background: linear-gradient(135deg, var(--accent-electric), var(--accent-violet));
+      background: linear-gradient(135deg, #4F46E5, #7C3AED);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       background-clip: text;
     }
 
     .faq {
-      background: var(--bg-card);
-      border: 1px solid var(--border-color);
+      background: rgba(255, 255, 255, 0.70);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid rgba(79, 70, 229, 0.10);
       border-radius: var(--radius-md);
       overflow: hidden;
       margin-bottom: 14px;
-      box-shadow: var(--shadow-sm);
+      box-shadow: 0 4px 14px rgba(79, 70, 229, 0.04);
       transition: var(--transition);
     }
 
     .faq.open {
-      border-color: var(--accent-primary);
-      box-shadow: var(--shadow-md);
+      border-color: rgba(79, 70, 229, 0.25);
+      box-shadow: 0 8px 24px rgba(79, 70, 229, 0.08);
     }
 
     .faq-q {
@@ -1021,7 +1041,7 @@
       padding: 20px 24px;
       border: 0;
       background: transparent;
-      color: var(--text-main);
+      color: #1E1B4B;
       text-align: left;
       font-weight: 700;
       font-size: 16px;
@@ -1030,19 +1050,32 @@
     }
 
     .faq-q:hover {
-      color: var(--accent-primary);
+      color: #4F46E5;
+    }
+
+    .faq-q span:last-child {
+      font-size: 22px;
+      font-weight: 300;
+      color: #4F46E5;
+      transition: var(--transition);
+    }
+
+    .faq.open .faq-q span:last-child {
+      transform: rotate(45deg);
     }
 
     .faq-a {
       padding: 0 24px 24px;
       font-size: 14px;
-      color: var(--text-muted);
+      color: #4B5563;
       display: none;
       line-height: 1.7;
+      border-top: 1px solid rgba(79, 70, 229, 0.06);
     }
 
     .faq.open .faq-a {
       display: block;
+      padding-top: 16px;
     }
 
     /* --- AUTH MODAL --- */
@@ -1130,7 +1163,7 @@
     }
 
     .auth-tab.active {
-      background: linear-gradient(135deg, var(--accent-electric), var(--accent-violet));
+      background: linear-gradient(135deg, #4F46E5, #7C3AED);
       color: white;
       box-shadow: 0 4px 16px rgba(79, 70, 229, 0.25);
     }
@@ -1267,8 +1300,9 @@
     @media (max-width: 600px) {
       .hero { padding: 120px 0 50px; }
       .wrap { padding: 24px 16px 60px; }
-      .card { padding: 24px 18px; }
-      .card-recaudado .card { padding: 24px 18px; }
+      .card { padding: 20px 16px !important; }
+      .card-recaudado { padding: 12px; }
+      .card-recaudado .card { padding: 20px 16px; }
       .card-outer { padding: 12px; }
       .card-outer .card { padding: 20px 16px; }
       .card-outer::before { font-size: 8px; padding: 3px 30px; top: 12px; right: -24px; }
@@ -1338,7 +1372,7 @@
   <div class="wrap">
     <div id="refBanner" class="ref-banner">🎉 Entraste con link de referido <b id="refCodeShow"></b> - tu referidor cobra 10% automático.</div>
 
-    <!-- CARD RECAUDADO CON ESTILO CÁLIDO (AMARILLO/NARANJA) -->
+    <!-- CARD RECAUDADO CON ESTILO HERO -->
     <div class="card-recaudado">
       <div class="card">
         <div class="eyebrow">RECAUDADO • TIEMPO REAL</div>
@@ -1359,7 +1393,7 @@
       </div>
     </div>
 
-    <!-- BUY SECTION RESALTADA EN AMARILLO/NARANJA -->
+    <!-- BUY SECTION CON ESTILO HERO -->
     <div class="card-outer" id="buyCard"><div class="card"><div class="eyebrow">🔥 PARTICIPACIÓN FOUNDER PERPETUA</div><div class="title">Compra WASA BLOCKS</div><div style="font-size:11px;opacity:.6;margin-top:4px"><span id="costoLabel">Cargando precio...</span> <span id="dispVal">-</span> disponibles</div>
       <div class="qty-row"><button class="qty-btn" id="btnMinus">−</button><div class="qty-val" id="qtyVal">1</div><button class="qty-btn" id="btnPlus">+</button><div style="margin-left:auto;font-size:11px"><span id="qtySlots">1 slot</span> = <b id="qtyPercent">0.5%</b> perpetuo</div></div><input type="range" min="1" max="10" value="1" class="range" id="range"><div class="total-box"><span style="font-size:11px;opacity:.6">Total a pagar:</span><b>$<span id="total">-</span> USDT</b></div>
       
@@ -1554,7 +1588,7 @@
       try{ let r=await fetch(WASA_WEBHOOK_URL,{method:'POST',headers:{'Content-Type':'text/plain'},body:JSON.stringify({action:'resetPassword', email, code, newPassword:p1})}); let j=await r.json(); if(j.ok){ localStorage.setItem('wasa_token', j.token); showAlert('resetAlert','Contraseña cambiada! Entrando...',true); setTimeout(async()=>{ await checkAuth(); closeAuthModal(); },1000); } else showAlert('resetAlert', j.error||'Error', false); }catch(e){ showAlert('resetAlert', e.message, false); } finally{ btn.textContent='CAMBIAR CONTRASEÑA'; btn.disabled=false; }
     }
     function validate(){ let token=localStorage.getItem('wasa_token'); if(!token){ openAuthModal('login'); return false; } document.getElementById('formError').style.display='none'; return true; }
-    function showPopup(msg){ let id='wasaPopup'; let el=document.getElementById(id); if(!el){ el=document.createElement('div'); el.id=id; el.style.cssText='position:fixed;inset:0;background:rgba(15,23,42,.85);backdrop-filter:blur(8px);z-index:9999;display:flex;align-items:center;justify-content:center;padding:20px'; el.innerHTML='<div style="background:linear-gradient(180deg,#FEF3C7,#FDE68A);border:2px solid #F59E0B;border-radius:20px;padding:24px;max-width:420px;width:100%;text-align:center"><div id="wasaPopupMsg"></div><button onclick="document.getElementById(\'wasaPopup\').style.display=\'none\'" style="margin-top:16px;height:40px;padding:0 20px;border-radius:12px;border:0;background:linear-gradient(135deg,#F59E0B,#D97706);color:#0B1120;font-weight:800;cursor:pointer">Cerrar</button></div>'; document.body.appendChild(el); } document.getElementById('wasaPopupMsg').innerHTML=msg; el.style.display='flex'; }
+    function showPopup(msg){ let id='wasaPopup'; let el=document.getElementById(id); if(!el){ el=document.createElement('div'); el.id=id; el.style.cssText='position:fixed;inset:0;background:rgba(15,23,42,.85);backdrop-filter:blur(8px);z-index:9999;display:flex;align-items:center;justify-content:center;padding:20px'; el.innerHTML='<div style="background:linear-gradient(135deg,#EEF2FF,#E0E7FF);border:1px solid rgba(79,70,229,0.15);border-radius:20px;padding:24px;max-width:420px;width:100%;text-align:center"><div id="wasaPopupMsg"></div><button onclick="document.getElementById(\'wasaPopup\').style.display=\'none\'" style="margin-top:16px;height:40px;padding:0 20px;border-radius:12px;border:0;background:linear-gradient(135deg,#4F46E5,#7C3AED);color:white;font-weight:800;cursor:pointer">Cerrar</button></div>'; document.body.appendChild(el); } document.getElementById('wasaPopupMsg').innerHTML=msg; el.style.display='flex'; }
     document.getElementById('btnConnect').onclick=async()=>{
       if(!await checkAuth()){ openAuthModal('login'); return; }
       if(!window.ethereum){alert('Install MetaMask');return;}
@@ -1596,7 +1630,7 @@
           txDiv.textContent='⚠️ Compra guardada, email falló';
         }
         
-        showPopup(`<b style="color:#D97706">✅ Compra ${j.alreadyRegistered?'AGREGADA':'VALIDADA'}!</b><br>WASA ID: ${j.codeId}<br>📧 Email enviado a ${email}<br><br><a href='/dashboard.html' style='background:linear-gradient(135deg,#F59E0B,#D97706);color:#0B1120;padding:8px 14px;border-radius:8px;text-decoration:none;font-weight:800'>Ir a panel</a>`); setTimeout(()=>location.href='/dashboard.html',4000);
+        showPopup(`<b style="color:#4F46E5">✅ Compra ${j.alreadyRegistered?'AGREGADA':'VALIDADA'}!</b><br>WASA ID: ${j.codeId}<br>📧 Email enviado a ${email}<br><br><a href='/dashboard.html' style='background:linear-gradient(135deg,#4F46E5,#7C3AED);color:white;padding:8px 14px;border-radius:8px;text-decoration:none;font-weight:800'>Ir a panel</a>`); setTimeout(()=>location.href='/dashboard.html',4000);
       }catch(e){ txDiv.style.background='#FEE2E2'; txDiv.textContent='❌ '+e.message; showPopup('❌ '+e.message); } finally{ btn.disabled=false; update(); }
     };
     async function fetchLive(){ try{ let r=await fetch(WASA_WEBHOOK_URL+'?action=read&v='+Date.now()); let j=await r.json(); if(j.ok){ document.getElementById('recaudado').textContent=j.sold; document.getElementById('sold').textContent=j.sold; document.getElementById('left').textContent=j.available; document.getElementById('progressPct').textContent=Math.round(j.sold/j.total*100)+'%'; document.getElementById('progressFill').style.width=Math.round(j.sold/j.total*100)+'%'; document.getElementById('range').max=j.available; document.getElementById('dispVal').textContent=j.available; if(qty>j.available) qty=j.available; if(CONFIG_DYNAMIC) update(); } }catch{} }
