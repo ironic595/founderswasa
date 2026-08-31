@@ -1,3 +1,4 @@
+// escritor.js - ORIGINAL QUE ANDA - Usa /fnts/Fixedsys.ttf + estilo VALID FROM APRIL 15 2027 (tarjeta emboss) - con wasa-config.js
 async function editarYEnviarHolograma({slots, codeId, email, nombre, accessCode, tx_hash, percent}) {
   const WORKER_URL = window.WASA_WORKER_URL || 'https://founderswasablocks.javimsites.workers.dev';
   const WORKER_KEY = window.WASA_WORKER_KEY || 'wasa_2026_f0und3rs_9k2j4l8x';
@@ -11,6 +12,7 @@ async function editarYEnviarHolograma({slots, codeId, email, nombre, accessCode,
   try { baseImg = await loadImg(url); } catch { baseImg = await loadImg(`/images/1.png?v=${Date.now()}`); }
   const W=baseImg.width, H=baseImg.height;
 
+  // --- CARGAR FUENTE FIXEDSYS DESDE /fnts/Fixedsys.ttf ---
   try {
     const fontFace = new FontFace('FixedsysTTF', 'url(/fnts/Fixedsys.ttf)', { weight: '200' });
     await fontFace.load();
@@ -27,8 +29,7 @@ async function editarYEnviarHolograma({slots, codeId, email, nombre, accessCode,
   ctx.imageSmoothingEnabled = false;
   ctx.drawImage(baseImg,0,0);
 
-  // FIX: Ya NO hacemos toUpperCase, respetamos mayus/minus del ID balanceado
-  const code = (codeId||'').toString().trim(); // preserva 1a7B-3k5M
+  const code = (codeId||'').toString().toUpperCase();
   const fontSize = Math.floor(W * 0.028); 
   const yPos = H - Math.floor(H * 0.072);
   const xPos = W/2;
@@ -51,20 +52,18 @@ async function editarYEnviarHolograma({slots, codeId, email, nombre, accessCode,
     ctx.fillStyle = s.color;
     ctx.fillText(code, xPos + s.dx, yPos + s.dy);
   }
+
   ctx.fillStyle = '#d99152';
   ctx.fillText(code, xPos, yPos);
 
   const b64=canvas.toDataURL('image/png').split(',')[1];
-  console.log('Enviando email con ID balanceado:', codeId, 'slots:', slots, 'tx:', tx_hash);
   let r;
   if (typeof window.wasaFetchWorker === 'function') {
     r = await window.wasaFetchWorker({action:'sendEditedImage',email,codeId,slots,slotNum,nombre,accessCode,tx_hash,percent,image_b64:b64,image_filename:`${codeId}-${slotNum}.png`});
   } else {
     r = await fetch(WORKER_URL,{method:'POST',headers:{'Content-Type':'text/plain','X-WASA-KEY': WORKER_KEY},body:JSON.stringify({action:'sendEditedImage',email,codeId,slots,slotNum,nombre,accessCode,tx_hash,percent,image_b64:b64,image_filename:`${codeId}-${slotNum}.png`})});
   }
-  const j=await r.json(); 
-  console.log('Respuesta worker sendeditedimage:', j);
-  if(!j.ok) throw new Error(j.error);
+  const j=await r.json(); if(!j.ok) throw new Error(j.error);
   if(el){ el.style.background='#DCFCE7'; el.textContent=`Holograma ${codeId} con Fixedsys /fnts/ enviado`; }
   return j;
 }
