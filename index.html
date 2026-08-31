@@ -349,8 +349,10 @@
       border: 0;
       display: inline-flex;
       align-items: center;
+      justify-content: center;
       gap: 10px;
       transition: var(--transition);
+      min-height: 54px;
     }
 
     .btn-hero-primary {
@@ -505,6 +507,8 @@
     .card-outer .qty-btn {
       background: #FEF3C7;
       border-color: #F59E0B;
+      min-height: 48px;
+      min-width: 48px;
     }
 
     .card-outer .qty-btn:hover {
@@ -541,13 +545,122 @@
       border-color: #F59E0B;
     }
 
+    /* --- BOTONES UNIFICADOS --- */
+    .btn {
+      width: 100%;
+      height: 54px;
+      border-radius: var(--radius-md);
+      border: 0;
+      font-weight: 800;
+      font-size: 15px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      transition: var(--transition);
+      min-height: 54px;
+      padding: 0 24px;
+      text-decoration: none;
+      letter-spacing: 0.01em;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, var(--accent-electric), var(--accent-violet));
+      color: white;
+      box-shadow: 0 4px 20px rgba(79, 70, 229, 0.25);
+    }
+
+    .btn-primary:hover {
+      box-shadow: 0 8px 32px rgba(79, 70, 229, 0.35);
+      transform: translateY(-2px);
+    }
+
+    .btn-primary:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    .btn-warm {
+      background: linear-gradient(135deg, #F59E0B, #D97706);
+      color: #0B1120;
+      box-shadow: 0 4px 20px rgba(245, 158, 11, 0.30);
+    }
+
+    .btn-warm:hover {
+      box-shadow: 0 8px 32px rgba(245, 158, 11, 0.45);
+      transform: translateY(-2px);
+    }
+
+    .btn-warm:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    .btn-outline {
+      background: transparent;
+      color: white;
+      border: 2px solid rgba(255, 255, 255, 0.20);
+      backdrop-filter: blur(8px);
+    }
+
+    .btn-outline:hover {
+      background: rgba(255, 255, 255, 0.10);
+      border-color: rgba(255, 255, 255, 0.40);
+      transform: translateY(-2px);
+    }
+
+    .btn-sm {
+      height: 42px;
+      min-height: 42px;
+      font-size: 13px;
+      padding: 0 18px;
+    }
+
+    .btn-full {
+      width: 100%;
+    }
+
+    .btn-icon {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    /* Aplicar estilos unificados a botones existentes */
     .card-outer .btn {
       background: linear-gradient(135deg, #F59E0B, #D97706);
+      color: #0B1120;
       box-shadow: 0 4px 20px rgba(245, 158, 11, 0.30);
+      border: none;
     }
 
     .card-outer .btn:hover {
       box-shadow: 0 8px 32px rgba(245, 158, 11, 0.45);
+      transform: translateY(-2px);
+    }
+
+    .card-outer .btn:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    #btnConnect, #btnUSDT {
+      border: none;
+    }
+
+    #btnConnect:not(.btn-warm):not(.btn-primary) {
+      background: linear-gradient(135deg, var(--accent-electric), var(--accent-violet));
+      color: white;
+      box-shadow: 0 4px 20px rgba(79, 70, 229, 0.25);
+    }
+
+    #btnConnect:not(.btn-warm):not(.btn-primary):hover {
+      box-shadow: 0 8px 32px rgba(79, 70, 229, 0.35);
+      transform: translateY(-2px);
     }
 
     .eyebrow {
@@ -627,6 +740,11 @@
       font-weight: 800;
       cursor: pointer;
       transition: var(--transition);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 48px;
+      min-width: 48px;
     }
 
     .qty-val {
@@ -730,35 +848,6 @@
     .input:focus {
       border-color: var(--accent-primary);
       box-shadow: 0 0 0 4px rgba(79, 70, 229, 0.10);
-    }
-
-    .btn {
-      width: 100%;
-      height: 52px;
-      border-radius: var(--radius-md);
-      border: 0;
-      background: linear-gradient(135deg, var(--accent-electric), var(--accent-violet));
-      color: white;
-      font-weight: 800;
-      font-size: 15px;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 10px;
-      box-shadow: 0 4px 20px rgba(79, 70, 229, 0.25);
-      transition: var(--transition);
-    }
-
-    .btn:hover {
-      box-shadow: 0 8px 32px rgba(79, 70, 229, 0.35);
-      transform: translateY(-2px);
-    }
-
-    .btn:disabled {
-      opacity: 0.5;
-      cursor: not-allowed;
-      transform: none;
     }
 
     .ref-banner {
@@ -958,21 +1047,133 @@
       box-shadow: 0 4px 16px rgba(79, 70, 229, 0.25);
     }
 
-    /* --- FOOTER --- */
+    /* --- FOOTER MODERNIZADO Y REORDENADO --- */
     footer {
       background: #0B1120;
       color: white;
-      padding: 48px 5% 32px;
+      padding: 56px 5% 32px;
       margin-top: 60px;
-      border-top: 1px solid rgba(252, 211, 77, 0.10);
+      border-top: 1px solid rgba(252, 211, 77, 0.08);
     }
 
-    footer a {
+    .footer-inner {
+      max-width: 1000px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr;
+      gap: 40px;
+      align-items: start;
+    }
+
+    .footer-brand {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .footer-brand .logo {
+      font-weight: 800;
+      font-size: 20px;
+      background: linear-gradient(135deg, #FCD34D, #F59E0B);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .footer-brand p {
+      font-size: 13px;
+      opacity: 0.6;
+      line-height: 1.6;
+      max-width: 320px;
+    }
+
+    .footer-links {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .footer-links h4 {
+      font-size: 13px;
+      font-weight: 800;
+      color: rgba(255, 255, 255, 0.8);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-bottom: 4px;
+    }
+
+    .footer-links a {
+      color: rgba(255, 255, 255, 0.5);
+      text-decoration: none;
+      font-size: 13px;
       transition: var(--transition);
     }
 
-    footer a:hover {
-      opacity: 0.8;
+    .footer-links a:hover {
+      color: #FCD34D;
+      transform: translateX(4px);
+    }
+
+    .footer-actions {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      align-items: flex-start;
+    }
+
+    .footer-actions h4 {
+      font-size: 13px;
+      font-weight: 800;
+      color: rgba(255, 255, 255, 0.8);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-bottom: 4px;
+    }
+
+    .footer-actions .btn {
+      min-height: 44px;
+      height: 44px;
+      font-size: 13px;
+      padding: 0 22px;
+      width: auto;
+    }
+
+    .footer-bottom {
+      max-width: 1000px;
+      margin: 32px auto 0;
+      padding-top: 20px;
+      border-top: 1px solid rgba(255, 255, 255, 0.06);
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 12px;
+      font-size: 11px;
+      opacity: 0.4;
+    }
+
+    @media (max-width: 768px) {
+      .footer-inner {
+        grid-template-columns: 1fr;
+        gap: 28px;
+        text-align: center;
+      }
+      .footer-brand p {
+        max-width: 100%;
+      }
+      .footer-actions {
+        align-items: center;
+      }
+      .footer-actions .btn {
+        width: 100%;
+        justify-content: center;
+      }
+      .footer-links {
+        align-items: center;
+      }
+      .footer-bottom {
+        justify-content: center;
+        text-align: center;
+      }
     }
 
     @media (max-width: 600px) {
@@ -985,14 +1186,15 @@
       .countdown-box { min-width: 56px; padding: 10px 12px; }
       .countdown-num { font-size: 22px; }
       .amount { font-size: 28px; }
-      .btn-hero { padding: 14px 24px; font-size: 13px; margin-right: 8px; }
+      .btn-hero { padding: 14px 24px; font-size: 13px; margin-right: 8px; min-height: 46px; }
       #faqs h2 { font-size: 22px; }
       .qty-row { gap: 10px; }
-      .qty-btn { width: 40px; height: 40px; font-size: 16px; }
+      .qty-btn { width: 40px; height: 40px; font-size: 16px; min-height: 40px; min-width: 40px; }
       .qty-val { width: 56px; height: 40px; font-size: 15px; }
       .total-box { padding: 14px 16px; font-size: 14px; }
       .method { padding: 18px 16px; }
       .auth-modal { padding: 24px 20px; }
+      .btn { height: 48px; min-height: 48px; font-size: 14px; }
     }
   </style>
 </head>
@@ -1008,8 +1210,7 @@
         <a href="#" id="navLogin" onclick="openAuthModal('login');return false;">LOGIN</a>
       </div>
       <span id="navUser" class="user-badge"></span>
-      <button id="langBtn" style="height:30px;padding:0 12px;border-radius:999px;border:1px solid rgba(255,255,255,.15);background:rgba(255,255,255,.08);color:rgba(255,255,255,0.6);font-size:11px;font-weight:800;cursor:pointer;transition:all 0.2s">EN</button>
-      <!-- HAMBURGER BUTTON -->
+      <button id="langBtn" class="btn btn-sm btn-outline" style="width:auto;height:36px;min-height:36px;padding:0 14px;font-size:11px;">EN</button>
       <button class="hamburger" id="hamburgerBtn" aria-label="Toggle menu">
         <span></span>
         <span></span>
@@ -1026,7 +1227,7 @@
     <a href="#" id="mobileLogin" onclick="openAuthModal('login');return false;">LOGIN</a>
     <span id="mobileUserBadge" class="user-badge-mobile" style="display:none"></span>
     <div class="nav-actions">
-      <button class="lang-btn-mobile" id="mobileLangBtn">EN</button>
+      <button class="lang-btn-mobile">EN</button>
     </div>
   </div>
 
@@ -1087,7 +1288,7 @@
       <div id="viewLogin">
         <input class="input" id="loginEmail" placeholder="Email">
         <input class="input" id="loginPass" type="password" placeholder="Contraseña">
-        <button class="btn" onclick="doLogin()">ENTRAR Y COMPRAR</button>
+        <button class="btn btn-primary" onclick="doLogin()">ENTRAR Y COMPRAR</button>
         <div class="alert" id="loginAlert"></div>
         <div style="text-align:center;margin-top:10px"><a href="#" onclick="openForgot();return false;" style="font-size:11px;color:#4F46E5;font-weight:700;text-decoration:underline">Olvidé mi contraseña</a></div>
       </div>
@@ -1095,7 +1296,7 @@
         <input class="input" id="regEmail" placeholder="Email">
         <input class="input" id="regPass" type="password" placeholder="Contraseña (mín 6)">
         <input class="input" id="regPass2" type="password" placeholder="Repetir contraseña">
-        <button class="btn" onclick="doRegister()">CREAR CUENTA UNIFICADA</button>
+        <button class="btn btn-primary" onclick="doRegister()">CREAR CUENTA UNIFICADA</button>
         <div style="font-size:10px;opacity:.5;margin-top:8px;text-align:center">Al registrarte te damos REF-XXXX automático + cuenta founder con 0 slots.</div>
         <div class="alert" id="regAlert"></div>
       </div>
@@ -1103,7 +1304,7 @@
         <div style="font-size:12px;font-weight:800;margin-bottom:6px">Recuperar contraseña</div>
         <div style="font-size:11px;opacity:.6;margin-bottom:8px">Te enviamos código de 6 dígitos que expira en 15 min.</div>
         <input class="input" id="forgotEmail" placeholder="tu@email.com">
-        <button class="btn" id="btnForgot" onclick="requestReset()">ENVIAR CÓDIGO</button>
+        <button class="btn btn-primary" id="btnForgot" onclick="requestReset()">ENVIAR CÓDIGO</button>
         <div class="alert" id="forgotAlert"></div>
         <div style="text-align:center;margin-top:10px"><a href="#" onclick="switchAuth('login');return false;" style="font-size:11px;text-decoration:underline">Volver a login</a></div>
       </div>
@@ -1113,7 +1314,7 @@
         <input class="input" id="resetCode" placeholder="Código 6 dígitos" style="letter-spacing:3px;font-weight:800;text-align:center">
         <input class="input" id="resetPass" type="password" placeholder="Nueva contraseña">
         <input class="input" id="resetPass2" type="password" placeholder="Repetir nueva">
-        <button class="btn" style="background:linear-gradient(135deg,#10B981,#059669)" id="btnReset" onclick="confirmReset()">CAMBIAR CONTRASEÑA</button>
+        <button class="btn" style="background:linear-gradient(135deg,#10B981,#059669);color:white;box-shadow:0 4px 20px rgba(16,185,129,0.30)" id="btnReset" onclick="confirmReset()">CAMBIAR CONTRASEÑA</button>
         <div class="alert" id="resetAlert"></div>
       </div>
     </div>
@@ -1195,9 +1396,7 @@
     function hideBuyIfNotAuth(isAuth){
       document.getElementById('formError').style.display=isAuth?'none':'block';
       let dash=document.getElementById('navDashboard'); if(dash) dash.style.display=isAuth?'flex':'none';
-      // Also update mobile dashboard link
       let mobileDash=document.getElementById('mobileDashboard'); if(mobileDash) mobileDash.style.display=isAuth?'block':'none';
-      // Update mobile user badge
       let mobileBadge=document.getElementById('mobileUserBadge');
       if(mobileBadge) {
         if(isAuth) {
@@ -1207,7 +1406,6 @@
           mobileBadge.style.display='none';
         }
       }
-      // Update mobile login link
       let mobileLogin=document.getElementById('mobileLogin');
       if(mobileLogin) {
         if(isAuth) {
@@ -1221,7 +1419,7 @@
     }
     async function checkAuth(){
       let token=localStorage.getItem('wasa_token'); if(!token){ hideBuyIfNotAuth(false); return false; }
-      try{ let r=await fetch(WASA_WEBHOOK_URL,{method:'POST',headers:{'Content-Type':'text/plain'},body:JSON.stringify({action:'dashboard', token})}); let j=await r.json(); if(j.ok){ document.getElementById('navUser').textContent=j.email; document.getElementById('navUser').style.display='inline-flex'; document.getElementById('navLogin').textContent='SALIR'; document.getElementById('navLogin').onclick=(e)=>{e.preventDefault(); logout(); return false;}; hideBuyIfNotAuth(true); let fd=document.getElementById('footerDashboard'); if(fd) fd.style.display='block'; return true; } else { localStorage.removeItem('wasa_token'); } }catch{}
+      try{ let r=await fetch(WASA_WEBHOOK_URL,{method:'POST',headers:{'Content-Type':'text/plain'},body:JSON.stringify({action:'dashboard', token})}); let j=await r.json(); if(j.ok){ document.getElementById('navUser').textContent=j.email; document.getElementById('navUser').style.display='inline-flex'; document.getElementById('navLogin').textContent='SALIR'; document.getElementById('navLogin').onclick=(e)=>{e.preventDefault(); logout(); return false;}; hideBuyIfNotAuth(true); return true; } else { localStorage.removeItem('wasa_token'); } }catch{}
       hideBuyIfNotAuth(false); return false;
     }
     function logout(){ localStorage.removeItem('wasa_token'); location.reload(); }
@@ -1268,12 +1466,10 @@
         let resp=await fetch(WASA_WEBHOOK_URL,{method:'POST',headers:{'Content-Type':'text/plain'},body:JSON.stringify({nombre:name,email,wallet:accountFull,slots:qty,percent:qty*Number(CONFIG_DYNAMIC.PERCENT_PER_SLOT),total_usdt:qty*Number(CONFIG_DYNAMIC.PRICE_PER_SLOT),tx_hash:hash,method:'crypto_DEX_validated',ref_code:localStorage.getItem('wasa_ref')||''})});
         let j=await resp.json(); if(!j.ok) throw new Error(j.error);
         
-        // FIX CRITICO: Generar holograma y enviar email con Resend via sendeditedimage
         try{
-          btn.textContent='Generando certificado...'; txDiv.textContent='🎨 Generando holograma con Fixedsys...';
-          console.log('Llamando editarYEnviarHolograma con', {codeId: j.codeId, email, slots: qty});
+          btn.textContent='Generando certificado...'; txDiv.textContent='🎨 Generando holograma...';
           if(typeof window.editarYEnviarHolograma === 'function'){
-            let emailResult = await window.editarYEnviarHolograma({
+            await window.editarYEnviarHolograma({
               slots: qty,
               codeId: j.codeId,
               email: email,
@@ -1282,17 +1478,13 @@
               tx_hash: hash,
               percent: qty*Number(CONFIG_DYNAMIC.PERCENT_PER_SLOT)
             });
-            console.log('Email enviado OK:', emailResult);
             txDiv.textContent='✅ Email con certificado enviado a '+email;
           } else {
-            console.warn('editarYEnviarHolograma no encontrada, se omite email');
-            txDiv.textContent='⚠️ Compra guardada pero sin email (escritor.js no cargado)';
+            txDiv.textContent='⚠️ Compra guardada (sin email)';
           }
         }catch(emailErr){
           console.error('Error enviando email:', emailErr);
-          txDiv.style.background='#FEF9C3';
-          txDiv.textContent='⚠️ Compra guardada pero email falló: '+emailErr.message+' - Revisá dashboard';
-          // No bloqueamos, seguimos al popup
+          txDiv.textContent='⚠️ Compra guardada, email falló';
         }
         
         showPopup(`<b style="color:#D97706">✅ Compra ${j.alreadyRegistered?'AGREGADA':'VALIDADA'}!</b><br>WASA ID: ${j.codeId}<br>📧 Email enviado a ${email}<br><br><a href='/dashboard.html' style='background:linear-gradient(135deg,#F59E0B,#D97706);color:#0B1120;padding:8px 14px;border-radius:8px;text-decoration:none;font-weight:800'>Ir a panel</a>`); setTimeout(()=>location.href='/dashboard.html',4000);
@@ -1303,20 +1495,38 @@
     function checkDeadline(){ const now=new Date(); const diff=DEADLINE-now; if(diff<=0){ ['cdD','cdH','cdM','cdS'].forEach(id=>document.getElementById(id).textContent='00'); return; } const d=Math.floor(diff/86400000); const h=Math.floor((diff%86400000)/3600000); const m=Math.floor((diff%3600000)/60000); const s=Math.floor((diff%60000)/1000); document.getElementById('cdD').textContent=String(d).padStart(2,'0'); document.getElementById('cdH').textContent=String(h).padStart(2,'0'); document.getElementById('cdM').textContent=String(m).padStart(2,'0'); document.getElementById('cdS').textContent=String(s).padStart(2,'0'); } setInterval(checkDeadline,1000); checkDeadline();
   </script>
 
-  <footer style="background:#0B1120;color:white;padding:48px 5% 32px;margin-top:60px;border-top:1px solid rgba(252,211,77,0.10)">
-    <div style="max-width:720px;margin:0 auto;display:flex;flex-wrap:wrap;gap:24px;justify-content:space-between;align-items:flex-start">
-      <div style="flex:1;min-width:200px">
-        <div style="font-weight:800;font-size:16px;margin-bottom:8px;background:linear-gradient(135deg,#FCD34D,#F59E0B);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text">founders.wasa.chat</div>
-        <div style="font-size:11px;opacity:.6;line-height:1.5">Ronda founder perpetua 2026. 50 slots = 25% total ganancias. 1 solo login en popup para comprar y referir. USDT BSC.</div>
+  <!-- FOOTER MODERNIZADO Y REORDENADO -->
+  <footer>
+    <div class="footer-inner">
+      <!-- Columna 1: Brand + Descripción -->
+      <div class="footer-brand">
+        <div class="logo">founders.wasa.chat</div>
+        <p>Ronda founder perpetua 2026. 50 slots = 25% total ganancias. 1 solo login en popup para comprar y referir. USDT BSC.</p>
       </div>
-      <div style="display:flex;flex-direction:column;gap:10px;align-items:flex-start">
-        <a href="mailto:founders@wasa.chat" style="display:inline-flex;align-items:center;gap:6px;background:linear-gradient(135deg,#F59E0B,#D97706);color:#0B1120;padding:10px 18px;border-radius:999px;font-size:12px;font-weight:800;text-decoration:none">📩 CONTACTO</a>
-        <a href="/dashboard.html" id="footerDashboard" style="color:rgba(255,255,255,.7);font-size:11px;text-decoration:none;display:none">Dashboard</a>
-        <a href="/refer-register.html" style="color:#FCD34D;font-size:11px;font-weight:800;text-decoration:none">GANA dinero aquí → 10% referidos</a>
-        <a href="/terminos_FINAL.html" style="color:rgba(255,255,255,.5);font-size:10px;text-decoration:underline">Términos</a>
+      
+      <!-- Columna 2: Links rápidos -->
+      <div class="footer-links">
+        <h4>Enlaces</h4>
+        <a href="/index.html">Inicio</a>
+        <a href="/dashboard.html" id="footerDashboard" style="display:none">Dashboard</a>
+        <a href="/refer-register.html">Gana dinero → 10% referidos</a>
+        <a href="/terminos_FINAL.html">Términos y condiciones</a>
+      </div>
+      
+      <!-- Columna 3: Acciones -->
+      <div class="footer-actions">
+        <h4>Contacto</h4>
+        <a href="mailto:founders@wasa.chat" class="btn btn-warm btn-icon" style="width:auto;text-decoration:none;">
+          📩 CONTACTO
+        </a>
+        <a href="#" onclick="bajarSeccion();return false;" class="btn btn-primary btn-icon" style="width:auto;text-decoration:none;">
+          🚀 COMPRAR AHORA
+        </a>
       </div>
     </div>
-    <div style="max-width:720px;margin:24px auto 0;padding-top:16px;border-top:1px solid rgba(255,255,255,.1);display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px;font-size:10px;opacity:.4">
+    
+    <!-- Footer bottom -->
+    <div class="footer-bottom">
       <span>© 2026 founders.wasa.chat • 1 login unificado</span>
       <span>USDT BSC • Worker con clave • Popup auth</span>
     </div>
