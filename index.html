@@ -1,906 +1,958 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>founders.wasa.chat - Compra Wasablocks</title>
-<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
-<style>
-/* --- RESET & VARIABLES (ESTILO SAFEPAL) --- */
-*, *::before, *::after {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-}
-
-:root {
-  --bg-main: #FAFAFC;
-  --bg-card: #FFFFFF;
-  --bg-subtle: #F2F4F8;
-  --bg-input: #FFFFFF;
-  --accent-primary: #0052FF;
-  --accent-primary-hover: #0045D8;
-  --accent-cyan: #00C4FF;
-  --accent-gold: #EAB308;
-  --accent-green: #10B981;
-  --text-main: #0A0D14;
-  --text-muted: #64748B;
-  --border-color: #E2E8F0;
-  --border-strong: #CBD5E1;
-  --radius-sm: 8px;
-  --radius-md: 14px;
-  --radius-lg: 20px;
-  --radius-full: 999px;
-  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.04);
-  --shadow-md: 0 10px 30px -5px rgba(0, 82, 255, 0.08);
-  --shadow-lg: 0 20px 40px -10px rgba(10, 13, 20, 0.1);
-}
-
-html, body {
-  overflow-x: hidden;
-  max-width: 100%;
-  background-color: var(--bg-main);
-  color: var(--text-main);
-  font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
-  line-height: 1.5;
-  -webkit-font-smoothing: antialiased;
-}
-
-/* --- NAV BAR --- */
-.nav {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 72px;
-  background: rgba(255, 255, 255, 0.85);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  border-bottom: 1px solid var(--border-color);
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 0 32px;
-  z-index: 100;
-  gap: 16px;
-}
-
-.nav .logo {
-  color: var(--text-main);
-  font-weight: 800;
-  font-size: 19px;
-  letter-spacing: -0.03em;
-  white-space: nowrap;
-  flex-shrink: 0;
-}
-
-.nav .links {
-  display: flex;
-  gap: 20px;
-  font-size: 12px;
-  font-weight: 700;
-  color: var(--text-muted);
-  align-items: center;
-  white-space: nowrap;
-}
-
-.nav .links a {
-  color: inherit;
-  text-decoration: none;
-  transition: color 0.2s ease;
-}
-
-.nav .links a:hover {
-  color: var(--accent-primary);
-}
-
-.nav .links a.highlight {
-  background: linear-gradient(135deg, #FFD60A 0%, #F59E0B 100%);
-  color: #0F172A !important;
-  padding: 9px 18px;
-  border-radius: var(--radius-full);
-  font-weight: 800;
-  box-shadow: 0 4px 12px rgba(245, 158, 11, 0.25);
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
-}
-
-.nav .links a.highlight:hover {
-  transform: translateY(-1px);
-  box-shadow: 0 6px 16px rgba(245, 158, 11, 0.35);
-}
-
-@media (max-width: 600px) {
-  .nav { padding: 0 16px; height: 64px; }
-  .nav .links { gap: 10px; font-size: 11px; }
-  .nav .logo { font-size: 15px; }
-}
-
-/* --- HERO SECTION --- */
-.hero {
-  width: 100%;
-  background: radial-gradient(100% 100% at 50% 0%, rgba(0, 82, 255, 0.08) 0%, rgba(250, 250, 252, 0) 100%),
-              linear-gradient(180deg, #F0F4FF 0%, var(--bg-main) 100%);
-  padding: 130px 0 60px;
-  display: flex;
-  justify-content: center;
-}
-
-.hero-inner {
-  max-width: 840px;
-  width: 100%;
-  padding: 0 24px;
-  display: grid;
-  grid-template-columns: 1.2fr 0.8fr;
-  gap: 40px;
-  align-items: center;
-}
-
-.hero-text .badge {
-  background: #EBF2FF;
-  border: 1px solid rgba(0, 82, 255, 0.2);
-  color: var(--accent-primary);
-  border-radius: var(--radius-full);
-  padding: 6px 14px;
-  font-size: 11px;
-  font-weight: 800;
-  letter-spacing: 0.05em;
-  text-transform: uppercase;
-  margin-bottom: 16px;
-  display: inline-block;
-}
-
-.hero-text h1 {
-  font-size: 34px;
-  font-weight: 800;
-  line-height: 1.15;
-  letter-spacing: -0.03em;
-  color: var(--text-main);
-  margin-bottom: 20px;
-}
-
-.btn-hero {
-  padding: 14px 24px;
-  border-radius: var(--radius-md);
-  margin-top: 12px;
-  margin-right: 10px;
-  font-weight: 800;
-  font-size: 13px;
-  cursor: pointer;
-  border: 0;
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  transition: all 0.2s ease;
-}
-
-.btn-hero-primary {
-  background: var(--accent-primary);
-  color: white;
-  box-shadow: 0 8px 20px rgba(0, 82, 255, 0.25);
-}
-
-.btn-hero-primary:hover {
-  background: var(--accent-primary-hover);
-  transform: translateY(-2px);
-  box-shadow: 0 12px 24px rgba(0, 82, 255, 0.35);
-}
-
-.btn-hero-secondary {
-  background: var(--bg-card);
-  color: var(--text-main);
-  border: 1px solid var(--border-color);
-  box-shadow: var(--shadow-sm);
-}
-
-.btn-hero-secondary:hover {
-  background: var(--bg-subtle);
-  transform: translateY(-2px);
-}
-
-/* Countdown SAFEPAL Style */
-.countdown {
-  display: flex;
-  gap: 10px;
-  margin: 20px 0 10px;
-}
-
-.countdown-box {
-  background: var(--bg-card);
-  border: 1px solid var(--border-color);
-  color: var(--text-main);
-  border-radius: var(--radius-md);
-  padding: 10px 14px;
-  min-width: 64px;
-  text-align: center;
-  box-shadow: var(--shadow-sm);
-}
-
-.countdown-num {
-  font-size: 22px;
-  font-weight: 800;
-  color: var(--accent-primary);
-}
-
-.countdown-label {
-  font-size: 9px;
-  font-weight: 700;
-  color: var(--text-muted);
-  text-transform: uppercase;
-}
-
-/* Certificate Float Image */
-.hero-cert-wrap {
-  display: flex;
-  justify-content: center;
-}
-
-.hero-cert {
-  width: 230px;
-  transform: rotate(4deg);
-  filter: drop-shadow(0 20px 30px rgba(0, 82, 255, 0.15));
-  animation: float 4s ease-in-out infinite;
-}
-
-@keyframes float {
-  0%, 100% { transform: rotate(4deg) translateY(0); }
-  50% { transform: rotate(4deg) translateY(-10px); }
-}
-
-@media (max-width: 760px) {
-  .hero-inner { grid-template-columns: 1fr; text-align: center; }
-  .countdown { justify-content: center; }
-  .hero-cert-wrap { order: -1; }
-  .hero-cert { width: 180px; }
-  .hero-text h1 { font-size: 26px; }
-}
-
-/* --- MAIN CONTAINER & CARDS --- */
-.wrap {
-  max-width: 840px;
-  margin: 0 auto;
-  padding: 30px 24px 80px;
-}
-
-.card {
-  background: var(--bg-card);
-  border: 1px solid var(--border-color);
-  border-radius: var(--radius-lg);
-  padding: 28px;
-  margin-bottom: 20px;
-  box-shadow: var(--shadow-md);
-}
-
-.card-outer {
-  background: linear-gradient(180deg, #FFFFFF 0%, #F4F7FF 100%);
-  border: 2px solid #D0E0FF;
-  border-radius: 24px;
-  padding: 12px;
-  margin-bottom: 24px;
-  box-shadow: var(--shadow-lg);
-}
-
-.eyebrow {
-  font-size: 11px;
-  font-weight: 800;
-  letter-spacing: 0.1em;
-  color: var(--accent-primary);
-  text-transform: uppercase;
-  margin-bottom: 4px;
-}
-
-.title {
-  font-size: 20px;
-  font-weight: 800;
-  color: var(--text-main);
-}
-
-.amount {
-  font-size: 30px;
-  font-weight: 800;
-  margin-top: 10px;
-  color: var(--text-main);
-}
-
-.live {
-  background: #E6F4EA;
-  border: 1px solid rgba(16, 185, 129, 0.3);
-  color: var(--accent-green);
-  font-size: 10px;
-  font-weight: 800;
-  padding: 3px 10px;
-  border-radius: var(--radius-full);
-  margin-left: 8px;
-  vertical-align: middle;
-}
-
-.progress-bar {
-  height: 12px;
-  background: var(--bg-subtle);
-  border-radius: var(--radius-full);
-  overflow: hidden;
-  border: 1px solid var(--border-color);
-  margin-top: 12px;
-}
-
-.progress-fill {
-  height: 100%;
-  background: linear-gradient(90deg, #0052FF 0%, #00C4FF 100%);
-  border-radius: var(--radius-full);
-  transition: width 0.4s ease;
-}
-
-/* Range & Selector Controls */
-.qty-row {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  margin-top: 16px;
-}
-
-.qty-btn {
-  width: 44px;
-  height: 44px;
-  border-radius: var(--radius-md);
-  border: 1px solid var(--border-color);
-  background: var(--bg-subtle);
-  color: var(--text-main);
-  font-size: 18px;
-  font-weight: 800;
-  cursor: pointer;
-  transition: background 0.2s, border-color 0.2s;
-}
-
-.qty-btn:hover {
-  background: #E2E8F0;
-  border-color: var(--border-strong);
-}
-
-.qty-val {
-  width: 68px;
-  height: 44px;
-  border-radius: var(--radius-md);
-  border: 1px solid var(--border-color);
-  background: var(--bg-card);
-  color: var(--text-main);
-  display: grid;
-  place-items: center;
-  font-weight: 800;
-  font-size: 16px;
-  box-shadow: var(--shadow-sm);
-}
-
-.range {
-  width: 100%;
-  margin-top: 16px;
-  appearance: none;
-  height: 8px;
-  border-radius: var(--radius-full);
-  background: var(--bg-subtle);
-  outline: none;
-}
-
-.range::-webkit-slider-thumb {
-  appearance: none;
-  width: 22px;
-  height: 22px;
-  border-radius: 50%;
-  background: var(--accent-primary);
-  border: 3px solid #FFFFFF;
-  cursor: pointer;
-  box-shadow: 0 2px 8px rgba(0, 82, 255, 0.4);
-}
-
-.total-box {
-  margin-top: 16px;
-  background: var(--bg-subtle);
-  border: 1px solid var(--border-color);
-  border-radius: var(--radius-md);
-  padding: 14px 18px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.buyback {
-  background: #FEFCE8;
-  border: 1px dashed #FDE047;
-  color: #854D0E;
-  border-radius: var(--radius-md);
-  padding: 12px 16px;
-  margin-top: 14px;
-  font-size: 12px;
-}
-
-.method {
-  margin-top: 18px;
-  background: var(--bg-subtle);
-  border: 1px solid var(--border-color);
-  border-radius: var(--radius-lg);
-  padding: 20px;
-}
-
-.tag {
-  font-size: 10px;
-  font-weight: 800;
-  padding: 4px 10px;
-  border-radius: var(--radius-full);
-}
-
-/* Inputs & Form Buttons */
-.input {
-  width: 100%;
-  height: 48px;
-  border-radius: var(--radius-md);
-  border: 1px solid var(--border-color);
-  padding: 0 16px;
-  margin-bottom: 12px;
-  background: var(--bg-input);
-  color: var(--text-main);
-  font-size: 14px;
-  outline: none;
-  transition: border-color 0.2s, box-shadow 0.2s;
-}
-
-.input:focus {
-  border-color: var(--accent-primary);
-  box-shadow: 0 0 0 3px rgba(0, 82, 255, 0.1);
-}
-
-.btn {
-  width: 100%;
-  height: 48px;
-  border-radius: var(--radius-md);
-  border: 0;
-  background: var(--accent-primary);
-  color: white;
-  font-weight: 800;
-  font-size: 14px;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  box-shadow: 0 4px 12px rgba(0, 82, 255, 0.2);
-  transition: all 0.2s ease;
-}
-
-.btn:hover {
-  background: var(--accent-primary-hover);
-  box-shadow: 0 6px 16px rgba(0, 82, 255, 0.3);
-}
-
-.btn:disabled {
-  opacity: 0.5;
-  cursor: not-allowed;
-}
-
-.ref-banner {
-  display: none;
-  background: #FEFCE8;
-  border: 1px solid #FDE047;
-  color: #854D0E;
-  border-radius: var(--radius-md);
-  padding: 12px 16px;
-  font-size: 12px;
-  margin-bottom: 16px;
-}
-
-.alert {
-  padding: 12px;
-  border-radius: var(--radius-md);
-  font-size: 12px;
-  display: none;
-  margin-top: 10px;
-  line-height: 1.4;
-}
-
-.alert-ok {
-  background: #DCFCE7;
-  border: 1px solid #86EFAC;
-  color: #166534;
-}
-
-.alert-err {
-  background: #FEE2E2;
-  border: 1px solid #FCA5A5;
-  color: #991B1B;
-}
-
-.user-badge {
-  background: var(--text-main);
-  color: #FFD60A;
-  padding: 6px 14px;
-  border-radius: var(--radius-full);
-  font-size: 11px;
-  font-weight: 800;
-  display: none;
-}
-
-/* --- FAQ ACCORDION SAFEPAL STYLE --- */
-#faqs {
-  margin-top: 40px;
-}
-
-.faq {
-  background: var(--bg-card);
-  border: 1px solid var(--border-color);
-  border-radius: var(--radius-md);
-  overflow: hidden;
-  margin-bottom: 10px;
-  box-shadow: var(--shadow-sm);
-  transition: border-color 0.2s;
-}
-
-.faq.open {
-  border-color: var(--accent-primary);
-}
-
-.faq-q {
-  width: 100%;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 18px 20px;
-  border: 0;
-  background: transparent;
-  color: var(--text-main);
-  text-align: left;
-  font-weight: 700;
-  font-size: 14px;
-  cursor: pointer;
-}
-
-.faq-a {
-  padding: 0 20px 18px;
-  font-size: 13px;
-  color: var(--text-muted);
-  display: none;
-  line-height: 1.6;
-}
-
-.faq.open .faq-a {
-  display: block;
-}
-
-/* --- AUTH MODAL SAFEPAL STYLE --- */
-.auth-modal-overlay {
-  position: fixed;
-  inset: 0;
-  background: rgba(10, 13, 20, 0.6);
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
-  z-index: 200;
-  display: none;
-  align-items: center;
-  justify-content: center;
-  padding: 20px;
-}
-
-.auth-modal-overlay.show {
-  display: flex;
-}
-
-.auth-modal {
-  width: 100%;
-  max-width: 420px;
-  background: var(--bg-card);
-  border: 1px solid var(--border-color);
-  border-radius: 24px;
-  padding: 28px;
-  box-shadow: var(--shadow-lg);
-  animation: pop 0.22s ease-out;
-}
-
-@keyframes pop {
-  from { transform: scale(0.95) translateY(10px); opacity: 0; }
-  to { transform: scale(1) translateY(0); opacity: 1; }
-}
-
-.auth-modal-head {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  margin-bottom: 12px;
-}
-
-.auth-modal-close {
-  width: 32px;
-  height: 32px;
-  border-radius: 50%;
-  border: 1px solid var(--border-color);
-  background: var(--bg-subtle);
-  color: var(--text-muted);
-  cursor: pointer;
-  font-weight: 800;
-  font-size: 16px;
-  display: grid;
-  place-items: center;
-  transition: all 0.2s ease;
-}
-
-.auth-modal-close:hover {
-  color: var(--text-main);
-  background: #E2E8F0;
-}
-
-.auth-tabs {
-  display: flex;
-  gap: 6px;
-  background: var(--bg-subtle);
-  padding: 4px;
-  border-radius: var(--radius-full);
-  margin: 16px 0;
-}
-
-.auth-tab {
-  flex: 1;
-  height: 38px;
-  border-radius: var(--radius-full);
-  border: 0;
-  background: transparent;
-  color: var(--text-muted);
-  font-weight: 800;
-  cursor: pointer;
-  font-size: 11px;
-  transition: all 0.2s ease;
-}
-
-.auth-tab.active {
-  background: var(--accent-primary);
-  color: white;
-}
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>founders.wasa.chat - Compra Wasablocks</title>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    /* --- RESET & VARIABLES (ESTILO SAFEPAL) --- */
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    :root {
+      --bg-main: #F8FAFC;
+      --bg-card: #FFFFFF;
+      --bg-subtle: #F1F5F9;
+      --bg-input: #FFFFFF;
+      --accent-primary: #0052FF;
+      --accent-primary-hover: #0038CC;
+      --accent-cyan: #00C4FF;
+      --accent-gold: #EAB308;
+      --accent-green: #10B981;
+      --text-main: #0B1120;
+      --text-muted: #64748B;
+      --border-color: #E9EDF4;
+      --border-strong: #CBD5E1;
+      --radius-sm: 8px;
+      --radius-md: 16px;
+      --radius-lg: 24px;
+      --radius-full: 999px;
+      --shadow-sm: 0 4px 12px rgba(0, 0, 0, 0.04);
+      --shadow-md: 0 12px 36px -8px rgba(0, 82, 255, 0.10);
+      --shadow-lg: 0 28px 56px -16px rgba(10, 13, 20, 0.12);
+      --transition: all 0.25s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    }
+
+    html, body {
+      overflow-x: hidden;
+      max-width: 100%;
+      background-color: var(--bg-main);
+      color: var(--text-main);
+      font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+      line-height: 1.65;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* --- NAV BAR --- */
+    .nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 80px;
+      background: rgba(255, 255, 255, 0.80);
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
+      border-bottom: 1px solid rgba(233, 237, 244, 0.7);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 40px;
+      z-index: 100;
+      gap: 20px;
+    }
+
+    .nav .logo {
+      color: var(--text-main);
+      font-weight: 800;
+      font-size: 21px;
+      letter-spacing: -0.02em;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+
+    .nav .links {
+      display: flex;
+      gap: 24px;
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--text-muted);
+      align-items: center;
+      white-space: nowrap;
+    }
+
+    .nav .links a {
+      color: inherit;
+      text-decoration: none;
+      transition: color 0.2s ease;
+      padding: 6px 0;
+      border-bottom: 2px solid transparent;
+    }
+
+    .nav .links a:hover {
+      color: var(--accent-primary);
+      border-bottom-color: var(--accent-primary);
+    }
+
+    .nav .links a.highlight {
+      background: linear-gradient(135deg, #FFD60A 0%, #F59E0B 100%);
+      color: #0F172A !important;
+      padding: 10px 22px;
+      border-radius: var(--radius-full);
+      font-weight: 800;
+      box-shadow: 0 4px 12px rgba(245, 158, 11, 0.25);
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+      border-bottom: none;
+    }
+
+    .nav .links a.highlight:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(245, 158, 11, 0.35);
+      border-bottom: none;
+    }
+
+    @media (max-width: 600px) {
+      .nav { padding: 0 16px; height: 68px; }
+      .nav .links { gap: 12px; font-size: 11px; }
+      .nav .logo { font-size: 16px; }
+    }
+
+    /* --- HERO SECTION --- */
+    .hero {
+      width: 100%;
+      background: radial-gradient(110% 110% at 50% 0%, rgba(0, 82, 255, 0.07) 0%, rgba(248, 250, 252, 0) 100%),
+                  linear-gradient(180deg, #ECF3FF 0%, var(--bg-main) 100%);
+      padding: 150px 0 70px;
+      display: flex;
+      justify-content: center;
+    }
+
+    .hero-inner {
+      max-width: 920px;
+      width: 100%;
+      padding: 0 28px;
+      display: grid;
+      grid-template-columns: 1.3fr 0.7fr;
+      gap: 48px;
+      align-items: center;
+    }
+
+    .hero-text .badge {
+      background: #EBF2FF;
+      border: 1px solid rgba(0, 82, 255, 0.15);
+      color: var(--accent-primary);
+      border-radius: var(--radius-full);
+      padding: 8px 18px;
+      font-size: 12px;
+      font-weight: 800;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      margin-bottom: 24px;
+      display: inline-block;
+    }
+
+    .hero-text h1 {
+      font-size: 42px;
+      font-weight: 800;
+      line-height: 1.2;
+      letter-spacing: -0.03em;
+      color: var(--text-main);
+      margin-bottom: 28px;
+    }
+
+    .btn-hero {
+      padding: 16px 32px;
+      border-radius: var(--radius-md);
+      margin-top: 16px;
+      margin-right: 14px;
+      font-weight: 800;
+      font-size: 14px;
+      cursor: pointer;
+      border: 0;
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      transition: var(--transition);
+    }
+
+    .btn-hero-primary {
+      background: var(--accent-primary);
+      color: white;
+      box-shadow: 0 8px 24px rgba(0, 82, 255, 0.30);
+    }
+
+    .btn-hero-primary:hover {
+      background: var(--accent-primary-hover);
+      transform: translateY(-3px);
+      box-shadow: 0 14px 32px rgba(0, 82, 255, 0.40);
+    }
+
+    .btn-hero-secondary {
+      background: var(--bg-card);
+      color: var(--text-main);
+      border: 1px solid var(--border-color);
+      box-shadow: var(--shadow-sm);
+    }
+
+    .btn-hero-secondary:hover {
+      background: var(--bg-subtle);
+      transform: translateY(-3px);
+      box-shadow: var(--shadow-md);
+    }
+
+    /* Countdown SAFEPAL Style */
+    .countdown {
+      display: flex;
+      gap: 14px;
+      margin: 28px 0 16px;
+    }
+
+    .countdown-box {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      color: var(--text-main);
+      border-radius: var(--radius-md);
+      padding: 14px 18px;
+      min-width: 72px;
+      text-align: center;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .countdown-num {
+      font-size: 28px;
+      font-weight: 800;
+      color: var(--accent-primary);
+    }
+
+    .countdown-label {
+      font-size: 10px;
+      font-weight: 700;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+
+    /* Certificate Float Image */
+    .hero-cert-wrap {
+      display: flex;
+      justify-content: center;
+    }
+
+    .hero-cert {
+      width: 260px;
+      transform: rotate(3deg);
+      filter: drop-shadow(0 24px 40px rgba(0, 82, 255, 0.18));
+      animation: float 5s ease-in-out infinite;
+    }
+
+    @keyframes float {
+      0%, 100% { transform: rotate(3deg) translateY(0); }
+      50% { transform: rotate(3deg) translateY(-14px); }
+    }
+
+    @media (max-width: 760px) {
+      .hero-inner { grid-template-columns: 1fr; text-align: center; }
+      .countdown { justify-content: center; }
+      .hero-cert-wrap { order: -1; }
+      .hero-cert { width: 200px; }
+      .hero-text h1 { font-size: 30px; }
+    }
+
+    /* --- MAIN CONTAINER & CARDS --- */
+    .wrap {
+      max-width: 920px;
+      margin: 0 auto;
+      padding: 40px 28px 80px;
+    }
+
+    .card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-lg);
+      padding: 32px 36px;
+      margin-bottom: 28px;
+      box-shadow: var(--shadow-md);
+      transition: var(--transition);
+    }
+
+    .card:hover {
+      box-shadow: var(--shadow-lg);
+    }
+
+    .card-outer {
+      background: linear-gradient(180deg, #FFFFFF 0%, #F2F6FF 100%);
+      border: 2px solid #D0E0FF;
+      border-radius: 28px;
+      padding: 16px;
+      margin-bottom: 32px;
+      box-shadow: var(--shadow-lg);
+    }
+
+    .eyebrow {
+      font-size: 12px;
+      font-weight: 800;
+      letter-spacing: 0.12em;
+      color: var(--accent-primary);
+      text-transform: uppercase;
+      margin-bottom: 8px;
+    }
+
+    .title {
+      font-size: 24px;
+      font-weight: 800;
+      color: var(--text-main);
+      letter-spacing: -0.02em;
+    }
+
+    .amount {
+      font-size: 36px;
+      font-weight: 800;
+      margin-top: 14px;
+      color: var(--text-main);
+    }
+
+    .live {
+      background: #E6F4EA;
+      border: 1px solid rgba(16, 185, 129, 0.25);
+      color: var(--accent-green);
+      font-size: 11px;
+      font-weight: 800;
+      padding: 4px 14px;
+      border-radius: var(--radius-full);
+      margin-left: 12px;
+      vertical-align: middle;
+    }
+
+    .progress-bar {
+      height: 14px;
+      background: var(--bg-subtle);
+      border-radius: var(--radius-full);
+      overflow: hidden;
+      border: 1px solid var(--border-color);
+      margin-top: 16px;
+    }
+
+    .progress-fill {
+      height: 100%;
+      background: linear-gradient(90deg, #0052FF 0%, #00C4FF 100%);
+      border-radius: var(--radius-full);
+      transition: width 0.5s ease;
+    }
+
+    /* Range & Selector Controls */
+    .qty-row {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      margin-top: 20px;
+    }
+
+    .qty-btn {
+      width: 48px;
+      height: 48px;
+      border-radius: var(--radius-md);
+      border: 1px solid var(--border-color);
+      background: var(--bg-subtle);
+      color: var(--text-main);
+      font-size: 20px;
+      font-weight: 800;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+
+    .qty-btn:hover {
+      background: #E2E8F0;
+      border-color: var(--border-strong);
+      transform: scale(1.02);
+    }
+
+    .qty-val {
+      width: 72px;
+      height: 48px;
+      border-radius: var(--radius-md);
+      border: 1px solid var(--border-color);
+      background: var(--bg-card);
+      color: var(--text-main);
+      display: grid;
+      place-items: center;
+      font-weight: 800;
+      font-size: 18px;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .range {
+      width: 100%;
+      margin-top: 20px;
+      appearance: none;
+      height: 8px;
+      border-radius: var(--radius-full);
+      background: var(--bg-subtle);
+      outline: none;
+    }
+
+    .range::-webkit-slider-thumb {
+      appearance: none;
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      background: var(--accent-primary);
+      border: 3px solid #FFFFFF;
+      cursor: pointer;
+      box-shadow: 0 2px 10px rgba(0, 82, 255, 0.5);
+      transition: var(--transition);
+    }
+
+    .range::-webkit-slider-thumb:hover {
+      transform: scale(1.1);
+    }
+
+    .total-box {
+      margin-top: 20px;
+      background: var(--bg-subtle);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-md);
+      padding: 18px 22px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 16px;
+    }
+
+    .buyback {
+      background: #FEFCE8;
+      border: 1px dashed #FDE047;
+      color: #854D0E;
+      border-radius: var(--radius-md);
+      padding: 16px 20px;
+      margin-top: 18px;
+      font-size: 13px;
+      line-height: 1.5;
+    }
+
+    .method {
+      margin-top: 24px;
+      background: var(--bg-subtle);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-lg);
+      padding: 24px 28px;
+    }
+
+    .tag {
+      font-size: 11px;
+      font-weight: 800;
+      padding: 5px 14px;
+      border-radius: var(--radius-full);
+    }
+
+    /* Inputs & Form Buttons */
+    .input {
+      width: 100%;
+      height: 52px;
+      border-radius: var(--radius-md);
+      border: 1px solid var(--border-color);
+      padding: 0 18px;
+      margin-bottom: 14px;
+      background: var(--bg-input);
+      color: var(--text-main);
+      font-size: 15px;
+      outline: none;
+      transition: var(--transition);
+    }
+
+    .input:focus {
+      border-color: var(--accent-primary);
+      box-shadow: 0 0 0 4px rgba(0, 82, 255, 0.08);
+    }
+
+    .btn {
+      width: 100%;
+      height: 52px;
+      border-radius: var(--radius-md);
+      border: 0;
+      background: var(--accent-primary);
+      color: white;
+      font-weight: 800;
+      font-size: 15px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      box-shadow: 0 4px 16px rgba(0, 82, 255, 0.20);
+      transition: var(--transition);
+    }
+
+    .btn:hover {
+      background: var(--accent-primary-hover);
+      box-shadow: 0 8px 24px rgba(0, 82, 255, 0.30);
+      transform: translateY(-2px);
+    }
+
+    .btn:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    .ref-banner {
+      display: none;
+      background: #FEFCE8;
+      border: 1px solid #FDE047;
+      color: #854D0E;
+      border-radius: var(--radius-md);
+      padding: 14px 20px;
+      font-size: 13px;
+      margin-bottom: 20px;
+      line-height: 1.5;
+    }
+
+    .alert {
+      padding: 14px;
+      border-radius: var(--radius-md);
+      font-size: 13px;
+      display: none;
+      margin-top: 12px;
+      line-height: 1.5;
+    }
+
+    .alert-ok {
+      background: #DCFCE7;
+      border: 1px solid #86EFAC;
+      color: #166534;
+    }
+
+    .alert-err {
+      background: #FEE2E2;
+      border: 1px solid #FCA5A5;
+      color: #991B1B;
+    }
+
+    .user-badge {
+      background: var(--text-main);
+      color: #FFD60A;
+      padding: 6px 18px;
+      border-radius: var(--radius-full);
+      font-size: 12px;
+      font-weight: 800;
+      display: none;
+    }
+
+    /* --- FAQ ACCORDION SAFEPAL STYLE --- */
+    #faqs {
+      margin-top: 56px;
+    }
+
+    #faqs h2 {
+      text-align: center;
+      font-size: 28px;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      margin-bottom: 28px;
+    }
+
+    .faq {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-md);
+      overflow: hidden;
+      margin-bottom: 14px;
+      box-shadow: var(--shadow-sm);
+      transition: var(--transition);
+    }
+
+    .faq.open {
+      border-color: var(--accent-primary);
+      box-shadow: var(--shadow-md);
+    }
+
+    .faq-q {
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 20px 24px;
+      border: 0;
+      background: transparent;
+      color: var(--text-main);
+      text-align: left;
+      font-weight: 700;
+      font-size: 16px;
+      cursor: pointer;
+    }
+
+    .faq-a {
+      padding: 0 24px 24px;
+      font-size: 14px;
+      color: var(--text-muted);
+      display: none;
+      line-height: 1.7;
+    }
+
+    .faq.open .faq-a {
+      display: block;
+    }
+
+    /* --- AUTH MODAL SAFEPAL STYLE --- */
+    .auth-modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(10, 13, 20, 0.65);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      z-index: 200;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+    }
+
+    .auth-modal-overlay.show {
+      display: flex;
+    }
+
+    .auth-modal {
+      width: 100%;
+      max-width: 440px;
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: 28px;
+      padding: 32px 36px;
+      box-shadow: var(--shadow-lg);
+      animation: pop 0.25s ease-out;
+    }
+
+    @keyframes pop {
+      from { transform: scale(0.96) translateY(12px); opacity: 0; }
+      to { transform: scale(1) translateY(0); opacity: 1; }
+    }
+
+    .auth-modal-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 16px;
+    }
+
+    .auth-modal-close {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      border: 1px solid var(--border-color);
+      background: var(--bg-subtle);
+      color: var(--text-muted);
+      cursor: pointer;
+      font-weight: 800;
+      font-size: 18px;
+      display: grid;
+      place-items: center;
+      transition: var(--transition);
+    }
+
+    .auth-modal-close:hover {
+      color: var(--text-main);
+      background: #E2E8F0;
+      transform: rotate(90deg);
+    }
+
+    .auth-tabs {
+      display: flex;
+      gap: 8px;
+      background: var(--bg-subtle);
+      padding: 6px;
+      border-radius: var(--radius-full);
+      margin: 20px 0;
+    }
+
+    .auth-tab {
+      flex: 1;
+      height: 42px;
+      border-radius: var(--radius-full);
+      border: 0;
+      background: transparent;
+      color: var(--text-muted);
+      font-weight: 800;
+      cursor: pointer;
+      font-size: 12px;
+      transition: var(--transition);
+    }
+
+    .auth-tab.active {
+      background: var(--accent-primary);
+      color: white;
+      box-shadow: 0 4px 12px rgba(0, 82, 255, 0.20);
+    }
+
+    /* --- FOOTER --- */
+    footer {
+      background: #0B1120;
+      color: white;
+      padding: 48px 5% 32px;
+      margin-top: 60px;
+    }
+
+    footer a {
+      transition: var(--transition);
+    }
+
+    footer a:hover {
+      opacity: 0.8;
+    }
+  </style>
 </head>
 <body>
-<nav class="nav">
-<div class="logo">founders.wasa.chat</div>
-<div style="display:flex;align-items:center;gap:10px">
-<div class="links">
-<a href="/index.html">HOME</a>
-<a href="/dashboard.html" id="navDashboard" style="display:none">DASHBOARD</a>
-<a href="#" onclick="goReferidos();return false;" id="navRefer" class="highlight">GANA dinero aquí</a>
-<a href="#" id="navLogin" onclick="openAuthModal('login');return false;">LOGIN</a>
-</div>
-<span id="navUser" class="user-badge"></span>
-<button id="langBtn" style="height:30px;padding:0 12px;border-radius:999px;border:1px solid rgba(255,255,255,.3);background:rgba(255,255,255,.15);color:white;font-size:11px;font-weight:800;cursor:pointer">EN</button>
-</div>
-</nav>
+  <!-- El resto del HTML se mantiene IDÉNTICO, sin cambios en clases, IDs o estructura -->
+  <nav class="nav">
+    <div class="logo">founders.wasa.chat</div>
+    <div style="display:flex;align-items:center;gap:10px">
+      <div class="links">
+        <a href="/index.html">HOME</a>
+        <a href="/dashboard.html" id="navDashboard" style="display:none">DASHBOARD</a>
+        <a href="#" onclick="goReferidos();return false;" id="navRefer" class="highlight">GANA dinero aquí</a>
+        <a href="#" id="navLogin" onclick="openAuthModal('login');return false;">LOGIN</a>
+      </div>
+      <span id="navUser" class="user-badge"></span>
+      <button id="langBtn" style="height:30px;padding:0 12px;border-radius:999px;border:1px solid rgba(255,255,255,.3);background:rgba(255,255,255,.15);color:white;font-size:11px;font-weight:800;cursor:pointer">EN</button>
+    </div>
+  </nav>
 
-<div class="hero"><div class="hero-inner">
-<div class="hero-text"><div class="badge">● Ronda founders abierta • Perpetuo • 1 solo login</div><h1>COMPRA EL FOUNDERS PASS Y RECIBE USDT EN COMISIONES TODOS LOS MESES</h1>
-<div id="countdown" class="countdown">
-<div class="countdown-box"><div class="countdown-num" id="cdD">00</div><div class="countdown-label">Días</div></div>
-<div class="countdown-box"><div class="countdown-num" id="cdH">00</div><div class="countdown-label">Horas</div></div>
-<div class="countdown-box"><div class="countdown-num" id="cdM">00</div><div class="countdown-label">Min</div></div>
-<div class="countdown-box"><div class="countdown-num" id="cdS">00</div><div class="countdown-label">Seg</div></div>
-</div>
-<button type="button" class="btn-hero btn-hero-primary" onclick="bajarSeccion()">COMPRAR WASA BLOCK</button>
-<button type="button" class="btn-hero btn-hero-secondary" onclick="goReferidos()">GANA 10% REFIRIENDO</button>
-</div>
-<div class="hero-cert-wrap"><img class="hero-cert" src="assets/img/founderpass.png" alt="cert"></div>
-</div></div>
+  <div class="hero"><div class="hero-inner">
+    <div class="hero-text"><div class="badge">● Ronda founders abierta • Perpetuo • 1 solo login</div><h1>COMPRA EL FOUNDERS PASS Y RECIBE USDT EN COMISIONES TODOS LOS MESES</h1>
+      <div id="countdown" class="countdown">
+        <div class="countdown-box"><div class="countdown-num" id="cdD">00</div><div class="countdown-label">Días</div></div>
+        <div class="countdown-box"><div class="countdown-num" id="cdH">00</div><div class="countdown-label">Horas</div></div>
+        <div class="countdown-box"><div class="countdown-num" id="cdM">00</div><div class="countdown-label">Min</div></div>
+        <div class="countdown-box"><div class="countdown-num" id="cdS">00</div><div class="countdown-label">Seg</div></div>
+      </div>
+      <button type="button" class="btn-hero btn-hero-primary" onclick="bajarSeccion()">COMPRAR WASA BLOCK</button>
+      <button type="button" class="btn-hero btn-hero-secondary" onclick="goReferidos()">GANA 10% REFIRIENDO</button>
+    </div>
+    <div class="hero-cert-wrap"><img class="hero-cert" src="assets/img/founderpass.png" alt="cert"></div>
+  </div></div>
 
-<div class="wrap">
-<div id="refBanner" class="ref-banner">🎉 Entraste con link de referido <b id="refCodeShow"></b> - tu referidor cobra 10% automático.</div>
+  <div class="wrap">
+    <div id="refBanner" class="ref-banner">🎉 Entraste con link de referido <b id="refCodeShow"></b> - tu referidor cobra 10% automático.</div>
 
-<div class="card"><div class="eyebrow">RECAUDADO • TIEMPO REAL</div><div style="display:flex;align-items:center;gap:6px"><div class="title">Recaudado desde 22/08/2026</div><span class="live">EN VIVO</span></div><div style="font-size:10px;opacity:.6" id="sheetLive">Conectando al worker...</div><div class="amount">Compraron <span id="recaudado">-</span> <span style="font-size:11px;opacity:.6">• <span id="progressPct">-</span></span></div><div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div><div style="display:flex;justify-content:space-between;margin-top:6px;font-size:11px"><span><b id="sold">-</b> Slots vendidos</span><span>Quedan <b id="left">-</b> slots</span></div><div style="font-size:11px;opacity:.6;margin-top:8px">Hasta agotar stock (50 slots) o hasta el 30/08/2026. Cada slot = 0.5% perpetuo. Recompra 2x ($500) desde mes 12.</div></div>
+    <div class="card"><div class="eyebrow">RECAUDADO • TIEMPO REAL</div><div style="display:flex;align-items:center;gap:6px"><div class="title">Recaudado desde 22/08/2026</div><span class="live">EN VIVO</span></div><div style="font-size:10px;opacity:.6" id="sheetLive">Conectando al worker...</div><div class="amount">Compraron <span id="recaudado">-</span> <span style="font-size:11px;opacity:.6">• <span id="progressPct">-</span></span></div><div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div><div style="display:flex;justify-content:space-between;margin-top:6px;font-size:11px"><span><b id="sold">-</b> Slots vendidos</span><span>Quedan <b id="left">-</b> slots</span></div><div style="font-size:11px;opacity:.6;margin-top:8px">Hasta agotar stock (50 slots) o hasta el 30/08/2026. Cada slot = 0.5% perpetuo. Recompra 2x ($500) desde mes 12.</div></div>
 
-<div class="card-outer" id="buyCard"><div class="card" style="margin:0;background:#C2D9FF"><div class="eyebrow">PARTICIPACIÓN FOUNDER PERPETUA</div><div class="title">Compra WASA BLOCKS</div><div style="font-size:11px;opacity:.6;margin-top:4px"><span id="costoLabel">Cargando precio...</span> <span id="dispVal">-</span> disponibles</div>
-<div class="qty-row"><button class="qty-btn" id="btnMinus">−</button><div class="qty-val" id="qtyVal">1</div><button class="qty-btn" id="btnPlus">+</button><div style="margin-left:auto;font-size:11px"><span id="qtySlots">1 slot</span> = <b id="qtyPercent">0.5%</b> perpetuo</div></div><input type="range" min="1" max="10" value="1" class="range" id="range"><div class="total-box"><span style="font-size:11px;opacity:.6">Total a pagar:</span><b>$<span id="total">-</span> USDT</b></div>
-<div class="buyback"><b>🔄 Recompra 2x:</b> WASA puede recomprar tu slot a $500 (2x) después de 12 meses.</div>
-<div class="method"><div style="display:flex;justify-content:space-between;margin-bottom:8px"><b style="font-size:13px">Pago On-Chain Validado</b><span class="tag" style="background:#16a34a">VALIDADO</span></div>
-<div style="display:flex;align-items:center;gap:10px;margin-bottom:10px"><div style="width:32px;height:32px;border-radius:50%;background:#26A17B;display:grid;place-items:center;color:white;font-weight:800;font-size:10px">₮</div><div><div style="font-weight:700;font-size:13px">USDT en BNB Chain</div><div style="font-size:10px;opacity:.6">BEP-20 • Confirmación on-chain antes de registrar</div></div></div>
-<div id="formError" style="font-size:11px;color:#DC2626;background:#FEF2F2;border:1px solid #FECACA;border-radius:8px;padding:6px 10px;display:none;margin-bottom:8px">⚠ Logueate para comprar</div>
-<div id="walletStatus" style="font-size:11px;color:#1D4ED8;font-weight:700;background:rgba(29,78,216,.08);padding:6px 10px;border-radius:8px;display:none;margin-bottom:8px"></div>
-<div id="txStatus" style="font-size:11px;background:#FEF9C3;border:1px solid #EAB308;border-radius:8px;padding:8px 10px;display:none;margin-bottom:8px;word-break:break-word"></div>
-<div id="txHash" style="font-size:10px;word-break:break-all;opacity:.7;display:none;margin-bottom:8px"></div>
-<button class="btn" id="btnConnect">🔌 Conectar Wallet (MetaMask / Rabby)</button>
-<button class="btn" id="btnUSDT" style="display:none;margin-top:8px">Pagar - USDT</button>
-<div style="font-size:10px;opacity:.5;margin-top:6px" id="contratoLabel">Cargando contrato...</div></div>
-</div></div>
+    <div class="card-outer" id="buyCard"><div class="card" style="margin:0;background:#C2D9FF"><div class="eyebrow">PARTICIPACIÓN FOUNDER PERPETUA</div><div class="title">Compra WASA BLOCKS</div><div style="font-size:11px;opacity:.6;margin-top:4px"><span id="costoLabel">Cargando precio...</span> <span id="dispVal">-</span> disponibles</div>
+      <div class="qty-row"><button class="qty-btn" id="btnMinus">−</button><div class="qty-val" id="qtyVal">1</div><button class="qty-btn" id="btnPlus">+</button><div style="margin-left:auto;font-size:11px"><span id="qtySlots">1 slot</span> = <b id="qtyPercent">0.5%</b> perpetuo</div></div><input type="range" min="1" max="10" value="1" class="range" id="range"><div class="total-box"><span style="font-size:11px;opacity:.6">Total a pagar:</span><b>$<span id="total">-</span> USDT</b></div>
+      <div class="buyback"><b>🔄 Recompra 2x:</b> WASA puede recomprar tu slot a $500 (2x) después de 12 meses.</div>
+      <div class="method"><div style="display:flex;justify-content:space-between;margin-bottom:8px"><b style="font-size:13px">Pago On-Chain Validado</b><span class="tag" style="background:#16a34a">VALIDADO</span></div>
+        <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px"><div style="width:32px;height:32px;border-radius:50%;background:#26A17B;display:grid;place-items:center;color:white;font-weight:800;font-size:10px">₮</div><div><div style="font-weight:700;font-size:13px">USDT en BNB Chain</div><div style="font-size:10px;opacity:.6">BEP-20 • Confirmación on-chain antes de registrar</div></div></div>
+        <div id="formError" style="font-size:11px;color:#DC2626;background:#FEF2F2;border:1px solid #FECACA;border-radius:8px;padding:6px 10px;display:none;margin-bottom:8px">⚠ Logueate para comprar</div>
+        <div id="walletStatus" style="font-size:11px;color:#1D4ED8;font-weight:700;background:rgba(29,78,216,.08);padding:6px 10px;border-radius:8px;display:none;margin-bottom:8px"></div>
+        <div id="txStatus" style="font-size:11px;background:#FEF9C3;border:1px solid #EAB308;border-radius:8px;padding:8px 10px;display:none;margin-bottom:8px;word-break:break-word"></div>
+        <div id="txHash" style="font-size:10px;word-break:break-all;opacity:.7;display:none;margin-bottom:8px"></div>
+        <button class="btn" id="btnConnect">🔌 Conectar Wallet (MetaMask / Rabby)</button>
+        <button class="btn" id="btnUSDT" style="display:none;margin-top:8px">Pagar - USDT</button>
+        <div style="font-size:10px;opacity:.5;margin-top:6px" id="contratoLabel">Cargando contrato...</div>
+      </div></div></div>
 
-<div id="faqs"><h2 style="text-align:center;font-size:22px;font-weight:800">Preguntas frecuentes</h2>
-<div class="faq open"><button class="faq-q" onclick="this.parentElement.classList.toggle('open')"><span>¿Qué es wasa.chat?</span><span>+</span></button><div class="faq-a">Plataforma de generación automática de sitios web.</div></div>
-<div class="faq"><button class="faq-q" onclick="this.parentElement.classList.toggle('open')"><span>¿Qué es un WASA BLOCK?</span><span>+</span></button><div class="faq-a">0,5% de ganancias totales mensuales perpetuo.</div></div>
-<div class="faq"><button class="faq-q" onclick="this.parentElement.classList.toggle('open')"><span>¿Cómo compro?</span><span>+</span></button><div class="faq-a">Click comprar → login en popup → conectás wallet → pagás USDT.</div></div>
-</div></div>
+    <div id="faqs"><h2>Preguntas frecuentes</h2>
+      <div class="faq open"><button class="faq-q" onclick="this.parentElement.classList.toggle('open')"><span>¿Qué es wasa.chat?</span><span>+</span></button><div class="faq-a">Plataforma de generación automática de sitios web.</div></div>
+      <div class="faq"><button class="faq-q" onclick="this.parentElement.classList.toggle('open')"><span>¿Qué es un WASA BLOCK?</span><span>+</span></button><div class="faq-a">0,5% de ganancias totales mensuales perpetuo.</div></div>
+      <div class="faq"><button class="faq-q" onclick="this.parentElement.classList.toggle('open')"><span>¿Cómo compro?</span><span>+</span></button><div class="faq-a">Click comprar → login en popup → conectás wallet → pagás USDT.</div></div>
+    </div></div>
 
-<div id="authModal" class="auth-modal-overlay" onclick="if(event.target===this) closeAuthModal()">
-<div class="auth-modal">
-<div class="auth-modal-head">
-<div>
-<div class="eyebrow" style="color:#1D4ED8">1 SOLO LOGIN - FOUNDER + REFERIDOR</div>
-<div class="title" style="font-size:16px">🔐 Accedé para comprar</div>
-<div style="font-size:11px;opacity:.6;margin-top:4px;line-height:1.4">Si no tenés cuenta, se crea automáticamente. Misma cuenta para comprar y referir.</div>
-</div>
-<button class="auth-modal-close" onclick="closeAuthModal()">×</button>
-</div>
-<div class="auth-tabs" id="authTabs">
-<button class="auth-tab active" id="tabLogin" onclick="switchAuth('login')">YA TENGO CUENTA</button>
-<button class="auth-tab" id="tabReg" onclick="switchAuth('reg')">REGISTRARME</button>
-</div>
-<div id="viewLogin">
-<input class="input" id="loginEmail" placeholder="Email">
-<input class="input" id="loginPass" type="password" placeholder="Contraseña">
-<button class="btn" style="background:#1D4ED8" onclick="doLogin()">ENTRAR Y COMPRAR</button>
-<div class="alert" id="loginAlert"></div>
-<div style="text-align:center;margin-top:10px"><a href="#" onclick="openForgot();return false;" style="font-size:11px;color:#1D4ED8;font-weight:700;text-decoration:underline">Olvidé mi contraseña</a></div>
-</div>
-<div id="viewReg" style="display:none">
-<input class="input" id="regEmail" placeholder="Email">
-<input class="input" id="regPass" type="password" placeholder="Contraseña (mín 6)">
-<input class="input" id="regPass2" type="password" placeholder="Repetir contraseña">
-<button class="btn" style="background:#1D4ED8" onclick="doRegister()">CREAR CUENTA UNIFICADA</button>
-<div style="font-size:10px;opacity:.5;margin-top:8px;text-align:center">Al registrarte te damos REF-XXXX automático + cuenta founder con 0 slots.</div>
-<div class="alert" id="regAlert"></div>
-</div>
-<div id="viewForgot" style="display:none">
-<div style="font-size:12px;font-weight:800;margin-bottom:6px">Recuperar contraseña</div>
-<div style="font-size:11px;opacity:.6;margin-bottom:8px">Te enviamos código de 6 dígitos que expira en 15 min.</div>
-<input class="input" id="forgotEmail" placeholder="tu@email.com">
-<button class="btn" style="background:#1D4ED8" id="btnForgot" onclick="requestReset()">ENVIAR CÓDIGO</button>
-<div class="alert" id="forgotAlert"></div>
-<div style="text-align:center;margin-top:10px"><a href="#" onclick="switchAuth('login');return false;" style="font-size:11px;text-decoration:underline">Volver a login</a></div>
-</div>
-<div id="viewReset" style="display:none">
-<div style="font-size:12px;font-weight:800;margin-bottom:6px">Código y nueva contraseña</div>
-<input class="input" id="resetEmail" readonly style="background:#E6F0FF">
-<input class="input" id="resetCode" placeholder="Código 6 dígitos" style="letter-spacing:3px;font-weight:800;text-align:center">
-<input class="input" id="resetPass" type="password" placeholder="Nueva contraseña">
-<input class="input" id="resetPass2" type="password" placeholder="Repetir nueva">
-<button class="btn" style="background:#16a34a" id="btnReset" onclick="confirmReset()">CAMBIAR CONTRASEÑA</button>
-<div class="alert" id="resetAlert"></div>
-</div>
-</div>
-</div>
+  <div id="authModal" class="auth-modal-overlay" onclick="if(event.target===this) closeAuthModal()">
+    <div class="auth-modal">
+      <div class="auth-modal-head">
+        <div>
+          <div class="eyebrow" style="color:#1D4ED8">1 SOLO LOGIN - FOUNDER + REFERIDOR</div>
+          <div class="title" style="font-size:16px">🔐 Accedé para comprar</div>
+          <div style="font-size:11px;opacity:.6;margin-top:4px;line-height:1.4">Si no tenés cuenta, se crea automáticamente. Misma cuenta para comprar y referir.</div>
+        </div>
+        <button class="auth-modal-close" onclick="closeAuthModal()">×</button>
+      </div>
+      <div class="auth-tabs" id="authTabs">
+        <button class="auth-tab active" id="tabLogin" onclick="switchAuth('login')">YA TENGO CUENTA</button>
+        <button class="auth-tab" id="tabReg" onclick="switchAuth('reg')">REGISTRARME</button>
+      </div>
+      <div id="viewLogin">
+        <input class="input" id="loginEmail" placeholder="Email">
+        <input class="input" id="loginPass" type="password" placeholder="Contraseña">
+        <button class="btn" style="background:#1D4ED8" onclick="doLogin()">ENTRAR Y COMPRAR</button>
+        <div class="alert" id="loginAlert"></div>
+        <div style="text-align:center;margin-top:10px"><a href="#" onclick="openForgot();return false;" style="font-size:11px;color:#1D4ED8;font-weight:700;text-decoration:underline">Olvidé mi contraseña</a></div>
+      </div>
+      <div id="viewReg" style="display:none">
+        <input class="input" id="regEmail" placeholder="Email">
+        <input class="input" id="regPass" type="password" placeholder="Contraseña (mín 6)">
+        <input class="input" id="regPass2" type="password" placeholder="Repetir contraseña">
+        <button class="btn" style="background:#1D4ED8" onclick="doRegister()">CREAR CUENTA UNIFICADA</button>
+        <div style="font-size:10px;opacity:.5;margin-top:8px;text-align:center">Al registrarte te damos REF-XXXX automático + cuenta founder con 0 slots.</div>
+        <div class="alert" id="regAlert"></div>
+      </div>
+      <div id="viewForgot" style="display:none">
+        <div style="font-size:12px;font-weight:800;margin-bottom:6px">Recuperar contraseña</div>
+        <div style="font-size:11px;opacity:.6;margin-bottom:8px">Te enviamos código de 6 dígitos que expira en 15 min.</div>
+        <input class="input" id="forgotEmail" placeholder="tu@email.com">
+        <button class="btn" style="background:#1D4ED8" id="btnForgot" onclick="requestReset()">ENVIAR CÓDIGO</button>
+        <div class="alert" id="forgotAlert"></div>
+        <div style="text-align:center;margin-top:10px"><a href="#" onclick="switchAuth('login');return false;" style="font-size:11px;text-decoration:underline">Volver a login</a></div>
+      </div>
+      <div id="viewReset" style="display:none">
+        <div style="font-size:12px;font-weight:800;margin-bottom:6px">Código y nueva contraseña</div>
+        <input class="input" id="resetEmail" readonly style="background:#E6F0FF">
+        <input class="input" id="resetCode" placeholder="Código 6 dígitos" style="letter-spacing:3px;font-weight:800;text-align:center">
+        <input class="input" id="resetPass" type="password" placeholder="Nueva contraseña">
+        <input class="input" id="resetPass2" type="password" placeholder="Repetir nueva">
+        <button class="btn" style="background:#16a34a" id="btnReset" onclick="confirmReset()">CAMBIAR CONTRASEÑA</button>
+        <div class="alert" id="resetAlert"></div>
+      </div>
+    </div>
+  </div>
 
-<script>const WASA_WORKER_URL = window.WASA_WORKER_URL || 'https://founderswasablocks.javimsites.workers.dev'; const WASA_WEBHOOK_URL = WASA_WORKER_URL;</script>
-<script src="./wasa-config.js?v=20260828"></script>
-<script src="/wasa-config.js?v=20260828"></script>
-<script src="/escritor.js?v=20260831FIX"></script>
-<script>
-const DEADLINE = new Date('2026-08-30T23:00:00-03:00');
-let CONFIG_DYNAMIC=null, qty=1, accountFull='';
-(function(){ const p=new URLSearchParams(location.search); const ref=p.get('ref'); if(ref){ localStorage.setItem('wasa_ref', ref.toUpperCase()); document.getElementById('refCodeShow').textContent=ref.toUpperCase(); document.getElementById('refBanner').style.display='block'; fetch(WASA_WEBHOOK_URL+'?action=refclick&ref='+encodeURIComponent(ref)).catch(()=>{});} })();
-async function loadDynamicConfig(){ try{ let r=await fetch(WASA_WEBHOOK_URL+'?action=getconfig&v='+Date.now()); let j=await r.json(); CONFIG_DYNAMIC=j; document.getElementById('costoLabel').textContent=`0.5% = $${j.PRICE_PER_SLOT} USDT • ${j.PERCENT_PER_SLOT}% c/u`; document.getElementById('contratoLabel').textContent=`Contrato: ${j.USDT_CONTRACT.slice(0,10)}...`; document.getElementById('sheetLive').textContent=`Worker: ${j.TOTAL_SLOTS} slots | $${j.PRICE_PER_SLOT}/slot OK`; update(); }catch(e){ document.getElementById('sheetLive').textContent='Error: '+e.message; } }
-function bajarSeccion(){document.getElementById('buyCard').scrollIntoView({behavior:'smooth'});}
-function goReferidos(){ if(localStorage.getItem('wasa_token')){ location.href='/refer.html'; } else { location.href='/refer-register.html'; } }
-let qtyVal=document.getElementById('qtyVal'),range=document.getElementById('range'),totalEl=document.getElementById('total');
-function formatPrice(v){ return Number(v).toFixed(4); }
-function update(){ if(!CONFIG_DYNAMIC) return; qtyVal.textContent=qty; range.value=qty; let t=qty*Number(CONFIG_DYNAMIC.PRICE_PER_SLOT); totalEl.textContent=formatPrice(t); document.getElementById('btnUSDT').textContent=`Pagar ${formatPrice(t)} USDT`; document.getElementById('qtyPercent').textContent=(qty*Number(CONFIG_DYNAMIC.PERCENT_PER_SLOT)).toFixed(1)+'%'; document.getElementById('qtySlots').textContent=qty===1?'1 slot':qty+' slots'; }
-document.getElementById('btnMinus').onclick=()=>{if(qty>1){qty--;update();}}; document.getElementById('btnPlus').onclick=()=>{let max=parseInt(range.max)||50; if(qty<max){qty++;update();}}; range.oninput=e=>{qty=parseInt(e.target.value);update();};
+  <script>const WASA_WORKER_URL = window.WASA_WORKER_URL || 'https://founderswasablocks.javimsites.workers.dev'; const WASA_WEBHOOK_URL = WASA_WORKER_URL;</script>
+  <script src="./wasa-config.js?v=20260828"></script>
+  <script src="/wasa-config.js?v=20260828"></script>
+  <script src="/escritor.js?v=20260831FIX"></script>
+  <script>
+    const DEADLINE = new Date('2026-08-30T23:00:00-03:00');
+    let CONFIG_DYNAMIC=null, qty=1, accountFull='';
+    (function(){ const p=new URLSearchParams(location.search); const ref=p.get('ref'); if(ref){ localStorage.setItem('wasa_ref', ref.toUpperCase()); document.getElementById('refCodeShow').textContent=ref.toUpperCase(); document.getElementById('refBanner').style.display='block'; fetch(WASA_WEBHOOK_URL+'?action=refclick&ref='+encodeURIComponent(ref)).catch(()=>{});} })();
+    async function loadDynamicConfig(){ try{ let r=await fetch(WASA_WEBHOOK_URL+'?action=getconfig&v='+Date.now()); let j=await r.json(); CONFIG_DYNAMIC=j; document.getElementById('costoLabel').textContent=`0.5% = $${j.PRICE_PER_SLOT} USDT • ${j.PERCENT_PER_SLOT}% c/u`; document.getElementById('contratoLabel').textContent=`Contrato: ${j.USDT_CONTRACT.slice(0,10)}...`; document.getElementById('sheetLive').textContent=`Worker: ${j.TOTAL_SLOTS} slots | $${j.PRICE_PER_SLOT}/slot OK`; update(); }catch(e){ document.getElementById('sheetLive').textContent='Error: '+e.message; } }
+    function bajarSeccion(){document.getElementById('buyCard').scrollIntoView({behavior:'smooth'});}
+    function goReferidos(){ if(localStorage.getItem('wasa_token')){ location.href='/refer.html'; } else { location.href='/refer-register.html'; } }
+    let qtyVal=document.getElementById('qtyVal'),range=document.getElementById('range'),totalEl=document.getElementById('total');
+    function formatPrice(v){ return Number(v).toFixed(4); }
+    function update(){ if(!CONFIG_DYNAMIC) return; qtyVal.textContent=qty; range.value=qty; let t=qty*Number(CONFIG_DYNAMIC.PRICE_PER_SLOT); totalEl.textContent=formatPrice(t); document.getElementById('btnUSDT').textContent=`Pagar ${formatPrice(t)} USDT`; document.getElementById('qtyPercent').textContent=(qty*Number(CONFIG_DYNAMIC.PERCENT_PER_SLOT)).toFixed(1)+'%'; document.getElementById('qtySlots').textContent=qty===1?'1 slot':qty+' slots'; }
+    document.getElementById('btnMinus').onclick=()=>{if(qty>1){qty--;update();}}; document.getElementById('btnPlus').onclick=()=>{let max=parseInt(range.max)||50; if(qty<max){qty++;update();}}; range.oninput=e=>{qty=parseInt(e.target.value);update();};
 
-function openAuthModal(tab='login'){ document.getElementById('authModal').classList.add('show'); switchAuth(tab); }
-function closeAuthModal(){ document.getElementById('authModal').classList.remove('show'); }
-function switchAuth(t){
-  document.getElementById('tabLogin').classList.toggle('active', t==='login');
-  document.getElementById('tabReg').classList.toggle('active', t==='reg');
-  document.getElementById('viewLogin').style.display=t==='login'?'block':'none';
-  document.getElementById('viewReg').style.display=t==='reg'?'block':'none';
-  document.getElementById('viewForgot').style.display='none';
-  document.getElementById('viewReset').style.display='none';
-  document.getElementById('authTabs').style.display='flex';
-}
-function openForgot(){
-  document.getElementById('authTabs').style.display='none';
-  document.getElementById('viewLogin').style.display='none';
-  document.getElementById('viewReg').style.display='none';
-  document.getElementById('viewForgot').style.display='block';
-  document.getElementById('viewReset').style.display='none';
-  let e=document.getElementById('loginEmail').value.trim(); if(e) document.getElementById('forgotEmail').value=e;
-}
-function openResetStep(email){
-  document.getElementById('viewForgot').style.display='none';
-  document.getElementById('viewReset').style.display='block';
-  document.getElementById('resetEmail').value=email;
-}
-function showAlert(id,msg,ok){ let el=document.getElementById(id); el.style.display='block'; el.textContent=msg; el.className='alert '+(ok?'alert-ok':'alert-err'); }
-function hideBuyIfNotAuth(isAuth){
-  document.getElementById('formError').style.display=isAuth?'none':'block';
-  let dash=document.getElementById('navDashboard'); if(dash) dash.style.display=isAuth?'flex':'none';
-}
-async function checkAuth(){
-  let token=localStorage.getItem('wasa_token'); if(!token){ hideBuyIfNotAuth(false); return false; }
-  try{ let r=await fetch(WASA_WEBHOOK_URL,{method:'POST',headers:{'Content-Type':'text/plain'},body:JSON.stringify({action:'dashboard', token})}); let j=await r.json(); if(j.ok){ document.getElementById('navUser').textContent=j.email; document.getElementById('navUser').style.display='inline-flex'; document.getElementById('navLogin').textContent='SALIR'; document.getElementById('navLogin').onclick=(e)=>{e.preventDefault(); logout(); return false;}; hideBuyIfNotAuth(true); let fd=document.getElementById('footerDashboard'); if(fd) fd.style.display='block'; return true; } else { localStorage.removeItem('wasa_token'); } }catch{}
-  hideBuyIfNotAuth(false); return false;
-}
-function logout(){ localStorage.removeItem('wasa_token'); location.reload(); }
-async function doLogin(){
-  let email=document.getElementById('loginEmail').value.trim().toLowerCase(); let pass=document.getElementById('loginPass').value;
-  if(!email||!pass) return showAlert('loginAlert','Faltan datos',false);
-  try{ let r=await fetch(WASA_WEBHOOK_URL,{method:'POST',headers:{'Content-Type':'text/plain'},body:JSON.stringify({action:'login', email, password:pass})}); let j=await r.json(); if(j.ok){ localStorage.setItem('wasa_token', j.token); showAlert('loginAlert','Login OK',true); setTimeout(async()=>{ await checkAuth(); closeAuthModal(); },600); } else showAlert('loginAlert', j.error||'Error', false); }catch(e){ showAlert('loginAlert', e.message, false); }
-}
-async function doRegister(){
-  let email=document.getElementById('regEmail').value.trim().toLowerCase(); let p1=document.getElementById('regPass').value; let p2=document.getElementById('regPass2').value;
-  if(!email||!p1) return showAlert('regAlert','Faltan datos',false); if(p1!==p2) return showAlert('regAlert','No coinciden',false); if(p1.length<6) return showAlert('regAlert','Mín 6',false);
-  try{ let r=await fetch(WASA_WEBHOOK_URL,{method:'POST',headers:{'Content-Type':'text/plain'},body:JSON.stringify({action:'registerreferrer', email, password:p1, wallet:''})}); let j=await r.json(); if(j.ok){ localStorage.setItem('wasa_token', j.token); showAlert('regAlert','Creada REF: '+j.codeId,true); setTimeout(async()=>{ await checkAuth(); closeAuthModal(); },800); } else showAlert('regAlert', j.error||'Error', false); }catch(e){ showAlert('regAlert', e.message, false); }
-}
-async function requestReset(){
-  let email=document.getElementById('forgotEmail').value.trim().toLowerCase(); if(!email.includes('@')) return showAlert('forgotAlert','Email inválido',false);
-  let btn=document.getElementById('btnForgot'); btn.textContent='Enviando...'; btn.disabled=true;
-  try{ let r=await fetch(WASA_WEBHOOK_URL,{method:'POST',headers:{'Content-Type':'text/plain'},body:JSON.stringify({action:'requestPasswordReset', email})}); let j=await r.json(); if(j.ok){ showAlert('forgotAlert','Código enviado a '+email,true); setTimeout(()=>openResetStep(email),1200); } else showAlert('forgotAlert', j.error||'Error', false); }catch(e){ showAlert('forgotAlert', e.message, false); } finally{ btn.textContent='ENVIAR CÓDIGO'; btn.disabled=false; }
-}
-async function confirmReset(){
-  let email=document.getElementById('resetEmail').value.trim().toLowerCase(); let code=document.getElementById('resetCode').value.trim(); let p1=document.getElementById('resetPass').value; let p2=document.getElementById('resetPass2').value;
-  if(code.length<6) return showAlert('resetAlert','Código 6 dígitos',false); if(p1.length<6) return showAlert('resetAlert','Mín 6',false); if(p1!==p2) return showAlert('resetAlert','No coinciden',false);
-  let btn=document.getElementById('btnReset'); btn.textContent='Cambiando...'; btn.disabled=true;
-  try{ let r=await fetch(WASA_WEBHOOK_URL,{method:'POST',headers:{'Content-Type':'text/plain'},body:JSON.stringify({action:'resetPassword', email, code, newPassword:p1})}); let j=await r.json(); if(j.ok){ localStorage.setItem('wasa_token', j.token); showAlert('resetAlert','Contraseña cambiada! Entrando...',true); setTimeout(async()=>{ await checkAuth(); closeAuthModal(); },1000); } else showAlert('resetAlert', j.error||'Error', false); }catch(e){ showAlert('resetAlert', e.message, false); } finally{ btn.textContent='CAMBIAR CONTRASEÑA'; btn.disabled=false; }
-}
-function validate(){ let token=localStorage.getItem('wasa_token'); if(!token){ openAuthModal('login'); return false; } document.getElementById('formError').style.display='none'; return true; }
-function showPopup(msg){ let id='wasaPopup'; let el=document.getElementById(id); if(!el){ el=document.createElement('div'); el.id=id; el.style.cssText='position:fixed;inset:0;background:rgba(15,23,42,.85);backdrop-filter:blur(8px);z-index:9999;display:flex;align-items:center;justify-content:center;padding:20px'; el.innerHTML='<div style="background:#C2D9FF;border:2px solid #93B4FF;border-radius:20px;padding:24px;max-width:420px;width:100%;text-align:center"><div id="wasaPopupMsg"></div><button onclick="document.getElementById(\'wasaPopup\').style.display=\'none\'" style="margin-top:16px;height:40px;padding:0 20px;border-radius:12px;border:0;background:#0A101F;color:white;font-weight:800;cursor:pointer">Cerrar</button></div>'; document.body.appendChild(el); } document.getElementById('wasaPopupMsg').innerHTML=msg; el.style.display='flex'; }
-document.getElementById('btnConnect').onclick=async()=>{
-  if(!await checkAuth()){ openAuthModal('login'); return; }
-  if(!window.ethereum){alert('Install MetaMask');return;}
-  let btn=document.getElementById('btnConnect'); btn.textContent='Conectando...'; btn.disabled=true;
-  try{ let accs=await window.ethereum.request({method:'eth_requestAccounts'}); accountFull=accs[0]; document.getElementById('walletStatus').style.display='block'; document.getElementById('walletStatus').textContent='✅ '+accountFull.slice(0,6)+'...'+accountFull.slice(-4)+' → '+CONFIG_DYNAMIC.RECEIVER_ADDRESS.slice(0,6)+'...'; btn.style.display='none'; document.getElementById('btnUSDT').style.display='flex'; }catch(e){alert(e.message);}finally{btn.disabled=false;}
-};
-function parseUSDTtoWei(str){ let p=str.split('.'); let w=p[0]||'0'; let f=(p[1]||'').padEnd(18,'0').slice(0,18); return BigInt(w+f); }
-async function waitForReceipt(hash,max=90){ let div=document.getElementById('txStatus'); div.style.display='block'; for(let i=0;i<max;i++){ try{ let r=await window.ethereum.request({method:'eth_getTransactionReceipt', params:[hash]}); if(r) return r; }catch{} div.textContent=`⏳ Esperando confirmación ${i+1}s`; await new Promise(r=>setTimeout(r,1000)); } return null; }
-document.getElementById('btnUSDT').onclick=async()=>{
-  if(!CONFIG_DYNAMIC) return showPopup('Config cargando...'); if(!await checkAuth()){ openAuthModal('login'); return; }
-  let btn=document.getElementById('btnUSDT'); btn.disabled=true; btn.textContent='Enviando...'; let txDiv=document.getElementById('txStatus'); txDiv.style.display='block';
-  try{
-    let token=localStorage.getItem('wasa_token'); let rr=await fetch(WASA_WEBHOOK_URL,{method:'POST',headers:{'Content-Type':'text/plain'},body:JSON.stringify({action:'dashboard', token})}); let jj=await rr.json(); if(!jj.ok) throw new Error('No auth'); let email=jj.email; let name=email.split('@')[0];
-    let to=CONFIG_DYNAMIC.RECEIVER_ADDRESS.toLowerCase().replace('0x','').padStart(64,'0'); let amount=BigInt(qty)*parseUSDTtoWei(String(CONFIG_DYNAMIC.PRICE_PER_SLOT)); let hex=amount.toString(16).padStart(64,'0'); let data='0xa9059cbb'+to+hex;
-    let hash=await window.ethereum.request({method:'eth_sendTransaction',params:[{from:accountFull,to:CONFIG_DYNAMIC.USDT_CONTRACT,data}]}); document.getElementById('txHash').style.display='block'; document.getElementById('txHash').textContent='Tx: '+hash;
-    btn.textContent='Esperando confirmación...'; let receipt=await waitForReceipt(hash,90); if(!receipt) throw new Error('Timeout 90s: '+hash); if(receipt.status==='0x0'||receipt.status===0) throw new Error('TX fallida');
-    btn.textContent='Registrando...'; txDiv.style.background='#DCFCE7'; txDiv.textContent='✅ Confirmada, guardando...';
-    let resp=await fetch(WASA_WEBHOOK_URL,{method:'POST',headers:{'Content-Type':'text/plain'},body:JSON.stringify({nombre:name,email,wallet:accountFull,slots:qty,percent:qty*Number(CONFIG_DYNAMIC.PERCENT_PER_SLOT),total_usdt:qty*Number(CONFIG_DYNAMIC.PRICE_PER_SLOT),tx_hash:hash,method:'crypto_DEX_validated',ref_code:localStorage.getItem('wasa_ref')||''})});
-    let j=await resp.json(); if(!j.ok) throw new Error(j.error);
-    
-    // FIX CRITICO: Generar holograma y enviar email con Resend via sendeditedimage
-    try{
-      btn.textContent='Generando certificado...'; txDiv.textContent='🎨 Generando holograma con Fixedsys...';
-      console.log('Llamando editarYEnviarHolograma con', {codeId: j.codeId, email, slots: qty});
-      if(typeof window.editarYEnviarHolograma === 'function'){
-        let emailResult = await window.editarYEnviarHolograma({
-          slots: qty,
-          codeId: j.codeId,
-          email: email,
-          nombre: name,
-          accessCode: j.panelCode,
-          tx_hash: hash,
-          percent: qty*Number(CONFIG_DYNAMIC.PERCENT_PER_SLOT)
-        });
-        console.log('Email enviado OK:', emailResult);
-        txDiv.textContent='✅ Email con certificado enviado a '+email;
-      } else {
-        console.warn('editarYEnviarHolograma no encontrada, se omite email');
-        txDiv.textContent='⚠️ Compra guardada pero sin email (escritor.js no cargado)';
-      }
-    }catch(emailErr){
-      console.error('Error enviando email:', emailErr);
-      txDiv.style.background='#FEF9C3';
-      txDiv.textContent='⚠️ Compra guardada pero email falló: '+emailErr.message+' - Revisá dashboard';
-      // No bloqueamos, seguimos al popup
+    function openAuthModal(tab='login'){ document.getElementById('authModal').classList.add('show'); switchAuth(tab); }
+    function closeAuthModal(){ document.getElementById('authModal').classList.remove('show'); }
+    function switchAuth(t){
+      document.getElementById('tabLogin').classList.toggle('active', t==='login');
+      document.getElementById('tabReg').classList.toggle('active', t==='reg');
+      document.getElementById('viewLogin').style.display=t==='login'?'block':'none';
+      document.getElementById('viewReg').style.display=t==='reg'?'block':'none';
+      document.getElementById('viewForgot').style.display='none';
+      document.getElementById('viewReset').style.display='none';
+      document.getElementById('authTabs').style.display='flex';
     }
-    
-    showPopup(`<b style="color:#16a34a">✅ Compra ${j.alreadyRegistered?'AGREGADA':'VALIDADA'}!</b><br>WASA ID: ${j.codeId}<br>📧 Email enviado a ${email}<br><br><a href='/dashboard.html' style='background:#1D4ED8;color:white;padding:8px 14px;border-radius:8px;text-decoration:none;font-weight:800'>Ir a panel</a>`); setTimeout(()=>location.href='/dashboard.html',4000);
-  }catch(e){ txDiv.style.background='#FEE2E2'; txDiv.textContent='❌ '+e.message; showPopup('❌ '+e.message); } finally{ btn.disabled=false; update(); }
-};
-async function fetchLive(){ try{ let r=await fetch(WASA_WEBHOOK_URL+'?action=read&v='+Date.now()); let j=await r.json(); if(j.ok){ document.getElementById('recaudado').textContent=j.sold; document.getElementById('sold').textContent=j.sold; document.getElementById('left').textContent=j.available; document.getElementById('progressPct').textContent=Math.round(j.sold/j.total*100)+'%'; document.getElementById('progressFill').style.width=Math.round(j.sold/j.total*100)+'%'; document.getElementById('range').max=j.available; document.getElementById('dispVal').textContent=j.available; if(qty>j.available) qty=j.available; if(CONFIG_DYNAMIC) update(); } }catch{} }
-(async()=>{ await loadDynamicConfig(); update(); fetchLive(); setInterval(fetchLive,10000); await checkAuth(); })();
-function checkDeadline(){ const now=new Date(); const diff=DEADLINE-now; if(diff<=0){ ['cdD','cdH','cdM','cdS'].forEach(id=>document.getElementById(id).textContent='00'); return; } const d=Math.floor(diff/86400000); const h=Math.floor((diff%86400000)/3600000); const m=Math.floor((diff%3600000)/60000); const s=Math.floor((diff%60000)/1000); document.getElementById('cdD').textContent=String(d).padStart(2,'0'); document.getElementById('cdH').textContent=String(h).padStart(2,'0'); document.getElementById('cdM').textContent=String(m).padStart(2,'0'); document.getElementById('cdS').textContent=String(s).padStart(2,'0'); } setInterval(checkDeadline,1000); checkDeadline();
-</script>
+    function openForgot(){
+      document.getElementById('authTabs').style.display='none';
+      document.getElementById('viewLogin').style.display='none';
+      document.getElementById('viewReg').style.display='none';
+      document.getElementById('viewForgot').style.display='block';
+      document.getElementById('viewReset').style.display='none';
+      let e=document.getElementById('loginEmail').value.trim(); if(e) document.getElementById('forgotEmail').value=e;
+    }
+    function openResetStep(email){
+      document.getElementById('viewForgot').style.display='none';
+      document.getElementById('viewReset').style.display='block';
+      document.getElementById('resetEmail').value=email;
+    }
+    function showAlert(id,msg,ok){ let el=document.getElementById(id); el.style.display='block'; el.textContent=msg; el.className='alert '+(ok?'alert-ok':'alert-err'); }
+    function hideBuyIfNotAuth(isAuth){
+      document.getElementById('formError').style.display=isAuth?'none':'block';
+      let dash=document.getElementById('navDashboard'); if(dash) dash.style.display=isAuth?'flex':'none';
+    }
+    async function checkAuth(){
+      let token=localStorage.getItem('wasa_token'); if(!token){ hideBuyIfNotAuth(false); return false; }
+      try{ let r=await fetch(WASA_WEBHOOK_URL,{method:'POST',headers:{'Content-Type':'text/plain'},body:JSON.stringify({action:'dashboard', token})}); let j=await r.json(); if(j.ok){ document.getElementById('navUser').textContent=j.email; document.getElementById('navUser').style.display='inline-flex'; document.getElementById('navLogin').textContent='SALIR'; document.getElementById('navLogin').onclick=(e)=>{e.preventDefault(); logout(); return false;}; hideBuyIfNotAuth(true); let fd=document.getElementById('footerDashboard'); if(fd) fd.style.display='block'; return true; } else { localStorage.removeItem('wasa_token'); } }catch{}
+      hideBuyIfNotAuth(false); return false;
+    }
+    function logout(){ localStorage.removeItem('wasa_token'); location.reload(); }
+    async function doLogin(){
+      let email=document.getElementById('loginEmail').value.trim().toLowerCase(); let pass=document.getElementById('loginPass').value;
+      if(!email||!pass) return showAlert('loginAlert','Faltan datos',false);
+      try{ let r=await fetch(WASA_WEBHOOK_URL,{method:'POST',headers:{'Content-Type':'text/plain'},body:JSON.stringify({action:'login', email, password:pass})}); let j=await r.json(); if(j.ok){ localStorage.setItem('wasa_token', j.token); showAlert('loginAlert','Login OK',true); setTimeout(async()=>{ await checkAuth(); closeAuthModal(); },600); } else showAlert('loginAlert', j.error||'Error', false); }catch(e){ showAlert('loginAlert', e.message, false); }
+    }
+    async function doRegister(){
+      let email=document.getElementById('regEmail').value.trim().toLowerCase(); let p1=document.getElementById('regPass').value; let p2=document.getElementById('regPass2').value;
+      if(!email||!p1) return showAlert('regAlert','Faltan datos',false); if(p1!==p2) return showAlert('regAlert','No coinciden',false); if(p1.length<6) return showAlert('regAlert','Mín 6',false);
+      try{ let r=await fetch(WASA_WEBHOOK_URL,{method:'POST',headers:{'Content-Type':'text/plain'},body:JSON.stringify({action:'registerreferrer', email, password:p1, wallet:''})}); let j=await r.json(); if(j.ok){ localStorage.setItem('wasa_token', j.token); showAlert('regAlert','Creada REF: '+j.codeId,true); setTimeout(async()=>{ await checkAuth(); closeAuthModal(); },800); } else showAlert('regAlert', j.error||'Error', false); }catch(e){ showAlert('regAlert', e.message, false); }
+    }
+    async function requestReset(){
+      let email=document.getElementById('forgotEmail').value.trim().toLowerCase(); if(!email.includes('@')) return showAlert('forgotAlert','Email inválido',false);
+      let btn=document.getElementById('btnForgot'); btn.textContent='Enviando...'; btn.disabled=true;
+      try{ let r=await fetch(WASA_WEBHOOK_URL,{method:'POST',headers:{'Content-Type':'text/plain'},body:JSON.stringify({action:'requestPasswordReset', email})}); let j=await r.json(); if(j.ok){ showAlert('forgotAlert','Código enviado a '+email,true); setTimeout(()=>openResetStep(email),1200); } else showAlert('forgotAlert', j.error||'Error', false); }catch(e){ showAlert('forgotAlert', e.message, false); } finally{ btn.textContent='ENVIAR CÓDIGO'; btn.disabled=false; }
+    }
+    async function confirmReset(){
+      let email=document.getElementById('resetEmail').value.trim().toLowerCase(); let code=document.getElementById('resetCode').value.trim(); let p1=document.getElementById('resetPass').value; let p2=document.getElementById('resetPass2').value;
+      if(code.length<6) return showAlert('resetAlert','Código 6 dígitos',false); if(p1.length<6) return showAlert('resetAlert','Mín 6',false); if(p1!==p2) return showAlert('resetAlert','No coinciden',false);
+      let btn=document.getElementById('btnReset'); btn.textContent='Cambiando...'; btn.disabled=true;
+      try{ let r=await fetch(WASA_WEBHOOK_URL,{method:'POST',headers:{'Content-Type':'text/plain'},body:JSON.stringify({action:'resetPassword', email, code, newPassword:p1})}); let j=await r.json(); if(j.ok){ localStorage.setItem('wasa_token', j.token); showAlert('resetAlert','Contraseña cambiada! Entrando...',true); setTimeout(async()=>{ await checkAuth(); closeAuthModal(); },1000); } else showAlert('resetAlert', j.error||'Error', false); }catch(e){ showAlert('resetAlert', e.message, false); } finally{ btn.textContent='CAMBIAR CONTRASEÑA'; btn.disabled=false; }
+    }
+    function validate(){ let token=localStorage.getItem('wasa_token'); if(!token){ openAuthModal('login'); return false; } document.getElementById('formError').style.display='none'; return true; }
+    function showPopup(msg){ let id='wasaPopup'; let el=document.getElementById(id); if(!el){ el=document.createElement('div'); el.id=id; el.style.cssText='position:fixed;inset:0;background:rgba(15,23,42,.85);backdrop-filter:blur(8px);z-index:9999;display:flex;align-items:center;justify-content:center;padding:20px'; el.innerHTML='<div style="background:#C2D9FF;border:2px solid #93B4FF;border-radius:20px;padding:24px;max-width:420px;width:100%;text-align:center"><div id="wasaPopupMsg"></div><button onclick="document.getElementById(\'wasaPopup\').style.display=\'none\'" style="margin-top:16px;height:40px;padding:0 20px;border-radius:12px;border:0;background:#0A101F;color:white;font-weight:800;cursor:pointer">Cerrar</button></div>'; document.body.appendChild(el); } document.getElementById('wasaPopupMsg').innerHTML=msg; el.style.display='flex'; }
+    document.getElementById('btnConnect').onclick=async()=>{
+      if(!await checkAuth()){ openAuthModal('login'); return; }
+      if(!window.ethereum){alert('Install MetaMask');return;}
+      let btn=document.getElementById('btnConnect'); btn.textContent='Conectando...'; btn.disabled=true;
+      try{ let accs=await window.ethereum.request({method:'eth_requestAccounts'}); accountFull=accs[0]; document.getElementById('walletStatus').style.display='block'; document.getElementById('walletStatus').textContent='✅ '+accountFull.slice(0,6)+'...'+accountFull.slice(-4)+' → '+CONFIG_DYNAMIC.RECEIVER_ADDRESS.slice(0,6)+'...'; btn.style.display='none'; document.getElementById('btnUSDT').style.display='flex'; }catch(e){alert(e.message);}finally{btn.disabled=false;}
+    };
+    function parseUSDTtoWei(str){ let p=str.split('.'); let w=p[0]||'0'; let f=(p[1]||'').padEnd(18,'0').slice(0,18); return BigInt(w+f); }
+    async function waitForReceipt(hash,max=90){ let div=document.getElementById('txStatus'); div.style.display='block'; for(let i=0;i<max;i++){ try{ let r=await window.ethereum.request({method:'eth_getTransactionReceipt', params:[hash]}); if(r) return r; }catch{} div.textContent=`⏳ Esperando confirmación ${i+1}s`; await new Promise(r=>setTimeout(r,1000)); } return null; }
+    document.getElementById('btnUSDT').onclick=async()=>{
+      if(!CONFIG_DYNAMIC) return showPopup('Config cargando...'); if(!await checkAuth()){ openAuthModal('login'); return; }
+      let btn=document.getElementById('btnUSDT'); btn.disabled=true; btn.textContent='Enviando...'; let txDiv=document.getElementById('txStatus'); txDiv.style.display='block';
+      try{
+        let token=localStorage.getItem('wasa_token'); let rr=await fetch(WASA_WEBHOOK_URL,{method:'POST',headers:{'Content-Type':'text/plain'},body:JSON.stringify({action:'dashboard', token})}); let jj=await rr.json(); if(!jj.ok) throw new Error('No auth'); let email=jj.email; let name=email.split('@')[0];
+        let to=CONFIG_DYNAMIC.RECEIVER_ADDRESS.toLowerCase().replace('0x','').padStart(64,'0'); let amount=BigInt(qty)*parseUSDTtoWei(String(CONFIG_DYNAMIC.PRICE_PER_SLOT)); let hex=amount.toString(16).padStart(64,'0'); let data='0xa9059cbb'+to+hex;
+        let hash=await window.ethereum.request({method:'eth_sendTransaction',params:[{from:accountFull,to:CONFIG_DYNAMIC.USDT_CONTRACT,data}]}); document.getElementById('txHash').style.display='block'; document.getElementById('txHash').textContent='Tx: '+hash;
+        btn.textContent='Esperando confirmación...'; let receipt=await waitForReceipt(hash,90); if(!receipt) throw new Error('Timeout 90s: '+hash); if(receipt.status==='0x0'||receipt.status===0) throw new Error('TX fallida');
+        btn.textContent='Registrando...'; txDiv.style.background='#DCFCE7'; txDiv.textContent='✅ Confirmada, guardando...';
+        let resp=await fetch(WASA_WEBHOOK_URL,{method:'POST',headers:{'Content-Type':'text/plain'},body:JSON.stringify({nombre:name,email,wallet:accountFull,slots:qty,percent:qty*Number(CONFIG_DYNAMIC.PERCENT_PER_SLOT),total_usdt:qty*Number(CONFIG_DYNAMIC.PRICE_PER_SLOT),tx_hash:hash,method:'crypto_DEX_validated',ref_code:localStorage.getItem('wasa_ref')||''})});
+        let j=await resp.json(); if(!j.ok) throw new Error(j.error);
+        
+        // FIX CRITICO: Generar holograma y enviar email con Resend via sendeditedimage
+        try{
+          btn.textContent='Generando certificado...'; txDiv.textContent='🎨 Generando holograma con Fixedsys...';
+          console.log('Llamando editarYEnviarHolograma con', {codeId: j.codeId, email, slots: qty});
+          if(typeof window.editarYEnviarHolograma === 'function'){
+            let emailResult = await window.editarYEnviarHolograma({
+              slots: qty,
+              codeId: j.codeId,
+              email: email,
+              nombre: name,
+              accessCode: j.panelCode,
+              tx_hash: hash,
+              percent: qty*Number(CONFIG_DYNAMIC.PERCENT_PER_SLOT)
+            });
+            console.log('Email enviado OK:', emailResult);
+            txDiv.textContent='✅ Email con certificado enviado a '+email;
+          } else {
+            console.warn('editarYEnviarHolograma no encontrada, se omite email');
+            txDiv.textContent='⚠️ Compra guardada pero sin email (escritor.js no cargado)';
+          }
+        }catch(emailErr){
+          console.error('Error enviando email:', emailErr);
+          txDiv.style.background='#FEF9C3';
+          txDiv.textContent='⚠️ Compra guardada pero email falló: '+emailErr.message+' - Revisá dashboard';
+          // No bloqueamos, seguimos al popup
+        }
+        
+        showPopup(`<b style="color:#16a34a">✅ Compra ${j.alreadyRegistered?'AGREGADA':'VALIDADA'}!</b><br>WASA ID: ${j.codeId}<br>📧 Email enviado a ${email}<br><br><a href='/dashboard.html' style='background:#1D4ED8;color:white;padding:8px 14px;border-radius:8px;text-decoration:none;font-weight:800'>Ir a panel</a>`); setTimeout(()=>location.href='/dashboard.html',4000);
+      }catch(e){ txDiv.style.background='#FEE2E2'; txDiv.textContent='❌ '+e.message; showPopup('❌ '+e.message); } finally{ btn.disabled=false; update(); }
+    };
+    async function fetchLive(){ try{ let r=await fetch(WASA_WEBHOOK_URL+'?action=read&v='+Date.now()); let j=await r.json(); if(j.ok){ document.getElementById('recaudado').textContent=j.sold; document.getElementById('sold').textContent=j.sold; document.getElementById('left').textContent=j.available; document.getElementById('progressPct').textContent=Math.round(j.sold/j.total*100)+'%'; document.getElementById('progressFill').style.width=Math.round(j.sold/j.total*100)+'%'; document.getElementById('range').max=j.available; document.getElementById('dispVal').textContent=j.available; if(qty>j.available) qty=j.available; if(CONFIG_DYNAMIC) update(); } }catch{} }
+    (async()=>{ await loadDynamicConfig(); update(); fetchLive(); setInterval(fetchLive,10000); await checkAuth(); })();
+    function checkDeadline(){ const now=new Date(); const diff=DEADLINE-now; if(diff<=0){ ['cdD','cdH','cdM','cdS'].forEach(id=>document.getElementById(id).textContent='00'); return; } const d=Math.floor(diff/86400000); const h=Math.floor((diff%86400000)/3600000); const m=Math.floor((diff%3600000)/60000); const s=Math.floor((diff%60000)/1000); document.getElementById('cdD').textContent=String(d).padStart(2,'0'); document.getElementById('cdH').textContent=String(h).padStart(2,'0'); document.getElementById('cdM').textContent=String(m).padStart(2,'0'); document.getElementById('cdS').textContent=String(s).padStart(2,'0'); } setInterval(checkDeadline,1000); checkDeadline();
+  </script>
 
-<footer style="background:#0A101F;color:white;padding:32px 5% 24px;margin-top:40px">
-<div style="max-width:720px;margin:0 auto;display:flex;flex-wrap:wrap;gap:24px;justify-content:space-between;align-items:flex-start">
-<div style="flex:1;min-width:200px">
-<div style="font-weight:800;font-size:16px;margin-bottom:8px">founders.wasa.chat</div>
-<div style="font-size:11px;opacity:.6;line-height:1.5">Ronda founder perpetua 2026. 50 slots = 25% total ganancias. 1 solo login en popup para comprar y referir. USDT BSC.</div>
-</div>
-<div style="display:flex;flex-direction:column;gap:10px;align-items:flex-start">
-<a href="mailto:founders@wasa.chat" style="display:inline-flex;align-items:center;gap:6px;background:#1D4ED8;color:white;padding:10px 18px;border-radius:999px;font-size:12px;font-weight:800;text-decoration:none">📩 CONTACTO</a>
-<a href="/dashboard.html" id="footerDashboard" style="color:rgba(255,255,255,.7);font-size:11px;text-decoration:none;display:none">Dashboard</a>
-<a href="/refer-register.html" style="color:#FFD60A;font-size:11px;font-weight:800;text-decoration:none">GANA dinero aquí → 10% referidos</a>
-<a href="/terminos_FINAL.html" style="color:rgba(255,255,255,.5);font-size:10px;text-decoration:underline">Términos</a>
-</div>
-</div>
-<div style="max-width:720px;margin:24px auto 0;padding-top:16px;border-top:1px solid rgba(255,255,255,.1);display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px;font-size:10px;opacity:.4">
-<span>© 2026 founders.wasa.chat • 1 login unificado</span>
-<span>USDT BSC • Worker con clave • Popup auth</span>
-</div>
-</footer>
-
+  <footer style="background:#0A101F;color:white;padding:32px 5% 24px;margin-top:40px">
+    <div style="max-width:720px;margin:0 auto;display:flex;flex-wrap:wrap;gap:24px;justify-content:space-between;align-items:flex-start">
+      <div style="flex:1;min-width:200px">
+        <div style="font-weight:800;font-size:16px;margin-bottom:8px">founders.wasa.chat</div>
+        <div style="font-size:11px;opacity:.6;line-height:1.5">Ronda founder perpetua 2026. 50 slots = 25% total ganancias. 1 solo login en popup para comprar y referir. USDT BSC.</div>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:10px;align-items:flex-start">
+        <a href="mailto:founders@wasa.chat" style="display:inline-flex;align-items:center;gap:6px;background:#1D4ED8;color:white;padding:10px 18px;border-radius:999px;font-size:12px;font-weight:800;text-decoration:none">📩 CONTACTO</a>
+        <a href="/dashboard.html" id="footerDashboard" style="color:rgba(255,255,255,.7);font-size:11px;text-decoration:none;display:none">Dashboard</a>
+        <a href="/refer-register.html" style="color:#FFD60A;font-size:11px;font-weight:800;text-decoration:none">GANA dinero aquí → 10% referidos</a>
+        <a href="/terminos_FINAL.html" style="color:rgba(255,255,255,.5);font-size:10px;text-decoration:underline">Términos</a>
+      </div>
+    </div>
+    <div style="max-width:720px;margin:24px auto 0;padding-top:16px;border-top:1px solid rgba(255,255,255,.1);display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px;font-size:10px;opacity:.4">
+      <span>© 2026 founders.wasa.chat • 1 login unificado</span>
+      <span>USDT BSC • Worker con clave • Popup auth</span>
+    </div>
+  </footer>
 </body>
 </html>
