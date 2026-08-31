@@ -431,11 +431,10 @@
       letter-spacing: 0.04em;
     }
 
-    /* Certificate Float Video */
+    /* Certificate Float Image */
     .hero-cert-wrap {
       display: flex;
       justify-content: center;
-      align-items: center;
     }
 
     .hero-cert {
@@ -443,19 +442,6 @@
       transform: rotate(3deg);
       filter: drop-shadow(0 24px 44px rgba(245, 158, 11, 0.25)) drop-shadow(0 0 60px rgba(79, 70, 229, 0.15));
       animation: float 5s ease-in-out infinite;
-      border-radius: 16px;
-      /* Importante: el video con transparencia se renderiza correctamente */
-      background: transparent;
-    }
-
-    /* Estilos para el video con transparencia */
-    .hero-cert video {
-      width: 100%;
-      height: auto;
-      display: block;
-      border-radius: 16px;
-      /* Asegura que el fondo transparente se vea */
-      background: transparent;
     }
 
     @keyframes float {
@@ -1401,14 +1387,7 @@
       <button type="button" class="btn-hero btn-hero-primary" onclick="bajarSeccion()">COMPRAR WASA BLOCK</button>
       <button type="button" class="btn-hero btn-hero-secondary" onclick="goReferidos()">GANA 10% REFIRIENDO</button>
     </div>
-    <div class="hero-cert-wrap">
-      <div class="hero-cert">
-        <!-- VIDEO CON TRANSPARENCIA (WEBM) -->
-      <video autoplay loop muted playsinline style="width:260px;height:auto;">
-  <source src="https://www.w3.org/WAI/content-assets/wai-aria-practices/patterns/alert/video/alert.mp4" type="video/mp4">
-</video>
-      </div>
-    </div>
+    <div class="hero-cert-wrap"><img class="hero-cert" src="assets/img/wasa2.webm" alt="cert"></div>
   </div></div>
 
   <div class="wrap">
