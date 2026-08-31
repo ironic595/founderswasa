@@ -6,7 +6,7 @@
   <title>founders.wasa.chat - Compra Wasablocks</title>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
   <style>
-    /* --- RESET & VARIABLES (ESTILO SAFEPAL) --- */
+    /* --- RESET & VARIABLES (ESTILO SAFEPAL + MODERN VIBE) --- */
     *, *::before, *::after {
       box-sizing: border-box;
       margin: 0;
@@ -14,26 +14,30 @@
     }
 
     :root {
-      --bg-main: #F8FAFC;
+      --bg-main: #F6F8FE;
       --bg-card: #FFFFFF;
-      --bg-subtle: #F1F5F9;
+      --bg-subtle: #EEF2FF;
       --bg-input: #FFFFFF;
-      --accent-primary: #0052FF;
-      --accent-primary-hover: #0038CC;
-      --accent-cyan: #00C4FF;
+      /* Electric Blue + Violet palette */
+      --accent-primary: #4F46E5;        /* Indigo/violet base */
+      --accent-primary-hover: #4338CA;
+      --accent-electric: #2563EB;       /* Electric blue */
+      --accent-violet: #7C3AED;          /* Violeta moderno */
+      --accent-cyan: #06B6D4;
       --accent-gold: #EAB308;
       --accent-green: #10B981;
       --text-main: #0B1120;
-      --text-muted: #64748B;
-      --border-color: #E9EDF4;
-      --border-strong: #CBD5E1;
+      --text-muted: #6B7280;
+      --border-color: #E5E7EB;
+      --border-strong: #D1D5DB;
       --radius-sm: 8px;
       --radius-md: 16px;
       --radius-lg: 24px;
       --radius-full: 999px;
-      --shadow-sm: 0 4px 12px rgba(0, 0, 0, 0.04);
-      --shadow-md: 0 12px 36px -8px rgba(0, 82, 255, 0.10);
-      --shadow-lg: 0 28px 56px -16px rgba(10, 13, 20, 0.12);
+      --shadow-sm: 0 4px 14px rgba(79, 70, 229, 0.06);
+      --shadow-md: 0 12px 40px -8px rgba(79, 70, 229, 0.12);
+      --shadow-lg: 0 28px 60px -16px rgba(79, 70, 229, 0.15);
+      --shadow-glow: 0 0 40px rgba(79, 70, 229, 0.15);
       --transition: all 0.25s cubic-bezier(0.25, 0.46, 0.45, 0.94);
     }
 
@@ -54,10 +58,10 @@
       left: 0;
       right: 0;
       height: 80px;
-      background: rgba(255, 255, 255, 0.80);
+      background: rgba(255, 255, 255, 0.82);
       backdrop-filter: blur(18px);
       -webkit-backdrop-filter: blur(18px);
-      border-bottom: 1px solid rgba(233, 237, 244, 0.7);
+      border-bottom: 1px solid rgba(229, 231, 235, 0.6);
       display: flex;
       align-items: center;
       justify-content: space-between;
@@ -73,6 +77,10 @@
       letter-spacing: -0.02em;
       white-space: nowrap;
       flex-shrink: 0;
+      background: linear-gradient(135deg, var(--accent-electric), var(--accent-violet));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
     }
 
     .nav .links {
@@ -88,7 +96,7 @@
     .nav .links a {
       color: inherit;
       text-decoration: none;
-      transition: color 0.2s ease;
+      transition: var(--transition);
       padding: 6px 0;
       border-bottom: 2px solid transparent;
     }
@@ -99,19 +107,20 @@
     }
 
     .nav .links a.highlight {
-      background: linear-gradient(135deg, #FFD60A 0%, #F59E0B 100%);
-      color: #0F172A !important;
+      background: linear-gradient(135deg, var(--accent-electric), var(--accent-violet));
+      color: white !important;
       padding: 10px 22px;
       border-radius: var(--radius-full);
       font-weight: 800;
-      box-shadow: 0 4px 12px rgba(245, 158, 11, 0.25);
-      transition: transform 0.2s ease, box-shadow 0.2s ease;
+      box-shadow: 0 4px 16px rgba(79, 70, 229, 0.30);
+      transition: var(--transition);
       border-bottom: none;
+      -webkit-text-fill-color: white;
     }
 
     .nav .links a.highlight:hover {
       transform: translateY(-2px);
-      box-shadow: 0 8px 20px rgba(245, 158, 11, 0.35);
+      box-shadow: 0 8px 28px rgba(79, 70, 229, 0.40);
       border-bottom: none;
     }
 
@@ -124,8 +133,8 @@
     /* --- HERO SECTION --- */
     .hero {
       width: 100%;
-      background: radial-gradient(110% 110% at 50% 0%, rgba(0, 82, 255, 0.07) 0%, rgba(248, 250, 252, 0) 100%),
-                  linear-gradient(180deg, #ECF3FF 0%, var(--bg-main) 100%);
+      background: radial-gradient(120% 120% at 50% 0%, rgba(79, 70, 229, 0.08) 0%, rgba(246, 248, 254, 0) 100%),
+                  linear-gradient(180deg, #E8EDFF 0%, var(--bg-main) 100%);
       padding: 150px 0 70px;
       display: flex;
       justify-content: center;
@@ -142,8 +151,8 @@
     }
 
     .hero-text .badge {
-      background: #EBF2FF;
-      border: 1px solid rgba(0, 82, 255, 0.15);
+      background: linear-gradient(135deg, rgba(79, 70, 229, 0.12), rgba(37, 99, 235, 0.08));
+      border: 1px solid rgba(79, 70, 229, 0.15);
       color: var(--accent-primary);
       border-radius: var(--radius-full);
       padding: 8px 18px;
@@ -164,6 +173,13 @@
       margin-bottom: 28px;
     }
 
+    .hero-text h1 span {
+      background: linear-gradient(135deg, var(--accent-electric), var(--accent-violet));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
     .btn-hero {
       padding: 16px 32px;
       border-radius: var(--radius-md);
@@ -180,15 +196,14 @@
     }
 
     .btn-hero-primary {
-      background: var(--accent-primary);
+      background: linear-gradient(135deg, var(--accent-electric), var(--accent-violet));
       color: white;
-      box-shadow: 0 8px 24px rgba(0, 82, 255, 0.30);
+      box-shadow: 0 8px 28px rgba(79, 70, 229, 0.35);
     }
 
     .btn-hero-primary:hover {
-      background: var(--accent-primary-hover);
       transform: translateY(-3px);
-      box-shadow: 0 14px 32px rgba(0, 82, 255, 0.40);
+      box-shadow: 0 14px 40px rgba(79, 70, 229, 0.45);
     }
 
     .btn-hero-secondary {
@@ -204,7 +219,7 @@
       box-shadow: var(--shadow-md);
     }
 
-    /* Countdown SAFEPAL Style */
+    /* Countdown */
     .countdown {
       display: flex;
       gap: 14px;
@@ -225,7 +240,10 @@
     .countdown-num {
       font-size: 28px;
       font-weight: 800;
-      color: var(--accent-primary);
+      background: linear-gradient(135deg, var(--accent-electric), var(--accent-violet));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
     }
 
     .countdown-label {
@@ -245,7 +263,7 @@
     .hero-cert {
       width: 260px;
       transform: rotate(3deg);
-      filter: drop-shadow(0 24px 40px rgba(0, 82, 255, 0.18));
+      filter: drop-shadow(0 24px 44px rgba(79, 70, 229, 0.20));
       animation: float 5s ease-in-out infinite;
     }
 
@@ -284,12 +302,12 @@
     }
 
     .card-outer {
-      background: linear-gradient(180deg, #FFFFFF 0%, #F2F6FF 100%);
-      border: 2px solid #D0E0FF;
+      background: linear-gradient(180deg, #FFFFFF 0%, #EEF2FF 100%);
+      border: 2px solid rgba(79, 70, 229, 0.20);
       border-radius: 28px;
       padding: 16px;
       margin-bottom: 32px;
-      box-shadow: var(--shadow-lg);
+      box-shadow: var(--shadow-glow);
     }
 
     .eyebrow {
@@ -315,10 +333,17 @@
       color: var(--text-main);
     }
 
+    .amount span {
+      background: linear-gradient(135deg, var(--accent-electric), var(--accent-violet));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
     .live {
-      background: #E6F4EA;
-      border: 1px solid rgba(16, 185, 129, 0.25);
-      color: var(--accent-green);
+      background: linear-gradient(135deg, rgba(16, 185, 129, 0.12), rgba(6, 182, 212, 0.08));
+      border: 1px solid rgba(16, 185, 129, 0.20);
+      color: #059669;
       font-size: 11px;
       font-weight: 800;
       padding: 4px 14px;
@@ -338,7 +363,7 @@
 
     .progress-fill {
       height: 100%;
-      background: linear-gradient(90deg, #0052FF 0%, #00C4FF 100%);
+      background: linear-gradient(90deg, var(--accent-electric) 0%, var(--accent-violet) 100%);
       border-radius: var(--radius-full);
       transition: width 0.5s ease;
     }
@@ -365,8 +390,9 @@
     }
 
     .qty-btn:hover {
-      background: #E2E8F0;
-      border-color: var(--border-strong);
+      background: linear-gradient(135deg, var(--accent-electric), var(--accent-violet));
+      color: white;
+      border-color: var(--accent-primary);
       transform: scale(1.02);
     }
 
@@ -399,10 +425,10 @@
       width: 24px;
       height: 24px;
       border-radius: 50%;
-      background: var(--accent-primary);
+      background: linear-gradient(135deg, var(--accent-electric), var(--accent-violet));
       border: 3px solid #FFFFFF;
       cursor: pointer;
-      box-shadow: 0 2px 10px rgba(0, 82, 255, 0.5);
+      box-shadow: 0 2px 12px rgba(79, 70, 229, 0.50);
       transition: var(--transition);
     }
 
@@ -422,10 +448,18 @@
       font-size: 16px;
     }
 
+    .total-box b {
+      background: linear-gradient(135deg, var(--accent-electric), var(--accent-violet));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      font-size: 20px;
+    }
+
     .buyback {
-      background: #FEFCE8;
-      border: 1px dashed #FDE047;
-      color: #854D0E;
+      background: linear-gradient(135deg, #FEFCE8, #F3E8FF);
+      border: 1px dashed rgba(124, 58, 237, 0.30);
+      color: #5B21B6;
       border-radius: var(--radius-md);
       padding: 16px 20px;
       margin-top: 18px;
@@ -448,6 +482,11 @@
       border-radius: var(--radius-full);
     }
 
+    .tag-validated {
+      background: linear-gradient(135deg, #10B981, #059669);
+      color: white;
+    }
+
     /* Inputs & Form Buttons */
     .input {
       width: 100%;
@@ -465,7 +504,7 @@
 
     .input:focus {
       border-color: var(--accent-primary);
-      box-shadow: 0 0 0 4px rgba(0, 82, 255, 0.08);
+      box-shadow: 0 0 0 4px rgba(79, 70, 229, 0.10);
     }
 
     .btn {
@@ -473,7 +512,7 @@
       height: 52px;
       border-radius: var(--radius-md);
       border: 0;
-      background: var(--accent-primary);
+      background: linear-gradient(135deg, var(--accent-electric), var(--accent-violet));
       color: white;
       font-weight: 800;
       font-size: 15px;
@@ -482,13 +521,12 @@
       align-items: center;
       justify-content: center;
       gap: 10px;
-      box-shadow: 0 4px 16px rgba(0, 82, 255, 0.20);
+      box-shadow: 0 4px 20px rgba(79, 70, 229, 0.25);
       transition: var(--transition);
     }
 
     .btn:hover {
-      background: var(--accent-primary-hover);
-      box-shadow: 0 8px 24px rgba(0, 82, 255, 0.30);
+      box-shadow: 0 8px 32px rgba(79, 70, 229, 0.35);
       transform: translateY(-2px);
     }
 
@@ -500,9 +538,9 @@
 
     .ref-banner {
       display: none;
-      background: #FEFCE8;
-      border: 1px solid #FDE047;
-      color: #854D0E;
+      background: linear-gradient(135deg, #FEFCE8, #F3E8FF);
+      border: 1px solid rgba(124, 58, 237, 0.20);
+      color: #5B21B6;
       border-radius: var(--radius-md);
       padding: 14px 20px;
       font-size: 13px;
@@ -532,8 +570,8 @@
     }
 
     .user-badge {
-      background: var(--text-main);
-      color: #FFD60A;
+      background: linear-gradient(135deg, var(--accent-electric), var(--accent-violet));
+      color: white;
       padding: 6px 18px;
       border-radius: var(--radius-full);
       font-size: 12px;
@@ -541,7 +579,7 @@
       display: none;
     }
 
-    /* --- FAQ ACCORDION SAFEPAL STYLE --- */
+    /* --- FAQ ACCORDION --- */
     #faqs {
       margin-top: 56px;
     }
@@ -552,6 +590,10 @@
       font-weight: 800;
       letter-spacing: -0.02em;
       margin-bottom: 28px;
+      background: linear-gradient(135deg, var(--accent-electric), var(--accent-violet));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
     }
 
     .faq {
@@ -582,6 +624,11 @@
       font-weight: 700;
       font-size: 16px;
       cursor: pointer;
+      transition: var(--transition);
+    }
+
+    .faq-q:hover {
+      color: var(--accent-primary);
     }
 
     .faq-a {
@@ -596,11 +643,11 @@
       display: block;
     }
 
-    /* --- AUTH MODAL SAFEPAL STYLE --- */
+    /* --- AUTH MODAL --- */
     .auth-modal-overlay {
       position: fixed;
       inset: 0;
-      background: rgba(10, 13, 20, 0.65);
+      background: rgba(11, 17, 32, 0.65);
       backdrop-filter: blur(10px);
       -webkit-backdrop-filter: blur(10px);
       z-index: 200;
@@ -681,9 +728,9 @@
     }
 
     .auth-tab.active {
-      background: var(--accent-primary);
+      background: linear-gradient(135deg, var(--accent-electric), var(--accent-violet));
       color: white;
-      box-shadow: 0 4px 12px rgba(0, 82, 255, 0.20);
+      box-shadow: 0 4px 16px rgba(79, 70, 229, 0.25);
     }
 
     /* --- FOOTER --- */
@@ -720,7 +767,7 @@
   </nav>
 
   <div class="hero"><div class="hero-inner">
-    <div class="hero-text"><div class="badge">● Ronda founders abierta • Perpetuo • 1 solo login</div><h1>COMPRA EL FOUNDERS PASS Y RECIBE USDT EN COMISIONES TODOS LOS MESES</h1>
+    <div class="hero-text"><div class="badge">● Ronda founders abierta • Perpetuo • 1 solo login</div><h1>COMPRA EL <span>FOUNDERS PASS</span> Y RECIBE USDT EN COMISIONES TODOS LOS MESES</h1>
       <div id="countdown" class="countdown">
         <div class="countdown-box"><div class="countdown-num" id="cdD">00</div><div class="countdown-label">Días</div></div>
         <div class="countdown-box"><div class="countdown-num" id="cdH">00</div><div class="countdown-label">Horas</div></div>
@@ -738,13 +785,13 @@
 
     <div class="card"><div class="eyebrow">RECAUDADO • TIEMPO REAL</div><div style="display:flex;align-items:center;gap:6px"><div class="title">Recaudado desde 22/08/2026</div><span class="live">EN VIVO</span></div><div style="font-size:10px;opacity:.6" id="sheetLive">Conectando al worker...</div><div class="amount">Compraron <span id="recaudado">-</span> <span style="font-size:11px;opacity:.6">• <span id="progressPct">-</span></span></div><div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div><div style="display:flex;justify-content:space-between;margin-top:6px;font-size:11px"><span><b id="sold">-</b> Slots vendidos</span><span>Quedan <b id="left">-</b> slots</span></div><div style="font-size:11px;opacity:.6;margin-top:8px">Hasta agotar stock (50 slots) o hasta el 30/08/2026. Cada slot = 0.5% perpetuo. Recompra 2x ($500) desde mes 12.</div></div>
 
-    <div class="card-outer" id="buyCard"><div class="card" style="margin:0;background:#C2D9FF"><div class="eyebrow">PARTICIPACIÓN FOUNDER PERPETUA</div><div class="title">Compra WASA BLOCKS</div><div style="font-size:11px;opacity:.6;margin-top:4px"><span id="costoLabel">Cargando precio...</span> <span id="dispVal">-</span> disponibles</div>
+    <div class="card-outer" id="buyCard"><div class="card" style="margin:0;background:linear-gradient(180deg, #EEF2FF, #E0E7FF)"><div class="eyebrow">PARTICIPACIÓN FOUNDER PERPETUA</div><div class="title">Compra WASA BLOCKS</div><div style="font-size:11px;opacity:.6;margin-top:4px"><span id="costoLabel">Cargando precio...</span> <span id="dispVal">-</span> disponibles</div>
       <div class="qty-row"><button class="qty-btn" id="btnMinus">−</button><div class="qty-val" id="qtyVal">1</div><button class="qty-btn" id="btnPlus">+</button><div style="margin-left:auto;font-size:11px"><span id="qtySlots">1 slot</span> = <b id="qtyPercent">0.5%</b> perpetuo</div></div><input type="range" min="1" max="10" value="1" class="range" id="range"><div class="total-box"><span style="font-size:11px;opacity:.6">Total a pagar:</span><b>$<span id="total">-</span> USDT</b></div>
       <div class="buyback"><b>🔄 Recompra 2x:</b> WASA puede recomprar tu slot a $500 (2x) después de 12 meses.</div>
-      <div class="method"><div style="display:flex;justify-content:space-between;margin-bottom:8px"><b style="font-size:13px">Pago On-Chain Validado</b><span class="tag" style="background:#16a34a">VALIDADO</span></div>
+      <div class="method"><div style="display:flex;justify-content:space-between;margin-bottom:8px"><b style="font-size:13px">Pago On-Chain Validado</b><span class="tag tag-validated">VALIDADO</span></div>
         <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px"><div style="width:32px;height:32px;border-radius:50%;background:#26A17B;display:grid;place-items:center;color:white;font-weight:800;font-size:10px">₮</div><div><div style="font-weight:700;font-size:13px">USDT en BNB Chain</div><div style="font-size:10px;opacity:.6">BEP-20 • Confirmación on-chain antes de registrar</div></div></div>
         <div id="formError" style="font-size:11px;color:#DC2626;background:#FEF2F2;border:1px solid #FECACA;border-radius:8px;padding:6px 10px;display:none;margin-bottom:8px">⚠ Logueate para comprar</div>
-        <div id="walletStatus" style="font-size:11px;color:#1D4ED8;font-weight:700;background:rgba(29,78,216,.08);padding:6px 10px;border-radius:8px;display:none;margin-bottom:8px"></div>
+        <div id="walletStatus" style="font-size:11px;color:#4F46E5;font-weight:700;background:rgba(79,70,229,.08);padding:6px 10px;border-radius:8px;display:none;margin-bottom:8px"></div>
         <div id="txStatus" style="font-size:11px;background:#FEF9C3;border:1px solid #EAB308;border-radius:8px;padding:8px 10px;display:none;margin-bottom:8px;word-break:break-word"></div>
         <div id="txHash" style="font-size:10px;word-break:break-all;opacity:.7;display:none;margin-bottom:8px"></div>
         <button class="btn" id="btnConnect">🔌 Conectar Wallet (MetaMask / Rabby)</button>
@@ -762,7 +809,7 @@
     <div class="auth-modal">
       <div class="auth-modal-head">
         <div>
-          <div class="eyebrow" style="color:#1D4ED8">1 SOLO LOGIN - FOUNDER + REFERIDOR</div>
+          <div class="eyebrow" style="color:#4F46E5">1 SOLO LOGIN - FOUNDER + REFERIDOR</div>
           <div class="title" style="font-size:16px">🔐 Accedé para comprar</div>
           <div style="font-size:11px;opacity:.6;margin-top:4px;line-height:1.4">Si no tenés cuenta, se crea automáticamente. Misma cuenta para comprar y referir.</div>
         </div>
@@ -775,15 +822,15 @@
       <div id="viewLogin">
         <input class="input" id="loginEmail" placeholder="Email">
         <input class="input" id="loginPass" type="password" placeholder="Contraseña">
-        <button class="btn" style="background:#1D4ED8" onclick="doLogin()">ENTRAR Y COMPRAR</button>
+        <button class="btn" onclick="doLogin()">ENTRAR Y COMPRAR</button>
         <div class="alert" id="loginAlert"></div>
-        <div style="text-align:center;margin-top:10px"><a href="#" onclick="openForgot();return false;" style="font-size:11px;color:#1D4ED8;font-weight:700;text-decoration:underline">Olvidé mi contraseña</a></div>
+        <div style="text-align:center;margin-top:10px"><a href="#" onclick="openForgot();return false;" style="font-size:11px;color:#4F46E5;font-weight:700;text-decoration:underline">Olvidé mi contraseña</a></div>
       </div>
       <div id="viewReg" style="display:none">
         <input class="input" id="regEmail" placeholder="Email">
         <input class="input" id="regPass" type="password" placeholder="Contraseña (mín 6)">
         <input class="input" id="regPass2" type="password" placeholder="Repetir contraseña">
-        <button class="btn" style="background:#1D4ED8" onclick="doRegister()">CREAR CUENTA UNIFICADA</button>
+        <button class="btn" onclick="doRegister()">CREAR CUENTA UNIFICADA</button>
         <div style="font-size:10px;opacity:.5;margin-top:8px;text-align:center">Al registrarte te damos REF-XXXX automático + cuenta founder con 0 slots.</div>
         <div class="alert" id="regAlert"></div>
       </div>
@@ -791,17 +838,17 @@
         <div style="font-size:12px;font-weight:800;margin-bottom:6px">Recuperar contraseña</div>
         <div style="font-size:11px;opacity:.6;margin-bottom:8px">Te enviamos código de 6 dígitos que expira en 15 min.</div>
         <input class="input" id="forgotEmail" placeholder="tu@email.com">
-        <button class="btn" style="background:#1D4ED8" id="btnForgot" onclick="requestReset()">ENVIAR CÓDIGO</button>
+        <button class="btn" id="btnForgot" onclick="requestReset()">ENVIAR CÓDIGO</button>
         <div class="alert" id="forgotAlert"></div>
         <div style="text-align:center;margin-top:10px"><a href="#" onclick="switchAuth('login');return false;" style="font-size:11px;text-decoration:underline">Volver a login</a></div>
       </div>
       <div id="viewReset" style="display:none">
         <div style="font-size:12px;font-weight:800;margin-bottom:6px">Código y nueva contraseña</div>
-        <input class="input" id="resetEmail" readonly style="background:#E6F0FF">
+        <input class="input" id="resetEmail" readonly style="background:#EEF2FF">
         <input class="input" id="resetCode" placeholder="Código 6 dígitos" style="letter-spacing:3px;font-weight:800;text-align:center">
         <input class="input" id="resetPass" type="password" placeholder="Nueva contraseña">
         <input class="input" id="resetPass2" type="password" placeholder="Repetir nueva">
-        <button class="btn" style="background:#16a34a" id="btnReset" onclick="confirmReset()">CAMBIAR CONTRASEÑA</button>
+        <button class="btn" style="background:linear-gradient(135deg,#10B981,#059669)" id="btnReset" onclick="confirmReset()">CAMBIAR CONTRASEÑA</button>
         <div class="alert" id="resetAlert"></div>
       </div>
     </div>
@@ -880,7 +927,7 @@
       try{ let r=await fetch(WASA_WEBHOOK_URL,{method:'POST',headers:{'Content-Type':'text/plain'},body:JSON.stringify({action:'resetPassword', email, code, newPassword:p1})}); let j=await r.json(); if(j.ok){ localStorage.setItem('wasa_token', j.token); showAlert('resetAlert','Contraseña cambiada! Entrando...',true); setTimeout(async()=>{ await checkAuth(); closeAuthModal(); },1000); } else showAlert('resetAlert', j.error||'Error', false); }catch(e){ showAlert('resetAlert', e.message, false); } finally{ btn.textContent='CAMBIAR CONTRASEÑA'; btn.disabled=false; }
     }
     function validate(){ let token=localStorage.getItem('wasa_token'); if(!token){ openAuthModal('login'); return false; } document.getElementById('formError').style.display='none'; return true; }
-    function showPopup(msg){ let id='wasaPopup'; let el=document.getElementById(id); if(!el){ el=document.createElement('div'); el.id=id; el.style.cssText='position:fixed;inset:0;background:rgba(15,23,42,.85);backdrop-filter:blur(8px);z-index:9999;display:flex;align-items:center;justify-content:center;padding:20px'; el.innerHTML='<div style="background:#C2D9FF;border:2px solid #93B4FF;border-radius:20px;padding:24px;max-width:420px;width:100%;text-align:center"><div id="wasaPopupMsg"></div><button onclick="document.getElementById(\'wasaPopup\').style.display=\'none\'" style="margin-top:16px;height:40px;padding:0 20px;border-radius:12px;border:0;background:#0A101F;color:white;font-weight:800;cursor:pointer">Cerrar</button></div>'; document.body.appendChild(el); } document.getElementById('wasaPopupMsg').innerHTML=msg; el.style.display='flex'; }
+    function showPopup(msg){ let id='wasaPopup'; let el=document.getElementById(id); if(!el){ el=document.createElement('div'); el.id=id; el.style.cssText='position:fixed;inset:0;background:rgba(15,23,42,.85);backdrop-filter:blur(8px);z-index:9999;display:flex;align-items:center;justify-content:center;padding:20px'; el.innerHTML='<div style="background:linear-gradient(180deg,#EEF2FF,#E0E7FF);border:2px solid rgba(79,70,229,0.2);border-radius:20px;padding:24px;max-width:420px;width:100%;text-align:center"><div id="wasaPopupMsg"></div><button onclick="document.getElementById(\'wasaPopup\').style.display=\'none\'" style="margin-top:16px;height:40px;padding:0 20px;border-radius:12px;border:0;background:linear-gradient(135deg,#4F46E5,#7C3AED);color:white;font-weight:800;cursor:pointer">Cerrar</button></div>'; document.body.appendChild(el); } document.getElementById('wasaPopupMsg').innerHTML=msg; el.style.display='flex'; }
     document.getElementById('btnConnect').onclick=async()=>{
       if(!await checkAuth()){ openAuthModal('login'); return; }
       if(!window.ethereum){alert('Install MetaMask');return;}
@@ -928,7 +975,7 @@
           // No bloqueamos, seguimos al popup
         }
         
-        showPopup(`<b style="color:#16a34a">✅ Compra ${j.alreadyRegistered?'AGREGADA':'VALIDADA'}!</b><br>WASA ID: ${j.codeId}<br>📧 Email enviado a ${email}<br><br><a href='/dashboard.html' style='background:#1D4ED8;color:white;padding:8px 14px;border-radius:8px;text-decoration:none;font-weight:800'>Ir a panel</a>`); setTimeout(()=>location.href='/dashboard.html',4000);
+        showPopup(`<b style="color:#059669">✅ Compra ${j.alreadyRegistered?'AGREGADA':'VALIDADA'}!</b><br>WASA ID: ${j.codeId}<br>📧 Email enviado a ${email}<br><br><a href='/dashboard.html' style='background:linear-gradient(135deg,#4F46E5,#7C3AED);color:white;padding:8px 14px;border-radius:8px;text-decoration:none;font-weight:800'>Ir a panel</a>`); setTimeout(()=>location.href='/dashboard.html',4000);
       }catch(e){ txDiv.style.background='#FEE2E2'; txDiv.textContent='❌ '+e.message; showPopup('❌ '+e.message); } finally{ btn.disabled=false; update(); }
     };
     async function fetchLive(){ try{ let r=await fetch(WASA_WEBHOOK_URL+'?action=read&v='+Date.now()); let j=await r.json(); if(j.ok){ document.getElementById('recaudado').textContent=j.sold; document.getElementById('sold').textContent=j.sold; document.getElementById('left').textContent=j.available; document.getElementById('progressPct').textContent=Math.round(j.sold/j.total*100)+'%'; document.getElementById('progressFill').style.width=Math.round(j.sold/j.total*100)+'%'; document.getElementById('range').max=j.available; document.getElementById('dispVal').textContent=j.available; if(qty>j.available) qty=j.available; if(CONFIG_DYNAMIC) update(); } }catch{} }
@@ -936,16 +983,16 @@
     function checkDeadline(){ const now=new Date(); const diff=DEADLINE-now; if(diff<=0){ ['cdD','cdH','cdM','cdS'].forEach(id=>document.getElementById(id).textContent='00'); return; } const d=Math.floor(diff/86400000); const h=Math.floor((diff%86400000)/3600000); const m=Math.floor((diff%3600000)/60000); const s=Math.floor((diff%60000)/1000); document.getElementById('cdD').textContent=String(d).padStart(2,'0'); document.getElementById('cdH').textContent=String(h).padStart(2,'0'); document.getElementById('cdM').textContent=String(m).padStart(2,'0'); document.getElementById('cdS').textContent=String(s).padStart(2,'0'); } setInterval(checkDeadline,1000); checkDeadline();
   </script>
 
-  <footer style="background:#0A101F;color:white;padding:32px 5% 24px;margin-top:40px">
+  <footer style="background:#0B1120;color:white;padding:48px 5% 32px;margin-top:60px">
     <div style="max-width:720px;margin:0 auto;display:flex;flex-wrap:wrap;gap:24px;justify-content:space-between;align-items:flex-start">
       <div style="flex:1;min-width:200px">
-        <div style="font-weight:800;font-size:16px;margin-bottom:8px">founders.wasa.chat</div>
+        <div style="font-weight:800;font-size:16px;margin-bottom:8px;background:linear-gradient(135deg,#4F46E5,#7C3AED);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text">founders.wasa.chat</div>
         <div style="font-size:11px;opacity:.6;line-height:1.5">Ronda founder perpetua 2026. 50 slots = 25% total ganancias. 1 solo login en popup para comprar y referir. USDT BSC.</div>
       </div>
       <div style="display:flex;flex-direction:column;gap:10px;align-items:flex-start">
-        <a href="mailto:founders@wasa.chat" style="display:inline-flex;align-items:center;gap:6px;background:#1D4ED8;color:white;padding:10px 18px;border-radius:999px;font-size:12px;font-weight:800;text-decoration:none">📩 CONTACTO</a>
+        <a href="mailto:founders@wasa.chat" style="display:inline-flex;align-items:center;gap:6px;background:linear-gradient(135deg,#4F46E5,#7C3AED);color:white;padding:10px 18px;border-radius:999px;font-size:12px;font-weight:800;text-decoration:none">📩 CONTACTO</a>
         <a href="/dashboard.html" id="footerDashboard" style="color:rgba(255,255,255,.7);font-size:11px;text-decoration:none;display:none">Dashboard</a>
-        <a href="/refer-register.html" style="color:#FFD60A;font-size:11px;font-weight:800;text-decoration:none">GANA dinero aquí → 10% referidos</a>
+        <a href="/refer-register.html" style="color:#FCD34D;font-size:11px;font-weight:800;text-decoration:none">GANA dinero aquí → 10% referidos</a>
         <a href="/terminos_FINAL.html" style="color:rgba(255,255,255,.5);font-size:10px;text-decoration:underline">Términos</a>
       </div>
     </div>
