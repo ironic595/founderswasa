@@ -6,7 +6,7 @@
   <title>founders.wasa.chat - Compra Wasablocks</title>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
   <style>
-    /* --- RESET & VARIABLES (ESTILO SAFEPAL + MODERN VIBE) --- */
+    /* --- RESET & VARIABLES (MODERN VIBE + CONTRAST) --- */
     *, *::before, *::after {
       box-sizing: border-box;
       margin: 0;
@@ -19,13 +19,17 @@
       --bg-subtle: #EEF2FF;
       --bg-input: #FFFFFF;
       /* Electric Blue + Violet palette */
-      --accent-primary: #4F46E5;        /* Indigo/violet base */
+      --accent-primary: #4F46E5;
       --accent-primary-hover: #4338CA;
-      --accent-electric: #2563EB;       /* Electric blue */
-      --accent-violet: #7C3AED;          /* Violeta moderno */
+      --accent-electric: #2563EB;
+      --accent-violet: #7C3AED;
       --accent-cyan: #06B6D4;
       --accent-gold: #EAB308;
       --accent-green: #10B981;
+      /* Contrast colors for buy section */
+      --contrast-orange: #F59E0B;
+      --contrast-amber: #D97706;
+      --contrast-yellow: #FCD34D;
       --text-main: #0B1120;
       --text-muted: #6B7280;
       --border-color: #E5E7EB;
@@ -37,14 +41,16 @@
       --shadow-sm: 0 4px 14px rgba(79, 70, 229, 0.06);
       --shadow-md: 0 12px 40px -8px rgba(79, 70, 229, 0.12);
       --shadow-lg: 0 28px 60px -16px rgba(79, 70, 229, 0.15);
-      --shadow-glow: 0 0 40px rgba(79, 70, 229, 0.15);
+      --shadow-glow: 0 0 40px rgba(79, 70, 229, 0.12);
+      --shadow-warm: 0 12px 40px -8px rgba(245, 158, 11, 0.20);
       --transition: all 0.25s cubic-bezier(0.25, 0.46, 0.45, 0.94);
     }
 
     html, body {
       overflow-x: hidden;
       max-width: 100%;
-      background-color: var(--bg-main);
+      min-height: 100vh;
+      background: linear-gradient(160deg, #EEF2FF 0%, #F6F8FE 40%, #FEF3C7 100%);
       color: var(--text-main);
       font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
       line-height: 1.65;
@@ -58,10 +64,10 @@
       left: 0;
       right: 0;
       height: 80px;
-      background: rgba(255, 255, 255, 0.82);
+      background: rgba(11, 17, 32, 0.92);
       backdrop-filter: blur(18px);
       -webkit-backdrop-filter: blur(18px);
-      border-bottom: 1px solid rgba(229, 231, 235, 0.6);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
       display: flex;
       align-items: center;
       justify-content: space-between;
@@ -71,13 +77,13 @@
     }
 
     .nav .logo {
-      color: var(--text-main);
+      color: white;
       font-weight: 800;
       font-size: 21px;
       letter-spacing: -0.02em;
       white-space: nowrap;
       flex-shrink: 0;
-      background: linear-gradient(135deg, var(--accent-electric), var(--accent-violet));
+      background: linear-gradient(135deg, #FCD34D, #F59E0B);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       background-clip: text;
@@ -88,7 +94,7 @@
       gap: 24px;
       font-size: 13px;
       font-weight: 700;
-      color: var(--text-muted);
+      color: rgba(255, 255, 255, 0.6);
       align-items: center;
       white-space: nowrap;
     }
@@ -102,25 +108,25 @@
     }
 
     .nav .links a:hover {
-      color: var(--accent-primary);
-      border-bottom-color: var(--accent-primary);
+      color: #FCD34D;
+      border-bottom-color: #FCD34D;
     }
 
     .nav .links a.highlight {
-      background: linear-gradient(135deg, var(--accent-electric), var(--accent-violet));
-      color: white !important;
+      background: linear-gradient(135deg, #F59E0B, #D97706);
+      color: #0B1120 !important;
       padding: 10px 22px;
       border-radius: var(--radius-full);
       font-weight: 800;
-      box-shadow: 0 4px 16px rgba(79, 70, 229, 0.30);
+      box-shadow: 0 4px 20px rgba(245, 158, 11, 0.35);
       transition: var(--transition);
       border-bottom: none;
-      -webkit-text-fill-color: white;
+      -webkit-text-fill-color: #0B1120;
     }
 
     .nav .links a.highlight:hover {
       transform: translateY(-2px);
-      box-shadow: 0 8px 28px rgba(79, 70, 229, 0.40);
+      box-shadow: 0 8px 32px rgba(245, 158, 11, 0.50);
       border-bottom: none;
     }
 
@@ -133,11 +139,30 @@
     /* --- HERO SECTION --- */
     .hero {
       width: 100%;
-      background: radial-gradient(120% 120% at 50% 0%, rgba(79, 70, 229, 0.08) 0%, rgba(246, 248, 254, 0) 100%),
-                  linear-gradient(180deg, #E8EDFF 0%, var(--bg-main) 100%);
+      background: radial-gradient(ellipse at 50% 0%, rgba(79, 70, 229, 0.15) 0%, transparent 70%),
+                  radial-gradient(ellipse at 100% 80%, rgba(245, 158, 11, 0.10) 0%, transparent 60%),
+                  linear-gradient(180deg, #0B1120 0%, #1A1F36 40%, #2D1B3D 100%);
       padding: 150px 0 70px;
       display: flex;
       justify-content: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: radial-gradient(circle at 30% 50%, rgba(79, 70, 229, 0.05) 0%, transparent 60%);
+      animation: heroGlow 20s ease-in-out infinite alternate;
+    }
+
+    @keyframes heroGlow {
+      0% { transform: translate(0, 0) scale(1); }
+      100% { transform: translate(5%, 5%) scale(1.1); }
     }
 
     .hero-inner {
@@ -148,12 +173,14 @@
       grid-template-columns: 1.3fr 0.7fr;
       gap: 48px;
       align-items: center;
+      position: relative;
+      z-index: 1;
     }
 
     .hero-text .badge {
-      background: linear-gradient(135deg, rgba(79, 70, 229, 0.12), rgba(37, 99, 235, 0.08));
-      border: 1px solid rgba(79, 70, 229, 0.15);
-      color: var(--accent-primary);
+      background: rgba(252, 211, 77, 0.15);
+      border: 1px solid rgba(252, 211, 77, 0.25);
+      color: #FCD34D;
       border-radius: var(--radius-full);
       padding: 8px 18px;
       font-size: 12px;
@@ -169,12 +196,12 @@
       font-weight: 800;
       line-height: 1.2;
       letter-spacing: -0.03em;
-      color: var(--text-main);
+      color: white;
       margin-bottom: 28px;
     }
 
     .hero-text h1 span {
-      background: linear-gradient(135deg, var(--accent-electric), var(--accent-violet));
+      background: linear-gradient(135deg, #FCD34D, #F59E0B);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       background-clip: text;
@@ -196,27 +223,26 @@
     }
 
     .btn-hero-primary {
-      background: linear-gradient(135deg, var(--accent-electric), var(--accent-violet));
-      color: white;
-      box-shadow: 0 8px 28px rgba(79, 70, 229, 0.35);
+      background: linear-gradient(135deg, #FCD34D, #F59E0B);
+      color: #0B1120;
+      box-shadow: 0 8px 28px rgba(245, 158, 11, 0.40);
     }
 
     .btn-hero-primary:hover {
       transform: translateY(-3px);
-      box-shadow: 0 14px 40px rgba(79, 70, 229, 0.45);
+      box-shadow: 0 14px 44px rgba(245, 158, 11, 0.55);
     }
 
     .btn-hero-secondary {
-      background: var(--bg-card);
-      color: var(--text-main);
-      border: 1px solid var(--border-color);
-      box-shadow: var(--shadow-sm);
+      background: rgba(255, 255, 255, 0.10);
+      color: white;
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      backdrop-filter: blur(8px);
     }
 
     .btn-hero-secondary:hover {
-      background: var(--bg-subtle);
+      background: rgba(255, 255, 255, 0.20);
       transform: translateY(-3px);
-      box-shadow: var(--shadow-md);
     }
 
     /* Countdown */
@@ -227,20 +253,20 @@
     }
 
     .countdown-box {
-      background: var(--bg-card);
-      border: 1px solid var(--border-color);
-      color: var(--text-main);
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.10);
+      color: white;
       border-radius: var(--radius-md);
       padding: 14px 18px;
       min-width: 72px;
       text-align: center;
-      box-shadow: var(--shadow-sm);
+      backdrop-filter: blur(8px);
     }
 
     .countdown-num {
       font-size: 28px;
       font-weight: 800;
-      background: linear-gradient(135deg, var(--accent-electric), var(--accent-violet));
+      background: linear-gradient(135deg, #FCD34D, #F59E0B);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       background-clip: text;
@@ -249,7 +275,7 @@
     .countdown-label {
       font-size: 10px;
       font-weight: 700;
-      color: var(--text-muted);
+      color: rgba(255, 255, 255, 0.5);
       text-transform: uppercase;
       letter-spacing: 0.04em;
     }
@@ -263,7 +289,7 @@
     .hero-cert {
       width: 260px;
       transform: rotate(3deg);
-      filter: drop-shadow(0 24px 44px rgba(79, 70, 229, 0.20));
+      filter: drop-shadow(0 24px 44px rgba(245, 158, 11, 0.25)) drop-shadow(0 0 60px rgba(79, 70, 229, 0.15));
       animation: float 5s ease-in-out infinite;
     }
 
@@ -301,13 +327,96 @@
       box-shadow: var(--shadow-lg);
     }
 
+    /* --- BUY SECTION WITH CONTRAST (AMARILLO/NARANJA) --- */
     .card-outer {
-      background: linear-gradient(180deg, #FFFFFF 0%, #EEF2FF 100%);
-      border: 2px solid rgba(79, 70, 229, 0.20);
+      background: linear-gradient(180deg, #FEF3C7 0%, #FDE68A 40%, #FCD34D 100%);
+      border: 3px solid #F59E0B;
       border-radius: 28px;
       padding: 16px;
       margin-bottom: 32px;
-      box-shadow: var(--shadow-glow);
+      box-shadow: var(--shadow-warm), 0 0 60px rgba(245, 158, 11, 0.15);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .card-outer::before {
+      content: '🔥 OFERTA LIMITADA';
+      position: absolute;
+      top: 16px;
+      right: -32px;
+      background: #DC2626;
+      color: white;
+      font-size: 10px;
+      font-weight: 800;
+      padding: 4px 40px;
+      transform: rotate(45deg);
+      letter-spacing: 0.08em;
+      box-shadow: 0 2px 12px rgba(220, 38, 38, 0.30);
+      z-index: 2;
+    }
+
+    .card-outer .card {
+      background: rgba(255, 255, 255, 0.92);
+      backdrop-filter: blur(12px);
+      border: 2px solid rgba(245, 158, 11, 0.20);
+      box-shadow: 0 8px 32px rgba(245, 158, 11, 0.10);
+      margin: 0;
+    }
+
+    .card-outer .card .eyebrow {
+      color: #B45309;
+    }
+
+    .card-outer .card .title {
+      color: #78350F;
+    }
+
+    .card-outer .qty-btn {
+      background: #FEF3C7;
+      border-color: #F59E0B;
+    }
+
+    .card-outer .qty-btn:hover {
+      background: linear-gradient(135deg, #F59E0B, #D97706);
+      color: white;
+      border-color: #D97706;
+    }
+
+    .card-outer .range::-webkit-slider-thumb {
+      background: linear-gradient(135deg, #F59E0B, #D97706);
+      box-shadow: 0 2px 12px rgba(245, 158, 11, 0.50);
+    }
+
+    .card-outer .total-box {
+      background: #FEF3C7;
+      border-color: #F59E0B;
+    }
+
+    .card-outer .total-box b {
+      background: linear-gradient(135deg, #D97706, #B45309);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .card-outer .buyback {
+      background: linear-gradient(135deg, #FEF3C7, #FDE68A);
+      border-color: #F59E0B;
+      color: #78350F;
+    }
+
+    .card-outer .method {
+      background: #FFFBEB;
+      border-color: #F59E0B;
+    }
+
+    .card-outer .btn {
+      background: linear-gradient(135deg, #F59E0B, #D97706);
+      box-shadow: 0 4px 20px rgba(245, 158, 11, 0.30);
+    }
+
+    .card-outer .btn:hover {
+      box-shadow: 0 8px 32px rgba(245, 158, 11, 0.45);
     }
 
     .eyebrow {
@@ -389,13 +498,6 @@
       transition: var(--transition);
     }
 
-    .qty-btn:hover {
-      background: linear-gradient(135deg, var(--accent-electric), var(--accent-violet));
-      color: white;
-      border-color: var(--accent-primary);
-      transform: scale(1.02);
-    }
-
     .qty-val {
       width: 72px;
       height: 48px;
@@ -446,14 +548,6 @@
       justify-content: space-between;
       align-items: center;
       font-size: 16px;
-    }
-
-    .total-box b {
-      background: linear-gradient(135deg, var(--accent-electric), var(--accent-violet));
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-      font-size: 20px;
     }
 
     .buyback {
@@ -647,9 +741,9 @@
     .auth-modal-overlay {
       position: fixed;
       inset: 0;
-      background: rgba(11, 17, 32, 0.65);
-      backdrop-filter: blur(10px);
-      -webkit-backdrop-filter: blur(10px);
+      background: rgba(11, 17, 32, 0.75);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
       z-index: 200;
       display: none;
       align-items: center;
@@ -739,6 +833,7 @@
       color: white;
       padding: 48px 5% 32px;
       margin-top: 60px;
+      border-top: 1px solid rgba(252, 211, 77, 0.10);
     }
 
     footer a {
@@ -762,7 +857,7 @@
         <a href="#" id="navLogin" onclick="openAuthModal('login');return false;">LOGIN</a>
       </div>
       <span id="navUser" class="user-badge"></span>
-      <button id="langBtn" style="height:30px;padding:0 12px;border-radius:999px;border:1px solid rgba(255,255,255,.3);background:rgba(255,255,255,.15);color:white;font-size:11px;font-weight:800;cursor:pointer">EN</button>
+      <button id="langBtn" style="height:30px;padding:0 12px;border-radius:999px;border:1px solid rgba(255,255,255,.15);background:rgba(255,255,255,.08);color:rgba(255,255,255,0.6);font-size:11px;font-weight:800;cursor:pointer;transition:all 0.2s">EN</button>
     </div>
   </nav>
 
@@ -785,7 +880,8 @@
 
     <div class="card"><div class="eyebrow">RECAUDADO • TIEMPO REAL</div><div style="display:flex;align-items:center;gap:6px"><div class="title">Recaudado desde 22/08/2026</div><span class="live">EN VIVO</span></div><div style="font-size:10px;opacity:.6" id="sheetLive">Conectando al worker...</div><div class="amount">Compraron <span id="recaudado">-</span> <span style="font-size:11px;opacity:.6">• <span id="progressPct">-</span></span></div><div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div><div style="display:flex;justify-content:space-between;margin-top:6px;font-size:11px"><span><b id="sold">-</b> Slots vendidos</span><span>Quedan <b id="left">-</b> slots</span></div><div style="font-size:11px;opacity:.6;margin-top:8px">Hasta agotar stock (50 slots) o hasta el 30/08/2026. Cada slot = 0.5% perpetuo. Recompra 2x ($500) desde mes 12.</div></div>
 
-    <div class="card-outer" id="buyCard"><div class="card" style="margin:0;background:linear-gradient(180deg, #EEF2FF, #E0E7FF)"><div class="eyebrow">PARTICIPACIÓN FOUNDER PERPETUA</div><div class="title">Compra WASA BLOCKS</div><div style="font-size:11px;opacity:.6;margin-top:4px"><span id="costoLabel">Cargando precio...</span> <span id="dispVal">-</span> disponibles</div>
+    <!-- BUY SECTION RESALTADA EN AMARILLO/NARANJA -->
+    <div class="card-outer" id="buyCard"><div class="card"><div class="eyebrow">🔥 PARTICIPACIÓN FOUNDER PERPETUA</div><div class="title">Compra WASA BLOCKS</div><div style="font-size:11px;opacity:.6;margin-top:4px"><span id="costoLabel">Cargando precio...</span> <span id="dispVal">-</span> disponibles</div>
       <div class="qty-row"><button class="qty-btn" id="btnMinus">−</button><div class="qty-val" id="qtyVal">1</div><button class="qty-btn" id="btnPlus">+</button><div style="margin-left:auto;font-size:11px"><span id="qtySlots">1 slot</span> = <b id="qtyPercent">0.5%</b> perpetuo</div></div><input type="range" min="1" max="10" value="1" class="range" id="range"><div class="total-box"><span style="font-size:11px;opacity:.6">Total a pagar:</span><b>$<span id="total">-</span> USDT</b></div>
       <div class="buyback"><b>🔄 Recompra 2x:</b> WASA puede recomprar tu slot a $500 (2x) después de 12 meses.</div>
       <div class="method"><div style="display:flex;justify-content:space-between;margin-bottom:8px"><b style="font-size:13px">Pago On-Chain Validado</b><span class="tag tag-validated">VALIDADO</span></div>
@@ -927,7 +1023,7 @@
       try{ let r=await fetch(WASA_WEBHOOK_URL,{method:'POST',headers:{'Content-Type':'text/plain'},body:JSON.stringify({action:'resetPassword', email, code, newPassword:p1})}); let j=await r.json(); if(j.ok){ localStorage.setItem('wasa_token', j.token); showAlert('resetAlert','Contraseña cambiada! Entrando...',true); setTimeout(async()=>{ await checkAuth(); closeAuthModal(); },1000); } else showAlert('resetAlert', j.error||'Error', false); }catch(e){ showAlert('resetAlert', e.message, false); } finally{ btn.textContent='CAMBIAR CONTRASEÑA'; btn.disabled=false; }
     }
     function validate(){ let token=localStorage.getItem('wasa_token'); if(!token){ openAuthModal('login'); return false; } document.getElementById('formError').style.display='none'; return true; }
-    function showPopup(msg){ let id='wasaPopup'; let el=document.getElementById(id); if(!el){ el=document.createElement('div'); el.id=id; el.style.cssText='position:fixed;inset:0;background:rgba(15,23,42,.85);backdrop-filter:blur(8px);z-index:9999;display:flex;align-items:center;justify-content:center;padding:20px'; el.innerHTML='<div style="background:linear-gradient(180deg,#EEF2FF,#E0E7FF);border:2px solid rgba(79,70,229,0.2);border-radius:20px;padding:24px;max-width:420px;width:100%;text-align:center"><div id="wasaPopupMsg"></div><button onclick="document.getElementById(\'wasaPopup\').style.display=\'none\'" style="margin-top:16px;height:40px;padding:0 20px;border-radius:12px;border:0;background:linear-gradient(135deg,#4F46E5,#7C3AED);color:white;font-weight:800;cursor:pointer">Cerrar</button></div>'; document.body.appendChild(el); } document.getElementById('wasaPopupMsg').innerHTML=msg; el.style.display='flex'; }
+    function showPopup(msg){ let id='wasaPopup'; let el=document.getElementById(id); if(!el){ el=document.createElement('div'); el.id=id; el.style.cssText='position:fixed;inset:0;background:rgba(15,23,42,.85);backdrop-filter:blur(8px);z-index:9999;display:flex;align-items:center;justify-content:center;padding:20px'; el.innerHTML='<div style="background:linear-gradient(180deg,#FEF3C7,#FDE68A);border:2px solid #F59E0B;border-radius:20px;padding:24px;max-width:420px;width:100%;text-align:center"><div id="wasaPopupMsg"></div><button onclick="document.getElementById(\'wasaPopup\').style.display=\'none\'" style="margin-top:16px;height:40px;padding:0 20px;border-radius:12px;border:0;background:linear-gradient(135deg,#F59E0B,#D97706);color:#0B1120;font-weight:800;cursor:pointer">Cerrar</button></div>'; document.body.appendChild(el); } document.getElementById('wasaPopupMsg').innerHTML=msg; el.style.display='flex'; }
     document.getElementById('btnConnect').onclick=async()=>{
       if(!await checkAuth()){ openAuthModal('login'); return; }
       if(!window.ethereum){alert('Install MetaMask');return;}
@@ -975,7 +1071,7 @@
           // No bloqueamos, seguimos al popup
         }
         
-        showPopup(`<b style="color:#059669">✅ Compra ${j.alreadyRegistered?'AGREGADA':'VALIDADA'}!</b><br>WASA ID: ${j.codeId}<br>📧 Email enviado a ${email}<br><br><a href='/dashboard.html' style='background:linear-gradient(135deg,#4F46E5,#7C3AED);color:white;padding:8px 14px;border-radius:8px;text-decoration:none;font-weight:800'>Ir a panel</a>`); setTimeout(()=>location.href='/dashboard.html',4000);
+        showPopup(`<b style="color:#D97706">✅ Compra ${j.alreadyRegistered?'AGREGADA':'VALIDADA'}!</b><br>WASA ID: ${j.codeId}<br>📧 Email enviado a ${email}<br><br><a href='/dashboard.html' style='background:linear-gradient(135deg,#F59E0B,#D97706);color:#0B1120;padding:8px 14px;border-radius:8px;text-decoration:none;font-weight:800'>Ir a panel</a>`); setTimeout(()=>location.href='/dashboard.html',4000);
       }catch(e){ txDiv.style.background='#FEE2E2'; txDiv.textContent='❌ '+e.message; showPopup('❌ '+e.message); } finally{ btn.disabled=false; update(); }
     };
     async function fetchLive(){ try{ let r=await fetch(WASA_WEBHOOK_URL+'?action=read&v='+Date.now()); let j=await r.json(); if(j.ok){ document.getElementById('recaudado').textContent=j.sold; document.getElementById('sold').textContent=j.sold; document.getElementById('left').textContent=j.available; document.getElementById('progressPct').textContent=Math.round(j.sold/j.total*100)+'%'; document.getElementById('progressFill').style.width=Math.round(j.sold/j.total*100)+'%'; document.getElementById('range').max=j.available; document.getElementById('dispVal').textContent=j.available; if(qty>j.available) qty=j.available; if(CONFIG_DYNAMIC) update(); } }catch{} }
@@ -983,14 +1079,14 @@
     function checkDeadline(){ const now=new Date(); const diff=DEADLINE-now; if(diff<=0){ ['cdD','cdH','cdM','cdS'].forEach(id=>document.getElementById(id).textContent='00'); return; } const d=Math.floor(diff/86400000); const h=Math.floor((diff%86400000)/3600000); const m=Math.floor((diff%3600000)/60000); const s=Math.floor((diff%60000)/1000); document.getElementById('cdD').textContent=String(d).padStart(2,'0'); document.getElementById('cdH').textContent=String(h).padStart(2,'0'); document.getElementById('cdM').textContent=String(m).padStart(2,'0'); document.getElementById('cdS').textContent=String(s).padStart(2,'0'); } setInterval(checkDeadline,1000); checkDeadline();
   </script>
 
-  <footer style="background:#0B1120;color:white;padding:48px 5% 32px;margin-top:60px">
+  <footer style="background:#0B1120;color:white;padding:48px 5% 32px;margin-top:60px;border-top:1px solid rgba(252,211,77,0.10)">
     <div style="max-width:720px;margin:0 auto;display:flex;flex-wrap:wrap;gap:24px;justify-content:space-between;align-items:flex-start">
       <div style="flex:1;min-width:200px">
-        <div style="font-weight:800;font-size:16px;margin-bottom:8px;background:linear-gradient(135deg,#4F46E5,#7C3AED);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text">founders.wasa.chat</div>
+        <div style="font-weight:800;font-size:16px;margin-bottom:8px;background:linear-gradient(135deg,#FCD34D,#F59E0B);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text">founders.wasa.chat</div>
         <div style="font-size:11px;opacity:.6;line-height:1.5">Ronda founder perpetua 2026. 50 slots = 25% total ganancias. 1 solo login en popup para comprar y referir. USDT BSC.</div>
       </div>
       <div style="display:flex;flex-direction:column;gap:10px;align-items:flex-start">
-        <a href="mailto:founders@wasa.chat" style="display:inline-flex;align-items:center;gap:6px;background:linear-gradient(135deg,#4F46E5,#7C3AED);color:white;padding:10px 18px;border-radius:999px;font-size:12px;font-weight:800;text-decoration:none">📩 CONTACTO</a>
+        <a href="mailto:founders@wasa.chat" style="display:inline-flex;align-items:center;gap:6px;background:linear-gradient(135deg,#F59E0B,#D97706);color:#0B1120;padding:10px 18px;border-radius:999px;font-size:12px;font-weight:800;text-decoration:none">📩 CONTACTO</a>
         <a href="/dashboard.html" id="footerDashboard" style="color:rgba(255,255,255,.7);font-size:11px;text-decoration:none;display:none">Dashboard</a>
         <a href="/refer-register.html" style="color:#FCD34D;font-size:11px;font-weight:800;text-decoration:none">GANA dinero aquí → 10% referidos</a>
         <a href="/terminos_FINAL.html" style="color:rgba(255,255,255,.5);font-size:10px;text-decoration:underline">Términos</a>
