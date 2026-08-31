@@ -1,4 +1,4 @@
-// wasa-config.js - UNICO PUNTO - usado por founders.html, refer-register.html, referrals.html, marketplace.html, dashboard.html, etc
+// wasa-config.js - ORIGINAL QUE ANDA - UNICO PUNTO - usado por founders.html, refer-register.html, referrals.html, marketplace.html, dashboard.html, etc
 const WASA_WORKER_URL = 'https://founderswasablocks.javimsites.workers.dev';
 const WASA_WORKER_KEY = 'wasa_2026_f0und3rs_9k2j4l8x';
 const WASA_WEBHOOK_URL = WASA_WORKER_URL;
