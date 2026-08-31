@@ -446,21 +446,82 @@
       padding: 40px 28px 80px;
     }
 
-    .card {
-      background: var(--bg-card);
-      border: 1px solid var(--border-color);
-      border-radius: var(--radius-lg);
-      padding: 32px 36px;
+    /* --- CARD RECAUDADO CON ESTILO CÁLIDO (AMARILLO/NARANJA) --- */
+    .card-recaudado {
+      background: linear-gradient(180deg, #FEF3C7 0%, #FDE68A 40%, #FCD34D 100%);
+      border: 3px solid #F59E0B;
+      border-radius: 28px;
+      padding: 16px;
       margin-bottom: 28px;
-      box-shadow: var(--shadow-md);
-      transition: var(--transition);
+      box-shadow: var(--shadow-warm), 0 0 60px rgba(245, 158, 11, 0.12);
+      position: relative;
+      overflow: hidden;
+      animation: borderPulse 3s ease-in-out infinite;
     }
 
-    .card:hover {
-      box-shadow: var(--shadow-lg);
+    .card-recaudado::before {
+      content: '📊 RECAUDACIÓN EN VIVO';
+      position: absolute;
+      top: 12px;
+      right: -28px;
+      background: #2563EB;
+      color: white;
+      font-size: 9px;
+      font-weight: 800;
+      padding: 3px 36px;
+      transform: rotate(45deg);
+      letter-spacing: 0.06em;
+      box-shadow: 0 2px 12px rgba(37, 99, 235, 0.30);
+      z-index: 2;
     }
 
-    /* --- BUY SECTION WITH CONTRAST (AMARILLO/NARANJA) --- */
+    .card-recaudado .card {
+      background: rgba(255, 255, 255, 0.92);
+      backdrop-filter: blur(12px);
+      border: 2px solid rgba(245, 158, 11, 0.20);
+      box-shadow: 0 8px 32px rgba(245, 158, 11, 0.08);
+      margin: 0;
+      padding: 32px 36px;
+      border-radius: var(--radius-lg);
+    }
+
+    .card-recaudado .card .eyebrow {
+      color: #B45309;
+    }
+
+    .card-recaudado .card .title {
+      color: #78350F;
+    }
+
+    .card-recaudado .card .amount {
+      color: #78350F;
+    }
+
+    .card-recaudado .card .amount span {
+      background: linear-gradient(135deg, #D97706, #B45309);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .card-recaudado .card .live {
+      background: linear-gradient(135deg, rgba(16, 185, 129, 0.15), rgba(6, 182, 212, 0.10));
+      border: 1px solid rgba(16, 185, 129, 0.25);
+      color: #059669;
+    }
+
+    .card-recaudado .progress-bar {
+      background: #FEF3C7;
+      border-color: #F59E0B;
+    }
+
+    .card-recaudado .progress-fill {
+      background: linear-gradient(90deg, #F59E0B, #D97706, #F59E0B);
+      background-size: 200% 100%;
+      animation: shimmerProgress 2.5s ease-in-out infinite;
+    }
+
+    /* --- CARD COMPRAS CON MISMA ANIMACIÓN DE BORDE --- */
     .card-outer {
       background: linear-gradient(180deg, #FEF3C7 0%, #FDE68A 40%, #FCD34D 100%);
       border: 3px solid #F59E0B;
@@ -470,6 +531,7 @@
       box-shadow: var(--shadow-warm), 0 0 60px rgba(245, 158, 11, 0.15);
       position: relative;
       overflow: hidden;
+      animation: borderPulse 3s ease-in-out infinite 0.5s;
     }
 
     .card-outer::before {
@@ -543,6 +605,41 @@
     .card-outer .method {
       background: #FFFBEB;
       border-color: #F59E0B;
+    }
+
+    /* --- ANIMACIONES PARA BORDES Y BARRAS --- */
+    @keyframes borderPulse {
+      0%, 100% {
+        border-color: #F59E0B;
+        box-shadow: var(--shadow-warm), 0 0 60px rgba(245, 158, 11, 0.12);
+      }
+      50% {
+        border-color: #D97706;
+        box-shadow: var(--shadow-warm), 0 0 80px rgba(245, 158, 11, 0.25), 0 0 120px rgba(245, 158, 11, 0.08);
+      }
+    }
+
+    @keyframes shimmerProgress {
+      0% {
+        background-position: 200% 0;
+      }
+      100% {
+        background-position: -200% 0;
+      }
+    }
+
+    /* Progress bar con animación de carga al entrar */
+    .progress-fill {
+      height: 100%;
+      border-radius: var(--radius-full);
+      transition: width 1.2s cubic-bezier(0.22, 1, 0.36, 1);
+      background: linear-gradient(90deg, var(--accent-electric) 0%, var(--accent-violet) 100%);
+    }
+
+    .card-recaudado .progress-fill {
+      background: linear-gradient(90deg, #F59E0B, #D97706, #F59E0B);
+      background-size: 200% 100%;
+      animation: shimmerProgress 2.5s ease-in-out infinite;
     }
 
     /* --- BOTONES UNIFICADOS --- */
@@ -712,13 +809,6 @@
       overflow: hidden;
       border: 1px solid var(--border-color);
       margin-top: 16px;
-    }
-
-    .progress-fill {
-      height: 100%;
-      background: linear-gradient(90deg, var(--accent-electric) 0%, var(--accent-violet) 100%);
-      border-radius: var(--radius-full);
-      transition: width 0.5s ease;
     }
 
     /* Range & Selector Controls */
@@ -1180,9 +1270,11 @@
       .hero { padding: 120px 0 50px; }
       .wrap { padding: 24px 16px 60px; }
       .card { padding: 24px 18px; }
+      .card-recaudado .card { padding: 24px 18px; }
       .card-outer { padding: 12px; }
       .card-outer .card { padding: 20px 16px; }
       .card-outer::before { font-size: 8px; padding: 3px 30px; top: 12px; right: -24px; }
+      .card-recaudado::before { font-size: 7px; padding: 2px 28px; top: 10px; right: -22px; }
       .countdown-box { min-width: 56px; padding: 10px 12px; }
       .countdown-num { font-size: 22px; }
       .amount { font-size: 28px; }
@@ -1248,7 +1340,26 @@
   <div class="wrap">
     <div id="refBanner" class="ref-banner">🎉 Entraste con link de referido <b id="refCodeShow"></b> - tu referidor cobra 10% automático.</div>
 
-    <div class="card"><div class="eyebrow">RECAUDADO • TIEMPO REAL</div><div style="display:flex;align-items:center;gap:6px"><div class="title">Recaudado desde 22/08/2026</div><span class="live">EN VIVO</span></div><div style="font-size:10px;opacity:.6" id="sheetLive">Conectando al worker...</div><div class="amount">Compraron <span id="recaudado">-</span> <span style="font-size:11px;opacity:.6">• <span id="progressPct">-</span></span></div><div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div><div style="display:flex;justify-content:space-between;margin-top:6px;font-size:11px"><span><b id="sold">-</b> Slots vendidos</span><span>Quedan <b id="left">-</b> slots</span></div><div style="font-size:11px;opacity:.6;margin-top:8px">Hasta agotar stock (50 slots) o hasta el 30/08/2026. Cada slot = 0.5% perpetuo. Recompra 2x ($500) desde mes 12.</div></div>
+    <!-- CARD RECAUDADO CON ESTILO CÁLIDO (AMARILLO/NARANJA) -->
+    <div class="card-recaudado">
+      <div class="card">
+        <div class="eyebrow">RECAUDADO • TIEMPO REAL</div>
+        <div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap">
+          <div class="title">Recaudado desde 22/08/2026</div>
+          <span class="live">EN VIVO</span>
+        </div>
+        <div style="font-size:10px;opacity:.6" id="sheetLive">Conectando al worker...</div>
+        <div class="amount">Compraron <span id="recaudado">-</span> <span style="font-size:11px;opacity:.6">• <span id="progressPct">-</span></span></div>
+        <div class="progress-bar">
+          <div class="progress-fill" id="progressFill" style="width:0%"></div>
+        </div>
+        <div style="display:flex;justify-content:space-between;margin-top:6px;font-size:11px;flex-wrap:wrap;gap:4px">
+          <span><b id="sold">-</b> Slots vendidos</span>
+          <span>Quedan <b id="left">-</b> slots</span>
+        </div>
+        <div style="font-size:11px;opacity:.6;margin-top:8px">Hasta agotar stock (50 slots) o hasta el 30/08/2026. Cada slot = 0.5% perpetuo. Recompra 2x ($500) desde mes 12.</div>
+      </div>
+    </div>
 
     <!-- BUY SECTION RESALTADA EN AMARILLO/NARANJA -->
     <div class="card-outer" id="buyCard"><div class="card"><div class="eyebrow">🔥 PARTICIPACIÓN FOUNDER PERPETUA</div><div class="title">Compra WASA BLOCKS</div><div style="font-size:11px;opacity:.6;margin-top:4px"><span id="costoLabel">Cargando precio...</span> <span id="dispVal">-</span> disponibles</div>
@@ -1498,13 +1609,10 @@
   <!-- FOOTER MODERNIZADO Y REORDENADO -->
   <footer>
     <div class="footer-inner">
-      <!-- Columna 1: Brand + Descripción -->
       <div class="footer-brand">
         <div class="logo">founders.wasa.chat</div>
         <p>Ronda founder perpetua 2026. 50 slots = 25% total ganancias. 1 solo login en popup para comprar y referir. USDT BSC.</p>
       </div>
-      
-      <!-- Columna 2: Links rápidos -->
       <div class="footer-links">
         <h4>Enlaces</h4>
         <a href="/index.html">Inicio</a>
@@ -1512,8 +1620,6 @@
         <a href="/refer-register.html">Gana dinero → 10% referidos</a>
         <a href="/terminos_FINAL.html">Términos y condiciones</a>
       </div>
-      
-      <!-- Columna 3: Acciones -->
       <div class="footer-actions">
         <h4>Contacto</h4>
         <a href="mailto:founders@wasa.chat" class="btn btn-warm btn-icon" style="width:auto;text-decoration:none;">
@@ -1524,8 +1630,6 @@
         </a>
       </div>
     </div>
-    
-    <!-- Footer bottom -->
     <div class="footer-bottom">
       <span>© 2026 founders.wasa.chat • 1 login unificado</span>
       <span>USDT BSC • Worker con clave • Popup auth</span>
