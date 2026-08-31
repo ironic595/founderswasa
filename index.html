@@ -130,10 +130,141 @@
       border-bottom: none;
     }
 
-    @media (max-width: 600px) {
-      .nav { padding: 0 16px; height: 68px; }
-      .nav .links { gap: 12px; font-size: 11px; }
-      .nav .logo { font-size: 16px; }
+    /* --- HAMBURGER MENU BUTTON --- */
+    .hamburger {
+      display: none;
+      flex-direction: column;
+      gap: 5px;
+      background: transparent;
+      border: none;
+      cursor: pointer;
+      padding: 6px;
+      z-index: 101;
+      transition: var(--transition);
+    }
+
+    .hamburger span {
+      display: block;
+      width: 28px;
+      height: 3px;
+      background: white;
+      border-radius: 4px;
+      transition: var(--transition);
+      transform-origin: center;
+    }
+
+    .hamburger.active span:nth-child(1) {
+      transform: rotate(45deg) translate(6px, 6px);
+    }
+
+    .hamburger.active span:nth-child(2) {
+      opacity: 0;
+      transform: scaleX(0);
+    }
+
+    .hamburger.active span:nth-child(3) {
+      transform: rotate(-45deg) translate(6px, -6px);
+    }
+
+    /* --- MOBILE MENU OVERLAY --- */
+    .mobile-menu-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(11, 17, 32, 0.95);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      z-index: 99;
+      padding: 100px 32px 40px;
+      flex-direction: column;
+      align-items: center;
+      gap: 20px;
+      animation: fadeIn 0.3s ease;
+    }
+
+    .mobile-menu-overlay.open {
+      display: flex;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: scale(0.96); }
+      to { opacity: 1; transform: scale(1); }
+    }
+
+    .mobile-menu-overlay a {
+      color: rgba(255, 255, 255, 0.8);
+      text-decoration: none;
+      font-size: 20px;
+      font-weight: 700;
+      padding: 12px 0;
+      width: 100%;
+      text-align: center;
+      border-bottom: 2px solid rgba(255, 255, 255, 0.05);
+      transition: var(--transition);
+    }
+
+    .mobile-menu-overlay a:hover {
+      color: #FCD34D;
+    }
+
+    .mobile-menu-overlay a.highlight {
+      background: linear-gradient(135deg, #F59E0B, #D97706);
+      color: #0B1120 !important;
+      padding: 14px 22px;
+      border-radius: var(--radius-full);
+      font-weight: 800;
+      box-shadow: 0 4px 20px rgba(245, 158, 11, 0.35);
+      border-bottom: none;
+      -webkit-text-fill-color: #0B1120;
+    }
+
+    .mobile-menu-overlay .user-badge-mobile {
+      background: linear-gradient(135deg, var(--accent-electric), var(--accent-violet));
+      color: white;
+      padding: 8px 24px;
+      border-radius: var(--radius-full);
+      font-size: 14px;
+      font-weight: 800;
+      display: none;
+    }
+
+    .mobile-menu-overlay .nav-actions {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      width: 100%;
+      align-items: center;
+      margin-top: 12px;
+    }
+
+    .mobile-menu-overlay .nav-actions .lang-btn-mobile {
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      color: rgba(255, 255, 255, 0.6);
+      padding: 10px 24px;
+      border-radius: var(--radius-full);
+      font-size: 13px;
+      font-weight: 800;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+
+    .mobile-menu-overlay .nav-actions .lang-btn-mobile:hover {
+      background: rgba(255, 255, 255, 0.15);
+      color: white;
+    }
+
+    @media (max-width: 768px) {
+      .nav { padding: 0 20px; height: 68px; }
+      .nav .links { display: none; }
+      .hamburger { display: flex; }
+      .nav .logo { font-size: 17px; }
+      .nav #langBtn { display: none; }
+      .mobile-menu-overlay .user-badge-mobile { display: inline-block; }
+    }
+
+    @media (min-width: 769px) {
+      .mobile-menu-overlay { display: none !important; }
     }
 
     /* --- HERO SECTION --- */
@@ -843,10 +974,30 @@
     footer a:hover {
       opacity: 0.8;
     }
+
+    @media (max-width: 600px) {
+      .hero { padding: 120px 0 50px; }
+      .wrap { padding: 24px 16px 60px; }
+      .card { padding: 24px 18px; }
+      .card-outer { padding: 12px; }
+      .card-outer .card { padding: 20px 16px; }
+      .card-outer::before { font-size: 8px; padding: 3px 30px; top: 12px; right: -24px; }
+      .countdown-box { min-width: 56px; padding: 10px 12px; }
+      .countdown-num { font-size: 22px; }
+      .amount { font-size: 28px; }
+      .btn-hero { padding: 14px 24px; font-size: 13px; margin-right: 8px; }
+      #faqs h2 { font-size: 22px; }
+      .qty-row { gap: 10px; }
+      .qty-btn { width: 40px; height: 40px; font-size: 16px; }
+      .qty-val { width: 56px; height: 40px; font-size: 15px; }
+      .total-box { padding: 14px 16px; font-size: 14px; }
+      .method { padding: 18px 16px; }
+      .auth-modal { padding: 24px 20px; }
+    }
   </style>
 </head>
 <body>
-  <!-- El resto del HTML se mantiene IDÉNTICO, sin cambios en clases, IDs o estructura -->
+  <!-- NAV BAR CON HAMBURGER -->
   <nav class="nav">
     <div class="logo">founders.wasa.chat</div>
     <div style="display:flex;align-items:center;gap:10px">
@@ -858,8 +1009,26 @@
       </div>
       <span id="navUser" class="user-badge"></span>
       <button id="langBtn" style="height:30px;padding:0 12px;border-radius:999px;border:1px solid rgba(255,255,255,.15);background:rgba(255,255,255,.08);color:rgba(255,255,255,0.6);font-size:11px;font-weight:800;cursor:pointer;transition:all 0.2s">EN</button>
+      <!-- HAMBURGER BUTTON -->
+      <button class="hamburger" id="hamburgerBtn" aria-label="Toggle menu">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
     </div>
   </nav>
+
+  <!-- MOBILE MENU OVERLAY -->
+  <div class="mobile-menu-overlay" id="mobileMenu">
+    <a href="/index.html">HOME</a>
+    <a href="/dashboard.html" id="mobileDashboard" style="display:none">DASHBOARD</a>
+    <a href="#" onclick="goReferidos();return false;" class="highlight">GANA dinero aquí</a>
+    <a href="#" id="mobileLogin" onclick="openAuthModal('login');return false;">LOGIN</a>
+    <span id="mobileUserBadge" class="user-badge-mobile" style="display:none"></span>
+    <div class="nav-actions">
+      <button class="lang-btn-mobile" id="mobileLangBtn">EN</button>
+    </div>
+  </div>
 
   <div class="hero"><div class="hero-inner">
     <div class="hero-text"><div class="badge">● Ronda founders abierta • Perpetuo • 1 solo login</div><h1>COMPRA EL <span>FOUNDERS PASS</span> Y RECIBE USDT EN COMISIONES TODOS LOS MESES</h1>
@@ -950,7 +1119,39 @@
     </div>
   </div>
 
-  <script>const WASA_WORKER_URL = window.WASA_WORKER_URL || 'https://founderswasablocks.javimsites.workers.dev'; const WASA_WEBHOOK_URL = WASA_WORKER_URL;</script>
+  <script>
+    // --- HAMBURGER MENU TOGGLE ---
+    const hamburgerBtn = document.getElementById('hamburgerBtn');
+    const mobileMenu = document.getElementById('mobileMenu');
+
+    hamburgerBtn.addEventListener('click', function(e) {
+      e.stopPropagation();
+      this.classList.toggle('active');
+      mobileMenu.classList.toggle('open');
+      document.body.style.overflow = mobileMenu.classList.contains('open') ? 'hidden' : '';
+    });
+
+    // Close menu when clicking a link
+    mobileMenu.querySelectorAll('a, button').forEach(el => {
+      el.addEventListener('click', function() {
+        hamburgerBtn.classList.remove('active');
+        mobileMenu.classList.remove('open');
+        document.body.style.overflow = '';
+      });
+    });
+
+    // Close menu on ESC key
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape' && mobileMenu.classList.contains('open')) {
+        hamburgerBtn.classList.remove('active');
+        mobileMenu.classList.remove('open');
+        document.body.style.overflow = '';
+      }
+    });
+
+    const WASA_WORKER_URL = window.WASA_WORKER_URL || 'https://founderswasablocks.javimsites.workers.dev';
+    const WASA_WEBHOOK_URL = WASA_WORKER_URL;
+  </script>
   <script src="./wasa-config.js?v=20260828"></script>
   <script src="/wasa-config.js?v=20260828"></script>
   <script src="/escritor.js?v=20260831FIX"></script>
@@ -994,6 +1195,29 @@
     function hideBuyIfNotAuth(isAuth){
       document.getElementById('formError').style.display=isAuth?'none':'block';
       let dash=document.getElementById('navDashboard'); if(dash) dash.style.display=isAuth?'flex':'none';
+      // Also update mobile dashboard link
+      let mobileDash=document.getElementById('mobileDashboard'); if(mobileDash) mobileDash.style.display=isAuth?'block':'none';
+      // Update mobile user badge
+      let mobileBadge=document.getElementById('mobileUserBadge');
+      if(mobileBadge) {
+        if(isAuth) {
+          mobileBadge.style.display='block';
+          mobileBadge.textContent=document.getElementById('navUser').textContent || 'Usuario';
+        } else {
+          mobileBadge.style.display='none';
+        }
+      }
+      // Update mobile login link
+      let mobileLogin=document.getElementById('mobileLogin');
+      if(mobileLogin) {
+        if(isAuth) {
+          mobileLogin.textContent='SALIR';
+          mobileLogin.onclick=(e)=>{e.preventDefault(); logout(); return false;};
+        } else {
+          mobileLogin.textContent='LOGIN';
+          mobileLogin.onclick=(e)=>{e.preventDefault(); openAuthModal('login'); return false;};
+        }
+      }
     }
     async function checkAuth(){
       let token=localStorage.getItem('wasa_token'); if(!token){ hideBuyIfNotAuth(false); return false; }
