@@ -357,11 +357,31 @@
       background: linear-gradient(135deg, #FCD34D, #F59E0B);
       color: #0B1120;
       box-shadow: 0 8px 28px rgba(245, 158, 11, 0.40);
+      /* ANIMACIÓN DE RESPIRACIÓN (AGREGAR Y ACHICAR) */
+      animation: pulseBreath 2.2s ease-in-out infinite;
+      transform-origin: center;
     }
 
     .btn-hero-primary:hover {
-      transform: translateY(-3px);
+      transform: translateY(-3px) scale(1.02);
       box-shadow: 0 14px 44px rgba(245, 158, 11, 0.55);
+      animation-play-state: paused;
+    }
+
+    /* KEYFRAMES: Efecto "respiración" similar al botón de SafePal */
+    @keyframes pulseBreath {
+      0% {
+        transform: scale(1);
+        box-shadow: 0 8px 28px rgba(245, 158, 11, 0.40);
+      }
+      50% {
+        transform: scale(1.06);
+        box-shadow: 0 12px 40px rgba(245, 158, 11, 0.60), 0 0 60px rgba(245, 158, 11, 0.15);
+      }
+      100% {
+        transform: scale(1);
+        box-shadow: 0 8px 28px rgba(245, 158, 11, 0.40);
+      }
     }
 
     .btn-hero-secondary {
@@ -1363,6 +1383,7 @@
         <div class="countdown-box"><div class="countdown-num" id="cdM">00</div><div class="countdown-label">Min</div></div>
         <div class="countdown-box"><div class="countdown-num" id="cdS">00</div><div class="countdown-label">Seg</div></div>
       </div>
+      <!-- BOTÓN CON ANIMACIÓN DE RESPIRACIÓN (pulseBreath) -->
       <button type="button" class="btn-hero btn-hero-primary" onclick="bajarSeccion()">COMPRAR WASA BLOCK</button>
       <button type="button" class="btn-hero btn-hero-secondary" onclick="goReferidos()">GANA 10% REFIRIENDO</button>
     </div>
