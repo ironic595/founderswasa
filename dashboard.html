@@ -5,57 +5,733 @@
 <title>Panel Founders - wasa.chat</title>
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
 <style>
-*{box-sizing:border-box;margin:0;padding:0}
-body{font-family:'Plus Jakarta Sans',system-ui;background:#E6F0FF;color:#1E293B;overflow-x:hidden}
-.nav{height:64px;background:#1D4ED8;display:flex;align-items:center;justify-content:space-between;padding:0 16px;position:fixed;top:0;left:0;right:0;z-index:50}
-.nav .logo{color:white;font-weight:800;font-size:14px;white-space:nowrap}
-.nav .right{display:flex;align-items:center;gap:10px}
-.nav .email{font-size:11px;font-weight:700;color:rgba(255,255,255,.8);max-width:160px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.nav .hamb{width:38px;height:38px;border-radius:10px;border:1px solid rgba(255,255,255,.3);background:rgba(255,255,255,.15);color:white;display:none;place-items:center;cursor:pointer;font-weight:800}
-@media(max-width:900px){.nav .hamb{display:grid} .nav .email{display:none}}
-.layout{display:flex;max-width:1200px;margin:0 auto;padding-top:64px;min-height:100vh}
-.sidebar{width:280px;background:#C2D9FF;border-right:2px solid #93B4FF;padding:16px 12px;position:sticky;top:64px;height:calc(100vh - 64px);overflow:auto;display:flex;flex-direction:column;justify-content:space-between;transition:transform .22s ease;z-index:40}
-.content{flex:1;padding:20px 18px;min-width:0}
-.card{background:white;border:2px solid #93B4FF;border-radius:20px;padding:18px;margin-bottom:14px}
-.eyebrow{font-size:10px;font-weight:800;letter-spacing:.14em;opacity:.6;color:#1E3A8A;text-transform:uppercase}
-.title{font-size:18px;font-weight:800;margin-top:4px}
-.sub{font-size:11px;opacity:.6;margin-top:6px;line-height:1.5}
-.stat-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:14px}
-@media(max-width:600px){.stat-grid{grid-template-columns:1fr}}
-.stat{background:#E6F0FF;border:1px solid #93B4FF;border-radius:14px;padding:12px}
-.stat .num{font-size:18px;font-weight:800}.stat .lbl{font-size:10px;opacity:.6;margin-top:2px;text-transform:uppercase}
-.menu-item{padding:11px 12px;border-radius:12px;cursor:pointer;font-size:13px;font-weight:600;margin-bottom:4px;display:flex;justify-content:space-between;align-items:center;transition:.15s}
-.menu-item.active{background:#1D4ED8;color:white}
-.menu-item:hover{background:rgba(29,78,216,.1)}
-.menu-item.active:hover{background:#1D4ED8}
-.menu-sub{margin-left:12px;margin-bottom:8px;display:none}.menu-sub.show{display:block}
-.menu-sub-item{padding:9px 12px;border-radius:10px;cursor:pointer;font-size:12px;font-weight:500;margin-bottom:3px;background:rgba(255,255,255,.6)}
-.menu-sub-item.active{background:#1D4ED8;color:white}
-.table-wrap{overflow:auto;-webkit-overflow-scrolling:touch;margin-top:10px;border-radius:12px;border:1px solid #E6F0FF}
-.table{width:100%;border-collapse:collapse;font-size:12px;min-width:520px}
-.table th{font-size:10px;text-align:left;opacity:.6;padding:8px 10px;border-bottom:1px solid #93B4FF;text-transform:uppercase;white-space:nowrap;position:sticky;top:0;background:white}
-.table td{padding:10px;border-bottom:1px solid #E6F0FF;white-space:nowrap}
-.badge{font-size:10px;font-weight:800;padding:3px 8px;border-radius:999px}
-.badge-warn{background:#FEF08A;color:#854D0E}.badge-ok{background:#BBF7D0;color:#166534}.badge-info{background:#DBEAFE;color:#1E40AF}
-.btn{height:42px;padding:0 16px;border-radius:12px;border:0;background:#0A101F;color:white;font-weight:800;cursor:pointer;font-size:12px;display:inline-flex;align-items:center;justify-content:center}
-.btn:disabled{opacity:.4}
-.btn-sm{height:32px;font-size:11px;padding:0 12px}
-.btn-ghost{background:white;color:#1E293B;border:1px solid #93B4FF}
-.input{height:44px;border-radius:12px;border:1px solid #93B4FF;padding:0 12px;width:100%;margin-top:8px;background:#F8FBFF}
-.hidden{display:none!important}
-.empty{padding:28px 16px;text-align:center;opacity:.6;font-size:12px;line-height:1.5}
-.qty-row{display:flex;gap:8px;align-items:center;margin-top:8px;flex-wrap:wrap}.qty-btn{width:42px;height:42px;border-radius:10px;border:1px solid #93B4FF;background:#E6F0FF;font-weight:800;cursor:pointer}
-.locked{opacity:.4;pointer-events:none;filter:grayscale(.3)}
-/* mobile drawer */
-.overlay{display:none;position:fixed;inset:0;background:rgba(10,16,31,.5);z-index:35}
-@media(max-width:900px){
-  .layout{flex-direction:column}
-  .sidebar{position:fixed;top:64px;left:0;bottom:0;height:auto;transform:translateX(-100%);width:84%;max-width:320px;box-shadow:8px 0 24px rgba(0,0,0,.2)}
-  .sidebar.open{transform:translateX(0)}
-  .overlay.show{display:block}
-  .content{padding:16px 12px}
-}
-.section-pagos{margin-top:12px;border-top:2px dashed #93B4FF;padding-top:12px}
+    /* --- RESET & VARIABLES (MODERN VIBE + CONTRAST) --- */
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    :root {
+      --bg-main: #F6F8FE;
+      --bg-card: #FFFFFF;
+      --bg-subtle: #EEF2FF;
+      --bg-input: #FFFFFF;
+      --accent-primary: #4F46E5;
+      --accent-primary-hover: #4338CA;
+      --accent-electric: #2563EB;
+      --accent-violet: #7C3AED;
+      --accent-cyan: #06B6D4;
+      --accent-gold: #EAB308;
+      --accent-green: #10B981;
+      --contrast-orange: #F59E0B;
+      --contrast-amber: #D97706;
+      --contrast-yellow: #FCD34D;
+      --text-main: #0B1120;
+      --text-muted: #6B7280;
+      --border-color: #E5E7EB;
+      --border-strong: #D1D5DB;
+      --radius-sm: 8px;
+      --radius-md: 16px;
+      --radius-lg: 24px;
+      --radius-full: 999px;
+      --shadow-sm: 0 4px 14px rgba(79, 70, 229, 0.06);
+      --shadow-md: 0 12px 40px -8px rgba(79, 70, 229, 0.12);
+      --shadow-lg: 0 28px 60px -16px rgba(79, 70, 229, 0.15);
+      --shadow-glow: 0 0 40px rgba(79, 70, 229, 0.12);
+      --shadow-warm: 0 12px 40px -8px rgba(245, 158, 11, 0.20);
+      --transition: all 0.25s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    }
+
+    html, body {
+      overflow-x: hidden;
+      max-width: 100%;
+      min-height: 100vh;
+      background: linear-gradient(160deg, #EEF2FF 0%, #F6F8FE 40%, #FEF3C7 100%);
+      color: var(--text-main);
+      font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+      line-height: 1.65;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* --- NAV BAR --- */
+    .nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 80px;
+      background: rgba(11, 17, 32, 0.92);
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 40px;
+      z-index: 100;
+      gap: 20px;
+    }
+
+    .nav .logo {
+      color: white;
+      font-weight: 800;
+      font-size: 21px;
+      letter-spacing: -0.02em;
+      white-space: nowrap;
+      flex-shrink: 0;
+      background: linear-gradient(135deg, #FCD34D, #F59E0B);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .nav .right {
+      display: flex;
+      align-items: center;
+      gap: 18px;
+    }
+
+    .nav .email {
+      font-size: 13px;
+      font-weight: 700;
+      color: rgba(255, 255, 255, 0.7);
+      max-width: 200px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .nav .right a {
+      color: rgba(255, 255, 255, 0.6);
+      text-decoration: none;
+      font-size: 13px;
+      font-weight: 700;
+      transition: var(--transition);
+      padding: 6px 0;
+      border-bottom: 2px solid transparent;
+    }
+
+    .nav .right a:hover {
+      color: #FCD34D;
+      border-bottom-color: #FCD34D;
+    }
+
+    .nav .right a.ref-link {
+      color: #FCD34D;
+    }
+
+    .nav .right a.ref-link:hover {
+      color: #F59E0B;
+      border-bottom-color: #F59E0B;
+    }
+
+    .hamb {
+      display: none;
+      width: 40px;
+      height: 40px;
+      border-radius: var(--radius-md);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      background: rgba(255, 255, 255, 0.06);
+      color: white;
+      place-items: center;
+      cursor: pointer;
+      font-weight: 800;
+      font-size: 20px;
+      transition: var(--transition);
+    }
+
+    .hamb:hover {
+      background: rgba(255, 255, 255, 0.12);
+      border-color: rgba(255, 255, 255, 0.3);
+    }
+
+    @media(max-width:900px){
+      .nav { padding: 0 20px; height: 68px; }
+      .hamb { display: grid; }
+      .nav .email { display: none; }
+      .nav .right a:not(.ref-link) { display: none; }
+      .nav .logo { font-size: 17px; }
+    }
+
+    /* --- LAYOUT --- */
+    .layout {
+      display: flex;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding-top: 80px;
+      min-height: 100vh;
+      position: relative;
+      z-index: 1;
+    }
+
+    /* --- SIDEBAR --- */
+    .sidebar {
+      width: 280px;
+      background: rgba(255, 255, 255, 0.75);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border-right: 1px solid rgba(79, 70, 229, 0.10);
+      padding: 20px 14px;
+      position: sticky;
+      top: 80px;
+      height: calc(100vh - 80px);
+      overflow: auto;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      transition: transform .25s ease;
+      z-index: 40;
+      box-shadow: 4px 0 24px rgba(79, 70, 229, 0.04);
+    }
+
+    .sidebar::-webkit-scrollbar { width: 4px; }
+    .sidebar::-webkit-scrollbar-thumb { background: rgba(79, 70, 229, 0.20); border-radius: 10px; }
+
+    .sidebar .menu-label {
+      font-size: 10px;
+      font-weight: 800;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin-bottom: 12px;
+      padding-left: 4px;
+    }
+
+    .menu-item {
+      padding: 11px 14px;
+      border-radius: var(--radius-md);
+      cursor: pointer;
+      font-size: 13px;
+      font-weight: 700;
+      margin-bottom: 3px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      transition: var(--transition);
+      color: var(--text-main);
+      background: transparent;
+    }
+
+    .menu-item.active {
+      background: linear-gradient(135deg, #4F46E5, #7C3AED);
+      color: white;
+      box-shadow: 0 4px 16px rgba(79, 70, 229, 0.25);
+    }
+
+    .menu-item:hover:not(.active) {
+      background: rgba(79, 70, 229, 0.06);
+      color: #4F46E5;
+    }
+
+    .menu-item.active:hover {
+      background: linear-gradient(135deg, #4F46E5, #7C3AED);
+      box-shadow: 0 6px 24px rgba(79, 70, 229, 0.35);
+    }
+
+    .menu-sub {
+      margin-left: 12px;
+      margin-bottom: 8px;
+      display: none;
+    }
+
+    .menu-sub.show { display: block; }
+
+    .menu-sub-item {
+      padding: 9px 14px;
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+      font-size: 12px;
+      font-weight: 600;
+      margin-bottom: 2px;
+      background: rgba(255, 255, 255, 0.5);
+      color: var(--text-main);
+      transition: var(--transition);
+    }
+
+    .menu-sub-item:hover {
+      background: rgba(79, 70, 229, 0.08);
+      color: #4F46E5;
+    }
+
+    .menu-sub-item.active {
+      background: linear-gradient(135deg, #4F46E5, #7C3AED);
+      color: white;
+      box-shadow: 0 2px 12px rgba(79, 70, 229, 0.20);
+    }
+
+    .section-pagos {
+      margin-top: 16px;
+      border-top: 2px dashed rgba(79, 70, 229, 0.12);
+      padding-top: 16px;
+    }
+
+    .section-pagos .menu-item {
+      background: #FEF9C3;
+      border: 1px dashed #EAB308;
+      border-radius: var(--radius-md);
+      color: #854D0E;
+    }
+
+    .section-pagos .menu-item:hover {
+      background: #FDE68A;
+    }
+
+    .sidebar .bottom-text {
+      font-size: 10px;
+      opacity: 0.4;
+      margin-top: 12px;
+      line-height: 1.5;
+      padding: 0 4px;
+    }
+
+    /* --- OVERLAY MOBILE --- */
+    .overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(11, 17, 32, 0.5);
+      backdrop-filter: blur(4px);
+      -webkit-backdrop-filter: blur(4px);
+      z-index: 35;
+    }
+
+    @media(max-width:900px){
+      .layout { flex-direction: column; padding-top: 68px; }
+      .sidebar {
+        position: fixed;
+        top: 68px;
+        left: 0;
+        bottom: 0;
+        height: auto;
+        transform: translateX(-100%);
+        width: 84%;
+        max-width: 320px;
+        box-shadow: 8px 0 40px rgba(0,0,0,0.15);
+        border-right: 1px solid rgba(79, 70, 229, 0.08);
+        background: rgba(255, 255, 255, 0.92);
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
+        border-radius: 0 20px 0 0;
+      }
+      .sidebar.open { transform: translateX(0); }
+      .overlay.show { display: block; }
+      .content { padding: 16px 12px; }
+    }
+
+    /* --- CONTENT --- */
+    .content {
+      flex: 1;
+      padding: 28px 28px 40px;
+      min-width: 0;
+    }
+
+    .view { display: block; }
+    .view.hidden { display: none; }
+
+    /* --- CARDS --- */
+    .card {
+      background: rgba(255, 255, 255, 0.80);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid rgba(79, 70, 229, 0.08);
+      border-radius: var(--radius-lg);
+      padding: 24px 28px;
+      margin-bottom: 20px;
+      box-shadow: var(--shadow-sm);
+      transition: var(--transition);
+    }
+
+    .card:hover {
+      box-shadow: var(--shadow-md);
+    }
+
+    .card .eyebrow {
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: #4F46E5;
+      margin-bottom: 4px;
+    }
+
+    .card .title {
+      font-size: 20px;
+      font-weight: 800;
+      color: #1E1B4B;
+      letter-spacing: -0.02em;
+      margin-top: 2px;
+    }
+
+    .card .sub {
+      font-size: 13px;
+      opacity: 0.6;
+      margin-top: 6px;
+      line-height: 1.6;
+    }
+
+    /* --- STAT GRID --- */
+    .stat-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+      margin-top: 16px;
+    }
+
+    @media(max-width:600px){ .stat-grid { grid-template-columns: 1fr; } }
+
+    .stat {
+      background: rgba(238, 242, 255, 0.6);
+      border: 1px solid rgba(79, 70, 229, 0.08);
+      border-radius: var(--radius-md);
+      padding: 14px 16px;
+      transition: var(--transition);
+    }
+
+    .stat:hover {
+      border-color: rgba(79, 70, 229, 0.15);
+      background: rgba(238, 242, 255, 0.8);
+    }
+
+    .stat .num {
+      font-size: 20px;
+      font-weight: 800;
+      color: #1E1B4B;
+    }
+
+    .stat .lbl {
+      font-size: 10px;
+      opacity: 0.5;
+      margin-top: 2px;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      font-weight: 700;
+    }
+
+    /* --- TABLE --- */
+    .table-wrap {
+      overflow: auto;
+      -webkit-overflow-scrolling: touch;
+      margin-top: 12px;
+      border-radius: var(--radius-md);
+      border: 1px solid rgba(79, 70, 229, 0.06);
+      background: white;
+    }
+
+    .table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 12px;
+      min-width: 520px;
+    }
+
+    .table th {
+      font-size: 10px;
+      text-align: left;
+      opacity: 0.5;
+      padding: 10px 14px;
+      border-bottom: 1px solid rgba(79, 70, 229, 0.06);
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      white-space: nowrap;
+      position: sticky;
+      top: 0;
+      background: white;
+      font-weight: 800;
+    }
+
+    .table td {
+      padding: 10px 14px;
+      border-bottom: 1px solid rgba(79, 70, 229, 0.04);
+      white-space: nowrap;
+      font-size: 12px;
+    }
+
+    .table tr:last-child td { border-bottom: 0; }
+
+    /* --- BADGES --- */
+    .badge {
+      font-size: 10px;
+      font-weight: 800;
+      padding: 4px 12px;
+      border-radius: var(--radius-full);
+      display: inline-block;
+    }
+
+    .badge-warn { background: #FEF08A; color: #854D0E; }
+    .badge-ok { background: #BBF7D0; color: #166534; }
+    .badge-info { background: #DBEAFE; color: #1E40AF; }
+
+    /* --- BUTTONS --- */
+    .btn {
+      height: 46px;
+      padding: 0 20px;
+      border-radius: var(--radius-md);
+      border: 0;
+      font-weight: 800;
+      font-size: 13px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      transition: var(--transition);
+      min-height: 46px;
+      background: linear-gradient(135deg, #4F46E5, #7C3AED);
+      color: white;
+      box-shadow: 0 4px 16px rgba(79, 70, 229, 0.20);
+    }
+
+    .btn:hover {
+      box-shadow: 0 8px 28px rgba(79, 70, 229, 0.30);
+      transform: translateY(-2px);
+    }
+
+    .btn:disabled {
+      opacity: 0.4;
+      cursor: not-allowed;
+      transform: none !important;
+      box-shadow: none !important;
+    }
+
+    .btn-sm {
+      height: 36px;
+      font-size: 11px;
+      padding: 0 14px;
+      min-height: 36px;
+    }
+
+    .btn-ghost {
+      background: white;
+      color: #1E293B;
+      border: 1px solid rgba(79, 70, 229, 0.15);
+      box-shadow: none;
+    }
+
+    .btn-ghost:hover {
+      border-color: #4F46E5;
+      background: #F8FAFC;
+      box-shadow: none;
+    }
+
+    .btn-warm {
+      background: linear-gradient(135deg, #F59E0B, #D97706);
+      color: #0B1120;
+      box-shadow: 0 4px 16px rgba(245, 158, 11, 0.25);
+    }
+
+    .btn-warm:hover {
+      box-shadow: 0 8px 28px rgba(245, 158, 11, 0.40);
+    }
+
+    .btn-warm:disabled {
+      opacity: 0.4;
+      cursor: not-allowed;
+      transform: none !important;
+      box-shadow: none !important;
+    }
+
+    .btn-full {
+      width: 100%;
+    }
+
+    /* --- INPUTS --- */
+    .input {
+      height: 46px;
+      border-radius: var(--radius-md);
+      border: 1px solid rgba(79, 70, 229, 0.10);
+      padding: 0 16px;
+      width: 100%;
+      margin-top: 8px;
+      background: white;
+      color: var(--text-main);
+      font-size: 14px;
+      outline: none;
+      transition: var(--transition);
+      font-family: inherit;
+    }
+
+    .input:focus {
+      border-color: #4F46E5;
+      box-shadow: 0 0 0 4px rgba(79, 70, 229, 0.08);
+    }
+
+    .input::placeholder { color: #A0AEC0; }
+
+    /* --- QTY ROW --- */
+    .qty-row {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      margin-top: 10px;
+      flex-wrap: wrap;
+    }
+
+    .qty-btn {
+      width: 44px;
+      height: 44px;
+      border-radius: var(--radius-md);
+      border: 1px solid rgba(79, 70, 229, 0.12);
+      background: #EEF2FF;
+      font-weight: 800;
+      cursor: pointer;
+      font-size: 18px;
+      transition: var(--transition);
+      color: #1E1B4B;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 44px;
+      min-width: 44px;
+    }
+
+    .qty-btn:hover {
+      background: linear-gradient(135deg, #4F46E5, #7C3AED);
+      color: white;
+      border-color: #4F46E5;
+      transform: scale(1.04);
+    }
+
+    /* --- HIDDEN / EMPTY --- */
+    .hidden { display: none !important; }
+
+    .empty {
+      padding: 28px 16px;
+      text-align: center;
+      opacity: 0.5;
+      font-size: 13px;
+      line-height: 1.6;
+    }
+
+    .locked {
+      opacity: 0.4;
+      pointer-events: none;
+      filter: grayscale(0.3);
+    }
+
+    /* --- ZERO MSG --- */
+    #zeroMsg {
+      margin-top: 14px;
+      background: #FEF2F2;
+      border: 1px solid #FCA5A5;
+      color: #991B1B;
+      padding: 14px 18px;
+      border-radius: var(--radius-md);
+      font-size: 13px;
+      line-height: 1.5;
+    }
+
+    /* --- CALC LINE --- */
+    #calcLine {
+      font-size: 13px;
+      font-weight: 700;
+      color: #4F46E5;
+    }
+
+    /* --- PAYMENTS SECTION (PAGOS) --- */
+    .card-pago {
+      border-color: #EAB308;
+      background: #FFFEF5;
+    }
+
+    .card-pago .eyebrow { color: #854D0E; }
+
+    .wallet-box {
+      background: white;
+      border: 1px solid rgba(79, 70, 229, 0.08);
+      border-radius: var(--radius-md);
+      padding: 16px 18px;
+      transition: var(--transition);
+    }
+
+    .wallet-box:hover {
+      border-color: rgba(79, 70, 229, 0.15);
+    }
+
+    .wallet-box-gold {
+      border-color: #EAB308;
+      background: #FFFBEB;
+    }
+
+    .wallet-box-gold:hover {
+      border-color: #D97706;
+    }
+
+    .wallet-box-green {
+      border-color: #10B981;
+      background: #ECFDF5;
+    }
+
+    .wallet-box-green:hover {
+      border-color: #059669;
+    }
+
+    .wallet-box .label {
+      font-size: 12px;
+      font-weight: 800;
+    }
+
+    .wallet-box .hint {
+      font-size: 11px;
+      opacity: 0.5;
+      margin-top: 4px;
+    }
+
+    /* --- INFO BOX --- */
+    .info-box {
+      background: #EEF2FF;
+      border: 1px solid rgba(79, 70, 229, 0.08);
+      border-radius: var(--radius-md);
+      padding: 14px 18px;
+      font-size: 12px;
+      line-height: 1.6;
+    }
+
+    .info-box b { color: #4F46E5; }
+
+    /* --- HOLOGRAMAS --- */
+    .holo-grid {
+      display: grid;
+      gap: 10px;
+      margin-top: 12px;
+    }
+
+    .holo-item {
+      background: #EEF2FF;
+      border: 1px solid rgba(79, 70, 229, 0.08);
+      border-radius: var(--radius-md);
+      padding: 12px 16px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      transition: var(--transition);
+    }
+
+    .holo-item:hover {
+      border-color: rgba(79, 70, 229, 0.15);
+    }
+
+    /* --- RESPONSIVE FIXES --- */
+    @media (max-width: 600px) {
+      .content { padding: 12px 8px; }
+      .card { padding: 18px 14px; border-radius: var(--radius-md); }
+      .card .title { font-size: 17px; }
+      .stat .num { font-size: 17px; }
+      .nav .right { gap: 10px; }
+      .sidebar { width: 88%; max-width: 300px; }
+      .qty-btn { width: 38px; height: 38px; min-height: 38px; min-width: 38px; font-size: 15px; }
+      .btn { height: 42px; min-height: 42px; font-size: 12px; padding: 0 14px; }
+      .input { height: 42px; font-size: 13px; }
+      .table { font-size: 11px; min-width: 400px; }
+      .table th, .table td { padding: 8px 10px; }
+    }
+
+    @media (max-width: 400px) {
+      .nav .logo { font-size: 14px; }
+      .nav { padding: 0 12px; height: 60px; }
+      .layout { padding-top: 60px; }
+      .sidebar { top: 60px; }
+    }
 </style>
 </head>
 <body>
@@ -63,9 +739,9 @@ body{font-family:'Plus Jakarta Sans',system-ui;background:#E6F0FF;color:#1E293B;
   <div class="logo">wasa.chat/founders / panel</div>
   <div class="right">
     <span class="email" id="navEmail"></span>
-    <a href="/marketplace_FINAL.html" style="color:white;text-decoration:none;font-size:11px;font-weight:700;display:none" id="navMarket">MARKET</a>
-    <a href="/refer.html" style="color:#FFD60A;text-decoration:none;font-size:11px;font-weight:800">REFS</a>
-    <a href="#" onclick="logout();return false" style="color:white;text-decoration:none;font-size:11px;font-weight:700">SALIR</a>
+    <a href="/marketplace_FINAL.html" id="navMarket">MARKET</a>
+    <a href="/refer.html" class="ref-link">REFS</a>
+    <a href="#" onclick="logout();return false">SALIR</a>
     <button class="hamb" id="hambBtn" onclick="toggleSidebar()">☰</button>
   </div>
 </nav>
@@ -73,7 +749,7 @@ body{font-family:'Plus Jakarta Sans',system-ui;background:#E6F0FF;color:#1E293B;
 <div class="layout">
 <div class="sidebar" id="sidebar">
   <div>
-    <div style="font-size:11px;font-weight:800;opacity:.5;margin-bottom:10px">MENU</div>
+    <div class="menu-label">MENU</div>
     <div class="menu-item active" data-view="datos" onclick="switchView('datos')">DATOS DE USUARIO</div>
     <div class="menu-item" data-view="historial" id="menuHistorial" onclick="switchView('historial')">HISTORIAL DE REPARTO</div>
     <div class="menu-item" onclick="toggleMercado()">MERCADO <span style="font-size:10px">▼</span></div>
@@ -85,48 +761,48 @@ body{font-family:'Plus Jakarta Sans',system-ui;background:#E6F0FF;color:#1E293B;
     <div class="menu-item" data-view="hologramas" onclick="switchView('hologramas')">MIS HOLOGRAMAS</div>
   </div>
   <div class="section-pagos">
-    <div style="font-size:11px;font-weight:800;opacity:.5;margin-bottom:8px">PAGOS Y WALLETS</div>
-    <div class="menu-item" data-view="pagos" onclick="switchView('pagos')" style="background:#FEF9C3;border:1px dashed #EAB308">💳 PAGOS - EDITAR WALLETS</div>
-    <div style="font-size:10px;opacity:.5;margin-top:8px;line-height:1.4">Ganancias 15/mes + referidos. Desde abril 2027 con hash TX BSC.</div>
+    <div class="menu-label">PAGOS Y WALLETS</div>
+    <div class="menu-item" data-view="pagos" onclick="switchView('pagos')">💳 PAGOS - EDITAR WALLETS</div>
+    <div class="bottom-text">Ganancias 15/mes + referidos. Desde abril 2027 con hash TX BSC.</div>
   </div>
 </div>
 <div class="content">
 <!-- DATOS -->
-<div id="view-datos" class="view"><div class="card"><div class="eyebrow">DATOS DE USUARIO - MIN 0.01 = 0.005%</div><div class="title" id="userEmailTitle">Cargando...</div><div class="stat-grid"><div class="stat"><div class="num" id="statSlots">-</div><div class="lbl">WASABLOCKS</div></div><div class="stat"><div class="num" id="statPercent">-</div><div class="lbl">% PERPETUO</div></div><div class="stat"><div class="num" id="statWallet">-</div><div class="lbl">WALLET GANANCIAS</div></div></div><div id="zeroMsg" class="hidden" style="margin-top:12px;background:#FEF2F2;border:1px solid #FECACA;color:#B91C1C;padding:12px;border-radius:12px;font-size:12px;line-height:1.4">Balance 0. No tenés WASABLOCKS. No podés ver HISTORIAL DE REPARTO ni cobrar ganancias. Comprá mínimo 0.01 en MERCADO -> COMPRAR. 0.01 = 0.005%. Total mercado: 5000 fracciones.</div></div><div class="card"><div class="eyebrow">MIS CODIGOS - GENESIS Y HIJOS - 0.01 MIN</div><div class="sub">Cada código es un WASABLOCK. Si vendés entero, se transfiere el mismo ID. Si vendés fracción 0.01, se crea hijo WASA-...-Fxx.</div><div class="table-wrap"><table class="table" id="codesTable"><thead><tr><th>Código</th><th>Slots</th><th>%</th><th>Parent</th></tr></thead><tbody></tbody></table></div></div></div>
+<div id="view-datos" class="view"><div class="card"><div class="eyebrow">DATOS DE USUARIO - MIN 0.01 = 0.005%</div><div class="title" id="userEmailTitle">Cargando...</div><div class="stat-grid"><div class="stat"><div class="num" id="statSlots">-</div><div class="lbl">WASABLOCKS</div></div><div class="stat"><div class="num" id="statPercent">-</div><div class="lbl">% PERPETUO</div></div><div class="stat"><div class="num" id="statWallet">-</div><div class="lbl">WALLET GANANCIAS</div></div></div><div id="zeroMsg" class="hidden" style="margin-top:12px;background:#FEF2F2;border:1px solid #FCA5A5;color:#991B1B;padding:12px;border-radius:12px;font-size:12px;line-height:1.4">Balance 0. No tenés WASABLOCKS. No podés ver HISTORIAL DE REPARTO ni cobrar ganancias. Comprá mínimo 0.01 en MERCADO -> COMPRAR. 0.01 = 0.005%. Total mercado: 5000 fracciones.</div></div><div class="card"><div class="eyebrow">MIS CODIGOS - GENESIS Y HIJOS - 0.01 MIN</div><div class="sub">Cada código es un WASABLOCK. Si vendés entero, se transfiere el mismo ID. Si vendés fracción 0.01, se crea hijo WASA-...-Fxx.</div><div class="table-wrap"><table class="table" id="codesTable"><thead><tr><th>Código</th><th>Slots</th><th>%</th><th>Parent</th></tr></thead><tbody></tbody></table></div></div></div>
 <!-- HISTORIAL -->
 <div id="view-historial" class="view hidden"><div class="card"><div class="eyebrow">HISTORIAL REPARTO - SOLO SI TENES >0</div><div class="title">Repartos desde 15 Abril 2027</div><div class="sub">Monitoreo de pagos mensuales con hash TX en BSC. Se llena 1 vez por mes. Necesitás al menos 0.01.</div><div id="histEmpty" class="empty">Aún no hay repartos. Los repartos comienzan el <b>15 Abril 2027</b> mensual.</div><div class="table-wrap hidden" id="historyWrap"><table class="table" id="historyTable"><thead><tr><th>Fecha</th><th>Monto total empresa</th><th>Tu %</th><th>Tu pago</th><th>Hash TX</th><th>Estado</th></tr></thead><tbody></tbody></table></div></div></div>
 <!-- COMPRAR -->
 <div id="view-comprar" class="view hidden"><div class="card"><div class="eyebrow">MERCADO / COMPRAR - MIN 0.01</div><div class="title">Comprar WASABLOCKS</div><div class="sub">Ofertas de otros founders. Solo USDT BSC. 1 entero = 0.5% | 0.01 = 0.005% | Total 5000 fracciones | Entrada $1</div><div class="table-wrap"><table class="table" id="marketTable"><thead><tr><th>Cantidad</th><th>%</th><th>Precio USDT</th><th>Precio x 1 entero</th><th>Vendedor</th><th></th></tr></thead><tbody><tr><td colspan="6" class="empty">Cargando marketplace...</td></tr></tbody></table></div></div></div>
 <!-- VENDER -->
-<div id="view-vender" class="view hidden"><div class="card"><div class="eyebrow">MERCADO / VENDER - MIN 0.01 - PRECIO POR UNIDAD</div><div class="title">Poner a la venta</div><div class="sub">Fracción mínima 0.01 y múltiplos de 0.01. Ej: 0.01, 0.02, 0.15. El precio que ponés es <b>POR 1 WASABLOCK ENTERO</b>. El sistema calcula el total automáticamente.<br><b id="availSell"></b></div><label style="font-size:11px;font-weight:700;margin-top:14px;display:block">Cantidad a vender (0.01 mínimo)</label><div class="qty-row"><button class="qty-btn" onclick="chg(-0.01)">-</button><input class="input" id="sellSlots" type="number" step="0.01" min="0.01" value="0.01" style="margin-top:0;text-align:center;font-weight:800;max-width:120px" oninput="calc()"><button class="qty-btn" onclick="chg(0.01)">+</button><span id="calcLine" style="font-size:11px;font-weight:700">0.01 = 0.005%</span></div><label style="font-size:11px;font-weight:700;margin-top:14px;display:block">Precio POR UNIDAD (por 1 WASABLOCK entero) - USDT</label><input class="input" id="sellPricePerUnit" type="number" min="1" placeholder="Ej: 350 = $350 por cada 1 entero. Si vendés 0.01 a $350/u, total $3.5" oninput="calc()"><div style="background:#FEF9C3;border:1px dashed #EAB308;border-radius:10px;padding:10px;margin-top:10px;font-size:11px"><div>Unidades: <b id="unitsToSell">0.01</b> | Por unidad: <b id="perOne">$0</b></div><div style="margin-top:4px;font-size:13px">Total: <b id="totalPrice">$0</b> | Comisión 7.5%: <b id="fee">$0</b> | Vos recibís: <b id="recv" style="color:#16a34a">$0</b></div><div style="opacity:.6;margin-top:4px">Total = Cantidad x PrecioUnidad. Ej: 0.05 x $400 = $20</div></div><button class="btn" id="btnPublish" style="margin-top:12px;width:100%" onclick="publish()">PUBLICAR ANUNCIO</button><div id="pubMsg" class="hidden" style="margin-top:10px;font-size:12px;padding:10px;border-radius:10px"></div></div><div class="card"><div class="eyebrow">MIS ANUNCIOS ACTIVOS</div><div class="table-wrap"><table class="table" id="myListings"><thead><tr><th>ID</th><th>Cantidad</th><th>Total</th><th>Por unidad</th><th>Estado</th><th></th></tr></thead><tbody><tr><td colspan="6" class="empty">No tenés anuncios</td></tr></tbody></table></div></div></div>
+<div id="view-vender" class="view hidden"><div class="card"><div class="eyebrow">MERCADO / VENDER - MIN 0.01 - PRECIO POR UNIDAD</div><div class="title">Poner a la venta</div><div class="sub">Fracción mínima 0.01 y múltiplos de 0.01. Ej: 0.01, 0.02, 0.15. El precio que ponés es <b>POR 1 WASABLOCK ENTERO</b>. El sistema calcula el total automáticamente.<br><b id="availSell"></b></div><label style="font-size:12px;font-weight:700;margin-top:14px;display:block">Cantidad a vender (0.01 mínimo)</label><div class="qty-row"><button class="qty-btn" onclick="chg(-0.01)">−</button><input class="input" id="sellSlots" type="number" step="0.01" min="0.01" value="0.01" style="margin-top:0;text-align:center;font-weight:800;max-width:120px" oninput="calc()"><button class="qty-btn" onclick="chg(0.01)">+</button><span id="calcLine" style="font-size:13px;font-weight:700;color:#4F46E5">0.01 = 0.005%</span></div><label style="font-size:12px;font-weight:700;margin-top:14px;display:block">Precio POR UNIDAD (por 1 WASABLOCK entero) - USDT</label><input class="input" id="sellPricePerUnit" type="number" min="1" placeholder="Ej: 350 = $350 por cada 1 entero. Si vendés 0.01 a $350/u, total $3.5" oninput="calc()"><div style="background:#FEF9C3;border:1px dashed #EAB308;border-radius:12px;padding:12px 16px;margin-top:10px;font-size:12px"><div>Unidades: <b id="unitsToSell">0.01</b> | Por unidad: <b id="perOne">$0</b></div><div style="margin-top:4px;font-size:14px">Total: <b id="totalPrice">$0</b> | Comisión 7.5%: <b id="fee">$0</b> | Vos recibís: <b id="recv" style="color:#16a34a">$0</b></div><div style="opacity:.6;margin-top:4px;font-size:11px">Total = Cantidad x PrecioUnidad. Ej: 0.05 x $400 = $20</div></div><button class="btn btn-full" id="btnPublish" style="margin-top:12px" onclick="publish()">PUBLICAR ANUNCIO</button><div id="pubMsg" class="hidden" style="margin-top:10px;font-size:12px;padding:10px;border-radius:12px"></div></div><div class="card"><div class="eyebrow">MIS ANUNCIOS ACTIVOS</div><div class="table-wrap"><table class="table" id="myListings"><thead><tr><th>ID</th><th>Cantidad</th><th>Total</th><th>Por unidad</th><th>Estado</th><th></th></tr></thead><tbody><tr><td colspan="6" class="empty">No tenés anuncios</td></tr></tbody></table></div></div></div>
 <!-- TX -->
 <div id="view-tx" class="view hidden"><div class="card"><div class="eyebrow">MERCADO / HISTORIAL WALLET</div><div class="title">Historial compras y ventas tipo wallet</div><div class="sub">Entradas, salidas, hash TX, contraparte, código WASA.</div><div class="table-wrap"><table class="table" id="txTable"><thead><tr><th>Fecha</th><th>Tipo</th><th>Cantidad</th><th>%</th><th>Precio</th><th>Hash</th><th>Contraparte</th><th>Código</th></tr></thead><tbody><tr><td colspan="8" class="empty">Sin movimientos aún</td></tr></tbody></table></div></div></div>
 <!-- HOLOGRAMAS -->
-<div id="view-hologramas" class="view hidden"><div class="card"><div class="eyebrow">HOLOGRAMAS</div><div class="title">Tus certificados</div><div id="holoList" style="margin-top:12px;display:grid;gap:10px"></div></div></div>
-<!-- PAGOS - NUEVO APARTADO -->
+<div id="view-hologramas" class="view hidden"><div class="card"><div class="eyebrow">HOLOGRAMAS</div><div class="title">Tus certificados</div><div id="holoList" class="holo-grid"></div></div></div>
+<!-- PAGOS -->
 <div id="view-pagos" class="view hidden">
   <div class="card" style="border-color:#EAB308;background:#FFFEF5">
     <div class="eyebrow" style="color:#854D0E">PAGOS - CONFIGURA TUS WALLETS - EDITABLE</div>
     <div class="title">💳 Dónde querés cobrar</div>
     <div class="sub">Acá configurás las 2 wallets. Podés usar la misma o distintas. Se guardan en <b>panel_users.wallet</b> (ganancias) y <b>ref_users.wallet</b> (referidos). Pago el 15 de cada mes desde abril 2027 con hash TX visible.</div>
     <div style="margin-top:16px;display:grid;gap:14px">
-      <div style="background:white;border:2px solid #93B4FF;border-radius:14px;padding:14px">
-        <div style="font-size:12px;font-weight:800">1. WALLET GANANCIAS FOUNDERS (USDT BSC)</div>
-        <div style="font-size:11px;opacity:.6;margin-top:4px">Tu % perpetuo mensual. Ej: 1 slot = 0.5% de ganancias totales. Se paga en USDT BEP20.</div>
-        <input class="input" id="editWalletInput" placeholder="0x..." style="font-family:monospace;font-size:12px">
+      <div class="wallet-box wallet-box-gold">
+        <div class="label">1. WALLET GANANCIAS FOUNDERS (USDT BSC)</div>
+        <div class="hint">Tu % perpetuo mensual. Ej: 1 slot = 0.5% de ganancias totales. Se paga en USDT BEP20.</div>
+        <input class="input" id="editWalletInput" placeholder="0x..." style="font-family:monospace;font-size:13px">
         <div style="display:flex;gap:8px;margin-top:10px;flex-wrap:wrap"><button class="btn" style="flex:1;min-width:140px" onclick="saveWallet()">GUARDAR WALLET GANANCIAS</button><button class="btn btn-ghost" style="flex:1;min-width:120px" onclick="copyWallet()">COPIAR</button></div>
-        <div id="walletMsg" style="font-size:11px;margin-top:10px;display:none;padding:10px;border-radius:8px"></div>
-        <div style="font-size:10px;opacity:.5;margin-top:8px">Actual: <span id="currentWalletGanancias">-</span></div>
+        <div id="walletMsg" style="font-size:12px;margin-top:10px;display:none;padding:10px;border-radius:8px"></div>
+        <div style="font-size:11px;opacity:.5;margin-top:8px">Actual: <span id="currentWalletGanancias">-</span></div>
       </div>
-      <div style="background:white;border:2px solid #16a34a;border-radius:14px;padding:14px">
-        <div style="font-size:12px;font-weight:800">2. WALLET REFERIDOS (USDT BSC) - 10%</div>
-        <div style="font-size:11px;opacity:.6;margin-top:4px">Comisión 10% por cada referido que compra validado on-chain. Si no configurás, usamos la misma de ganancias.</div>
-        <input class="input" id="editRefWalletInput" placeholder="0x... (opcional, si vacío usa la de ganancias)" style="font-family:monospace;font-size:12px">
-        <div style="display:flex;gap:8px;margin-top:10px;flex-wrap:wrap"><button class="btn" style="flex:1;min-width:140px;background:#16a34a" onclick="saveRefWallet()">GUARDAR WALLET REFERIDOS</button><button class="btn btn-ghost" style="flex:1;min-width:120px" onclick="copyRefWallet()">COPIAR</button></div>
-        <div id="refWalletMsg" style="font-size:11px;margin-top:10px;display:none;padding:10px;border-radius:8px"></div>
-        <div style="font-size:10px;opacity:.5;margin-top:8px">Actual: <span id="currentWalletRefs">-</span></div>
+      <div class="wallet-box wallet-box-green">
+        <div class="label">2. WALLET REFERIDOS (USDT BSC) - 10%</div>
+        <div class="hint">Comisión 10% por cada referido que compra validado on-chain. Si no configurás, usamos la misma de ganancias.</div>
+        <input class="input" id="editRefWalletInput" placeholder="0x... (opcional, si vacío usa la de ganancias)" style="font-family:monospace;font-size:13px">
+        <div style="display:flex;gap:8px;margin-top:10px;flex-wrap:wrap"><button class="btn btn-warm" style="flex:1;min-width:140px" onclick="saveRefWallet()">GUARDAR WALLET REFERIDOS</button><button class="btn btn-ghost" style="flex:1;min-width:120px" onclick="copyRefWallet()">COPIAR</button></div>
+        <div id="refWalletMsg" style="font-size:12px;margin-top:10px;display:none;padding:10px;border-radius:8px"></div>
+        <div style="font-size:11px;opacity:.5;margin-top:8px">Actual: <span id="currentWalletRefs">-</span></div>
       </div>
-      <div style="background:#E6F0FF;border:1px solid #93B4FF;border-radius:12px;padding:12px;font-size:11px;line-height:1.5">
+      <div class="info-box">
         <b>ℹ️ Cómo cobrás:</b><br>
         • El 15 de cada mes desde abril 2027 se hace snapshot de tu %.<br>
         • Se paga automático en USDT BSC a estas wallets con hash TX que verás en HISTORIAL DE REPARTO.<br>
@@ -208,7 +884,7 @@ async function loadData(){
     document.querySelector('#codesTable tbody').innerHTML=(codes||[]).map(c=>`<tr><td><b>${c.codeId||'-'}</b></td><td>${(c.slots||0).toFixed(2)}</td><td>${(c.percent|| (c.slots||0)*0.5).toFixed(3)}%</td><td style="font-size:10px">${c.parentId||'GENESIS'}</td></tr>`).join('')||'<tr><td colspan="4" class="empty">Sin códigos - vendiste todo</td></tr>';
     document.querySelector('#myListings tbody').innerHTML=(listings&&listings.length)?listings.map(l=>`<tr><td style="font-size:10px">${l.id}</td><td>${(l.slots||0).toFixed(2)}</td><td>$${(l.price||0).toFixed(2)}</td><td>$${((l.pricePerUnit|| (l.price/l.slots))||0).toFixed(2)}</td><td><span class="badge badge-warn">${l.status}</span></td><td><button class="btn btn-sm" onclick="cancelList('${l.id}')">Cancelar</button></td></tr>`).join(''):'<tr><td colspan="6" class="empty">No tenés anuncios</td></tr>';
     document.querySelector('#marketTable tbody').innerHTML=(market&&market.length)?market.map(m=>`<tr><td>${(m.slots||0).toFixed(2)}</td><td>${(m.percent||0).toFixed(3)}%</td><td>$${(m.price||0).toFixed(2)}</td><td>$${((m.price/(m.slots||1))||0).toFixed(2)}</td><td>${(m.seller||'').slice(0,3)}***</td><td><button class="btn btn-sm" onclick="buy('${m.id}')">Comprar</button></td></tr>`).join(''):'<tr><td colspan="6" class="empty">No hay ofertas</td></tr>';
-    document.getElementById('holoList').innerHTML=(codes||[]).map(c=>`<div style="background:#E6F0FF;border:1px solid #93B4FF;border-radius:12px;padding:10px;display:flex;justify-content:space-between"><div><b>${c.codeId||''}</b><div style="font-size:11px">${(c.slots||0).toFixed(2)} slots - ${(c.percent|| (c.slots||0)*0.5).toFixed(3)}%</div></div><div style="font-size:11px">En email</div></div>`).join('')||'<div class="empty">Sin hologramas</div>';
+    document.getElementById('holoList').innerHTML=(codes||[]).map(c=>`<div class="holo-item"><div><b>${c.codeId||''}</b><div style="font-size:11px;opacity:0.6">${(c.slots||0).toFixed(2)} slots - ${(c.percent|| (c.slots||0)*0.5).toFixed(3)}%</div></div><div style="font-size:11px;opacity:0.5">En email</div></div>`).join('')||'<div class="empty">Sin hologramas</div>';
     calc();
   }catch(e){console.error(e); alert('Error '+e.message);}
 }
@@ -219,32 +895,32 @@ async function publish(){
   if(!pricePerUnit||pricePerUnit<1){alert('Precio por unidad mínimo $1 USDT. Ej: 350');return;}
   let totalPrice = slots * pricePerUnit;
   if(!confirm(`Vas a vender ${slots.toFixed(2)} WASABLOCKS a $${pricePerUnit.toFixed(2)} por unidad. Total: $${totalPrice.toFixed(2)}. ¿Confirmar?`)) return;
-  let msg=document.getElementById('pubMsg'); msg.classList.remove('hidden'); msg.style.background='#E6F0FF'; msg.textContent='Publicando... Total $'+totalPrice.toFixed(2);
+  let msg=document.getElementById('pubMsg'); msg.classList.remove('hidden'); msg.style.background='#EEF2FF'; msg.textContent='Publicando... Total $'+totalPrice.toFixed(2);
   let res=await fetch(WASA_WEBHOOK_URL,{method:'POST',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify({action:'createListing', token:localStorage.getItem('wasa_token'), slots: Math.round(slots*100)/100, percent: Math.round(slots*100)/100*0.5, price: totalPrice, pricePerUnit: pricePerUnit})});
-  let j=await res.json(); if(j.ok){msg.style.background='#F0FDF4'; msg.textContent='Publicado ID '+j.listingId+' - Total $'+totalPrice.toFixed(2); loadData();} else {msg.style.background='#FEF2F2'; msg.textContent='Error: '+j.error;}
+  let j=await res.json(); if(j.ok){msg.style.background='#DCFCE7'; msg.textContent='Publicado ID '+j.listingId+' - Total $'+totalPrice.toFixed(2); loadData();} else {msg.style.background='#FEE2E2'; msg.textContent='Error: '+j.error;}
 }
 async function buy(id){ if(!confirm('Comprar '+id+'? Pagás en USDT BSC. Mín 0.01'))return; let r=await fetch(WASA_WEBHOOK_URL,{method:'POST',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify({action:'buyListing', token:localStorage.getItem('wasa_token'), listingId:id})}); let j=await r.json(); alert(j.ok?'Solicitud creada, pagá USDT':'Error '+j.error); }
 async function cancelList(id){ let r=await fetch(WASA_WEBHOOK_URL,{method:'POST',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify({action:'cancelListing', token:localStorage.getItem('wasa_token'), listingId:id})}); let j=await r.json(); alert(j.ok?'Cancelado':'Error'); loadData(); }
 async function saveWallet(){
   let w=document.getElementById('editWalletInput').value.trim();
   if(!w.startsWith('0x')||w.length<42){alert('Wallet BSC inválida, debe ser 0x... 42 chars');return;}
-  let msg=document.getElementById('walletMsg'); msg.style.display='block'; msg.style.background='#E6F0FF'; msg.style.color='#1E293B'; msg.textContent='Guardando...';
+  let msg=document.getElementById('walletMsg'); msg.style.display='block'; msg.style.background='#EEF2FF'; msg.style.color='#1E293B'; msg.textContent='Guardando...';
   try{
     let res=await fetch(WASA_WEBHOOK_URL,{method:'POST',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify({action:'updateWallet', token:localStorage.getItem('wasa_token'), wallet:w})});
     let j=await res.json();
-    if(j.ok){ msg.style.background='#F0FDF4'; msg.style.color='#166534'; msg.textContent='Wallet ganancias actualizada.'; document.getElementById('statWallet').textContent=w.slice(0,6)+'...'+w.slice(-4); document.getElementById('currentWalletGanancias').textContent=w; }
-    else { msg.style.background='#FEF2F2'; msg.style.color='#991B1B'; msg.textContent='Error: '+j.error; }
+    if(j.ok){ msg.style.background='#DCFCE7'; msg.style.color='#166534'; msg.textContent='Wallet ganancias actualizada.'; document.getElementById('statWallet').textContent=w.slice(0,6)+'...'+w.slice(-4); document.getElementById('currentWalletGanancias').textContent=w; }
+    else { msg.style.background='#FEE2E2'; msg.style.color='#991B1B'; msg.textContent='Error: '+j.error; }
   }catch(e){ msg.textContent='Error: '+e.message; }
 }
 async function saveRefWallet(){
   let w=document.getElementById('editRefWalletInput').value.trim();
   if(w && (!w.startsWith('0x')||w.length<42)){alert('Wallet ref inválida, debe ser 0x...');return;}
-  let msg=document.getElementById('refWalletMsg'); msg.style.display='block'; msg.style.background='#E6F0FF'; msg.style.color='#1E293B'; msg.textContent='Guardando...';
+  let msg=document.getElementById('refWalletMsg'); msg.style.display='block'; msg.style.background='#EEF2FF'; msg.style.color='#1E293B'; msg.textContent='Guardando...';
   try{
     let res=await fetch(WASA_WEBHOOK_URL,{method:'POST',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify({action:'updateReferrerWallet', token:localStorage.getItem('wasa_token'), wallet:w})});
     let j=await res.json();
-    if(j.ok){ msg.style.background='#F0FDF4'; msg.style.color='#166534'; msg.textContent=w?'Wallet referidos actualizada.':'Wallet referidos borrada, se usará la de ganancias.'; document.getElementById('currentWalletRefs').textContent=w||document.getElementById('currentWalletGanancias').textContent; }
-    else { msg.style.background='#FEF2F2'; msg.style.color='#991B1B'; msg.textContent='Error: '+j.error; }
+    if(j.ok){ msg.style.background='#DCFCE7'; msg.style.color='#166534'; msg.textContent=w?'Wallet referidos actualizada.':'Wallet referidos borrada, se usará la de ganancias.'; document.getElementById('currentWalletRefs').textContent=w||document.getElementById('currentWalletGanancias').textContent; }
+    else { msg.style.background='#FEE2E2'; msg.style.color='#991B1B'; msg.textContent='Error: '+j.error; }
   }catch(e){ msg.textContent='Error: '+e.message; }
 }
 function copyWallet(){ let v=document.getElementById('editWalletInput').value; navigator.clipboard.writeText(v); alert('Copiado: '+v); }
