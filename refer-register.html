@@ -95,7 +95,7 @@ html, body {
 }
 
 .eyebrow {
-  font-size: 18px;
+  font-size: 12px;
   font-weight: 800;
   letter-spacing: 0.12em;
   text-transform: uppercase;
@@ -138,7 +138,7 @@ html, body {
   margin-top: 18px;
   text-align: left;
   color: #1E1B4B;
-  line-height: 1.2;
+  line-height: 1.3;
 }
 
 @media(max-width:900px){
@@ -148,25 +148,7 @@ html, body {
   }
 }
 
-.sub-small {
-  font-size: 14px;
-  opacity: 0.65;
-  margin-top: 14px;
-  text-align: left;
-  line-height: 1.6;
-  max-width: 420px;
-}
-
-@media(max-width:900px){
-  .sub-small {
-    margin-left: auto;
-    margin-right: auto;
-    text-align: center;
-    max-width: 100%;
-  }
-}
-
-.badge {
+.badge-top {
   font-size: 9px;
   font-weight: 800;
   padding: 4px 12px;
@@ -178,11 +160,12 @@ html, body {
   display: inline-block;
 }
 
+/* --- BULLET FIX: espaciado uniforme --- */
 .bullet {
   margin-top: 24px;
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 14px;
 }
 
 @media(max-width:900px){
@@ -193,33 +176,46 @@ html, body {
 
 .bullet-item {
   display: flex;
-  gap: 12px;
-  align-items: flex-start;
-  font-size: 13px;
-  line-height: 1.5;
+  gap: 14px;
+  align-items: center;
+  font-size: 14px;
+  line-height: 1.4;
+  padding: 4px 0;
 }
 
 @media(max-width:900px){
   .bullet-item {
     text-align: left;
     max-width: 440px;
+    width: 100%;
   }
 }
 
 .bullet-icon {
-  width: 28px;
-  height: 28px;
-  min-width: 28px;
+  width: 32px;
+  height: 32px;
+  min-width: 32px;
   border-radius: var(--radius-sm);
-  background: white;
-  border: 1px solid rgba(79, 70, 229, 0.15);
+  background: rgba(79, 70, 229, 0.08);
+  border: 1px solid rgba(79, 70, 229, 0.12);
   display: grid;
   place-items: center;
   font-weight: 800;
-  font-size: 12px;
+  font-size: 13px;
   flex-shrink: 0;
   color: #4F46E5;
-  background: rgba(79, 70, 229, 0.06);
+  transition: var(--transition);
+}
+
+.bullet-item:hover .bullet-icon {
+  background: linear-gradient(135deg, #4F46E5, #7C3AED);
+  color: white;
+  border-color: #4F46E5;
+  transform: scale(1.05);
+}
+
+.bullet-item b {
+  color: #1E1B4B;
 }
 
 /* --- RIGHT CARD --- */
@@ -374,43 +370,12 @@ html, body {
   text-decoration: underline;
 }
 
-.info-box {
-  margin-top: 14px;
-  background: rgba(238, 242, 255, 0.6);
-  border: 1px solid rgba(79, 70, 229, 0.08);
-  border-radius: var(--radius-md);
-  padding: 14px 18px;
-  font-size: 12px;
-  line-height: 1.6;
-  color: var(--text-main);
-}
-
-.info-box b { color: #4F46E5; }
-
-.info-box .highlight-text { 
-  background: linear-gradient(135deg, #4F46E5, #7C3AED);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-  font-weight: 800;
-}
-
 .form-hint {
-  font-size: 14px;
-  opacity: 0.8;
-  margin-top: 8px;
+  font-size: 12px;
+  opacity: 0.6;
+  margin-top: 10px;
   text-align: center;
   line-height: 1.5;
-}
-
-.form-footer {
-  text-align: center;
-  margin-top: 14px;
-  font-size: 12px;
-}
-
-.form-footer .link {
-  margin: 0 6px;
 }
 
 /* --- RESPONSIVE --- */
@@ -419,11 +384,11 @@ html, body {
   .card { padding: 20px 16px; border-radius: var(--radius-md); }
   .big-title { font-size: 28px; }
   .sub-big { font-size: 16px; }
-  .sub-small { font-size: 13px; }
   .input { height: 44px; font-size: 13px; }
   .btn { height: 44px; font-size: 13px; }
   .tab { height: 38px; font-size: 12px; }
-  .bullet-item { font-size: 12px; }
+  .bullet-item { font-size: 13px; }
+  .bullet-icon { width: 28px; height: 28px; min-width: 28px; font-size: 11px; }
 }
 
 /* --- AUTO-LOGIN OVERRIDE --- */
@@ -517,7 +482,7 @@ html, body {
 <div class="layout">
   <!-- LEFT - PC: izquierda grande, texto alineado izquierda -->
   <div class="left">
-    <div class="eyebrow">FOUNDERS.WASA.CHAT - <span class="badge">PROGRAMA DE REFERIDOS 10%</span></div>
+    <div class="eyebrow">FOUNDERS.WASA.CHAT - <span class="badge-top">PROGRAMA DE REFERIDOS 10%</span></div>
     <h1 class="big-title">
       <span>GANA USDT</span>
       <span>COMPARTIENDO</span>
@@ -525,9 +490,18 @@ html, body {
     </h1>
     <div class="sub-big">POR CADA VENTA DESDE TU ENLACE RECIBES EL 10%.<br>PUEDES GANAR HASTA 1300 USDT.<br>PAGOS SEMANALES.</div>
     <div class="bullet">
-      <div class="bullet-item"><div class="bullet-icon">1</div><div><b>REGISTRATE</div></div>
-      <div class="bullet-item"><div class="bullet-icon">2</div><div><b>COMPARTE TU ENLACE EN REDES SOCIALES Y A TUS AMIGOS</div></div>
-      <div class="bullet-item"><div class="bullet-icon">3</div><div><b>GANA EL 10% DE CADA VENTA QUE SE CONCRETE CON TU ENLACE</div></div>
+      <div class="bullet-item">
+        <div class="bullet-icon">1</div>
+        <div><b>REGISTRATE</b> y obtené tu enlace único REF-XXXXXX</div>
+      </div>
+      <div class="bullet-item">
+        <div class="bullet-icon">2</div>
+        <div><b>COMPARTE TU ENLACE</b> en redes sociales y con tus amigos</div>
+      </div>
+      <div class="bullet-item">
+        <div class="bullet-icon">3</div>
+        <div><b>GANA EL 10%</b> de cada venta que se concrete con tu enlace</div>
+      </div>
     </div>
   </div>
 
@@ -635,9 +609,9 @@ async function register(){
       } else {
         showMsg('❌ Error: '+j.error,false);
       }
-      btn.disabled=false; btn.textContent='CREAR CUENTA REFERIDOR PURO';
+      btn.disabled=false; btn.textContent='CREAR CUENTA REFERIDOS';
     }
-  }catch(e){ showMsg('❌ Error: '+e.message+'<br>Verificá que el worker esté deployado con registerReferrer',false); btn.disabled=false; btn.textContent='CREAR CUENTA REFERIDOR PURO'; }
+  }catch(e){ showMsg('❌ Error: '+e.message+'<br>Verificá que el worker esté deployado con registerReferrer',false); btn.disabled=false; btn.textContent='CREAR CUENTA REFERIDOS'; }
 }
 async function login(){
   let email=document.getElementById('loginEmail').value.trim().toLowerCase();
@@ -654,9 +628,9 @@ async function login(){
       setTimeout(()=>location.href='/refer.html',600);
     } else {
       showMsg('❌ Error: '+j.error,false);
-      btn.disabled=false; btn.textContent='ENTRAR A MI PANEL DE REFERIDOS';
+      btn.disabled=false; btn.textContent='ENTRAR A PANEL DE REFERIDOS';
     }
-  }catch(e){ showMsg('❌ Error: '+e.message,false); btn.disabled=false; btn.textContent='ENTRAR A MI PANEL DE REFERIDOS'; }
+  }catch(e){ showMsg('❌ Error: '+e.message,false); btn.disabled=false; btn.textContent='ENTRAR A PANEL DE REFERIDOS'; }
 }
 (function(){
   let p=new URLSearchParams(location.search);
