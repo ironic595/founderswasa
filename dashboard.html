@@ -44,22 +44,6 @@
     .sell-summary{display:grid; grid-template-columns:1fr 1fr 1fr 1fr; gap:12px; margin-top:16px; padding:16px 20px; background:#FEF9C3; border:1px dashed #EAB308; border-radius:16px} @media(max-width:700px){.sell-summary{grid-template-columns:1fr 1fr}} .sell-summary-item{display:flex; flex-direction:column} .sell-summary-item .label{font-size:10px; font-weight:700; text-transform:uppercase; letter-spacing:0.04em; opacity:0.5} .sell-summary-item .value{font-size:18px; font-weight:800; color:#1E1B4B; margin-top:2px} .sell-summary-item .value.green{color:#16a34a} .sell-summary-item .value.orange{color:#D97706} .sell-summary-item .value.purple{color:#4F46E5}
     .sell-available{font-size:13px; font-weight:700; color:#1E1B4B; padding:8px 12px; background:#EEF2FF; border-radius:8px; margin-top:4px; display:inline-block} .sell-available span{color:#4F46E5} .hidden{display:none!important} .empty{padding:28px 16px; text-align:center; opacity:0.5; font-size:13px}
     .wallet-box{background:white; border:1px solid rgba(79,70,229,0.08); border-radius:16px; padding:16px 18px} .wallet-box-gold{border-color:#EAB308; background:#FFFBEB} .wallet-box-green{border-color:#10B981; background:#ECFDF5} .wallet-box .label{font-size:12px; font-weight:800} .wallet-box .hint{font-size:11px; opacity:0.5; margin-top:4px} .info-box{background:#EEF2FF; border:1px solid rgba(79,70,229,0.08); border-radius:16px; padding:14px 18px; font-size:12px; line-height:1.6}
-    .modal-overlay{position:fixed;inset:0;background:rgba(11,17,32,0.55);backdrop-filter:blur(6px);z-index:9999;display:none;place-items:center;padding:16px}
-    .modal-overlay.show{display:grid}
-    .modal{background:white;border-radius:24px;padding:28px 24px;max-width:420px;width:100%;box-shadow:0 28px 60px -16px rgba(11,17,32,0.25);animation:modalIn .25s cubic-bezier(.25,.46,.45,.94)}
-    @keyframes modalIn{from{transform:translateY(12px) scale(.97);opacity:0}to{transform:translateY(0) scale(1);opacity:1}}
-    .modal .eyebrow{font-size:10px;font-weight:800;letter-spacing:0.12em;text-transform:uppercase;color:#4F46E5;margin-bottom:6px}
-    .modal .title{font-size:20px;font-weight:800;color:#0B1120;letter-spacing:-0.02em}
-    .modal .sub{font-size:13px;color:#6B7280;margin-top:6px;line-height:1.5}
-    .modal .input{margin-top:14px}
-    .modal-actions{display:flex;gap:10px;margin-top:20px}
-    .modal-actions .btn{flex:1}
-    .btn-danger{background:linear-gradient(135deg,#EF4444,#DC2626);color:white;box-shadow:0 4px 16px rgba(239,68,68,.25)}
-    .icon-btn{width:36px;height:36px;border-radius:10px;border:1px solid rgba(79,70,229,0.12);background:white;display:inline-flex;align-items:center;justify-content:center;cursor:pointer;transition:all .2s;font-size:16px}
-    .icon-btn:hover{background:#EEF2FF;border-color:#4F46E5;transform:translateY(-1px)}
-    .icon-btn.danger:hover{background:#FEE2E2;border-color:#EF4444}
-    .toast{position:fixed;bottom:24px;right:24px;background:#0B1120;color:white;padding:14px 18px;border-radius:12px;font-size:13px;font-weight:600;z-index:10000;box-shadow:0 12px 40px rgba(0,0,0,0.25);animation:toastIn .3s}
-    @keyframes toastIn{from{transform:translateY(20px);opacity:0}to{transform:translateY(0);opacity:1}}
 </style>
 </head>
 <body>
@@ -155,17 +139,16 @@ async function loadData(){
       document.getElementById('menuHistorial').classList.add('locked');
       document.getElementById('btnPublish').disabled=true;
     }
-    // FIX: solo holdings reales, no escrow
+    // FIX: mostrar escrow como EN VENTA pero contar en total
     document.querySelector('#codesTable tbody').innerHTML=(d.wasaBlocks||codes||[]).map(c=>{
-      return `<tr><td><b>${c.codeId||'-'}</b></td><td>${(c.slots||0).toFixed(2)}</td><td>${(c.percent|| (c.slots||0)*0.5).toFixed(3)}%</td><td style="font-size:10px">${c.parentId||c.parent_mother||'GENESIS'}</td></tr>`;
+      let badge = c.isEscrow ? '<span style="background:#FEF3C7;color:#92400E;padding:2px 6px;border-radius:6px;font-size:9px">EN VENTA</span>' : '';
+      return `<tr><td><b>${c.codeId||'-'}</b> ${badge}</td><td>${(c.slots||0).toFixed(2)}</td><td>${(c.percent|| (c.slots||0)*0.5).toFixed(3)}%</td><td style="font-size:10px">${c.parentId||c.parent_mother||'GENESIS'}</td></tr>`;
     }).join('')||'<tr><td colspan="4" class="empty">Sin códigos - vendiste todo</td></tr>';
-    window._myListings = listings||[];
-    let activeListings = (listings||[]).filter(l=>l.status==='active');
-    document.querySelector('#myListings tbody').innerHTML=(activeListings&&activeListings.length)?activeListings.map(l=>{
+    document.querySelector('#myListings tbody').innerHTML=(listings&&listings.length)?listings.map(l=>{
       let pr = l.price_total||l.price||0;
       let ppu = l.price_per_unit||l.pricePerUnit|| (pr/(l.slots||1));
-      return `<tr data-listing="${l.id}"><td style="font-size:10px">${l.id}</td><td>${(l.slots||0).toFixed(2)}</td><td>$${(pr||0).toFixed(2)}</td><td>$${(ppu||0).toFixed(2)}</td><td><span class="badge badge-warn">${l.status}</span></td><td style="display:flex;gap:6px"><button class="icon-btn" title="Editar precio" onclick="openEditModal('${l.id}')">✏️</button><button class="icon-btn danger" title="Eliminar anuncio" onclick="openDeleteModal('${l.id}')">🗑️</button></td></tr>`;
-    }).join(''):'<tr><td colspan="6" class="empty">No tenés anuncios activos</td></tr>';
+      return `<tr><td style="font-size:10px">${l.id}</td><td>${(l.slots||0).toFixed(2)}</td><td>$${(pr||0).toFixed(2)}</td><td>$${(ppu||0).toFixed(2)}</td><td><span class="badge badge-warn">${l.status}</span></td><td><button class="btn btn-sm" onclick="cancelList('${l.id}')">Cancelar</button></td></tr>`;
+    }).join(''):'<tr><td colspan="6" class="empty">No tenés anuncios</td></tr>';
     const myEmail = (d.email||'').toLowerCase();
     document.querySelector('#marketTable tbody').innerHTML=(market&&market.length)?market.map(m=>{
       let pr = m.price_total||m.price||0;
@@ -211,21 +194,21 @@ async function buy(id){
     let listing = GLOBAL_MARKET.find(l=>l.id===id);
     if(!listing){ alert('Listing no encontrado, recargá.'); return; }
     let total = Number(listing.price_total||listing.price||0);
-    let fee = Number(listing.fee_75||0) || Math.round(total*0.075*100)/100;
-    let sellerAmt = Number(listing.seller_recv_925||0) || Math.round(total*0.925*100)/100;
+    // Para display redondeado, pero para on-chain usamos preciso con 6 decimales para no perder fee en montos chicos de prueba
+    let feeDisplay = Number(listing.fee_75||0) || Math.round(total*0.075*100)/100;
+    let sellerDisplay = Number(listing.seller_recv_925||0) || Math.round(total*0.925*100)/100;
+    let feePrecise = total * 0.075;
+    let sellerPrecise = total * 0.925;
+    // Evitar fee 0 por redondeo en pruebas $0.02 -> fee 0.0015, lo dejamos en 0.0015 real on-chain
+    if(feePrecise>0 && feePrecise<0.000001) feePrecise = 0.000001;
+    if(sellerPrecise<0.000001) sellerPrecise = total - feePrecise;
     if(total<0.01){ alert('Precio inválido'); return; }
-    if(!confirm(`Vas a comprar ${listing.slots.toFixed(2)} WASABLOCKS por $${total} TOTAL.\n\nSe abrirá tu wallet y hará 2 pagos automáticos FEE PRIMERO:\n1) $${fee} fee plataforma (7.5%) a tu wallet\n2) $${sellerAmt} al vendedor\n\n2 hashes se guardarán en utxos_used_json y market_tx\n\n¿Continuar?`)) return;
-
-    // Obtener wallets destino
-    // seller wallet desde backend si viene, sino pedir al backend info
     let cfg = GLOBAL_CONFIG || await getMarketConfig();
     let foundersWallet = cfg?.FOUNDERS_RECEIVER_ADDRESS || cfg?.RECEIVER_ADDRESS || '0x90eC0FCC65c2E38a67feCc594D5d97F013FEd';
     let platformWallet = cfg?.MARKETPLACE_FEE_ADDRESS || cfg?.FEE_RECEIVER_ADDRESS || cfg?.PLATFORM_FEE_ADDRESS || foundersWallet;
     let usdtContract = cfg?.USDT_CONTRACT || '0x55d398326f99059fF775485246999027B3197955';
-    // pedir seller wallet al worker con un fetch previo a buy (info)
     let sellerWallet = listing.seller_wallet || '';
     if(!sellerWallet){
-      // intentar obtener via userdata ya tiene market con seller_email pero no wallet. Necesitamos pedir info via buyListing sin pagar para obtener wallets? Mejor llamar a endpoint que ya devuelve sellerWallet en buyListing respuesta? Haremos un pre-call: el worker en buyListing devuelve sellerWallet incluso si falla? Vamos a hacer fetch de listings detallado via getmarket ya incluye seller_wallet si está en DB? En nuestro mapper no. Así que llamamos a buyListing para obtener info de pago primero con dryRun
       try{
         let pre = await fetch(WASA_WEBHOOK_URL,{method:'POST',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify({action:'buyListing', token:localStorage.getItem('wasa_token'), listingId:id, dryRun:true})});
         let prej = await pre.json();
@@ -235,17 +218,20 @@ async function buy(id){
         if(prej.foundersWallet) foundersWallet = prej.foundersWallet;
       }catch{}
     }
-    // Si aún no tenemos sellerWallet, lo obtenemos del endpoint admin? Para prueba, si no hay wallet configurada por vendedor, abortamos
     if(!sellerWallet || !sellerWallet.startsWith('0x')){
-      // Intentar usar sellerWallet que viene en listing si el backend ya lo mandó (en nueva versión)
-      // Si no, avisar
       if(!listing.seller_wallet){
-        // fallback: el worker nos dirá sellerWallet si hacemos buyListing sin hashes? Lo intentamos via fetch directo a userdata market que ahora incluye seller_wallet? Ya intentamos. Si sigue vacío, pedimos al usuario que configure wallet
         alert('El vendedor aún no configuró su wallet de ganancias. No se puede pagar automático. Contactá soporte.');
         return;
       }else{
         sellerWallet = listing.seller_wallet;
       }
+    }
+    // FIX: Si feeWallet == sellerWallet (caso tuyo watchscripter == founders wallet), combinar en 1 solo envío para no duplicar y que no falle
+    let isSameWallet = platformWallet.toLowerCase() === sellerWallet.toLowerCase();
+    if(isSameWallet){
+      if(!confirm(`Vas a comprar ${listing.slots.toFixed(2)} WASABLOCKS por $${total} TOTAL.\n\n⚠️ Fee wallet y vendedor son la MISMA dirección (${platformWallet.slice(0,6)}...):\nSe hará 1 solo pago de $${total} (incluye 7.5% fee) para evitar doble envío.\n\n¿Continuar?`)) return;
+    }else{
+      if(!confirm(`Vas a comprar ${listing.slots.toFixed(2)} WASABLOCKS por $${total} TOTAL.\n\nSe abrirá tu wallet y hará 2 pagos automáticos FEE PRIMERO:\n1) $${feeDisplay.toFixed(6)} fee (7.5%) → ${platformWallet.slice(0,6)}... (MARKETPLACE FEE)\n2) $${sellerDisplay.toFixed(6)} vendedor (92.5%) → ${sellerWallet.slice(0,6)}...\n\nFounders wallet: ${foundersWallet.slice(0,6)}...\n\n¿Continuar?`)) return;
     }
 
     // Conectar wallet
@@ -261,9 +247,10 @@ async function buy(id){
     const usdt = new ethers.Contract(usdtContract, usdtAbi, signer);
     let decimals = 18;
     try{ decimals = await usdt.decimals(); }catch{ decimals = 18; }
-    const totalUnits = ethers.parseUnits(total.toString(), decimals);
-    const sellerUnits = ethers.parseUnits(sellerAmt.toString(), decimals);
-    const feeUnits = ethers.parseUnits(fee.toString(), decimals);
+    // Usar montos precisos para on-chain, no redondeados a 2 decimales
+    const totalUnits = ethers.parseUnits(total.toFixed(6), decimals);
+    const sellerUnitsPrecise = ethers.parseUnits(sellerPrecise.toFixed(6), decimals);
+    const feeUnitsPrecise = ethers.parseUnits(feePrecise.toFixed(6), decimals);
 
     // Verificar balance
     let bal = await usdt.balanceOf(await signer.getAddress());
@@ -274,36 +261,50 @@ async function buy(id){
 
     // Mostrar progreso - PRIMERO COMISION PARA EVITAR CANCELACION EN MEDIO
     let msgBox = document.createElement('div');
-    msgBox.style.cssText='position:fixed;bottom:20px;right:20px;background:#0B1120;color:white;padding:16px;border-radius:12px;z-index:9999;max-width:360px;font-size:12px;line-height:1.4';
-    msgBox.innerHTML=`⏳ Pagando 1/2 COMISIÓN marketplace 7.5% ($${fee}) → ${platformWallet.slice(0,6)}...${platformWallet.slice(-4)}<br><small style="opacity:.7">Founders wallet: ${foundersWallet.slice(0,6)}...${foundersWallet.slice(-4)}</small>`;
+    msgBox.style.cssText='position:fixed;bottom:20px;right:20px;background:#0B1120;color:white;padding:16px;border-radius:12px;z-index:9999;max-width:380px;font-size:12px;line-height:1.4';
+    if(isSameWallet){
+      msgBox.innerHTML=`⏳ Pagando $${total} único → ${platformWallet.slice(0,6)}...${platformWallet.slice(-4)} (fee+vendedor misma wallet)<br><small style="opacity:.7">Founders: ${foundersWallet.slice(0,6)}...</small>`;
+    }else{
+      msgBox.innerHTML=`⏳ Pagando 1/2 COMISIÓN marketplace 7.5% ($${feePrecise.toFixed(6)}) → ${platformWallet.slice(0,6)}...${platformWallet.slice(-4)}<br><small style="opacity:.7">Founders: ${foundersWallet.slice(0,6)}... | Vendedor: ${sellerWallet.slice(0,6)}...</small>`;
+    }
     document.body.appendChild(msgBox);
 
-    // TX1: PRIMERO FEE a MARKETPLACE FEE WALLET (nueva wallet separada de founders)
-    let txFee = await usdt.transfer(platformWallet, feeUnits);
-    msgBox.innerHTML=`⏳ TX FEE enviada: ${txFee.hash.slice(0,10)}... Esperando confirmación...`;
-    let receiptFee = await txFee.wait();
-    if(receiptFee.status!==1){ msgBox.remove(); alert('TX FEE falló, venta cancelada. No se perdió nada.'); return; }
+    let txFee, txSeller, receiptFee, receiptSeller;
+    if(isSameWallet){
+      // Un solo pago combinado
+      txFee = await usdt.transfer(platformWallet, totalUnits);
+      msgBox.innerHTML=`⏳ TX única enviada: ${txFee.hash.slice(0,10)}... Esperando confirmación...`;
+      receiptFee = await txFee.wait();
+      if(receiptFee.status!==1){ msgBox.remove(); alert('TX falló, venta cancelada.'); return; }
+      txSeller = txFee; // mismo hash para ambos
+      receiptSeller = receiptFee;
+    }else{
+      // TX1: PRIMERO FEE a MARKETPLACE FEE WALLET
+      txFee = await usdt.transfer(platformWallet, feeUnitsPrecise);
+      msgBox.innerHTML=`⏳ TX FEE enviada: ${txFee.hash.slice(0,10)}... Esperando confirmación...`;
+      receiptFee = await txFee.wait();
+      if(receiptFee.status!==1){ msgBox.remove(); alert('TX FEE falló, venta cancelada. No se perdió nada.'); return; }
 
-    msgBox.innerHTML=`⏳ Pagando 2/2 al vendedor ($${sellerAmt})...`;
-    // TX2: luego al vendedor
-    let txSeller = await usdt.transfer(sellerWallet, sellerUnits);
-    msgBox.innerHTML=`⏳ TX vendedor enviada: ${txSeller.hash.slice(0,10)}... Esperando confirmación...`;
-    let receiptSeller = await txSeller.wait();
-    if(receiptSeller.status!==1){ 
-      msgBox.remove(); 
-      alert(`TX vendedor falló, pero FEE ya fue enviado a plataforma. Venta NO completada. Guardá estos hashes para soporte:\nFEE: ${txFee.hash}\nVendedor (fallido): ${txSeller.hash}`); 
-      // Intentar reembolsar fee? No, se queda en plataforma como protección anti-cancelación
-      return; 
+      msgBox.innerHTML=`⏳ Pagando 2/2 al vendedor ($${sellerPrecise.toFixed(6)})...`;
+      // TX2: luego al vendedor
+      txSeller = await usdt.transfer(sellerWallet, sellerUnitsPrecise);
+      msgBox.innerHTML=`⏳ TX vendedor enviada: ${txSeller.hash.slice(0,10)}... Esperando confirmación...`;
+      receiptSeller = await txSeller.wait();
+      if(receiptSeller.status!==1){ 
+        msgBox.remove(); 
+        alert(`TX vendedor falló, pero FEE ya fue enviado a plataforma. Venta NO completada. Guardá estos hashes para soporte:\nFEE: ${txFee.hash}\nVendedor (fallido): ${txSeller.hash}`); 
+        return; 
+      }
     }
 
-    msgBox.innerHTML=`✅ Pagos confirmados (2 hashes). Guardando en base de datos...`;
+    msgBox.innerHTML=`✅ Pagos confirmados (${isSameWallet?'1 hash':'2 hashes'}). Guardando en base de datos...`;
 
     // Llamar worker para guardar hashes y transferir bloques - fee primero
     let r = await fetch(WASA_WEBHOOK_URL,{method:'POST',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify({action:'buyListing', token:localStorage.getItem('wasa_token'), listingId:id, tx_hash: txSeller.hash, fee_tx_hash: txFee.hash})});
     let j = await r.json();
     msgBox.remove();
     if(j.ok){
-      alert(`✅ Compra exitosa!\nNuevo código: ${j.buyerCodeId}\nTX FEE (7.5% primero): ${txFee.hash}\nTX vendedor (92.5%): ${txSeller.hash}\nGuardado en market_sales (2 hashes) y market_tx.`);
+      alert(`✅ Compra exitosa!\nNuevo código: ${j.buyerCodeId}\nTX FEE (7.5% primero): ${txFee.hash}\nTX vendedor (92.5%): ${txSeller.hash}\n${isSameWallet?'(misma wallet, 1 pago)':''}\nGuardado en market_sales y market_tx.`);
       loadData();
     }else{
       alert('Pagos hechos pero error al guardar en DB: '+j.error+'\nGuardá estos hashes:\nVendedor: '+txSeller.hash+'\nFee: '+txFee.hash);
@@ -342,36 +343,5 @@ function copyWallet(){ let v=document.getElementById('editWalletInput').value; n
 function copyRefWallet(){ let v=document.getElementById('editRefWalletInput').value||document.getElementById('editWalletInput').value; navigator.clipboard.writeText(v); alert('Copiado: '+v); }
 loadData();
 </script>
-<!-- MODAL EDITAR PRECIO -->
-<div id="editModal" class="modal-overlay" onclick="if(event.target===this) closeEditModal()">
-  <div class="modal">
-    <div class="eyebrow">EDITAR ANUNCIO</div>
-    <div class="title">Cambiar precio de venta</div>
-    <div class="sub">Estás editando <b id="editModalSlots">0.01 WASABLOCKS</b>. Precio actual: <b id="editModalCurrentPrice">$0.00</b></div>
-    <input id="editModalPriceInput" class="input" type="number" min="0.01" step="0.01" placeholder="Nuevo precio total USDT" oninput="calcEditModal()">
-    <div style="margin-top:12px;display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;font-size:11px">
-      <div><div style="opacity:.5;font-weight:700;text-transform:uppercase;font-size:9px">Por 1 entero</div><div id="editModalPerUnit" style="font-weight:800;font-size:14px">$0.00</div></div>
-      <div><div style="opacity:.5;font-weight:700;text-transform:uppercase;font-size:9px">Fee 7.5%</div><div id="editModalFee" style="font-weight:800;font-size:14px;color:#D97706">$0.00</div></div>
-      <div><div style="opacity:.5;font-weight:700;text-transform:uppercase;font-size:9px">Recibís 92.5%</div><div id="editModalRecv" style="font-weight:800;font-size:14px;color:#16a34a">$0.00</div></div>
-    </div>
-    <div class="modal-actions">
-      <button class="btn btn-ghost" onclick="closeEditModal()">Cancelar</button>
-      <button id="btnConfirmEdit" class="btn" onclick="confirmEditPrice()">Actualizar precio</button>
-    </div>
-  </div>
-</div>
-<!-- MODAL ELIMINAR -->
-<div id="deleteModal" class="modal-overlay" onclick="if(event.target===this) closeDeleteModal()">
-  <div class="modal">
-    <div class="eyebrow" style="color:#EF4444">ELIMINAR ANUNCIO</div>
-    <div class="title">¿Estás seguro que deseas eliminar este anuncio de venta?</div>
-    <div class="sub" id="deleteModalInfo" style="margin-top:8px;background:#FEF2F2;border:1px solid #FECACA;padding:10px 12px;border-radius:12px;font-size:12px;font-weight:600">0.01 WASABLOCKS</div>
-    <div class="sub">Se devolverá el saldo a tu balance disponible y se limpiará la lista en vivo.</div>
-    <div class="modal-actions">
-      <button class="btn btn-ghost" onclick="closeDeleteModal()">Cancelar</button>
-      <button id="btnConfirmDelete" class="btn btn-danger" onclick="confirmDelete()">Confirmar eliminar</button>
-    </div>
-  </div>
-</div>
 </body>
 </html>
