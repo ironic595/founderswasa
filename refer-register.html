@@ -5,45 +5,512 @@
 <title>Ser Referidor - wasa.chat</title>
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
 <style>
-*{box-sizing:border-box;margin:0;padding:0}
-body{font-family:'Plus Jakarta Sans',system-ui;background:#E6F0FF;color:#1E293B;min-height:100vh;display:flex;align-items:center;justify-content:center;padding:18px}
-.layout{max-width:1100px;width:100%;display:grid;grid-template-columns:1.15fr 0.85fr;gap:40px;align-items:center}
-@media(max-width:900px){.layout{grid-template-columns:1fr;gap:20px} body{align-items:flex-start;padding-top:24px}}
-
-/* LEFT */
-.left{padding:20px 10px 20px 0}
-.eyebrow{font-size:10px;font-weight:800;letter-spacing:.14em;opacity:.6;color:#1E3A8A;text-transform:uppercase}
-.big-title{font-size:56px;font-weight:800;line-height:.9;letter-spacing:-.03em;margin-top:12px;text-align:left;color:#0A101F}
-.big-title span{display:block}
-.big-title .highlight{color:#1D4ED8}
-.sub-big{font-size:20px;font-weight:600;margin-top:18px;text-align:left;opacity:.8;line-height:1.2;color:#1E293B}
-.sub-small{font-size:13px;opacity:.65;margin-top:14px;text-align:left;line-height:1.5;max-width:420px}
-.badge{font-size:9px;font-weight:800;padding:4px 10px;border-radius:999px;background:#DBEAFE;color:#1E40AF;margin-left:8px;vertical-align:middle}
-.bullet{margin-top:20px;display:flex;flex-direction:column;gap:10px}
-.bullet-item{display:flex;gap:10px;align-items:flex-start;font-size:12px;line-height:1.4}
-.bullet-icon{width:26px;height:26px;border-radius:8px;background:white;border:1px solid #93B4FF;display:grid;place-items:center;font-weight:800;font-size:12px;flex-shrink:0}
-@media(max-width:900px){
-  .left{text-align:center;padding:0}
-  .big-title{font-size:36px;text-align:center}
-  .sub-big{font-size:18px;text-align:center}
-  .sub-small{margin-left:auto;margin-right:auto;text-align:center}
-  .bullet{align-items:center}
+/* --- RESET & VARIABLES (MODERN VIBE + CONTRAST) --- */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
 }
 
-/* RIGHT CARD */
-.card{background:white;border:2px solid #93B4FF;border-radius:20px;padding:24px;width:100%;box-shadow:0 8px 24px rgba(29,78,216,.12)}
-.tabs{display:flex;gap:8px;margin-top:16px}
-.tab{flex:1;height:42px;border-radius:12px;border:1px solid #93B4FF;background:#E6F0FF;font-weight:700;cursor:pointer;font-size:12px;transition:.15s}
-.tab.active{background:#1D4ED8;color:white;border-color:#1D4ED8}
-.input{height:48px;border-radius:12px;border:1px solid #93B4FF;padding:0 14px;width:100%;margin-top:12px;font-size:13px;background:#F8FBFF}
-.input:focus{outline:none;border-color:#1D4ED8;box-shadow:0 0 0 3px rgba(29,78,216,.12)}
-.btn{height:50px;padding:0 18px;border-radius:12px;border:0;background:#0A101F;color:white;font-weight:800;cursor:pointer;font-size:13px;display:inline-flex;align-items:center;justify-content:center;width:100%;margin-top:14px;transition:.15s}
-.btn:hover{transform:translateY(-1px)}
-.btn:disabled{opacity:.5}
-.msg{margin-top:12px;padding:12px;border-radius:10px;font-size:12px;display:none;line-height:1.4}
-.hidden{display:none!important}
-.link{color:#1D4ED8;text-decoration:none;font-weight:700;font-size:11px}
-.link:hover{text-decoration:underline}
+:root {
+  --bg-main: #F6F8FE;
+  --bg-card: #FFFFFF;
+  --bg-subtle: #EEF2FF;
+  --bg-input: #FFFFFF;
+  --accent-primary: #4F46E5;
+  --accent-primary-hover: #4338CA;
+  --accent-electric: #2563EB;
+  --accent-violet: #7C3AED;
+  --accent-cyan: #06B6D4;
+  --accent-gold: #EAB308;
+  --accent-green: #10B981;
+  --contrast-orange: #F59E0B;
+  --contrast-amber: #D97706;
+  --contrast-yellow: #FCD34D;
+  --text-main: #0B1120;
+  --text-muted: #6B7280;
+  --border-color: #E5E7EB;
+  --border-strong: #D1D5DB;
+  --radius-sm: 8px;
+  --radius-md: 16px;
+  --radius-lg: 24px;
+  --radius-full: 999px;
+  --shadow-sm: 0 4px 14px rgba(79, 70, 229, 0.06);
+  --shadow-md: 0 12px 40px -8px rgba(79, 70, 229, 0.12);
+  --shadow-lg: 0 28px 60px -16px rgba(79, 70, 229, 0.15);
+  --shadow-warm: 0 12px 40px -8px rgba(245, 158, 11, 0.20);
+  --transition: all 0.25s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+html, body {
+  overflow-x: hidden;
+  max-width: 100%;
+  min-height: 100vh;
+  background: linear-gradient(160deg, #EEF2FF 0%, #F6F8FE 40%, #FEF3C7 100%);
+  color: var(--text-main);
+  font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+  line-height: 1.65;
+  -webkit-font-smoothing: antialiased;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 18px;
+}
+
+@media(max-width:900px){ 
+  body { 
+    align-items: flex-start; 
+    padding-top: 24px; 
+    padding-bottom: 40px;
+  } 
+}
+
+/* --- LAYOUT --- */
+.layout {
+  max-width: 1100px;
+  width: 100%;
+  display: grid;
+  grid-template-columns: 1.15fr 0.85fr;
+  gap: 40px;
+  align-items: center;
+}
+
+@media(max-width:900px){
+  .layout {
+    grid-template-columns: 1fr;
+    gap: 28px;
+  }
+}
+
+/* --- LEFT --- */
+.left {
+  padding: 20px 10px 20px 0;
+}
+
+@media(max-width:900px){
+  .left {
+    text-align: center;
+    padding: 0;
+  }
+}
+
+.eyebrow {
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #4F46E5;
+  margin-bottom: 8px;
+}
+
+.big-title {
+  font-size: 56px;
+  font-weight: 800;
+  line-height: 0.9;
+  letter-spacing: -0.03em;
+  margin-top: 12px;
+  text-align: left;
+  color: #1E1B4B;
+}
+
+.big-title span { display: block; }
+.big-title .highlight { 
+  background: linear-gradient(135deg, #4F46E5, #7C3AED);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+@media(max-width:900px){
+  .big-title {
+    font-size: 38px;
+    text-align: center;
+  }
+}
+
+@media(max-width:600px){
+  .big-title { font-size: 30px; }
+}
+
+.sub-big {
+  font-size: 20px;
+  font-weight: 700;
+  margin-top: 18px;
+  text-align: left;
+  color: #1E1B4B;
+  line-height: 1.2;
+}
+
+@media(max-width:900px){
+  .sub-big {
+    text-align: center;
+    font-size: 18px;
+  }
+}
+
+.sub-small {
+  font-size: 14px;
+  opacity: 0.65;
+  margin-top: 14px;
+  text-align: left;
+  line-height: 1.6;
+  max-width: 420px;
+}
+
+@media(max-width:900px){
+  .sub-small {
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+    max-width: 100%;
+  }
+}
+
+.badge {
+  font-size: 9px;
+  font-weight: 800;
+  padding: 4px 12px;
+  border-radius: var(--radius-full);
+  background: #DBEAFE;
+  color: #1E40AF;
+  margin-left: 8px;
+  vertical-align: middle;
+  display: inline-block;
+}
+
+.bullet {
+  margin-top: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+@media(max-width:900px){
+  .bullet {
+    align-items: center;
+  }
+}
+
+.bullet-item {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+@media(max-width:900px){
+  .bullet-item {
+    text-align: left;
+    max-width: 440px;
+  }
+}
+
+.bullet-icon {
+  width: 28px;
+  height: 28px;
+  min-width: 28px;
+  border-radius: var(--radius-sm);
+  background: white;
+  border: 1px solid rgba(79, 70, 229, 0.15);
+  display: grid;
+  place-items: center;
+  font-weight: 800;
+  font-size: 12px;
+  flex-shrink: 0;
+  color: #4F46E5;
+  background: rgba(79, 70, 229, 0.06);
+}
+
+/* --- RIGHT CARD --- */
+.card {
+  background: rgba(255, 255, 255, 0.80);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(79, 70, 229, 0.08);
+  border-radius: var(--radius-lg);
+  padding: 28px 32px;
+  width: 100%;
+  box-shadow: var(--shadow-md);
+  transition: var(--transition);
+}
+
+.card:hover {
+  box-shadow: var(--shadow-lg);
+}
+
+.card .eyebrow {
+  text-align: center;
+  margin-bottom: 4px;
+}
+
+.tabs {
+  display: flex;
+  gap: 8px;
+  margin-top: 16px;
+}
+
+.tab {
+  flex: 1;
+  height: 44px;
+  border-radius: var(--radius-md);
+  border: 1px solid rgba(79, 70, 229, 0.10);
+  background: var(--bg-subtle);
+  font-weight: 700;
+  cursor: pointer;
+  font-size: 13px;
+  transition: var(--transition);
+  color: var(--text-muted);
+}
+
+.tab.active {
+  background: linear-gradient(135deg, #4F46E5, #7C3AED);
+  color: white;
+  border-color: #4F46E5;
+  box-shadow: 0 4px 16px rgba(79, 70, 229, 0.20);
+}
+
+.tab:hover:not(.active) {
+  background: rgba(79, 70, 229, 0.06);
+  border-color: rgba(79, 70, 229, 0.20);
+}
+
+.input {
+  height: 48px;
+  border-radius: var(--radius-md);
+  border: 1px solid rgba(79, 70, 229, 0.10);
+  padding: 0 16px;
+  width: 100%;
+  margin-top: 12px;
+  font-size: 14px;
+  background: white;
+  color: var(--text-main);
+  outline: none;
+  transition: var(--transition);
+  font-family: inherit;
+}
+
+.input:focus {
+  border-color: #4F46E5;
+  box-shadow: 0 0 0 4px rgba(79, 70, 229, 0.08);
+}
+
+.input::placeholder { color: #A0AEC0; }
+
+.btn {
+  height: 50px;
+  padding: 0 20px;
+  border-radius: var(--radius-md);
+  border: 0;
+  font-weight: 800;
+  font-size: 14px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  margin-top: 14px;
+  transition: var(--transition);
+  background: linear-gradient(135deg, #4F46E5, #7C3AED);
+  color: white;
+  box-shadow: 0 4px 16px rgba(79, 70, 229, 0.20);
+}
+
+.btn:hover {
+  box-shadow: 0 8px 28px rgba(79, 70, 229, 0.30);
+  transform: translateY(-2px);
+}
+
+.btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none !important;
+  box-shadow: none !important;
+}
+
+.btn-warm {
+  background: linear-gradient(135deg, #F59E0B, #D97706);
+  color: #0B1120;
+  box-shadow: 0 4px 16px rgba(245, 158, 11, 0.25);
+}
+
+.btn-warm:hover {
+  box-shadow: 0 8px 28px rgba(245, 158, 11, 0.40);
+}
+
+.msg {
+  margin-top: 14px;
+  padding: 14px 18px;
+  border-radius: var(--radius-md);
+  font-size: 13px;
+  display: none;
+  line-height: 1.5;
+}
+
+.msg-ok {
+  background: #DCFCE7;
+  border: 1px solid #86EFAC;
+  color: #166534;
+}
+
+.msg-err {
+  background: #FEE2E2;
+  border: 1px solid #FCA5A5;
+  color: #991B1B;
+}
+
+.hidden { display: none !important; }
+
+.link {
+  color: #4F46E5;
+  text-decoration: none;
+  font-weight: 700;
+  font-size: 12px;
+  transition: var(--transition);
+}
+
+.link:hover {
+  color: #7C3AED;
+  text-decoration: underline;
+}
+
+.info-box {
+  margin-top: 14px;
+  background: rgba(238, 242, 255, 0.6);
+  border: 1px solid rgba(79, 70, 229, 0.08);
+  border-radius: var(--radius-md);
+  padding: 14px 18px;
+  font-size: 12px;
+  line-height: 1.6;
+  color: var(--text-main);
+}
+
+.info-box b { color: #4F46E5; }
+
+.info-box .highlight-text { 
+  background: linear-gradient(135deg, #4F46E5, #7C3AED);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  font-weight: 800;
+}
+
+.form-hint {
+  font-size: 11px;
+  opacity: 0.5;
+  margin-top: 8px;
+  text-align: center;
+  line-height: 1.5;
+}
+
+.form-footer {
+  text-align: center;
+  margin-top: 14px;
+  font-size: 12px;
+}
+
+.form-footer .link {
+  margin: 0 6px;
+}
+
+/* --- RESPONSIVE --- */
+@media (max-width: 600px) {
+  body { padding: 12px; }
+  .card { padding: 20px 16px; border-radius: var(--radius-md); }
+  .big-title { font-size: 28px; }
+  .sub-big { font-size: 16px; }
+  .sub-small { font-size: 13px; }
+  .input { height: 44px; font-size: 13px; }
+  .btn { height: 44px; font-size: 13px; }
+  .tab { height: 38px; font-size: 12px; }
+  .bullet-item { font-size: 12px; }
+}
+
+/* --- AUTO-LOGIN OVERRIDE --- */
+.auto-login-container {
+  display: grid;
+  place-items: center;
+  min-height: 100vh;
+  background: linear-gradient(160deg, #EEF2FF 0%, #F6F8FE 40%, #FEF3C7 100%);
+  font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+  padding: 20px;
+}
+
+.auto-login-box {
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(79, 70, 229, 0.08);
+  border-radius: var(--radius-lg);
+  padding: 32px 40px;
+  text-align: center;
+  max-width: 420px;
+  width: 100%;
+  box-shadow: var(--shadow-lg);
+}
+
+.auto-login-box .icon {
+  font-size: 48px;
+  margin-bottom: 12px;
+}
+
+.auto-login-box .title {
+  font-size: 18px;
+  font-weight: 800;
+  color: #1E1B4B;
+}
+
+.auto-login-box .sub {
+  font-size: 13px;
+  opacity: 0.6;
+  margin-top: 8px;
+  line-height: 1.5;
+}
+
+.auto-login-box .code {
+  font-size: 14px;
+  font-weight: 800;
+  color: #4F46E5;
+  background: rgba(79, 70, 229, 0.06);
+  padding: 4px 12px;
+  border-radius: var(--radius-sm);
+  display: inline-block;
+  margin-top: 6px;
+}
+
+.auto-login-box .actions {
+  margin-top: 18px;
+  display: flex;
+  gap: 10px;
+}
+
+.auto-login-box .actions .btn {
+  flex: 1;
+  margin-top: 0;
+  font-size: 12px;
+  height: 44px;
+  min-height: 44px;
+  text-decoration: none;
+}
+
+.auto-login-box .actions .btn-outline {
+  background: transparent;
+  color: #1E1B4B;
+  border: 1px solid rgba(79, 70, 229, 0.15);
+  box-shadow: none;
+}
+
+.auto-login-box .actions .btn-outline:hover {
+  background: rgba(79, 70, 229, 0.04);
+  transform: translateY(-2px);
+  box-shadow: none;
+}
+
+@media (max-width: 500px) {
+  .auto-login-box { padding: 24px 20px; }
+  .auto-login-box .actions { flex-direction: column; }
+  .auto-login-box .actions .btn { width: 100%; }
+}
 </style>
 </head>
 <body>
@@ -70,7 +537,7 @@ body{font-family:'Plus Jakarta Sans',system-ui;background:#E6F0FF;color:#1E293B;
 
   <!-- RIGHT - Formulario -->
   <div class="card">
-    <div class="eyebrow" style="text-align:center">Acceso referidores</div>
+    <div class="eyebrow">Acceso referidores</div>
     <div class="tabs">
       <button class="tab active" id="tabReg" onclick="switchTab('reg')">REGISTRARME</button>
       <button class="tab" id="tabLogin" onclick="switchTab('login')">YA TENGO CUENTA</button>
@@ -81,22 +548,27 @@ body{font-family:'Plus Jakarta Sans',system-ui;background:#E6F0FF;color:#1E293B;
       <input class="input" id="regPass" type="password" placeholder="Contraseña (mín 6 caracteres)" autocomplete="new-password">
       <input class="input" id="regPass2" type="password" placeholder="Repetir contraseña" autocomplete="new-password">
       <button class="btn" id="btnReg" onclick="register()">CREAR CUENTA REFERIDOR PURO</button>
-      <div style="font-size:10px;opacity:.6;margin-top:8px;text-align:center">Si ya compraste Wasablocks, usá el mismo email. Se crea tu REF- aparte de tu WASA-.</div>
+      <div class="form-hint">Si ya compraste Wasablocks, usá el mismo email. Se crea tu REF- aparte de tu WASA-.</div>
     </div>
 
     <div id="viewLogin" class="hidden">
       <input class="input" id="loginEmail" type="email" placeholder="tu@email.com" autocomplete="email">
       <input class="input" id="loginPass" type="password" placeholder="Contraseña" autocomplete="current-password">
       <button class="btn" id="btnLogin" onclick="login()">ENTRAR A MI PANEL DE REFERIDOS</button>
-      <div style="text-align:center;margin-top:12px"><a href="/index.html" class="link">← Volver a founders</a> | <a href="/dashboard.html" class="link">Panel Founders</a></div>
+      <div class="form-footer">
+        <a href="/index.html" class="link">← Volver a founders</a> | 
+        <a href="/dashboard.html" class="link">Panel Founders</a>
+      </div>
     </div>
 
     <div id="msg" class="msg"></div>
 
-    <div style="margin-top:14px;background:#E6F0FF;border:1px solid #93B4FF;border-radius:12px;padding:12px;font-size:11px;line-height:1.4">
-      <b>Tu D1 real:</b> 1 solo login unificado: panel_users_auth (email, pass_hash). Se crea panel_users (slots) + ref_users (REF-XXXX) con wallet vacía. La wallet de referidos la configurás después en /dashboard.html o /affiliate.html
+    <div class="info-box">
+      <b>Tu D1 real:</b> 1 solo login unificado: panel_users_auth (email, pass_hash). Se crea panel_users (slots) + ref_users (REF-XXXX) con wallet vacía. La wallet de referidos la configurás después en <span class="highlight-text">/dashboard.html</span> o <span class="highlight-text">/affiliate.html</span>
     </div>
-    <div style="text-align:center;margin-top:12px;font-size:11px"><a href="/index.html" class="link">¿Qué es WASA? Ver founders</a></div>
+    <div class="form-footer">
+      <a href="/index.html" class="link">¿Qué es WASA? Ver founders</a>
+    </div>
   </div>
 </div>
 
@@ -111,9 +583,24 @@ body{font-family:'Plus Jakarta Sans',system-ui;background:#E6F0FF;color:#1E293B;
       let r=await fetch(WASA_WEBHOOK_URL,{method:'POST',headers:{'Content-Type':'text/plain'},body:JSON.stringify({action:'dashboard', token})});
       let j=await r.json();
       if(j.ok){
-        // Ya tiene cuenta unificada, no pedir registro de nuevo
-        document.body.innerHTML = '<div style="display:grid;place-items:center;min-height:100vh;background:#E6F0FF;font-family:Plus Jakarta Sans"><div style="background:white;border:2px solid #93B4FF;border-radius:20px;padding:24px;text-align:center;max-width:400px"><div style="font-size:12px;font-weight:800;color:#166534">✅ Ya tenés cuenta unificada como '+j.email+'</div><div style="font-size:11px;opacity:.6;margin-top:8px">Tu cuenta de compra ya habilita referidos. Tu REF es '+(j.refUser?.codeId||j.panelUser?.codeId||'')+'</div><div style="margin-top:14px;display:flex;gap:8px"><a href="/referrals_FINAL.html" style="flex:1;background:#1D4ED8;color:white;padding:12px;border-radius:12px;text-decoration:none;font-weight:800;font-size:12px;text-align:center">IR A MI PANEL DE REFERIDOS</a><a href="/refer.html" style="flex:1;background:#E6F0FF;border:1px solid #93B4FF;padding:12px;border-radius:12px;text-decoration:none;font-weight:800;font-size:12px;text-align:center;color:#1E293B">DASHBOARD</a></div></div></div>';
-        setTimeout(()=>{ location.href='/refer.html'; }, 1500);
+        // Ya tiene cuenta unificada, mostrar mensaje estilizado
+        let refCode = j.refUser?.codeId || j.panelUser?.codeId || '';
+        document.body.innerHTML = `
+          <div class="auto-login-container">
+            <div class="auto-login-box">
+              <div class="icon">✅</div>
+              <div class="title">Ya tenés cuenta unificada</div>
+              <div class="sub">Tu cuenta de compra ya habilita referidos.</div>
+              <div class="code">${refCode}</div>
+              <div style="font-size:11px;opacity:0.5;margin-top:6px;">${j.email}</div>
+              <div class="actions">
+                <a href="/referrals_FINAL.html" class="btn">IR A PANEL DE REFERIDOS</a>
+                <a href="/refer.html" class="btn btn-outline">DASHBOARD</a>
+              </div>
+            </div>
+          </div>
+        `;
+        setTimeout(()=>{ location.href='/refer.html'; }, 2000);
         return;
       }
     }catch{}
@@ -127,14 +614,14 @@ function switchTab(t){
   document.getElementById('tabLogin').classList.toggle('active',t==='login');
   document.getElementById('viewReg').classList.toggle('hidden',t!=='reg');
   document.getElementById('viewLogin').classList.toggle('hidden',t!=='login');
-  document.getElementById('msg').style.display='none';
+  let msg = document.getElementById('msg');
+  msg.style.display='none';
+  msg.className='msg';
 }
 function showMsg(text,ok){
   let m=document.getElementById('msg');
   m.style.display='block';
-  m.style.background= ok ? '#F0FDF4' : '#FEF2F2';
-  m.style.color= ok ? '#166534' : '#991B1B';
-  m.style.border= ok ? '1px solid #BBF7D0' : '1px solid #FECACA';
+  m.className = 'msg ' + (ok ? 'msg-ok' : 'msg-err');
   m.innerHTML=text;
 }
 async function register(){
