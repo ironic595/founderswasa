@@ -4,6 +4,7 @@
 <meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Panel Founders - wasa.chat</title>
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/ethers@6.13.2/dist/ethers.umd.min.js"></script>
 <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     :root {
@@ -114,6 +115,9 @@ async function loadData(){
     let codes = d.codes || d.purchases || d.compras?.map(c=>({codeId:c.codeId, slots:c.slots, percent:c.percent||c.slots*0.5, parentId:'GENESIS'})) || [];
     let listings = d.listings || [];
     let market = d.market || [];
+    GLOBAL_MARKET = market; // guardar para buy()
+    if(d.config) GLOBAL_CONFIG = d.config;
+    else await getMarketConfig();
     document.getElementById('userEmailTitle').textContent=d.email||localEmail||'Founder';
     document.getElementById('navEmail').textContent=d.email||localEmail;
     document.getElementById('statSlots').textContent=(d.totalSlots||0).toFixed(2);
@@ -132,15 +136,22 @@ async function loadData(){
       document.getElementById('menuHistorial').classList.add('locked');
       document.getElementById('btnPublish').disabled=true;
     }
-    document.querySelector('#codesTable tbody').innerHTML=(codes||[]).map(c=>`<tr><td><b>${c.codeId||'-'}</b></td><td>${(c.slots||0).toFixed(2)}</td><td>${(c.percent|| (c.slots||0)*0.5).toFixed(3)}%</td><td style="font-size:10px">${c.parentId||'GENESIS'}</td></tr>`).join('')||'<tr><td colspan="4" class="empty">Sin códigos - vendiste todo</td></tr>';
-    document.querySelector('#myListings tbody').innerHTML=(listings&&listings.length)?listings.map(l=>`<tr><td style="font-size:10px">${l.id}</td><td>${(l.slots||0).toFixed(2)}</td><td>$${(l.price||0).toFixed(2)}</td><td>$${((l.pricePerUnit|| (l.price/l.slots))||0).toFixed(2)}</td><td><span class="badge badge-warn">${l.status}</span></td><td><button class="btn btn-sm" onclick="cancelList('${l.id}')">Cancelar</button></td></tr>`).join(''):'<tr><td colspan="6" class="empty">No tenés anuncios</td></tr>';
+    document.querySelector('#codesTable tbody').innerHTML=(codes||[]).map(c=>`<tr><td><b>${c.codeId||'-'}</b></td><td>${(c.slots||0).toFixed(2)}</td><td>${(c.percent|| (c.slots||0)*0.5).toFixed(3)}%</td><td style="font-size:10px">${c.parentId||c.parent_mother||'GENESIS'}</td></tr>`).join('')||'<tr><td colspan="4" class="empty">Sin códigos - vendiste todo</td></tr>';
+    document.querySelector('#myListings tbody').innerHTML=(listings&&listings.length)?listings.map(l=>{
+      let pr = l.price_total||l.price||0;
+      let ppu = l.price_per_unit||l.pricePerUnit|| (pr/(l.slots||1));
+      return `<tr><td style="font-size:10px">${l.id}</td><td>${(l.slots||0).toFixed(2)}</td><td>$${(pr||0).toFixed(2)}</td><td>$${(ppu||0).toFixed(2)}</td><td><span class="badge badge-warn">${l.status}</span></td><td><button class="btn btn-sm" onclick="cancelList('${l.id}')">Cancelar</button></td></tr>`;
+    }).join(''):'<tr><td colspan="6" class="empty">No tenés anuncios</td></tr>';
     const myEmail = (d.email||'').toLowerCase();
     document.querySelector('#marketTable tbody').innerHTML=(market&&market.length)?market.map(m=>{
-      const isMine = (m.seller_email||'').toLowerCase() === myEmail;
+      let pr = m.price_total||m.price||0;
+      let ppu = m.price_per_unit||m.pricePerUnit|| (pr/(m.slots||1));
+      let sellerEmail = (m.seller||m.seller_email||'').toLowerCase();
+      const isMine = sellerEmail === myEmail;
       if(isMine){
-        return `<tr style="opacity:0.5;background:#F5F3FF"><td>${(m.slots||0).toFixed(2)}</td><td>${(m.percent||0).toFixed(3)}%</td><td>$${(m.price||0).toFixed(2)}</td><td>$${((m.price/(m.slots||1))||0).toFixed(2)}</td><td><span class="badge" style="background:#E0E7FF;color:#4338CA">TU ANUNCIO</span></td></tr>`;
+        return `<tr style="opacity:0.5;background:#F5F3FF"><td>${(m.slots||0).toFixed(2)}</td><td>${(m.percent||m.slots*0.5||0).toFixed(3)}%</td><td>$${(pr||0).toFixed(2)}</td><td>$${(ppu||0).toFixed(2)}</td><td><span class="badge" style="background:#E0E7FF;color:#4338CA">TU ANUNCIO</span></td></tr>`;
       }
-      return `<tr><td>${(m.slots||0).toFixed(2)}</td><td>${(m.percent||0).toFixed(3)}%</td><td>$${(m.price||0).toFixed(2)}</td><td>$${((m.price/(m.slots||1))||0).toFixed(2)}</td><td><button class="btn btn-sm" onclick="buy('${m.id}')">Comprar</button></td></tr>`;
+      return `<tr><td>${(m.slots||0).toFixed(2)}</td><td>${(m.percent||m.slots*0.5||0).toFixed(3)}%</td><td>$${(pr||0).toFixed(2)}</td><td>$${(ppu||0).toFixed(2)}</td><td><button class="btn btn-sm" onclick="buy('${m.id}')">Comprar</button></td></tr>`;
     }).join(''):'<tr><td colspan="5" class="empty">No hay ofertas</td></tr>';
     document.getElementById('holoList').innerHTML=(codes||[]).map(c=>`<div class="holo-item" style="background:#EEF2FF; border:1px solid rgba(79,70,229,0.08); border-radius:16px; padding:12px 16px; display:flex; justify-content:space-between; align-items:center"><div><b>${c.codeId||''}</b><div style="font-size:11px;opacity:0.6">${(c.slots||0).toFixed(2)} slots - ${(c.percent|| (c.slots||0)*0.5).toFixed(3)}%</div></div><div style="font-size:11px;opacity:0.5">En email</div></div>`).join('')||'<div class="empty">Sin hologramas</div>';
     calc();
@@ -157,7 +168,126 @@ async function publish(){
   let res=await fetch(WASA_WEBHOOK_URL,{method:'POST',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify({action:'createListing', token:localStorage.getItem('wasa_token'), slots: Math.round(slots*100)/100, percent: Math.round(slots*100)/100*0.5, price: totalPrice, pricePerUnit: pricePerUnit})});
   let j=await res.json(); if(j.ok){msg.style.background='#DCFCE7'; msg.textContent='Publicado ID '+j.listingId+' - $'+totalPrice.toFixed(2)+' por '+slots.toFixed(2)+' (equiv $'+pricePerUnit.toFixed(2)+'/entero)'; loadData();} else {msg.style.background='#FEE2E2'; msg.textContent='Error: '+j.error;}
 }
-async function buy(id){ if(!confirm('Comprar '+id+'? Pagás en USDT BSC. Mín 0.01'))return; let r=await fetch(WASA_WEBHOOK_URL,{method:'POST',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify({action:'buyListing', token:localStorage.getItem('wasa_token'), listingId:id})}); let j=await r.json(); alert(j.ok?'Solicitud creada, pagá USDT':'Error '+j.error); }
+let GLOBAL_MARKET = [];
+let GLOBAL_CONFIG = null;
+
+async function getMarketConfig(){
+  try{
+    let r = await fetch(WASA_WEBHOOK_URL+'?action=getconfig&v='+Date.now());
+    let j = await r.json();
+    GLOBAL_CONFIG = j;
+    return j;
+  }catch(e){ console.error('config error',e); return null; }
+}
+
+async function buy(id){
+  try{
+    if(!window.ethereum){ alert('Necesitás MetaMask o Trust Wallet para comprar. Instalá la extensión y probá de nuevo.'); return; }
+    // Buscar listing - schema real: price_total, fee_75, seller_recv_925
+    let listing = GLOBAL_MARKET.find(l=>l.id===id);
+    if(!listing){ alert('Listing no encontrado, recargá.'); return; }
+    let total = Number(listing.price_total||listing.price||0);
+    let fee = Number(listing.fee_75||0) || Math.round(total*0.075*100)/100;
+    let sellerAmt = Number(listing.seller_recv_925||0) || Math.round(total*0.925*100)/100;
+    if(total<0.01){ alert('Precio inválido'); return; }
+    if(!confirm(`Vas a comprar ${listing.slots.toFixed(2)} WASABLOCKS por $${total} TOTAL.\n\nSe abrirá tu wallet y hará 2 pagos automáticos FEE PRIMERO:\n1) $${fee} fee plataforma (7.5%) a tu wallet\n2) $${sellerAmt} al vendedor\n\n2 hashes se guardarán en utxos_used_json y market_tx\n\n¿Continuar?`)) return;
+
+    // Obtener wallets destino
+    // seller wallet desde backend si viene, sino pedir al backend info
+    let cfg = GLOBAL_CONFIG || await getMarketConfig();
+    let platformWallet = cfg?.RECEIVER_ADDRESS || '0x90eC0FCC65c2E38a67feCc594D5d97F013FEd';
+    let usdtContract = cfg?.USDT_CONTRACT || '0x55d398326f99059fF775485246999027B3197955';
+    // pedir seller wallet al worker con un fetch previo a buy (info)
+    let sellerWallet = listing.seller_wallet || '';
+    if(!sellerWallet){
+      // intentar obtener via userdata ya tiene market con seller_email pero no wallet. Necesitamos pedir info via buyListing sin pagar para obtener wallets? Mejor llamar a endpoint que ya devuelve sellerWallet en buyListing respuesta? Haremos un pre-call: el worker en buyListing devuelve sellerWallet incluso si falla? Vamos a hacer fetch de listings detallado via getmarket ya incluye seller_wallet si está en DB? En nuestro mapper no. Así que llamamos a buyListing para obtener info de pago primero con dryRun
+      try{
+        let pre = await fetch(WASA_WEBHOOK_URL,{method:'POST',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify({action:'buyListing', token:localStorage.getItem('wasa_token'), listingId:id, dryRun:true})});
+        let prej = await pre.json();
+        if(prej.sellerWallet) sellerWallet = prej.sellerWallet;
+        if(prej.platformWallet) platformWallet = prej.platformWallet;
+      }catch{}
+    }
+    // Si aún no tenemos sellerWallet, lo obtenemos del endpoint admin? Para prueba, si no hay wallet configurada por vendedor, abortamos
+    if(!sellerWallet || !sellerWallet.startsWith('0x')){
+      // Intentar usar sellerWallet que viene en listing si el backend ya lo mandó (en nueva versión)
+      // Si no, avisar
+      if(!listing.seller_wallet){
+        // fallback: el worker nos dirá sellerWallet si hacemos buyListing sin hashes? Lo intentamos via fetch directo a userdata market que ahora incluye seller_wallet? Ya intentamos. Si sigue vacío, pedimos al usuario que configure wallet
+        alert('El vendedor aún no configuró su wallet de ganancias. No se puede pagar automático. Contactá soporte.');
+        return;
+      }else{
+        sellerWallet = listing.seller_wallet;
+      }
+    }
+
+    // Conectar wallet
+    await window.ethereum.request({method:'eth_requestAccounts'});
+    const provider = new ethers.BrowserProvider(window.ethereum);
+    const signer = await provider.getSigner();
+    const network = await provider.getNetwork();
+    // Verificar BSC 56
+    if(Number(network.chainId)!==56){
+      try{ await window.ethereum.request({method:'wallet_switchEthereumChain', params:[{chainId:'0x38'}]}); }catch(e){ alert('Cambiá a BSC Mainnet (Chain 56) en tu wallet.'); return; }
+    }
+    const usdtAbi = ["function transfer(address to, uint256 amount) returns (bool)", "function decimals() view returns (uint8)", "function balanceOf(address) view returns (uint256)"];
+    const usdt = new ethers.Contract(usdtContract, usdtAbi, signer);
+    let decimals = 18;
+    try{ decimals = await usdt.decimals(); }catch{ decimals = 18; }
+    const totalUnits = ethers.parseUnits(total.toString(), decimals);
+    const sellerUnits = ethers.parseUnits(sellerAmt.toString(), decimals);
+    const feeUnits = ethers.parseUnits(fee.toString(), decimals);
+
+    // Verificar balance
+    let bal = await usdt.balanceOf(await signer.getAddress());
+    if(bal < totalUnits){
+      alert(`Saldo insuficiente. Tenés ${ethers.formatUnits(bal, decimals)} USDT, necesitás ${total} USDT.`);
+      return;
+    }
+
+    // Mostrar progreso - PRIMERO COMISION PARA EVITAR CANCELACION EN MEDIO
+    let msgBox = document.createElement('div');
+    msgBox.style.cssText='position:fixed;bottom:20px;right:20px;background:#0B1120;color:white;padding:16px;border-radius:12px;z-index:9999;max-width:320px;font-size:13px';
+    msgBox.innerHTML=`⏳ Pagando 1/2 COMISIÓN plataforma ($${fee}) - primero para asegurar fee`;
+    document.body.appendChild(msgBox);
+
+    // TX1: PRIMERO FEE a plataforma (tu wallet de config.RECEIVER_ADDRESS)
+    let txFee = await usdt.transfer(platformWallet, feeUnits);
+    msgBox.innerHTML=`⏳ TX FEE enviada: ${txFee.hash.slice(0,10)}... Esperando confirmación...`;
+    let receiptFee = await txFee.wait();
+    if(receiptFee.status!==1){ msgBox.remove(); alert('TX FEE falló, venta cancelada. No se perdió nada.'); return; }
+
+    msgBox.innerHTML=`⏳ Pagando 2/2 al vendedor ($${sellerAmt})...`;
+    // TX2: luego al vendedor
+    let txSeller = await usdt.transfer(sellerWallet, sellerUnits);
+    msgBox.innerHTML=`⏳ TX vendedor enviada: ${txSeller.hash.slice(0,10)}... Esperando confirmación...`;
+    let receiptSeller = await txSeller.wait();
+    if(receiptSeller.status!==1){ 
+      msgBox.remove(); 
+      alert(`TX vendedor falló, pero FEE ya fue enviado a plataforma. Venta NO completada. Guardá estos hashes para soporte:\nFEE: ${txFee.hash}\nVendedor (fallido): ${txSeller.hash}`); 
+      // Intentar reembolsar fee? No, se queda en plataforma como protección anti-cancelación
+      return; 
+    }
+
+    msgBox.innerHTML=`✅ Pagos confirmados (2 hashes). Guardando en base de datos...`;
+
+    // Llamar worker para guardar hashes y transferir bloques - fee primero
+    let r = await fetch(WASA_WEBHOOK_URL,{method:'POST',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify({action:'buyListing', token:localStorage.getItem('wasa_token'), listingId:id, tx_hash: txSeller.hash, fee_tx_hash: txFee.hash})});
+    let j = await r.json();
+    msgBox.remove();
+    if(j.ok){
+      alert(`✅ Compra exitosa!\nNuevo código: ${j.buyerCodeId}\nTX FEE (7.5% primero): ${txFee.hash}\nTX vendedor (92.5%): ${txSeller.hash}\nGuardado en market_sales (2 hashes) y market_tx.`);
+      loadData();
+    }else{
+      alert('Pagos hechos pero error al guardar en DB: '+j.error+'\nGuardá estos hashes:\nVendedor: '+txSeller.hash+'\nFee: '+txFee.hash);
+    }
+
+  }catch(e){
+    console.error(e);
+    alert('Error compra: '+(e.reason||e.message||e));
+    let m=document.querySelector('div[style*="position:fixed;bottom:20px"]'); if(m) m.remove();
+  }
+}
 async function cancelList(id){ let r=await fetch(WASA_WEBHOOK_URL,{method:'POST',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify({action:'cancelListing', token:localStorage.getItem('wasa_token'), listingId:id})}); let j=await r.json(); alert(j.ok?'Cancelado':'Error'); loadData(); }
 async function saveWallet(){
   let w=document.getElementById('editWalletInput').value.trim();
