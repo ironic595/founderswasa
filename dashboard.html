@@ -120,8 +120,11 @@ async function loadData(){
     else await getMarketConfig();
     document.getElementById('userEmailTitle').textContent=d.email||localEmail||'Founder';
     document.getElementById('navEmail').textContent=d.email||localEmail;
-    document.getElementById('statSlots').textContent=(d.totalSlots||0).toFixed(2);
-    let percentVal = d.percent || d.totalPercent || (d.totalSlots*0.5) || 0;
+    // FIX: totalSlots = total incluyendo escrow (lo que el usuario posee), availableSlots = disponible para vender
+    let totalSlots = d.totalSlots||0;
+    let availableSlots = d.availableSlots!==undefined ? d.availableSlots : totalSlots;
+    document.getElementById('statSlots').textContent=(totalSlots||0).toFixed(2);
+    let percentVal = d.percent || d.totalPercent || (totalSlots*0.5) || 0;
     document.getElementById('statPercent').textContent=percentVal.toFixed(3)+'%';
     let walletVal = d.wallet || d.panelUser?.wallet || '';
     let refWalletVal = d.refUser?.wallet || '';
@@ -130,13 +133,17 @@ async function loadData(){
     document.getElementById('editRefWalletInput').value=refWalletVal||'';
     document.getElementById('currentWalletGanancias').textContent=walletVal||'No configurada';
     document.getElementById('currentWalletRefs').textContent=refWalletVal||(walletVal?'(usando la de ganancias)':'No configurada');
-    document.getElementById('availSell').textContent=(d.totalSlots||0).toFixed(2);
+    document.getElementById('availSell').textContent=(availableSlots||0).toFixed(2) + (availableSlots!==totalSlots ? ` (Total: ${totalSlots.toFixed(2)} - ${ (totalSlots-availableSlots).toFixed(2)} en venta)` : '');
     if((d.totalSlots||0)==0){
       document.getElementById('zeroMsg').classList.remove('hidden');
       document.getElementById('menuHistorial').classList.add('locked');
       document.getElementById('btnPublish').disabled=true;
     }
-    document.querySelector('#codesTable tbody').innerHTML=(codes||[]).map(c=>`<tr><td><b>${c.codeId||'-'}</b></td><td>${(c.slots||0).toFixed(2)}</td><td>${(c.percent|| (c.slots||0)*0.5).toFixed(3)}%</td><td style="font-size:10px">${c.parentId||c.parent_mother||'GENESIS'}</td></tr>`).join('')||'<tr><td colspan="4" class="empty">Sin códigos - vendiste todo</td></tr>';
+    // FIX: mostrar escrow como EN VENTA pero contar en total
+    document.querySelector('#codesTable tbody').innerHTML=(d.wasaBlocks||codes||[]).map(c=>{
+      let badge = c.isEscrow ? '<span style="background:#FEF3C7;color:#92400E;padding:2px 6px;border-radius:6px;font-size:9px">EN VENTA</span>' : '';
+      return `<tr><td><b>${c.codeId||'-'}</b> ${badge}</td><td>${(c.slots||0).toFixed(2)}</td><td>${(c.percent|| (c.slots||0)*0.5).toFixed(3)}%</td><td style="font-size:10px">${c.parentId||c.parent_mother||'GENESIS'}</td></tr>`;
+    }).join('')||'<tr><td colspan="4" class="empty">Sin códigos - vendiste todo</td></tr>';
     document.querySelector('#myListings tbody').innerHTML=(listings&&listings.length)?listings.map(l=>{
       let pr = l.price_total||l.price||0;
       let ppu = l.price_per_unit||l.pricePerUnit|| (pr/(l.slots||1));
