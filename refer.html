@@ -5,93 +5,569 @@
 <title>Referidos - Founders Pass</title>
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
 <style>
-*{box-sizing:border-box;margin:0;padding:0}body{font-family:'Plus Jakarta Sans',system-ui;background:#E6F0FF;color:#1E293B}
-.nav{height:64px;background:#1D4ED8;display:flex;align-items:center;justify-content:space-between;padding:0 5%;position:fixed;top:0;left:0;right:0;z-index:20}
-.nav .logo{color:white;font-weight:800}.nav .links a{color:white;text-decoration:none;margin-left:12px;font-size:11px;font-weight:700}
-.wrap{max-width:900px;margin:0 auto;padding:84px 18px 40px}
-.card{background:white;border:2px solid #93B4FF;border-radius:20px;padding:20px;margin-bottom:14px}
-.eyebrow{font-size:10px;font-weight:800;letter-spacing:.14em;opacity:.6;color:#1E3A8A;text-transform:uppercase}
-.title{font-size:20px;font-weight:800;margin-top:4px}
-.sub{font-size:11px;opacity:.6;margin-top:6px;line-height:1.5}
-.stat-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-top:14px}
-.stat{background:#E6F0FF;border:1px solid #93B4FF;border-radius:14px;padding:14px}
-.stat .num{font-size:22px;font-weight:800}.stat .lbl{font-size:10px;opacity:.6;margin-top:4px;text-transform:uppercase}
-.input{height:46px;border-radius:12px;border:1px solid #93B4FF;padding:0 14px;width:100%;margin-top:10px;font-family:monospace;font-size:12px;background:#E6F0FF}
-.btn{height:44px;padding:0 18px;border-radius:12px;border:0;background:#0A101F;color:white;font-weight:800;cursor:pointer;font-size:12px;display:inline-flex;align-items:center;justify-content:center;width:100%}
-.table{width:100%;border-collapse:collapse;margin-top:14px;font-size:12px}
-.table th{font-size:10px;text-align:left;opacity:.6;padding:8px;border-bottom:1px solid #93B4FF;text-transform:uppercase}
-.table td{padding:10px 8px;border-bottom:1px solid #E6F0FF}
-.badge{font-size:10px;font-weight:800;padding:4px 10px;border-radius:999px}
-.badge-ok{background:#BBF7D0;color:#166534}.badge-pend{background:#FEF08A;color:#854D0E}
-.empty{padding:24px;text-align:center;opacity:.6;font-size:12px}
+/* --- RESET & VARIABLES (MODERN VIBE + CONTRAST) --- */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+:root {
+  --bg-main: #F6F8FE;
+  --bg-card: #FFFFFF;
+  --bg-subtle: #EEF2FF;
+  --bg-input: #FFFFFF;
+  --accent-primary: #4F46E5;
+  --accent-primary-hover: #4338CA;
+  --accent-electric: #2563EB;
+  --accent-violet: #7C3AED;
+  --accent-cyan: #06B6D4;
+  --accent-gold: #EAB308;
+  --accent-green: #10B981;
+  --contrast-orange: #F59E0B;
+  --contrast-amber: #D97706;
+  --contrast-yellow: #FCD34D;
+  --text-main: #0B1120;
+  --text-muted: #6B7280;
+  --border-color: #E5E7EB;
+  --border-strong: #D1D5DB;
+  --radius-sm: 8px;
+  --radius-md: 16px;
+  --radius-lg: 24px;
+  --radius-full: 999px;
+  --shadow-sm: 0 4px 14px rgba(79, 70, 229, 0.06);
+  --shadow-md: 0 12px 40px -8px rgba(79, 70, 229, 0.12);
+  --shadow-lg: 0 28px 60px -16px rgba(79, 70, 229, 0.15);
+  --shadow-warm: 0 12px 40px -8px rgba(245, 158, 11, 0.20);
+  --transition: all 0.25s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+html, body {
+  overflow-x: hidden;
+  max-width: 100%;
+  min-height: 100vh;
+  background: linear-gradient(160deg, #EEF2FF 0%, #F6F8FE 40%, #FEF3C7 100%);
+  color: var(--text-main);
+  font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+  line-height: 1.65;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* --- NAV BAR --- */
+.nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 80px;
+  background: rgba(11, 17, 32, 0.92);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 40px;
+  z-index: 100;
+  gap: 20px;
+}
+
+.nav .logo {
+  color: white;
+  font-weight: 800;
+  font-size: 21px;
+  letter-spacing: -0.02em;
+  white-space: nowrap;
+  flex-shrink: 0;
+  background: linear-gradient(135deg, #FCD34D, #F59E0B);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.nav .links {
+  display: flex;
+  gap: 18px;
+  font-size: 13px;
+  font-weight: 700;
+  color: rgba(255, 255, 255, 0.6);
+  align-items: center;
+  white-space: nowrap;
+}
+
+.nav .links a {
+  color: inherit;
+  text-decoration: none;
+  transition: var(--transition);
+  padding: 6px 0;
+  border-bottom: 2px solid transparent;
+}
+
+.nav .links a:hover {
+  color: #FCD34D;
+  border-bottom-color: #FCD34D;
+}
+
+.nav .links .email {
+  color: rgba(255, 255, 255, 0.7);
+  font-weight: 700;
+  font-size: 13px;
+}
+
+@media(max-width: 768px) {
+  .nav { padding: 0 20px; height: 68px; }
+  .nav .logo { font-size: 16px; }
+  .nav .links .email { display: none; }
+  .nav .links a { font-size: 12px; }
+}
+
+/* --- WRAP --- */
+.wrap {
+  max-width: 920px;
+  margin: 0 auto;
+  padding: 100px 24px 60px;
+}
+
+@media(max-width: 600px) {
+  .wrap { padding: 80px 12px 40px; }
+}
+
+/* --- CARDS --- */
+.card {
+  background: rgba(255, 255, 255, 0.80);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(79, 70, 229, 0.08);
+  border-radius: var(--radius-lg);
+  padding: 24px 28px;
+  margin-bottom: 20px;
+  box-shadow: var(--shadow-sm);
+  transition: var(--transition);
+}
+
+.card:hover {
+  box-shadow: var(--shadow-md);
+}
+
+.card .eyebrow {
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #4F46E5;
+  margin-bottom: 4px;
+}
+
+.card .title {
+  font-size: 20px;
+  font-weight: 800;
+  color: #1E1B4B;
+  letter-spacing: -0.02em;
+  margin-top: 2px;
+}
+
+.card .sub {
+  font-size: 13px;
+  opacity: 0.6;
+  margin-top: 6px;
+  line-height: 1.6;
+}
+
+/* --- STAT GRID --- */
+.stat-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+  margin-top: 16px;
+}
+
+@media(max-width: 600px) { 
+  .stat-grid { grid-template-columns: 1fr; } 
+}
+
+.stat {
+  background: rgba(238, 242, 255, 0.6);
+  border: 1px solid rgba(79, 70, 229, 0.08);
+  border-radius: var(--radius-md);
+  padding: 14px 16px;
+  transition: var(--transition);
+}
+
+.stat:hover {
+  border-color: rgba(79, 70, 229, 0.15);
+  background: rgba(238, 242, 255, 0.8);
+}
+
+.stat .num {
+  font-size: 22px;
+  font-weight: 800;
+  color: #1E1B4B;
+}
+
+.stat .lbl {
+  font-size: 10px;
+  opacity: 0.5;
+  margin-top: 4px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  font-weight: 700;
+}
+
+/* --- INPUT --- */
+.input {
+  height: 46px;
+  border-radius: var(--radius-md);
+  border: 1px solid rgba(79, 70, 229, 0.10);
+  padding: 0 16px;
+  width: 100%;
+  margin-top: 8px;
+  font-family: 'Plus Jakarta Sans', monospace;
+  font-size: 13px;
+  background: white;
+  color: var(--text-main);
+  outline: none;
+  transition: var(--transition);
+}
+
+.input:focus {
+  border-color: #4F46E5;
+  box-shadow: 0 0 0 4px rgba(79, 70, 229, 0.08);
+}
+
+.input::placeholder { color: #A0AEC0; }
+
+/* --- LINK BOX --- */
+.link-box {
+  background: rgba(238, 242, 255, 0.5);
+  border: 1px solid rgba(79, 70, 229, 0.08);
+  border-radius: var(--radius-md);
+  padding: 16px 18px;
+  margin-top: 14px;
+  transition: var(--transition);
+}
+
+.link-box .label {
+  font-size: 11px;
+  font-weight: 800;
+  color: #4F46E5;
+  margin-bottom: 4px;
+}
+
+.link-box .input {
+  margin-top: 4px;
+  font-family: 'Plus Jakarta Sans', monospace;
+}
+
+.link-box .actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 12px;
+  flex-wrap: wrap;
+}
+
+/* --- BUTTONS --- */
+.btn {
+  height: 44px;
+  padding: 0 20px;
+  border-radius: var(--radius-md);
+  border: 0;
+  font-weight: 800;
+  font-size: 12px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  transition: var(--transition);
+  background: linear-gradient(135deg, #4F46E5, #7C3AED);
+  color: white;
+  box-shadow: 0 4px 16px rgba(79, 70, 229, 0.20);
+  min-height: 44px;
+  flex: 1;
+}
+
+.btn:hover {
+  box-shadow: 0 8px 28px rgba(79, 70, 229, 0.30);
+  transform: translateY(-2px);
+}
+
+.btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+  transform: none !important;
+  box-shadow: none !important;
+}
+
+.btn-ghost {
+  background: white;
+  color: #1E293B;
+  border: 1px solid rgba(79, 70, 229, 0.15);
+  box-shadow: none;
+}
+
+.btn-ghost:hover {
+  border-color: #4F46E5;
+  background: #F8FAFC;
+  box-shadow: none;
+}
+
+.btn-warm {
+  background: linear-gradient(135deg, #F59E0B, #D97706);
+  color: #0B1120;
+  box-shadow: 0 4px 16px rgba(245, 158, 11, 0.25);
+}
+
+.btn-warm:hover {
+  box-shadow: 0 8px 28px rgba(245, 158, 11, 0.40);
+}
+
+/* --- TABLE --- */
+.table-wrap {
+  overflow: auto;
+  -webkit-overflow-scrolling: touch;
+  margin-top: 12px;
+  border-radius: var(--radius-md);
+  border: 1px solid rgba(79, 70, 229, 0.06);
+  background: white;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 12px;
+  min-width: 520px;
+}
+
+.table th {
+  font-size: 10px;
+  text-align: left;
+  opacity: 0.5;
+  padding: 10px 14px;
+  border-bottom: 1px solid rgba(79, 70, 229, 0.06);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  white-space: nowrap;
+  position: sticky;
+  top: 0;
+  background: white;
+  font-weight: 800;
+}
+
+.table td {
+  padding: 10px 14px;
+  border-bottom: 1px solid rgba(79, 70, 229, 0.04);
+  white-space: nowrap;
+  font-size: 12px;
+}
+
+.table tr:last-child td { border-bottom: 0; }
+
+/* --- BADGES --- */
+.badge {
+  font-size: 10px;
+  font-weight: 800;
+  padding: 4px 12px;
+  border-radius: var(--radius-full);
+  display: inline-block;
+}
+
+.badge-ok { background: #BBF7D0; color: #166534; }
+.badge-pend { background: #FEF08A; color: #854D0E; }
+
+.empty {
+  padding: 28px 16px;
+  text-align: center;
+  opacity: 0.5;
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+/* --- INFO BOX (WARM CARD) --- */
+.card-warm {
+  border-color: #EAB308;
+  background: #FFFEF5;
+}
+
+.card-warm .eyebrow { color: #854D0E; }
+
+.card-warm .title { color: #78350F; }
+
+.info-steps {
+  font-size: 12px;
+  margin-top: 8px;
+  line-height: 1.7;
+  color: #1E1B4B;
+}
+
+.info-steps b { color: #4F46E5; }
+
+.info-steps .step {
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+  margin-bottom: 6px;
+}
+
+.info-steps .step-num {
+  width: 22px;
+  height: 22px;
+  min-width: 22px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #4F46E5, #7C3AED);
+  color: white;
+  display: grid;
+  place-items: center;
+  font-size: 11px;
+  font-weight: 800;
+}
+
+/* --- MSG --- */
+#msg {
+  font-size: 12px;
+  margin-top: 8px;
+  display: none;
+  padding: 10px 14px;
+  border-radius: var(--radius-md);
+}
+
+#msg.show {
+  display: block;
+}
+
+#msg.msg-ok {
+  background: #DCFCE7;
+  border: 1px solid #86EFAC;
+  color: #166534;
+}
+
+#msg.msg-err {
+  background: #FEE2E2;
+  border: 1px solid #FCA5A5;
+  color: #991B1B;
+}
+
+/* --- RESPONSIVE --- */
+@media (max-width: 600px) {
+  .card { padding: 18px 14px; border-radius: var(--radius-md); }
+  .card .title { font-size: 17px; }
+  .stat .num { font-size: 18px; }
+  .btn { height: 40px; min-height: 40px; font-size: 11px; }
+  .input { height: 40px; font-size: 12px; }
+  .table { font-size: 11px; min-width: 400px; }
+  .table th, .table td { padding: 8px 10px; }
+  .link-box .actions { flex-direction: column; }
+  .link-box .actions .btn { width: 100%; }
+  .info-steps .step { font-size: 12px; }
+}
+
+@media (max-width: 400px) {
+  .nav { padding: 0 12px; height: 60px; }
+  .wrap { padding: 72px 8px 32px; }
+  .nav .logo { font-size: 14px; }
+}
 </style>
 </head>
 <body>
-<nav class="nav"><div class="logo">wasa.chat/founders / referidos</div><div class="links"><span id="navEmail"></span> <a href="/dashboard.html">PANEL</a> <a href="#" onclick="localStorage.clear();location.href='/'">SALIR</a></div></nav>
+<nav class="nav">
+  <div class="logo">wasa.chat/founders / referidos</div>
+  <div class="links">
+    <span class="email" id="navEmail"></span>
+    <a href="/dashboard.html">PANEL</a>
+    <a href="#" onclick="localStorage.clear();location.href='/'">SALIR</a>
+  </div>
+</nav>
+
 <div class="wrap">
-<div class="card">
-<div class="eyebrow">PROGRAMA DE REFERIDOS - FOUNDERS PASS - 10% POR VENTA</div>
-<div class="title" id="title">Tu link de referido</div>
-<div class="sub" id="sub">Solo cobrás si tu referido CONCRETA compra de Founders Pass validada on-chain BSC. Nada de clicks. Comisión automática 10% del total en USDT. Se envía a tu billetera registrada en 48 hs. Válido solo en pre-market Founders Pass (50 unidades).</div>
-<div style="margin-top:14px;background:#E6F0FF;border:1px solid #93B4FF;border-radius:12px;padding:12px">
-<div style="font-size:11px;font-weight:800">TU ENLACE ÚNICO (tu REF-XXXXXX)</div>
-<input class="input" id="refLink" readonly value="Cargando...">
-<div style="display:flex;gap:8px;margin-top:10px">
-<button class="btn" style="flex:1" onclick="copyLink()">COPIAR ENLACE</button>
-<button class="btn" style="flex:1;background:white;color:#1E293B;border:1px solid #93B4FF" onclick="shareWpp()">COMPARTIR WHATSAPP</button>
-</div>
-<div id="msg" style="font-size:11px;margin-top:8px;display:none;padding:8px;border-radius:8px"></div>
-</div>
-<div class="stat-grid">
-<div class="stat"><div class="num" id="statClicks">0</div><div class="lbl">CLICKS EN TU LINK</div></div>
-<div class="stat"><div class="num" id="statSales">0</div><div class="lbl">VENTAS CONCRETADAS</div></div>
-<div class="stat"><div class="num" id="statComm">$0</div><div class="lbl">COMISIÓN TOTAL (10%)</div></div>
-</div>
-</div>
+  <!-- CARD PRINCIPAL -->
+  <div class="card">
+    <div class="eyebrow">PROGRAMA DE REFERIDOS - FOUNDERS PASS - 10% POR VENTA</div>
+    <div class="title" id="title">Tu link de referido</div>
+    <div class="sub" id="sub">Solo cobrás si tu referido CONCRETA compra de Founders Pass validada on-chain BSC. Nada de clicks. Comisión automática 10% del total en USDT. Se envía a tu billetera registrada en 48 hs. Válido solo en pre-market Founders Pass (50 unidades).</div>
+    
+    <div class="link-box">
+      <div class="label">TU ENLACE ÚNICO (tu REF-XXXXXX)</div>
+      <input class="input" id="refLink" readonly value="Cargando...">
+      <div class="actions">
+        <button class="btn" onclick="copyLink()">📋 COPIAR ENLACE</button>
+        <button class="btn btn-ghost" onclick="shareWpp()">📱 COMPARTIR WHATSAPP</button>
+      </div>
+      <div id="msg"></div>
+    </div>
 
-<div class="card">
-<div class="eyebrow">HISTORIAL DE REFERIDOS - FOUNDERS PASS</div>
-<div class="sub">Solo aparecen acá los que compraron Founders Pass y la TX fue validada en BSC. Comisión 10% automática. No aplica al mercado secundario de fracciones 0.01 (5000 porciones).</div>
-<table class="table" id="refTable"><thead><tr><th>Fecha</th><th>Referido</th><th>Slots</th><th>Total venta</th><th>Tu comisión 10%</th><th>Estado</th></tr></thead><tbody><tr><td colspan="6" class="empty">Cargando referidos...</td></tr></tbody></table>
-</div>
+    <div class="stat-grid">
+      <div class="stat"><div class="num" id="statClicks">0</div><div class="lbl">CLICKS EN TU LINK</div></div>
+      <div class="stat"><div class="num" id="statSales">0</div><div class="lbl">VENTAS CONCRETADAS</div></div>
+      <div class="stat"><div class="num" id="statComm">$0</div><div class="lbl">COMISIÓN TOTAL (10%)</div></div>
+    </div>
+  </div>
 
-<div class="card" style="background:#FEF9C3;border:1px dashed #EAB308">
-<div style="font-size:11px;font-weight:800">¿Cómo funciona? (Solo Founders Pass)</div>
-<div style="font-size:11px;margin-top:6px;line-height:1.5">
-1. Cualquier usuario registrado (REF-XXXXXX) puede referir Founders Pass en pre-market. No necesitas tener Wasablock para ser referidor.<br>
-2. Tu link es con tu código REF-XXXXXX (distinto a tu WASA-XXXX ID de Wasablock). No podés generar infinitos, es uno solo por cuenta.<br>
-3. Si alguien entra con tu link ?ref=REF-XXXXXX y compra Founders Pass en index.html, queda guardado.<br>
-4. Solo cuando paga USDT y la TX es validada on-chain BSC, se genera comisión 10% automática en la tabla <b>referrals</b>.<br>
-5. Si cancela o la TX falla, no hay comisión.<br>
-6. Cobrás junto con tus ganancias mensuales el 15, en tu wallet registrada.<br>
-7. Este programa NO aplica al mercado secundario de fracciones 0.01 (las 5000 porciones) - ahí solo hay fee 7.5% de plataforma.
-</div>
-</div>
+  <!-- CARD HISTORIAL -->
+  <div class="card">
+    <div class="eyebrow">HISTORIAL DE REFERIDOS - FOUNDERS PASS</div>
+    <div class="sub">Solo aparecen acá los que compraron Founders Pass y la TX fue validada en BSC. Comisión 10% automática. No aplica al mercado secundario de fracciones 0.01 (5000 porciones).</div>
+    <div class="table-wrap">
+      <table class="table" id="refTable">
+        <thead>
+          <tr><th>Fecha</th><th>Referido</th><th>Slots</th><th>Total venta</th><th>Tu comisión 10%</th><th>Estado</th></tr>
+        </thead>
+        <tbody>
+          <tr><td colspan="6" class="empty">Cargando referidos...</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- CARD INFORMATIVA -->
+  <div class="card card-warm">
+    <div class="eyebrow">¿Cómo funciona? (Solo Founders Pass)</div>
+    <div class="info-steps">
+      <div class="step"><span class="step-num">1</span> Cualquier usuario registrado (REF-XXXXXX) puede referir Founders Pass en pre-market. No necesitas tener Wasablock para ser referidor.</div>
+      <div class="step"><span class="step-num">2</span> Tu link es con tu código REF-XXXXXX (distinto a tu WASA-XXXX ID de Wasablock). No podés generar infinitos, es uno solo por cuenta.</div>
+      <div class="step"><span class="step-num">3</span> Si alguien entra con tu link ?ref=REF-XXXXXX y compra Founders Pass en index.html, queda guardado.</div>
+      <div class="step"><span class="step-num">4</span> Solo cuando paga USDT y la TX es validada on-chain BSC, se genera comisión 10% automática en la tabla <b>referrals</b>.</div>
+      <div class="step"><span class="step-num">5</span> Si cancela o la TX falla, no hay comisión.</div>
+      <div class="step"><span class="step-num">6</span> Cobrás junto con tus ganancias mensuales el 15, en tu wallet registrada.</div>
+      <div class="step"><span class="step-num">7</span> Este programa NO aplica al mercado secundario de fracciones 0.01 (las 5000 porciones) - ahí solo hay fee 7.5% de plataforma.</div>
+    </div>
+  </div>
 </div>
 
 <script src="/wasa-config.js?v=20260828"></script>
 <script>
 const WASA_WEBHOOK_URL = window.WASA_WORKER_URL || window.WASA_WEBHOOK_URL || 'https://founderswasablocks.javimsites.workers.dev';
-function copyLink(){ let v=document.getElementById('refLink').value; navigator.clipboard.writeText(v); let m=document.getElementById('msg'); m.style.display='block'; m.style.background='#F0FDF4'; m.textContent='Copiado: '+v; setTimeout(()=>m.style.display='none',3000); }
-function shareWpp(){ let v=document.getElementById('refLink').value; let txt=encodeURIComponent('Compra tu Founders Pass con mi link founder: '+v); window.open('https://wa.me/?text='+txt,'_blank'); }
+
+function copyLink(){ 
+  let v=document.getElementById('refLink').value; 
+  navigator.clipboard.writeText(v); 
+  let m=document.getElementById('msg'); 
+  m.textContent = '✅ Copiado: ' + v;
+  m.className = 'show msg-ok';
+  setTimeout(()=>{ m.className = ''; }, 3000); 
+}
+
+function shareWpp(){ 
+  let v=document.getElementById('refLink').value; 
+  let txt=encodeURIComponent('Compra tu Founders Pass con mi link founder: '+v); 
+  window.open('https://wa.me/?text='+txt,'_blank'); 
+}
 
 async function load(){
   let token=localStorage.getItem('wasa_token');
   if(!token){ location.href='/refer-register.html'; return; }
   document.getElementById('navEmail').textContent = localStorage.getItem('wasa_email')||'';
   try{
-    // Usar worker nuevo - GET referralstats con token
     let r=await fetch(WASA_WEBHOOK_URL+'?action=referralstats&token='+encodeURIComponent(token)+'&v='+Date.now());
     let j=await r.json();
     if(!j.ok){
-      // fallback POST
       let rr=await fetch(WASA_WEBHOOK_URL,{method:'POST',headers:{'Content-Type':'text/plain'},body:JSON.stringify({action:'referralstats', token})});
       j=await rr.json();
     }
-    if(!j.ok){ document.querySelector('#refTable tbody').innerHTML=`<tr><td colspan="6" class="empty">Error: ${j.error}</td></tr>`; document.getElementById('refLink').value=j.error||'Error'; return; }
-    // Compatibilidad: ahora solo REF-
+    if(!j.ok){ 
+      document.querySelector('#refTable tbody').innerHTML=`<tr><td colspan="6" class="empty">Error: ${j.error}</td></tr>`; 
+      document.getElementById('refLink').value=j.error||'Error'; 
+      return; 
+    }
     let codeId=j.codeId || j.ref_code || j.refUser?.codeId || '';
-    // Asegurar que sea REF- si viene WASA- por error viejo, mostrar igual pero aclarar
     let link=j.link || `https://founders.wasa.chat/?ref=${codeId}`;
     let clicks=j.clicks || j.ref_clicks || 0;
     let referrals=j.referrals || [];
