@@ -41,6 +41,7 @@
       --shadow-glow: 0 0 40px rgba(79, 70, 229, 0.12);
       --shadow-warm: 0 12px 40px -8px rgba(245, 158, 11, 0.20);
       --transition: all 0.25s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+      --sidebar-width: 280px;
     }
 
     html, body {
@@ -157,17 +158,18 @@
     /* --- LAYOUT --- */
     .layout {
       display: flex;
-      max-width: 1200px;
-      margin: 0 auto;
+      max-width: 100%;
+      margin: 0;
       padding-top: 80px;
       min-height: 100vh;
       position: relative;
       z-index: 1;
     }
 
-    /* --- SIDEBAR --- */
+    /* --- SIDEBAR - PEGADO AL BORDE IZQUIERDO --- */
     .sidebar {
-      width: 280px;
+      width: var(--sidebar-width);
+      min-width: var(--sidebar-width);
       background: rgba(255, 255, 255, 0.75);
       backdrop-filter: blur(16px);
       -webkit-backdrop-filter: blur(16px);
@@ -183,6 +185,7 @@
       transition: transform .25s ease;
       z-index: 40;
       box-shadow: 4px 0 24px rgba(79, 70, 229, 0.04);
+      margin-left: 0;
     }
 
     .sidebar::-webkit-scrollbar { width: 4px; }
@@ -322,8 +325,16 @@
     /* --- CONTENT --- */
     .content {
       flex: 1;
-      padding: 28px 28px 40px;
+      padding: 28px 32px 40px;
       min-width: 0;
+      max-width: calc(100% - var(--sidebar-width));
+    }
+
+    @media(max-width:900px){
+      .content {
+        max-width: 100%;
+        padding: 16px 12px;
+      }
     }
 
     .view { display: block; }
@@ -731,6 +742,18 @@
       .nav { padding: 0 12px; height: 60px; }
       .layout { padding-top: 60px; }
       .sidebar { top: 60px; }
+    }
+
+    /* --- PC: SIDEBAR PEGADO AL BORDE --- */
+    @media (min-width: 901px) {
+      .layout {
+        padding-left: 0;
+        padding-right: 0;
+      }
+      .sidebar {
+        border-radius: 0;
+        box-shadow: 4px 0 24px rgba(79, 70, 229, 0.04);
+      }
     }
 </style>
 </head>
