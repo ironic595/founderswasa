@@ -5,536 +5,84 @@
 <title>Ser Referidor - wasa.chat</title>
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
 <style>
-/* --- RESET & VARIABLES (MODERN VIBE + CONTRAST) --- */
-*, *::before, *::after {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-}
-
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 :root {
-  --bg-main: #F6F8FE;
-  --bg-card: #FFFFFF;
-  --bg-subtle: #EEF2FF;
-  --bg-input: #FFFFFF;
-  --accent-primary: #4F46E5;
-  --accent-primary-hover: #4338CA;
-  --accent-electric: #2563EB;
-  --accent-violet: #7C3AED;
-  --accent-cyan: #06B6D4;
-  --accent-gold: #EAB308;
-  --accent-green: #10B981;
-  --contrast-orange: #F59E0B;
-  --contrast-amber: #D97706;
-  --contrast-yellow: #FCD34D;
-  --text-main: #0B1120;
-  --text-muted: #6B7280;
-  --border-color: #E5E7EB;
-  --border-strong: #D1D5DB;
-  --radius-sm: 8px;
-  --radius-md: 16px;
-  --radius-lg: 24px;
-  --radius-full: 999px;
-  --shadow-sm: 0 4px 14px rgba(79, 70, 229, 0.06);
-  --shadow-md: 0 12px 40px -8px rgba(79, 70, 229, 0.12);
-  --shadow-lg: 0 28px 60px -16px rgba(79, 70, 229, 0.15);
-  --shadow-warm: 0 12px 40px -8px rgba(245, 158, 11, 0.20);
-  --transition: all 0.25s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  --bg-main: #F6F8FE; --bg-card: #FFFFFF; --bg-subtle: #EEF2FF; --bg-input: #FFFFFF;
+  --accent-primary: #4F46E5; --accent-primary-hover: #4338CA; --accent-electric: #2563EB; --accent-violet: #7C3AED;
+  --accent-gold: #EAB308; --accent-green: #10B981; --contrast-orange: #F59E0B; --contrast-amber: #D97706; --contrast-yellow: #FCD34D;
+  --text-main: #0B1120; --text-muted: #6B7280; --border-color: #E5E7EB; --radius-sm: 8px; --radius-md: 16px; --radius-lg: 24px; --radius-full: 999px;
+  --shadow-sm: 0 4px 14px rgba(79,70,229,0.06); --shadow-md: 0 12px 40px -8px rgba(79,70,229,0.12); --shadow-lg: 0 28px 60px -16px rgba(79,70,229,0.15);
+  --transition: all 0.25s cubic-bezier(0.25,0.46,0.45,0.94);
 }
-
 html, body {
-  overflow-x: hidden;
-  max-width: 100%;
-  min-height: 100vh;
-  background: radial-gradient(ellipse at 50% 0%, rgba(79, 70, 229, 0.15) 0%, transparent 70%), radial-gradient(ellipse at 100% 80%, rgba(245, 158, 11, 0.10) 0%, transparent 60%), linear-gradient(180deg, #21418f 0%, #332891 40%, #5e80e1 100%);
-  color: var(--text-main);
-  font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
-  line-height: 1.65;
-  -webkit-font-smoothing: antialiased;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 18px;
+  overflow-x:hidden; max-width:100%; min-height:100vh;
+  background: radial-gradient(ellipse at 50% 0%, rgba(79,70,229,0.15) 0%, transparent 70%), radial-gradient(ellipse at 100% 80%, rgba(245,158,11,0.10) 0%, transparent 60%), linear-gradient(180deg,#21418f 0%,#332891 40%,#5e80e1 100%);
+  color: var(--text-main); font-family: 'Plus Jakarta Sans', system-ui; line-height:1.65; -webkit-font-smoothing:antialiased;
+  display:flex; align-items:center; justify-content:center; padding:18px;
 }
-
-@media(max-width:900px){ 
-  body { 
-    align-items: flex-start; 
-    padding-top: 24px; 
-    padding-bottom: 40px;
-  } 
-}
-
-/* --- LAYOUT --- */
-.layout {
-  max-width: 1100px;
-  width: 100%;
-  display: grid;
-  grid-template-columns: 1.15fr 0.85fr;
-  gap: 40px;
-  align-items: center;
-}
-
-@media(max-width:900px){
-  .layout {
-    grid-template-columns: 1fr;
-    gap: 28px;
-  }
-}
-
-/* --- LEFT --- */
-.left {
-  padding: 20px 10px 20px 0;
-}
-
-@media(max-width:900px){
-  .left {
-    text-align: center;
-    padding: 0;
-  }
-}
-
-.eyebrow {
-  font-size: 18px;
-  font-weight: 800;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: #4F46E5;
-  margin-bottom: 8px;
-}
-
-.big-title {
-  font-size: 56px;
-  font-weight: 800;
-  line-height: 0.9;
-  letter-spacing: -0.03em;
-  margin-top: 12px;
-  text-align: left;
-  color: white;
-}
-
-.big-title span { display: block; }
-.big-title .highlight { 
-  background: linear-gradient(135deg, #4F46E5, #F59E0B);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-}
-
-@media(max-width:900px){
-  .big-title {
-    font-size: 38px;
-    text-align: center;
-  }
-}
-
-@media(max-width:600px){
-  .big-title { font-size: 30px; }
-}
-
-.sub-big {
-  font-size: 20px;
-  font-weight: 700;
-  margin-top: 18px;
-  text-align: left;
-  color: #F59E0B;
-  line-height: 1.3;
-}
-
-@media(max-width:900px){
-  .sub-big {
-    text-align: center;
-    font-size: 18px;
-  }
-}
-
-.badge-top {
-  font-size: 9px;
-  font-weight: 800;
-  padding: 4px 12px;
-  border-radius: var(--radius-full);
-  background: #DBEAFE;
-  color: #1E40AF;
-  margin-left: 8px;
-  vertical-align: middle;
-  display: inline-block;
-}
-
-/* --- BULLET FIX: espaciado uniforme --- */
-.bullet {
-  margin-top: 24px;
-  display: flex;
-  flex-direction: column;
-  gap: 14px;
-}
-
-@media(max-width:900px){
-  .bullet {
-    align-items: center;
-  }
-}
-
-.bullet-item {
-  display: flex;
-  gap: 14px;
-  align-items: center;
-  font-size: 14px;
-  line-height: 1.4;
-  padding: 4px 0;
-}
-
-@media(max-width:900px){
-  .bullet-item {
-    text-align: left;
-    max-width: 440px;
-    width: 100%;
-  }
-}
-
-.bullet-icon {
-  width: 32px;
-  height: 32px;
-  min-width: 32px;
-  border-radius: var(--radius-sm);
-  background: rgba(79, 70, 229, 0.08);
-  border: 1px solid rgba(79, 70, 229, 0.12);
-  display: grid;
-  place-items: center;
-  font-weight: 800;
-  font-size: 13px;
-  flex-shrink: 0;
-  color: #77e589;
-  transition: var(--transition);
-}
-
-.bullet-item:hover .bullet-icon {
-  background: linear-gradient(135deg, #4F46E5, #7C3AED);
-  color: white;
-  border-color: #4F46E5;
-  transform: scale(1.05);
-}
-
-.bullet-item b {
-  color: #77e589;
-}
-
-/* --- RIGHT CARD --- */
-.card {
-  background: rgba(255, 255, 255, 0.80);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border: 1px solid rgba(79, 70, 229, 0.08);
-  border-radius: var(--radius-lg);
-  padding: 28px 32px;
-  width: 100%;
-  box-shadow: var(--shadow-md);
-  transition: var(--transition);
-}
-
-.card:hover {
-  box-shadow: var(--shadow-lg);
-}
-
-.card .eyebrow {
-  text-align: center;
-  margin-bottom: 4px;
-}
-
-.tabs {
-  display: flex;
-  gap: 8px;
-  margin-top: 16px;
-}
-
-.tab {
-  flex: 1;
-  height: 44px;
-  border-radius: var(--radius-md);
-  border: 1px solid rgba(79, 70, 229, 0.10);
-  background: var(--bg-subtle);
-  font-weight: 700;
-  cursor: pointer;
-  font-size: 13px;
-  transition: var(--transition);
-  color: var(--text-muted);
-}
-
-.tab.active {
-  background: linear-gradient(135deg, #4F46E5, #7C3AED);
-  color: white;
-  border-color: #4F46E5;
-  box-shadow: 0 4px 16px rgba(79, 70, 229, 0.20);
-}
-
-.tab:hover:not(.active) {
-  background: rgba(79, 70, 229, 0.06);
-  border-color: rgba(79, 70, 229, 0.20);
-}
-
-.input {
-  height: 48px;
-  border-radius: var(--radius-md);
-  border: 1px solid rgba(79, 70, 229, 0.10);
-  padding: 0 16px;
-  width: 100%;
-  margin-top: 12px;
-  font-size: 14px;
-  background: white;
-  color: var(--text-main);
-  outline: none;
-  transition: var(--transition);
-  font-family: inherit;
-}
-
-.input:focus {
-  border-color: #4F46E5;
-  box-shadow: 0 0 0 4px rgba(79, 70, 229, 0.08);
-}
-
-.input::placeholder { color: #A0AEC0; }
-
-.btn {
-  height: 50px;
-  padding: 0 20px;
-  border-radius: var(--radius-md);
-  border: 0;
-  font-weight: 800;
-  font-size: 14px;
-  cursor: pointer;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 100%;
-  margin-top: 14px;
-  transition: var(--transition);
-  background: linear-gradient(135deg, #4F46E5, #7C3AED);
-  color: white;
-  box-shadow: 0 4px 16px rgba(79, 70, 229, 0.20);
-}
-
-.btn:hover {
-  box-shadow: 0 8px 28px rgba(79, 70, 229, 0.30);
-  transform: translateY(-2px);
-}
-
-.btn:disabled {
-  opacity: 0.5;
-  cursor: not-allowed;
-  transform: none !important;
-  box-shadow: none !important;
-}
-
-.btn-warm {
-  background: linear-gradient(135deg, #F59E0B, #D97706);
-  color: #0B1120;
-  box-shadow: 0 4px 16px rgba(245, 158, 11, 0.25);
-}
-
-.btn-warm:hover {
-  box-shadow: 0 8px 28px rgba(245, 158, 11, 0.40);
-}
-
-.msg {
-  margin-top: 14px;
-  padding: 14px 18px;
-  border-radius: var(--radius-md);
-  font-size: 13px;
-  display: none;
-  line-height: 1.5;
-}
-
-.msg-ok {
-  background: #DCFCE7;
-  border: 1px solid #86EFAC;
-  color: #166534;
-}
-
-.msg-err {
-  background: #FEE2E2;
-  border: 1px solid #FCA5A5;
-  color: #991B1B;
-}
-
-.hidden { display: none !important; }
-
-.link {
-  color: #4F46E5;
-  text-decoration: none;
-  font-weight: 700;
-  font-size: 12px;
-  transition: var(--transition);
-}
-
-.link:hover {
-  color: #7C3AED;
-  text-decoration: underline;
-}
-
-.form-hint {
-  font-size: 12px;
-  opacity: 0.6;
-  margin-top: 10px;
-  text-align: center;
-  line-height: 1.5;
-}
-
-/* --- RESPONSIVE --- */
-@media (max-width: 600px) {
-  body { padding: 12px; }
-  .card { padding: 20px 16px; border-radius: var(--radius-md); }
-  .big-title { font-size: 28px; }
-  .sub-big { font-size: 16px; }
-  .input { height: 44px; font-size: 13px; }
-  .btn { height: 44px; font-size: 13px; }
-  .tab { height: 38px; font-size: 12px; }
-  .bullet-item { font-size: 13px; }
-  .bullet-icon { width: 28px; height: 28px; min-width: 28px; font-size: 11px; }
-}
-
-/* --- AUTO-LOGIN OVERRIDE --- */
-.auto-login-container {
-  display: grid;
-  place-items: center;
-  min-height: 100vh;
-  background: linear-gradient(160deg, #EEF2FF 0%, #F6F8FE 40%, #FEF3C7 100%);
-  font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
-  padding: 20px;
-}
-
-.auto-login-box {
-  background: rgba(255, 255, 255, 0.85);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border: 1px solid rgba(79, 70, 229, 0.08);
-  border-radius: var(--radius-lg);
-  padding: 32px 40px;
-  text-align: center;
-  max-width: 420px;
-  width: 100%;
-  box-shadow: var(--shadow-lg);
-}
-
-.auto-login-box .icon {
-  font-size: 48px;
-  margin-bottom: 12px;
-}
-
-.auto-login-box .title {
-  font-size: 18px;
-  font-weight: 800;
-  color: #1E1B4B;
-}
-
-.auto-login-box .sub {
-  font-size: 13px;
-  opacity: 0.6;
-  margin-top: 8px;
-  line-height: 1.5;
-}
-
-.auto-login-box .code {
-  font-size: 14px;
-  font-weight: 800;
-  color: #4F46E5;
-  background: rgba(79, 70, 229, 0.06);
-  padding: 4px 12px;
-  border-radius: var(--radius-sm);
-  display: inline-block;
-  margin-top: 6px;
-}
-
-.auto-login-box .actions {
-  margin-top: 18px;
-  display: flex;
-  gap: 10px;
-}
-
-.auto-login-box .actions .btn {
-  flex: 1;
-  margin-top: 0;
-  font-size: 12px;
-  height: 44px;
-  min-height: 44px;
-  text-decoration: none;
-}
-
-.auto-login-box .actions .btn-outline {
-  background: transparent;
-  color: #1E1B4B;
-  border: 1px solid rgba(79, 70, 229, 0.15);
-  box-shadow: none;
-}
-
-.auto-login-box .actions .btn-outline:hover {
-  background: rgba(79, 70, 229, 0.04);
-  transform: translateY(-2px);
-  box-shadow: none;
-}
-
-@media (max-width: 500px) {
-  .auto-login-box { padding: 24px 20px; }
-  .auto-login-box .actions { flex-direction: column; }
-  .auto-login-box .actions .btn { width: 100%; }
-}
+@media(max-width:900px){ body { align-items:flex-start; padding-top:24px; padding-bottom:40px; } }
+.layout { max-width:1100px; width:100%; display:grid; grid-template-columns:1.15fr 0.85fr; gap:40px; align-items:center; }
+@media(max-width:900px){ .layout { grid-template-columns:1fr; gap:28px; } }
+.left { padding:20px 10px 20px 0; }
+@media(max-width:900px){ .left { text-align:center; padding:0; } }
+.eyebrow { font-size:18px; font-weight:800; letter-spacing:0.12em; text-transform:uppercase; color:#4F46E5; margin-bottom:8px; }
+.big-title { font-size:56px; font-weight:800; line-height:0.9; letter-spacing:-0.03em; margin-top:12px; text-align:left; color:white; }
+.big-title span { display:block; } .big-title .highlight { background: linear-gradient(135deg,#4F46E5,#F59E0B); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; }
+@media(max-width:900px){ .big-title { font-size:38px; text-align:center; } } @media(max-width:600px){ .big-title { font-size:30px; } }
+.sub-big { font-size:20px; font-weight:700; margin-top:18px; text-align:left; color:#F59E0B; line-height:1.3; }
+@media(max-width:900px){ .sub-big { text-align:center; font-size:18px; } }
+.badge-top { font-size:9px; font-weight:800; padding:4px 12px; border-radius:999px; background:#DBEAFE; color:#1E40AF; margin-left:8px; vertical-align:middle; display:inline-block; }
+.bullet { margin-top:24px; display:flex; flex-direction:column; gap:14px; } @media(max-width:900px){ .bullet { align-items:center; } }
+.bullet-item { display:flex; gap:14px; align-items:center; font-size:14px; line-height:1.4; padding:4px 0; } @media(max-width:900px){ .bullet-item { text-align:left; max-width:440px; width:100%; } }
+.bullet-icon { width:32px; height:32px; min-width:32px; border-radius:8px; background:rgba(79,70,229,0.08); border:1px solid rgba(79,70,229,0.12); display:grid; place-items:center; font-weight:800; font-size:13px; flex-shrink:0; color:#77e589; transition:all 0.25s; }
+.bullet-item:hover .bullet-icon { background:linear-gradient(135deg,#4F46E5,#7C3AED); color:white; border-color:#4F46E5; transform:scale(1.05); } .bullet-item b { color:#77e589; }
+.card { background:rgba(255,255,255,0.80); backdrop-filter:blur(12px); border:1px solid rgba(79,70,229,0.08); border-radius:24px; padding:28px 32px; width:100%; box-shadow:0 12px 40px -8px rgba(79,70,229,0.12); }
+.card .eyebrow { text-align:center; margin-bottom:4px; }
+.tabs { display:flex; gap:8px; margin-top:16px; } .tab { flex:1; height:44px; border-radius:16px; border:1px solid rgba(79,70,229,0.10); background:#EEF2FF; font-weight:700; cursor:pointer; font-size:13px; color:#6B7280; } .tab.active { background:linear-gradient(135deg,#4F46E5,#7C3AED); color:white; border-color:#4F46E5; box-shadow:0 4px 16px rgba(79,70,229,0.20); }
+.input { height:48px; border-radius:16px; border:1px solid rgba(79,70,229,0.10); padding:0 16px; width:100%; margin-top:12px; font-size:14px; background:white; outline:none; } .input:focus{border-color:#4F46E5; box-shadow:0 0 0 4px rgba(79,70,229,0.08)} .btn{height:50px; padding:0 20px; border-radius:16px; border:0; font-weight:800; font-size:14px; cursor:pointer; display:inline-flex; align-items:center; justify-content:center; width:100%; margin-top:14px; background:linear-gradient(135deg,#4F46E5,#7C3AED); color:white; box-shadow:0 4px 16px rgba(79,70,229,0.20)} .msg{margin-top:14px; padding:14px 18px; border-radius:16px; font-size:13px; display:none; line-height:1.5} .msg-ok{background:#DCFCE7; border:1px solid #86EFAC; color:#166534} .msg-err{background:#FEE2E2; border:1px solid #FCA5A5; color:#991B1B} .hidden{display:none!important} .form-hint{font-size:12px; opacity:0.6; margin-top:10px; text-align:center; line-height:1.5}
 </style>
 </head>
 <body>
 <div class="layout">
-  <!-- LEFT - PC: izquierda grande, texto alineado izquierda -->
   <div class="left">
     <div class="eyebrow">FOUNDERS.WASA.CHAT - <span class="badge-top">PROGRAMA DE REFERIDOS 10%</span></div>
-    <h1 class="big-title">
-      <span>GANA USDT</span>
-      <span>COMPARTIENDO</span>
-      <span class="highlight">TU LINK</span>
-    </h1>
+    <h1 class="big-title"><span>GANA USDT</span><span>COMPARTIENDO</span><span class="highlight">TU LINK</span></h1>
     <div class="sub-big">POR CADA VENTA DESDE TU ENLACE RECIBES EL 10%.<br>PUEDES GANAR HASTA 1300 USDT.<br>PAGOS TODAS LAS SEMANAS.</div>
     <div class="bullet">
-      <div class="bullet-item">
-        <div class="bullet-icon">1</div>
-        <div><b>REGISTRATE</b></div>
-      </div>
-      <div class="bullet-item">
-        <div class="bullet-icon">2</div>
-        <div><b>COPIA Y COMPARTE TU ENLACE EN REDES SOCIALES Y CON TUS AMIGOS</b></div>
-      </div>
-      <div class="bullet-item">
-        <div class="bullet-icon">3</div>
-        <div><b>GANA EL 10% DE CADA VENTA QUE SE CONCRETE DESDE TU ENLACE</b></div>
-      </div>
+      <div class="bullet-item"><div class="bullet-icon">1</div><div><b>REGISTRATE</b></div></div>
+      <div class="bullet-item"><div class="bullet-icon">2</div><div><b>COPIA Y COMPARTE TU ENLACE EN REDES SOCIALES Y CON TUS AMIGOS</b></div></div>
+      <div class="bullet-item"><div class="bullet-icon">3</div><div><b>GANA EL 10% DE CADA VENTA QUE SE CONCRETE DESDE TU ENLACE</b></div></div>
     </div>
   </div>
-
-  <!-- RIGHT - Formulario -->
   <div class="card">
     <div class="eyebrow">Acceso referidores</div>
-    <div class="tabs">
-      <button class="tab active" id="tabReg" onclick="switchTab('reg')">REGISTRARME</button>
-      <button class="tab" id="tabLogin" onclick="switchTab('login')">YA TENGO CUENTA</button>
-    </div>
-
-    <div id="viewReg">
-      <input class="input" id="regEmail" type="email" placeholder="tu@email.com" autocomplete="email">
-      <input class="input" id="regPass" type="password" placeholder="Contraseña (mín 6 caracteres)" autocomplete="new-password">
-      <input class="input" id="regPass2" type="password" placeholder="Repetir contraseña" autocomplete="new-password">
-      <button class="btn" id="btnReg" onclick="register()">CREAR CUENTA REFERIDOS</button>
-      <div class="form-hint">Si ya compraste Wasablocks, ya estás registrado. Usa tu mismo email y contraseña.</div>
-    </div>
-
+    <div class="tabs"><button class="tab active" id="tabReg" onclick="switchTab('reg')">REGISTRARME</button><button class="tab" id="tabLogin" onclick="switchTab('login')">YA TENGO CUENTA</button></div>
+    <div id="viewReg"><input class="input" id="regEmail" type="email" placeholder="tu@email.com"><input class="input" id="regPass" type="password" placeholder="Contraseña (mín 6 caracteres)"><input class="input" id="regPass2" type="password" placeholder="Repetir contraseña"><button class="btn" id="btnReg" onclick="register()">CREAR CUENTA REFERIDOS</button><div class="form-hint">Si ya compraste Wasablocks, ya estás registrado. Usa tu mismo email y contraseña.</div></div>
     <div id="viewLogin" class="hidden">
-      <input class="input" id="loginEmail" type="email" placeholder="tu@email.com" autocomplete="email">
-      <input class="input" id="loginPass" type="password" placeholder="Contraseña" autocomplete="current-password">
+      <input class="input" id="loginEmail" type="email" placeholder="tu@email.com"><input class="input" id="loginPass" type="password" placeholder="Contraseña">
       <button class="btn" id="btnLogin" onclick="login()">ENTRAR A PANEL DE REFERIDOS</button>
+      <div style="text-align:center;margin-top:12px"><a href="#" onclick="openForgot();return false;" style="font-size:12px;color:#4F46E5;font-weight:700;text-decoration:underline">Olvidé mi contraseña</a></div>
     </div>
-
+    <div id="viewForgot" class="hidden">
+      <div style="font-size:13px;font-weight:800;margin-bottom:4px;color:#1E1B4B">Recuperar contraseña</div>
+      <div style="font-size:12px;opacity:.6;margin-bottom:10px;line-height:1.4">Te enviamos código de 6 dígitos que expira en 15 min.</div>
+      <input class="input" id="forgotEmail" type="email" placeholder="tu@email.com">
+      <button class="btn" id="btnForgot" onclick="requestReset()">ENVIAR CÓDIGO</button>
+      <div style="text-align:center;margin-top:12px"><a href="#" onclick="switchTab('login');return false;" style="font-size:12px;color:#6B7280;text-decoration:underline">Volver a login</a></div>
+    </div>
+    <div id="viewReset" class="hidden">
+      <div style="font-size:13px;font-weight:800;margin-bottom:4px;color:#1E1B4B">Código y nueva contraseña</div>
+      <input class="input" id="resetEmail" readonly style="background:#EEF2FF;font-weight:700">
+      <input class="input" id="resetCode" placeholder="Código 6 dígitos" style="letter-spacing:3px;font-weight:800;text-align:center">
+      <input class="input" id="resetPass" type="password" placeholder="Nueva contraseña">
+      <input class="input" id="resetPass2" type="password" placeholder="Repetir nueva">
+      <button class="btn" style="background:linear-gradient(135deg,#10B981,#059669)" id="btnReset" onclick="confirmReset()">CAMBIAR CONTRASEÑA</button>
+    </div>
     <div id="msg" class="msg"></div>
   </div>
 </div>
-
 <script src="/wasa-config.js?v=20260827"></script>
 <script>
-
-// AUTO-LOGIN UNIFICADO: si ya tenés cuenta de compra, ya sos referidor
 (async function(){
   let token=localStorage.getItem('wasa_token');
   if(token){
@@ -542,104 +90,55 @@ html, body {
       let r=await fetch(WASA_WEBHOOK_URL,{method:'POST',headers:{'Content-Type':'text/plain'},body:JSON.stringify({action:'dashboard', token})});
       let j=await r.json();
       if(j.ok){
-        // Ya tiene cuenta unificada, mostrar mensaje estilizado
         let refCode = j.refUser?.codeId || j.panelUser?.codeId || '';
-        document.body.innerHTML = `
-          <div class="auto-login-container">
-            <div class="auto-login-box">
-              <div class="icon">✅</div>
-              <div class="title">Ya tenés cuenta unificada</div>
-              <div class="sub">Tu cuenta de compra ya habilita referidos.</div>
-              <div class="code">${refCode}</div>
-              <div style="font-size:11px;opacity:0.5;margin-top:6px;">${j.email}</div>
-              <div class="actions">
-                <a href="/referrals_FINAL.html" class="btn">IR A PANEL DE REFERIDOS</a>
-                <a href="/refer.html" class="btn btn-outline">DASHBOARD</a>
-              </div>
-            </div>
-          </div>
-        `;
-        setTimeout(()=>{ location.href='/refer.html'; }, 2000);
-        return;
+        document.body.innerHTML = `<div style="display:grid;place-items:center;min-height:100vh;background:linear-gradient(160deg,#EEF2FF 0%,#F6F8FE 40%,#FEF3C7 100%);font-family:'Plus Jakarta Sans',system-ui;padding:20px"><div style="background:rgba(255,255,255,0.85);backdrop-filter:blur(12px);border:1px solid rgba(79,70,229,0.08);border-radius:24px;padding:32px 40px;text-align:center;max-width:420px;width:100%;box-shadow:0 28px 60px -16px rgba(79,70,229,0.15)"><div style="font-size:48px;margin-bottom:12px">✅</div><div style="font-size:18px;font-weight:800;color:#1E1B4B">Ya tenés cuenta unificada</div><div style="font-size:13px;opacity:0.6;margin-top:8px">Tu cuenta de compra ya habilita referidos.</div><div style="font-size:14px;font-weight:800;color:#4F46E5;background:rgba(79,70,229,0.06);padding:4px 12px;border-radius:8px;display:inline-block;margin-top:6px">${refCode}</div><div style="font-size:11px;opacity:0.5;margin-top:6px">${j.email}</div><div style="margin-top:18px;display:flex;gap:10px"><a href="/referrals_FINAL.html" style="flex:1;height:44px;display:grid;place-items:center;background:linear-gradient(135deg,#4F46E5,#7C3AED);color:white;border-radius:16px;text-decoration:none;font-weight:800;font-size:12px">IR A PANEL DE REFERIDOS</a><a href="/refer.html" style="flex:1;height:44px;display:grid;place-items:center;background:transparent;color:#1E1B4B;border:1px solid rgba(79,70,229,0.15);border-radius:16px;text-decoration:none;font-weight:800;font-size:12px">DASHBOARD</a></div></div></div>`;
+        setTimeout(()=>{ location.href='/refer.html'; }, 2000); return;
       }
     }catch{}
   }
 })();
-
 let currentTab='reg';
-function switchTab(t){
-  currentTab=t;
-  document.getElementById('tabReg').classList.toggle('active',t==='reg');
-  document.getElementById('tabLogin').classList.toggle('active',t==='login');
-  document.getElementById('viewReg').classList.toggle('hidden',t!=='reg');
-  document.getElementById('viewLogin').classList.toggle('hidden',t!=='login');
-  let msg = document.getElementById('msg');
-  msg.style.display='none';
-  msg.className='msg';
+function switchTab(t){ currentTab=t; document.getElementById('tabReg').classList.toggle('active',t==='reg'); document.getElementById('tabLogin').classList.toggle('active',t==='login'); document.getElementById('viewReg').classList.toggle('hidden',t!=='reg'); document.getElementById('viewLogin').classList.toggle('hidden',t!=='login'); document.getElementById('viewForgot').classList.add('hidden'); document.getElementById('viewReset').classList.add('hidden'); let msg = document.getElementById('msg'); msg.style.display='none'; msg.className='msg'; }
+function openForgot(){
+  document.getElementById('tabReg').classList.remove('active'); document.getElementById('tabLogin').classList.remove('active');
+  document.getElementById('viewReg').classList.add('hidden'); document.getElementById('viewLogin').classList.add('hidden'); document.getElementById('viewReset').classList.add('hidden');
+  document.getElementById('viewForgot').classList.remove('hidden');
+  let e=document.getElementById('loginEmail').value.trim(); if(e) document.getElementById('forgotEmail').value=e;
 }
-function showMsg(text,ok){
-  let m=document.getElementById('msg');
-  m.style.display='block';
-  m.className = 'msg ' + (ok ? 'msg-ok' : 'msg-err');
-  m.innerHTML=text;
-}
+function openResetStep(email){ document.getElementById('viewForgot').classList.add('hidden'); document.getElementById('viewReset').classList.remove('hidden'); document.getElementById('resetEmail').value=email; }
+function showMsg(text,ok){ let m=document.getElementById('msg'); m.style.display='block'; m.className = 'msg ' + (ok ? 'msg-ok' : 'msg-err'); m.innerHTML=text; }
 async function register(){
-  let email=document.getElementById('regEmail').value.trim().toLowerCase();
-  let p1=document.getElementById('regPass').value.trim();
-  let p2=document.getElementById('regPass2').value.trim();
-  if(!email||!p1){ showMsg('Falta email y contraseña',false); return; }
-  if(!email.includes('@')){ showMsg('Email inválido',false); return; }
-  if(p1.length<6){ showMsg('Contraseña mínima 6 caracteres',false); return; }
-  if(p1!==p2){ showMsg('Contraseñas no coinciden',false); return; }
+  let email=document.getElementById('regEmail').value.trim().toLowerCase(); let p1=document.getElementById('regPass').value.trim(); let p2=document.getElementById('regPass2').value.trim();
+  if(!email||!p1){ showMsg('Falta email y contraseña',false); return; } if(!email.includes('@')){ showMsg('Email inválido',false); return; } if(p1.length<6){ showMsg('Contraseña mínima 6 caracteres',false); return; } if(p1!==p2){ showMsg('Contraseñas no coinciden',false); return; }
   let btn=document.getElementById('btnReg'); btn.disabled=true; btn.textContent='Creando REF-...';
   try{
-    let payload={action:'registerReferrer', email:email, password:p1};
-    let r=await fetch(WASA_WEBHOOK_URL,{method:'POST',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify(payload)});
-    let j=await r.json();
-    if(j.ok){
-      showMsg(`✅ Cuenta creada.<br>Tu REF es <b>${j.codeId}</b> (distinto a WASA). Entrando...`,true);
-      localStorage.setItem('wasa_token', j.token);
-      localStorage.setItem('wasa_email', email);
-      setTimeout(()=>location.href='/refer.html',1000);
-    } else {
-      if(j.error && j.error.includes('ya registrado')){
-        showMsg(`⚠️ ${j.error}<br>Probá en <b>YA TENGO CUENTA</b> con tu contraseña.`,false);
-        switchTab('login');
-        document.getElementById('loginEmail').value=email;
-      } else {
-        showMsg('❌ Error: '+j.error,false);
-      }
-      btn.disabled=false; btn.textContent='CREAR CUENTA REFERIDOS';
-    }
+    let payload={action:'registerReferrer', email:email, password:p1}; let r=await fetch(WASA_WEBHOOK_URL,{method:'POST',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify(payload)}); let j=await r.json();
+    if(j.ok){ showMsg(`✅ Cuenta creada.<br>Tu REF es <b>${j.codeId}</b> (distinto a WASA). Entrando...`,true); localStorage.setItem('wasa_token', j.token); localStorage.setItem('wasa_email', email); setTimeout(()=>location.href='/refer.html',1000); }
+    else { if(j.error && j.error.includes('ya registrado')){ showMsg(`⚠ ${j.error}<br>Probá en <b>YA TENGO CUENTA</b> con tu contraseña.`,false); switchTab('login'); document.getElementById('loginEmail').value=email; } else { showMsg('❌ Error: '+j.error,false); } btn.disabled=false; btn.textContent='CREAR CUENTA REFERIDOS'; }
   }catch(e){ showMsg('❌ Error: '+e.message+'<br>Verificá que el worker esté deployado con registerReferrer',false); btn.disabled=false; btn.textContent='CREAR CUENTA REFERIDOS'; }
 }
 async function login(){
-  let email=document.getElementById('loginEmail').value.trim().toLowerCase();
-  let pass=document.getElementById('loginPass').value.trim();
+  let email=document.getElementById('loginEmail').value.trim().toLowerCase(); let pass=document.getElementById('loginPass').value.trim();
   if(!email||!pass){ showMsg('Falta email y contraseña',false); return; }
   let btn=document.getElementById('btnLogin'); btn.disabled=true; btn.textContent='Entrando...';
   try{
-    let r=await fetch(WASA_WEBHOOK_URL,{method:'POST',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify({action:'login', email:email, password:pass})});
-    let j=await r.json();
-    if(j.ok){
-      showMsg('✅ Login OK. Entrando a referrals...',true);
-      localStorage.setItem('wasa_token', j.token);
-      localStorage.setItem('wasa_email', email);
-      setTimeout(()=>location.href='/refer.html',600);
-    } else {
-      showMsg('❌ Error: '+j.error,false);
-      btn.disabled=false; btn.textContent='ENTRAR A PANEL DE REFERIDOS';
-    }
+    let r=await fetch(WASA_WEBHOOK_URL,{method:'POST',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify({action:'login', email:email, password:pass})}); let j=await r.json();
+    if(j.ok){ showMsg('✅ Login OK. Entrando a referrals...',true); localStorage.setItem('wasa_token', j.token); localStorage.setItem('wasa_email', email); setTimeout(()=>location.href='/refer.html',600); }
+    else { showMsg('❌ Error: '+j.error,false); btn.disabled=false; btn.textContent='ENTRAR A PANEL DE REFERIDOS'; }
   }catch(e){ showMsg('❌ Error: '+e.message,false); btn.disabled=false; btn.textContent='ENTRAR A PANEL DE REFERIDOS'; }
 }
-(function(){
-  let p=new URLSearchParams(location.search);
-  let e=p.get('email');
-  if(e){
-    document.getElementById('regEmail').value=e;
-    document.getElementById('loginEmail').value=e;
-  }
-})();
+async function requestReset(){
+  let email=document.getElementById('forgotEmail').value.trim().toLowerCase(); if(!email.includes('@')) return showMsg('Email inválido',false);
+  let btn=document.getElementById('btnForgot'); btn.textContent='Enviando...'; btn.disabled=true;
+  try{ let r=await fetch(WASA_WEBHOOK_URL,{method:'POST',headers:{'Content-Type':'text/plain'},body:JSON.stringify({action:'requestPasswordReset', email})}); let j=await r.json(); if(j.ok){ showMsg('Código enviado a '+email,true); setTimeout(()=>openResetStep(email),1000); } else showMsg(j.error||'Error', false); }catch(e){ showMsg(e.message, false); } finally{ btn.textContent='ENVIAR CÓDIGO'; btn.disabled=false; }
+}
+async function confirmReset(){
+  let email=document.getElementById('resetEmail').value.trim().toLowerCase(); let code=document.getElementById('resetCode').value.trim(); let p1=document.getElementById('resetPass').value; let p2=document.getElementById('resetPass2').value;
+  if(code.length<6) return showMsg('Código 6 dígitos',false); if(p1.length<6) return showMsg('Mín 6',false); if(p1!==p2) return showMsg('No coinciden',false);
+  let btn=document.getElementById('btnReset'); btn.textContent='Cambiando...'; btn.disabled=true;
+  try{ let r=await fetch(WASA_WEBHOOK_URL,{method:'POST',headers:{'Content-Type':'text/plain'},body:JSON.stringify({action:'resetPassword', email, code, newPassword:p1})}); let j=await r.json(); if(j.ok){ localStorage.setItem('wasa_token', j.token); showMsg('Contraseña cambiada! Entrando...',true); setTimeout(()=>location.href='/refer.html',1000); } else showMsg(j.error||'Error', false); }catch(e){ showMsg(e.message, false); } finally{ btn.textContent='CAMBIAR CONTRASEÑA'; btn.disabled=false; }
+}
+(function(){ let p=new URLSearchParams(location.search); let e=p.get('email'); if(e){ document.getElementById('regEmail').value=e; document.getElementById('loginEmail').value=e; } })();
 </script>
 </body>
 </html>
