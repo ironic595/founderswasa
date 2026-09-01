@@ -1352,7 +1352,7 @@
       <div class="links">
         <a href="/index.html">HOME</a>
         <a href="/dashboard.html" id="navDashboard" style="display:none">DASHBOARD</a>
-        <a href="#" onclick="goReferidos();return false;" id="navRefer" class="highlight">GANA dinero aquí</a>
+        <a href="#" onclick="goReferidos();return false;" id="navRefer" class="highlight">Gana USDT aquí</a>
         <a href="#" id="navLogin" onclick="openAuthModal('login');return false;">LOGIN</a>
       </div>
       <span id="navUser" class="user-badge"></span>
@@ -1369,7 +1369,7 @@
   <div class="mobile-menu-overlay" id="mobileMenu">
     <a href="/index.html">HOME</a>
     <a href="/dashboard.html" id="mobileDashboard" style="display:none">DASHBOARD</a>
-    <a href="#" onclick="goReferidos();return false;" class="highlight">GANA dinero aquí</a>
+    <a href="#" onclick="goReferidos();return false;" class="highlight">Gana USDT aquí</a>
     <a href="#" id="mobileLogin" onclick="openAuthModal('login');return false;">LOGIN</a>
     <span id="mobileUserBadge" class="user-badge-mobile" style="display:none"></span>
     <div class="nav-actions">
@@ -1538,7 +1538,7 @@
     function goReferidos(){ if(localStorage.getItem('wasa_token')){ location.href='/refer.html'; } else { location.href='/refer-register.html'; } }
     let qtyVal=document.getElementById('qtyVal'),range=document.getElementById('range'),totalEl=document.getElementById('total');
     function formatPrice(v){ return Number(v).toFixed(4); }
-    function update(){ if(!CONFIG_DYNAMIC) return; qtyVal.textContent=qty; range.value=qty; let t=qty*Number(CONFIG_DYNAMIC.PRICE_PER_SLOT); totalEl.textContent=formatPrice(t); document.getElementById('btnUSDT').textContent=`Pagar ${formatPrice(t)} USDT`; document.getElementById('qtyPercent').textContent=(qty*Number(CONFIG_DYNAMIC.PERCENT_PER_SLOT)).toFixed(1)+'%'; document.getElementById('qtySlots').textContent=qty===1?'1 wasablock':qty+' slots'; }
+    function update(){ if(!CONFIG_DYNAMIC) return; qtyVal.textContent=qty; range.value=qty; let t=qty*Number(CONFIG_DYNAMIC.PRICE_PER_SLOT); totalEl.textContent=formatPrice(t); document.getElementById('btnUSDT').textContent=`Pagar ${formatPrice(t)} USDT`; document.getElementById('qtyPercent').textContent=(qty*Number(CONFIG_DYNAMIC.PERCENT_PER_SLOT)).toFixed(1)+'%'; document.getElementById('qtySlots').textContent=qty===1?'1 wasablock':qty+' wasablocks'; }
     document.getElementById('btnMinus').onclick=()=>{if(qty>1){qty--;update();}}; document.getElementById('btnPlus').onclick=()=>{let max=parseInt(range.max)||50; if(qty<max){qty++;update();}}; range.oninput=e=>{qty=parseInt(e.target.value);update();};
 
     function openAuthModal(tab='login'){ document.getElementById('authModal').classList.add('show'); switchAuth(tab); }
@@ -1679,7 +1679,7 @@
         <h4>Enlaces</h4>
         <a href="/index.html">Inicio</a>
         <a href="/dashboard.html" id="footerDashboard" style="display:none">Dashboard</a>
-        <a href="/refer-register.html">Gana dinero → 10% referidos</a>
+        <a href="/refer-register.html">Gana USDT → 10% referidos</a>
         <a href="/terminos_FINAL.html">Términos y condiciones</a>
       </div>
       <div class="footer-actions">
