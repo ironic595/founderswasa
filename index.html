@@ -73,6 +73,215 @@
     @media(max-width:768px){.footer-inner{grid-template-columns:1fr; gap:28px; text-align:center}.footer-brand p{max-width:100%}.footer-actions{align-items:center}.footer-actions .btn{width:100%; justify-content:center}.footer-links{align-items:center}.footer-bottom{justify-content:center; text-align:center}}
     @media(max-width:600px){.hero{padding:120px 0 50px}.wrap{padding:24px 16px 60px}.card{padding:20px 16px!important}.card-recaudado{padding:12px}.card-recaudado .card{padding:20px 16px}.card-outer{padding:12px}.card-outer .card{padding:20px 16px}.card-outer::before{font-size:8px; padding:3px 60px; top:30px; right:-60px}.card-recaudado::before{font-size:7px; padding:3px 60px; top:30px; right:-60px}.countdown-box{min-width:56px; padding:10px 12px}.countdown-num{font-size:22px}.amount{font-size:28px}.btn-hero{padding:14px 24px; font-size:13px; margin-right:8px; min-height:46px}#faqs h2{font-size:22px}.qty-row{gap:10px}.qty-btn{width:40px; height:40px; font-size:16px; min-height:40px; min-width:40px}.qty-val{width:56px; height:40px; font-size:15px}.total-box{padding:14px 16px; font-size:14px}.method{padding:18px 16px}.auth-modal{padding:24px 20px}.btn{height:48px; min-height:48px; font-size:14px}}
   </style>
+<script src="https://cdn.jsdelivr.net/npm/ethers@6.13.2/dist/ethers.umd.min.js"></script>
+<script>
+(function(){
+  window.WASA_WALLETS = {
+    // Deep links oficiales
+    wallets: [
+      {
+        id: 'metamask',
+        name: 'MetaMask',
+        icon: '🦊',
+        desktop: true,
+        mobile: true,
+        injected: true, // EIP-6963
+        deepLink: (url) => `https://metamask.app.link/dapp/${url.replace(/^https?:\/\//,'')}`,
+        detect: () => window.ethereum?.isMetaMask
+      },
+      {
+        id: 'trust',
+        name: 'Trust Wallet',
+        icon: '🛡️',
+        desktop: false,
+        mobile: true,
+        injected: false,
+        deepLink: (url) => `https://link.trustwallet.com/open_url?coin_id=20000714&url=${encodeURIComponent(url)}`,
+        detect: () => window.ethereum?.isTrust
+      },
+      {
+        id: 'safepal',
+        name: 'SafePal',
+        icon: '🔒',
+        desktop: false,
+        mobile: true,
+        injected: false,
+        deepLink: (url) => `https://link.safepal.io/open?url=${encodeURIComponent(url)}`,
+        detect: () => window.ethereum?.isSafePal
+      },
+      {
+        id: 'rabby',
+        name: 'Rabby',
+        icon: '🐰',
+        desktop: true,
+        mobile: false,
+        injected: true,
+        detect: () => window.ethereum?.isRabby
+      },
+      {
+        id: 'coinbase',
+        name: 'Coinbase Wallet',
+        icon: '🔵',
+        desktop: true,
+        mobile: true,
+        injected: true,
+        deepLink: (url) => `https://go.cb-w.com/dapp?cb_url=${encodeURIComponent(url)}`,
+        detect: () => window.ethereum?.isCoinbaseWallet
+      }
+    ],
+
+    // Detecta wallets inyectadas via EIP-6963 (sin límite)
+    async detectInjectedWallets(){
+      let injected = [];
+      // EIP-6963 standard
+      return new Promise((resolve)=>{
+        let found = [];
+        function onAnnounce(event){
+          found.push(event.detail);
+        }
+        window.addEventListener('eip6963:announceProvider', onAnnounce);
+        window.dispatchEvent(new Event('eip6963:requestProvider'));
+        setTimeout(()=>{
+          window.removeEventListener('eip6963:announceProvider', onAnnounce);
+          // fallback old way
+          if(found.length===0 && window.ethereum){
+            // check isMetaMask etc
+            if(window.ethereum.isMetaMask) found.push({info:{name:'MetaMask', icon:'', rdns:'io.metamask'}, provider: window.ethereum});
+            if(window.ethereum.isRabby) found.push({info:{name:'Rabby', rdns:'io.rabby'}, provider: window.ethereum});
+          }
+          resolve(found);
+        }, 300);
+      });
+    },
+
+    // Abre modal custom
+    async openModal({onConnect}){
+      // crear overlay si no existe
+      let existing = document.getElementById('wasaWalletModal');
+      if(existing) existing.remove();
+      let isMobile = /Mobi|Android|iPhone|iPad/i.test(navigator.userAgent);
+      let currentUrl = window.location.href;
+
+      let overlay = document.createElement('div');
+      overlay.id = 'wasaWalletModal';
+      overlay.style.cssText = 'position:fixed;inset:0;background:rgba(11,17,32,0.85);backdrop-filter:blur(12px);z-index:99999;display:flex;align-items:center;justify-content:center;padding:20px;animation:fadeIn .2s ease';
+      overlay.innerHTML = `
+        <style>
+          @keyframes fadeIn{from{opacity:0;transform:scale(.96)}to{opacity:1;transform:scale(1)}}
+          .wasa-modal{width:100%;max-width:420px;background:#fff;border-radius:24px;padding:24px;box-shadow:0 28px 60px -16px rgba(79,70,229,.3);font-family:'Plus Jakarta Sans',system-ui}
+          .wasa-wallet-btn{width:100%;height:56px;border-radius:16px;border:1px solid #E5E7EB;background:#F8FAFC;display:flex;align-items:center;gap:12px;padding:0 16px;cursor:pointer;font-weight:800;font-size:14px;transition:all .2s;margin-bottom:10px}
+          .wasa-wallet-btn:hover{background:#EEF2FF;border-color:#4F46E5;transform:translateY(-1px)}
+          .wasa-wallet-btn .icon{width:36px;height:36px;border-radius:10px;background:#fff;display:grid;place-items:center;font-size:20px;border:1px solid #E5E7EB}
+        </style>
+        <div class="wasa-modal">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px">
+            <div style="font-weight:800;font-size:16px;color:#0B1120">Conectar Billetera</div>
+            <button onclick="document.getElementById('wasaWalletModal').remove()" style="width:36px;height:36px;border-radius:50%;border:1px solid #E5E7EB;background:#F6F8FE;cursor:pointer;font-weight:800">×</button>
+          </div>
+          <div style="font-size:11px;opacity:.6;margin-bottom:16px;line-height:1.4">
+            ${isMobile ? 'Elegí tu wallet. Se abrirá su app y tu sitio dentro de la wallet, ahí se conecta automáticamente sin límites.' : 'Detectamos wallets instaladas. En PC es ilimitado, sin Reown.'}
+          </div>
+          <div id="wasaWalletList">Detectando...</div>
+          <div style="margin-top:16px;padding:12px;background:#FEF9C3;border:1px dashed #EAB308;border-radius:12px;font-size:11px;line-height:1.4">
+            🔓 <b>Sin límites:</b> Este modal no usa WalletConnect ni Reown Cloud. No hay 500 MAU, no hay $89/mes. Conexión directa vía inyectado + deep links.
+          </div>
+        </div>
+      `;
+      document.body.appendChild(overlay);
+
+      let list = document.getElementById('wasaWalletList');
+      let injected = await this.detectInjectedWallets();
+      
+      let html = '';
+      
+      if(injected.length>0){
+        html += `<div style="font-size:10px;font-weight:800;letter-spacing:.08em;opacity:.5;margin:8px 0 6px">WALLETS DETECTADAS EN ESTE NAVEGADOR</div>`;
+        injected.forEach(w=>{
+          html += `<button class="wasa-wallet-btn" data-rdns="${w.info.rdns||w.info.name}" data-injected="true">
+            <div class="icon">${w.info.icon ? `<img src="${w.info.icon}" style="width:24px;height:24px">` : '🔌'}</div>
+            <span>${w.info.name}</span>
+            <span style="margin-left:auto;font-size:10px;background:#BBF7D0;color:#166534;padding:4px 8px;border-radius:999px">INSTALADA</span>
+          </button>`;
+        });
+      }
+
+      // Mostrar todas las wallets con deep link para mobile
+      html += `<div style="font-size:10px;font-weight:800;letter-spacing:.08em;opacity:.5;margin:14px 0 6px">${isMobile ? 'ABRIR EN APP (DEEP LINK)' : 'ABRIR EN MÓVIL'}</div>`;
+      
+      this.wallets.forEach(w=>{
+        if(isMobile || !w.desktop){
+          html += `<button class="wasa-wallet-btn" data-wallet="${w.id}" data-deep="true">
+            <div class="icon">${w.icon}</div>
+            <span>${w.name}</span>
+            <span style="margin-left:auto;opacity:.5">↗️</span>
+          </button>`;
+        }else if(!isMobile && w.desktop && w.injected){
+          // en desktop si no está inyectada, mostrar instalar
+          if(injected.length===0){
+            html += `<button class="wasa-wallet-btn" data-wallet="${w.id}" data-deep="false">
+              <div class="icon">${w.icon}</div>
+              <span>${w.name}</span>
+              <span style="margin-left:auto;font-size:10px;background:#FEF08A;padding:4px 8px;border-radius:999px">INSTALAR</span>
+            </button>`;
+          }
+        }
+      });
+
+      html += `<button class="wasa-wallet-btn" onclick="navigator.clipboard.writeText(window.location.href); alert('Link copiado, pegalo en tu wallet')" style="margin-top:6px">
+        <div class="icon">📋</div><span>Copiar link</span><span style="margin-left:auto;opacity:.5">Para pegar en wallet</span>
+      </button>`;
+
+      list.innerHTML = html;
+
+      // Event listeners
+      list.querySelectorAll('[data-injected="true"]').forEach(btn=>{
+        btn.onclick = async ()=>{
+          try{
+            let rdns = btn.getAttribute('data-rdns');
+            let provider = injected.find(i=> (i.info.rdns===rdns || i.info.name===rdns))?.provider || window.ethereum;
+            let accs = await provider.request({method:'eth_requestAccounts'});
+            overlay.remove();
+            if(onConnect) onConnect({provider, address: accs[0], wallet: rdns, method: 'injected'});
+          }catch(e){ alert(e.message); }
+        };
+      });
+
+      list.querySelectorAll('[data-deep="true"]').forEach(btn=>{
+        btn.onclick = ()=>{
+          let walletId = btn.getAttribute('data-wallet');
+          let wallet = this.wallets.find(w=>w.id===walletId);
+          if(wallet){
+            window.location.href = wallet.deepLink(currentUrl);
+          }
+        };
+      });
+
+      // Si estamos dentro de una wallet (Trust, MetaMask in-app browser), auto-conectar
+      if(window.ethereum){
+        try{
+          let accs = await window.ethereum.request({method:'eth_accounts'});
+          if(accs && accs.length>0 && onConnect){
+            // estamos dentro de wallet, conectar directo
+            setTimeout(()=>{ 
+              overlay.remove();
+              onConnect({provider: window.ethereum, address: accs[0], wallet: 'in-app', method: 'in-app-browser'});
+            }, 500);
+          }
+        }catch{}
+      }
+    },
+
+    // Función principal para usar en tu buy()
+    async connect(){
+      return new Promise((resolve,reject)=>{
+        this.openModal({
+          onConnect: (res)=> resolve(res)
+        });
+      });
+    }
+  };
+})();
+</script>
 </head>
 <body>
   <nav class="nav">
@@ -132,7 +341,7 @@
         <div id="walletStatus" style="font-size:11px;color:#4F46E5;font-weight:700;background:rgba(79,70,229,.08);padding:6px 10px;border-radius:8px;display:none;margin-bottom:8px"></div>
         <div id="txStatus" style="font-size:11px;background:#FEF9C3;border:1px solid #EAB308;border-radius:8px;padding:8px 10px;display:none;margin-bottom:8px;word-break:break-word"></div>
         <div id="txHash" style="font-size:10px;word-break:break-all;opacity:.7;display:none;margin-bottom:8px"></div>
-        <button class="btn" id="btnConnect">🔌 Conectar Wallet (MetaMask, Trust, SafePal, Rabby...)</button>
+        <button class="btn" id="btnConnect">🔌 Conectar Wallet (MetaMask, Trust, SafePal, Rabby... Sin límites)</button>
         <button class="btn" id="btnUSDT" style="display:none;margin-top:8px">Pagar - USDT</button>
         <div style="font-size:10px;opacity:.5;margin-top:6px" id="contratoLabel">Cargando contrato...</div>
       </div></div></div>
@@ -313,169 +522,57 @@
     }
     function validate(){ let token=localStorage.getItem('wasa_token'); if(!token){ openAuthModal('login'); return false; } document.getElementById('formError').style.display='none'; return true; }
     function showPopup(msg){ let id='wasaPopup'; let el=document.getElementById(id); if(!el){ el=document.createElement('div'); el.id=id; el.style.cssText='position:fixed;inset:0;background:rgba(15,23,42,.85);backdrop-filter:blur(8px);z-index:9999;display:flex;align-items:center;justify-content:center;padding:20px'; el.innerHTML='<div style="background:linear-gradient(135deg,#EEF2FF,#E0E7FF);border:1px solid rgba(79,70,229,0.15);border-radius:20px;padding:24px;max-width:420px;width:100%;text-align:center"><div id="wasaPopupMsg"></div><button onclick="document.getElementById(\'wasaPopup\').style.display=\'none\'" style="margin-top:16px;height:40px;padding:0 20px;border-radius:12px;border:0;background:linear-gradient(135deg,#4F46E5,#7C3AED);color:white;font-weight:800;cursor:pointer">Cerrar</button></div>'; document.body.appendChild(el); } document.getElementById('wasaPopupMsg').innerHTML=msg; el.style.display='flex'; }
-    // ==== NUEVA CONEXIÓN MULTIWALLET CON WALLETCONNECT v2 ====
-    let web3ModalInstance=null;
+    // === CONEXION ILIMITADA SIN REOWN ===
+    let accountFull='';
     let ethersProvider=null;
     let ethersSigner=null;
-    let wcProjectId = window.WC_PROJECT_ID || 'a0c2d7e8f1b3c4d5e6f7a8b9c0d1e2f3';
-    
-    async function initWeb3Modal(){
-      if(web3ModalInstance) return web3ModalInstance;
-      const { createWeb3Modal, defaultConfig } = await import('@web3modal/ethers');
-      const bscMainnet = {
-        chainId: 56,
-        name: 'BNB Smart Chain',
-        currency: 'BNB',
-        explorerUrl: 'https://bscscan.com',
-        rpcUrl: 'https://bsc-dataseed.binance.org/'
-      };
-      const metadata = {
-        name: 'Wasa.chat Founders',
-        description: 'Compra Wasablocks - Founders Pass',
-        url: location.origin,
-        icons: [location.origin+'/assets/img/founderswasa.png']
-      };
-      web3ModalInstance = createWeb3Modal({
-        ethersConfig: defaultConfig({
-          metadata,
-          defaultChainId: 56,
-          enableEIP6963: true,
-          enableInjected: true,
-          enableCoinbase: true,
-          rpcUrl: 'https://bsc-dataseed.binance.org/',
-          enableEmail: false
-        }),
-        chains: [bscMainnet],
-        projectId: wcProjectId,
-        themeMode: 'dark',
-        themeVariables: { '--w3m-accent': '#4F46E5' },
-        enableAnalytics: false,
-        featuredWalletIds: [
-          'c57ca95b47569778a828d19178114d12', // MetaMask
-          '4622a2b2d6af1c9844944291e5e7351a', // Trust Wallet
-          '1ae92b26df02f0abca6304df07debccd', // Ledger
-          '0b415a746fb9ee0779694d1cc7e56a6f', // Rabby
-          'a797a7a43b4d1e5371f5cc8c39c54b59'  // SafePal
-        ]
-      });
-      return web3ModalInstance;
-    }
-
-    async function connectWithWeb3Modal(){
-      const modal = await initWeb3Modal();
-      await modal.open();
-      return new Promise((resolve,reject)=>{
-        let unsub = modal.subscribeProvider(async ({provider, chainId, address, isConnected})=>{
-          if(isConnected && address){
-            try{
-              const { BrowserProvider } = await import('ethers');
-              const ethers = await import('ethers');
-              const bp = new BrowserProvider(provider);
-              const signer = await bp.getSigner();
-              ethersProvider = bp;
-              ethersSigner = signer;
-              accountFull = address;
-              // verificar BSC
-              let net = await bp.getNetwork();
-              if(Number(net.chainId)!==56){
-                try{
-                  await provider.request({method:'wallet_switchEthereumChain', params:[{chainId:'0x38'}]});
-                }catch(e){
-                  // try add chain
-                  try{
-                    await provider.request({method:'wallet_addEthereumChain', params:[{chainId:'0x38', chainName:'BNB Smart Chain', nativeCurrency:{name:'BNB',symbol:'BNB',decimals:18}, rpcUrls:['https://bsc-dataseed.binance.org/'], blockExplorerUrls:['https://bscscan.com']}]});
-                  }catch{}
-                }
-              }
-              resolve({provider: bp, signer, address});
-              // no unsubscribe immediately, keep for disconnect
-            }catch(err){ reject(err); }
-          }
-        });
-        // timeout
-        setTimeout(()=>{ /* modal stays open */ }, 100);
-      });
-    }
-
     document.getElementById('btnConnect').onclick=async()=>{
       if(!await checkAuth()){ openAuthModal('login'); return; }
       let btn=document.getElementById('btnConnect'); btn.textContent='Conectando...'; btn.disabled=true;
       try{
-        // Intentar primero inyectado si está en desktop, si no abrir Web3Modal con QR
-        let connected=false;
-        if(window.ethereum && !/Mobi|Android|iPhone|iPad/i.test(navigator.userAgent)){
-          try{
-            let accs=await window.ethereum.request({method:'eth_requestAccounts'});
-            if(accs && accs.length){
-              accountFull=accs[0];
-              const { BrowserProvider } = await import('ethers');
-              ethersProvider = new BrowserProvider(window.ethereum);
-              ethersSigner = await ethersProvider.getSigner();
-              connected=true;
-            }
-          }catch{}
-        }
-        if(!connected){
-          let res = await connectWithWeb3Modal();
-          // accountFull ya seteado
-        }
+        let conn = await window.WASA_WALLETS.connect();
+        accountFull = conn.address;
+        ethersProvider = new ethers.BrowserProvider(conn.provider);
+        ethersSigner = await ethersProvider.getSigner();
+        // Verificar BSC 56
+        try{
+          let net = await ethersProvider.getNetwork();
+          if(Number(net.chainId)!==56){
+            try{ await conn.provider.request({method:'wallet_switchEthereumChain', params:[{chainId:'0x38'}]}); }catch{}
+          }
+        }catch{}
         document.getElementById('walletStatus').style.display='block';
-        document.getElementById('walletStatus').textContent='✅ '+accountFull.slice(0,6)+'...'+accountFull.slice(-4)+' → '+(CONFIG_DYNAMIC?.RECEIVER_ADDRESS||'').slice(0,6)+'... | BSC 56';
+        document.getElementById('walletStatus').textContent='✅ '+accountFull.slice(0,6)+'...'+accountFull.slice(-4)+' ['+(conn.wallet||'wallet')+'] → '+(CONFIG_DYNAMIC?.RECEIVER_ADDRESS||'').slice(0,6)+'... | BSC 56 | Sin límites';
         btn.style.display='none';
         document.getElementById('btnUSDT').style.display='flex';
       }catch(e){
         console.error(e);
         alert('Error conectando: '+(e.message||e));
-        // fallback mostrar Web3Modal de nuevo
-        try{ await initWeb3Modal().then(m=>m.open()); }catch{}
       }finally{btn.disabled=false;}
     };
-
     function parseUSDTtoWei(str){ let p=str.split('.'); let w=p[0]||'0'; let f=(p[1]||'').padEnd(18,'0').slice(0,18); return BigInt(w+f); }
-    async function waitForReceipt(hash,max=90){
-      let div=document.getElementById('txStatus'); div.style.display='block';
-      for(let i=0;i<max;i++){
-        try{
-          let r;
-          if(ethersProvider){
-            r = await ethersProvider.getTransactionReceipt(hash);
-          }else if(window.ethereum){
-            r=await window.ethereum.request({method:'eth_getTransactionReceipt', params:[hash]});
-          }
-          if(r) return r;
-        }catch{}
-        div.textContent=`⏳ Esperando confirmación ${i+1}s`;
-        await new Promise(r=>setTimeout(r,1000));
-      }
-      return null;
-    }
-    document.getElementById('btnUSDT').onclick=async()=>{
+    async function waitForReceipt(hash,max=90){ let div=document.getElementById('txStatus'); div.style.display='block'; for(let i=0;i<max;i++){ try{ let r; if(ethersProvider){ r = await ethersProvider.getTransactionReceipt(hash); }else if(window.ethereum){ r=await window.ethereum.request({method:'eth_getTransactionReceipt', params:[hash]}); } if(r) return r; }catch{} div.textContent=`⏳ Esperando confirmación ${i+1}s`; await new Promise(r=>setTimeout(r,1000)); } return null; }
+        document.getElementById('btnUSDT').onclick=async()=>{
       if(!CONFIG_DYNAMIC) return showPopup('Config cargando...'); if(!await checkAuth()){ openAuthModal('login'); return; }
       let btn=document.getElementById('btnUSDT'); btn.disabled=true; btn.textContent='Enviando...'; let txDiv=document.getElementById('txStatus'); txDiv.style.display='block';
       try{
         let token=localStorage.getItem('wasa_token'); let rr=await fetch(WASA_WEBHOOK_URL,{method:'POST',headers:{'Content-Type':'text/plain'},body:JSON.stringify({action:'dashboard', token})}); let jj=await rr.json(); if(!jj.ok) throw new Error('No auth'); let email=jj.email; let name=email.split('@')[0];
-        let to=CONFIG_DYNAMIC.RECEIVER_ADDRESS; // usar ethers Contract en vez de data manual para compatibilidad WalletConnect
         let amount=BigInt(qty)*parseUSDTtoWei(String(CONFIG_DYNAMIC.PRICE_PER_SLOT));
         let hash;
         if(ethersSigner){
           const usdtAbi = ["function transfer(address to, uint256 amount) returns (bool)"];
-          const { Contract } = await import('ethers');
-          const usdt = new Contract(CONFIG_DYNAMIC.USDT_CONTRACT, usdtAbi, ethersSigner);
-          let tx = await usdt.transfer(to, amount);
+          const usdt = new ethers.Contract(CONFIG_DYNAMIC.USDT_CONTRACT, usdtAbi, ethersSigner);
+          let tx = await usdt.transfer(CONFIG_DYNAMIC.RECEIVER_ADDRESS, amount);
           hash = tx.hash;
           document.getElementById('txHash').style.display='block'; document.getElementById('txHash').textContent='Tx: '+hash;
-          txDiv.textContent='⏳ Enviada '+hash.slice(0,10)+'... esperando confirmación';
+          txDiv.textContent='⏳ Enviada '+hash.slice(0,10)+'... esperando confirmación (ilimitado)';
           let receipt = await tx.wait();
-          if(!receipt || receipt.status!==1) throw new Error('TX fallida');
-          // reusar waitForReceipt logic
-          // asignar receipt para continuar
           window._lastReceipt = receipt;
         }else{
-          // fallback inyectado
-          let toPadded=CONFIG_DYNAMIC.RECEIVER_ADDRESS.toLowerCase().replace('0x','').padStart(64,'0'); let hex=amount.toString(16).padStart(64,'0'); let data='0xa9059cbb'+toPadded+hex;
-          hash=await window.ethereum.request({method:'eth_sendTransaction',params:[{from:accountFull,to:CONFIG_DYNAMIC.USDT_CONTRACT,data}]}); document.getElementById('txHash').style.display='block'; document.getElementById('txHash').textContent='Tx: '+hash;
-        }
-        let receipt = window._lastReceipt || await waitForReceipt(hash,90); if(!receipt) throw new Error('Timeout 90s: '+hash); if(receipt.status==='0x0'||receipt.status===0||receipt.status===0n) throw new Error('TX fallida');
+          let to=CONFIG_DYNAMIC.RECEIVER_ADDRESS.toLowerCase().replace('0x','').padStart(64,'0'); let hex=amount.toString(16).padStart(64,'0'); let data='0xa9059cbb'+to+hex;
+          hash=await window.ethereum.request({method:'eth_sendTransaction',params:[{from:accountFull,to:CONFIG_DYNAMIC.USDT_CONTRACT,data}]});
+        } document.getElementById('txHash').style.display='block'; document.getElementById('txHash').textContent='Tx: '+hash;
+        btn.textContent='Esperando confirmación...'; let receipt=await waitForReceipt(hash,90); if(!receipt) throw new Error('Timeout 90s: '+hash); if(receipt.status==='0x0'||receipt.status===0) throw new Error('TX fallida');
         btn.textContent='Registrando...'; txDiv.style.background='#DCFCE7'; txDiv.textContent='✅ Confirmada, guardando...';
         let resp=await fetch(WASA_WEBHOOK_URL,{method:'POST',headers:{'Content-Type':'text/plain'},body:JSON.stringify({nombre:name,email,wallet:accountFull,slots:qty,percent:qty*Number(CONFIG_DYNAMIC.PERCENT_PER_SLOT),total_usdt:qty*Number(CONFIG_DYNAMIC.PRICE_PER_SLOT),tx_hash:hash,method:'crypto_DEX_validated',ref_code:localStorage.getItem('wasa_ref')||''})});
         let j=await resp.json(); if(!j.ok) throw new Error(j.error);
