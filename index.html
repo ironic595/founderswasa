@@ -6,1351 +6,75 @@
   <title>founders.wasa.chat - Compra Wasablocks</title>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
   <link rel="icon" type="image/png" href="assets/img/founderswasa.png">
-
   <style>
-    /* --- RESET & VARIABLES (MODERN VIBE + CONTRAST) --- */
-    *, *::before, *::after {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
-
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     :root {
-      --bg-main: #F6F8FE;
-      --bg-card: #FFFFFF;
-      --bg-subtle: #EEF2FF;
-      --bg-input: #FFFFFF;
-      /* Electric Blue + Violet palette */
-      --accent-primary: #4F46E5;
-      --accent-primary-hover: #4338CA;
-      --accent-electric: #2563EB;
-      --accent-violet: #7C3AED;
-      --accent-cyan: #06B6D4;
-      --accent-gold: #EAB308;
-      --accent-green: #10B981;
-      /* Contrast colors for buy section */
-      --contrast-orange: #F59E0B;
-      --contrast-amber: #D97706;
-      --contrast-yellow: #FCD34D;
-      --text-main: #0B1120;
-      --text-muted: #6B7280;
-      --border-color: #E5E7EB;
-      --border-strong: #D1D5DB;
-      --radius-sm: 8px;
-      --radius-md: 16px;
-      --radius-lg: 24px;
-      --radius-full: 999px;
-      --shadow-sm: 0 4px 14px rgba(79, 70, 229, 0.06);
-      --shadow-md: 0 12px 40px -8px rgba(79, 70, 229, 0.12);
-      --shadow-lg: 0 28px 60px -16px rgba(79, 70, 229, 0.15);
-      --shadow-glow: 0 0 40px rgba(79, 70, 229, 0.12);
-      --shadow-warm: 0 12px 40px -8px rgba(245, 158, 11, 0.20);
-      --transition: all 0.25s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-    }
-
-    html, body {
-      overflow-x: hidden;
-      max-width: 100%;
-      min-height: 100vh;
-      background: linear-gradient(160deg, #EEF2FF 0%, #F6F8FE 40%, #FEF3C7 100%);
-      color: var(--text-main);
-      font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
-      line-height: 1.65;
-      -webkit-font-smoothing: antialiased;
-    }
-
-    /* --- NAV BAR --- */
-    .nav {
-      position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
-      height: 80px;
-      background: rgba(11, 17, 32, 0.92);
-      backdrop-filter: blur(18px);
-      -webkit-backdrop-filter: blur(18px);
-      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 0 40px;
-      z-index: 100;
-      gap: 20px;
-    }
-
-    .nav .logo {
-      color: white;
-      font-weight: 800;
-      font-size: 21px;
-      letter-spacing: -0.02em;
-      white-space: nowrap;
-      flex-shrink: 0;
-      background: linear-gradient(135deg, #FCD34D, #F59E0B);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-    }
-
-    .nav .links {
-      display: flex;
-      gap: 24px;
-      font-size: 13px;
-      font-weight: 700;
-      color: rgba(255, 255, 255, 0.6);
-      align-items: center;
-      white-space: nowrap;
-    }
-
-    .nav .links a {
-      color: inherit;
-      text-decoration: none;
-      transition: var(--transition);
-      padding: 6px 0;
-      border-bottom: 2px solid transparent;
-    }
-
-    .nav .links a:hover {
-      color: #FCD34D;
-      border-bottom-color: #FCD34D;
-    }
-
-    .nav .links a.highlight {
-      background: linear-gradient(135deg, #F59E0B, #D97706);
-      color: #0B1120 !important;
-      padding: 10px 22px;
-      border-radius: var(--radius-full);
-      font-weight: 800;
-      box-shadow: 0 4px 20px rgba(245, 158, 11, 0.35);
-      transition: var(--transition);
-      border-bottom: none;
-      -webkit-text-fill-color: #0B1120;
-    }
-
-    .nav .links a.highlight:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 8px 32px rgba(245, 158, 11, 0.50);
-      border-bottom: none;
-    }
-
-    /* --- HAMBURGER MENU BUTTON --- */
-    .hamburger {
-      display: none;
-      flex-direction: column;
-      gap: 5px;
-      background: transparent;
-      border: none;
-      cursor: pointer;
-      padding: 6px;
-      z-index: 101;
-      transition: var(--transition);
-    }
-
-    .hamburger span {
-      display: block;
-      width: 28px;
-      height: 3px;
-      background: white;
-      border-radius: 4px;
-      transition: var(--transition);
-      transform-origin: center;
-    }
-
-    .hamburger.active span:nth-child(1) {
-      transform: rotate(45deg) translate(6px, 6px);
-    }
-
-    .hamburger.active span:nth-child(2) {
-      opacity: 0;
-      transform: scaleX(0);
-    }
-
-    .hamburger.active span:nth-child(3) {
-      transform: rotate(-45deg) translate(6px, -6px);
-    }
-
-    /* --- MOBILE MENU OVERLAY --- */
-    .mobile-menu-overlay {
-      display: none;
-      position: fixed;
-      inset: 0;
-      background: rgba(11, 17, 32, 0.95);
-      backdrop-filter: blur(20px);
-      -webkit-backdrop-filter: blur(20px);
-      z-index: 99;
-      padding: 100px 32px 40px;
-      flex-direction: column;
-      align-items: center;
-      gap: 20px;
-      animation: fadeIn 0.3s ease;
-    }
-
-    .mobile-menu-overlay.open {
-      display: flex;
-    }
-
-    @keyframes fadeIn {
-      from { opacity: 0; transform: scale(0.96); }
-      to { opacity: 1; transform: scale(1); }
-    }
-
-    .mobile-menu-overlay a {
-      color: rgba(255, 255, 255, 0.8);
-      text-decoration: none;
-      font-size: 20px;
-      font-weight: 700;
-      padding: 12px 0;
-      width: 100%;
-      text-align: center;
-      border-bottom: 2px solid rgba(255, 255, 255, 0.05);
-      transition: var(--transition);
-    }
-
-    .mobile-menu-overlay a:hover {
-      color: #FCD34D;
-    }
-
-    .mobile-menu-overlay a.highlight {
-      background: linear-gradient(135deg, #F59E0B, #D97706);
-      color: #0B1120 !important;
-      padding: 14px 22px;
-      border-radius: var(--radius-full);
-      font-weight: 800;
-      box-shadow: 0 4px 20px rgba(245, 158, 11, 0.35);
-      border-bottom: none;
-      -webkit-text-fill-color: #0B1120;
-    }
-
-    .mobile-menu-overlay .user-badge-mobile {
-      background: linear-gradient(135deg, var(--accent-electric), var(--accent-violet));
-      color: white;
-      padding: 8px 24px;
-      border-radius: var(--radius-full);
-      font-size: 14px;
-      font-weight: 800;
-      display: none;
-    }
-
-    .mobile-menu-overlay .nav-actions {
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
-      width: 100%;
-      align-items: center;
-      margin-top: 12px;
-    }
-
-    .mobile-menu-overlay .nav-actions .lang-btn-mobile {
-      background: rgba(255, 255, 255, 0.08);
-      border: 1px solid rgba(255, 255, 255, 0.15);
-      color: rgba(255, 255, 255, 0.6);
-      padding: 10px 24px;
-      border-radius: var(--radius-full);
-      font-size: 13px;
-      font-weight: 800;
-      cursor: pointer;
-      transition: var(--transition);
-    }
-
-    .mobile-menu-overlay .nav-actions .lang-btn-mobile:hover {
-      background: rgba(255, 255, 255, 0.15);
-      color: white;
-    }
-
-    @media (max-width: 768px) {
-      .nav { padding: 0 20px; height: 68px; }
-      .nav .links { display: none; }
-      .hamburger { display: flex; }
-      .nav .logo { font-size: 17px; }
-      .nav #langBtn { display: none; }
-      .mobile-menu-overlay .user-badge-mobile { display: inline-block; }
-    }
-
-    @media (min-width: 769px) {
-      .mobile-menu-overlay { display: none !important; }
-    }
-
-    /* --- HERO SECTION --- */
-    .hero {
-      width: 100%;
-      background: radial-gradient(ellipse at 50% 0%, rgba(79, 70, 229, 0.15) 0%, transparent 70%), radial-gradient(ellipse at 100% 80%, rgba(245, 158, 11, 0.10) 0%, transparent 60%), linear-gradient(180deg, #21418f 0%, #332891 40%, #5e80e1 100%);
-      padding: 150px 0 70px;
-      display: flex;
-      justify-content: center;
-      position: relative;
-      overflow: hidden;
-    }
-
-    .hero::before {
-      content: '';
-      position: absolute;
-      top: -50%;
-      left: -50%;
-      width: 200%;
-      height: 200%;
-      background: radial-gradient(circle at 30% 50%, rgba(79, 70, 229, 0.05) 0%, transparent 60%);
-      animation: heroGlow 20s ease-in-out infinite alternate;
-    }
-
-    @keyframes heroGlow {
-      0% { transform: translate(0, 0) scale(1); }
-      100% { transform: translate(5%, 5%) scale(1.1); }
-    }
-
-    .hero-inner {
-      max-width: 920px;
-      width: 100%;
-      padding: 0 28px;
-      display: grid;
-      grid-template-columns: 1.3fr 0.7fr;
-      gap: 48px;
-      align-items: center;
-      position: relative;
-      z-index: 1;
-    }
-
-    .hero-text .badge {
-      background: rgba(252, 211, 77, 0.15);
-      border: 1px solid rgba(252, 211, 77, 0.25);
-      color: #FCD34D;
-      border-radius: var(--radius-full);
-      padding: 8px 18px;
-      font-size: 12px;
-      font-weight: 800;
-      letter-spacing: 0.04em;
-      text-transform: uppercase;
-      margin-bottom: 24px;
-      display: inline-block;
-    }
-
-    .hero-text h1 {
-      font-size: 42px;
-      font-weight: 800;
-      line-height: 1.2;
-      letter-spacing: -0.03em;
-      color: white;
-      margin-bottom: 28px;
-    }
-
-    .hero-text h1 span {
-      background: linear-gradient(135deg, #FCD34D, #F59E0B);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-    }
-
-    .btn-hero {
-      padding: 16px 32px;
-      border-radius: var(--radius-md);
-      margin-top: 16px;
-      margin-right: 14px;
-      font-weight: 800;
-      font-size: 14px;
-      cursor: pointer;
-      border: 0;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 10px;
-      transition: var(--transition);
-      min-height: 54px;
-    }
-
-    .btn-hero-primary {
-      background: linear-gradient(135deg, #FCD34D, #F59E0B);
-      color: #0B1120;
-      box-shadow: 0 8px 28px rgba(245, 158, 11, 0.40);
-      /* ANIMACIÓN DE RESPIRACIÓN (AGREGAR Y ACHICAR) */
-      animation: pulseBreath 2.2s ease-in-out infinite;
-      transform-origin: center;
-    }
-
-    .btn-hero-primary:hover {
-      transform: translateY(-3px) scale(1.02);
-      box-shadow: 0 14px 44px rgba(245, 158, 11, 0.55);
-      animation-play-state: paused;
-    }
-
-    /* KEYFRAMES: Efecto "respiración" similar al botón de SafePal */
-    @keyframes pulseBreath {
-      0% {
-        transform: scale(1);
-        box-shadow: 0 8px 28px rgba(245, 158, 11, 0.40);
-      }
-      50% {
-        transform: scale(1.06);
-        box-shadow: 0 12px 40px rgba(245, 158, 11, 0.60), 0 0 60px rgba(245, 158, 11, 0.15);
-      }
-      100% {
-        transform: scale(1);
-        box-shadow: 0 8px 28px rgba(245, 158, 11, 0.40);
-      }
-    }
-
-    .btn-hero-secondary {
-      background: rgba(255, 255, 255, 0.10);
-      color: white;
-      border: 1px solid rgba(255, 255, 255, 0.15);
-      backdrop-filter: blur(8px);
-    }
-
-    .btn-hero-secondary:hover {
-      background: rgba(255, 255, 255, 0.20);
-      transform: translateY(-3px);
-    }
-
-    /* Countdown */
-    .countdown {
-      display: flex;
-      gap: 14px;
-      margin: 28px 0 16px;
-    }
-
-    .countdown-box {
-      background: rgba(255, 255, 255, 0.06);
-      border: 1px solid rgba(255, 255, 255, 0.10);
-      color: white;
-      border-radius: var(--radius-md);
-      padding: 14px 18px;
-      min-width: 72px;
-      text-align: center;
-      backdrop-filter: blur(8px);
-    }
-
-    .countdown-num {
-      font-size: 28px;
-      font-weight: 800;
-      background: linear-gradient(135deg, #FCD34D, #F59E0B);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-    }
-
-    .countdown-label {
-      font-size: 10px;
-      font-weight: 700;
-      color: rgba(255, 255, 255, 0.5);
-      text-transform: uppercase;
-      letter-spacing: 0.04em;
-    }
-
-    /* Certificate Float Image */
-    .hero-cert-wrap {
-      display: flex;
-      justify-content: center;
-    }
-
-    .hero-cert {
-      width: 260px;
-      transform: rotate(3deg);
-      filter: drop-shadow(0 24px 44px rgba(245, 158, 11, 0.25)) drop-shadow(0 0 60px rgba(79, 70, 229, 0.15));
-      animation: float 5s ease-in-out infinite;
-    }
-
-    @keyframes float {
-      0%, 100% { transform: rotate(3deg) translateY(0); }
-      50% { transform: rotate(3deg) translateY(-14px); }
-    }
-
-    @media (max-width: 760px) {
-      .hero-inner { grid-template-columns: 1fr; text-align: center; }
-      .countdown { justify-content: center; }
-      .hero-cert-wrap { order: -1; }
-      .hero-cert { width: 200px; }
-      .hero-text h1 { font-size: 30px; }
-    }
-
-    /* --- MAIN CONTAINER & CARDS --- */
-    .wrap {
-      max-width: 920px;
-      margin: 0 auto;
-      padding: 40px 28px 80px;
-    }
-
-    /* --- CARD RECAUDADO CON ESTILO HERO (AZUL/VIOLETA) --- */
-    .card-recaudado {
-      background: linear-gradient(145deg, #EEF2FF 0%, #E0E7FF 100%);
-      border: 1px solid rgba(79, 70, 229, 0.15);
-      border-radius: 28px;
-      padding: 20px;
-      margin-bottom: 28px;
-      box-shadow: 0 12px 40px -8px rgba(79, 70, 229, 0.12), 0 0 0 1px rgba(79, 70, 229, 0.05) inset;
-      position: relative;
-      overflow: hidden;
-      transition: var(--transition);
-    }
-
-    .card-recaudado::before {
-      content: '📊 VENTA ANTICIPADA';
-      position: absolute;
-      top: 60px;
-      right: -115px;
-      background: linear-gradient(135deg, #4F46E5, #7C3AED);
-      color: white;
-      font-size: 14px;
-      font-weight: 800;
-      padding: 4px 120px;
-      transform: rotate(43deg);
-      letter-spacing: 0.06em;
-      box-shadow: 0 2px 12px rgba(79, 70, 229, 0.30);
-      z-index: 2;
-      border-radius: 4px;
-    }
-
-    .card-recaudado .card {
-      background: rgba(255, 255, 255, 0.70);
-      backdrop-filter: blur(12px);
-      -webkit-backdrop-filter: blur(12px);
-      border: 1px solid rgba(255, 255, 255, 0.50);
-      box-shadow: 0 4px 16px rgba(79, 70, 229, 0.04);
-      margin: 0;
-      padding: 28px 32px;
-      border-radius: var(--radius-lg);
-      transition: var(--transition);
-    }
-
-    .card-recaudado .card .eyebrow {
-      color: #4F46E5;
-      letter-spacing: 0.08em;
-    }
-
-    .card-recaudado .card .title {
-      color: #1E1B4B;
-      font-size: 20px;
-    }
-
-    .card-recaudado .card .amount {
-      color: #1E1B4B;
-      font-size: 32px;
-    }
-
-    .card-recaudado .card .amount span {
-      background: linear-gradient(135deg, #4F46E5, #7C3AED);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-    }
-
-    .card-recaudado .card .live {
-      background: linear-gradient(135deg, rgba(79, 70, 229, 0.08), rgba(124, 58, 237, 0.05));
-      border: 1px solid rgba(79, 70, 229, 0.15);
-      color: #4F46E5;
-    }
-
-    .card-recaudado .progress-bar {
-      background: #E0E7FF;
-      border-color: rgba(79, 70, 229, 0.15);
-    }
-
-    .card-recaudado .progress-fill {
-      background: linear-gradient(90deg, #4F46E5, #7C3AED, #4F46E5);
-      background-size: 200% 100%;
-      animation: shimmerProgress 2.5s ease-in-out infinite;
-    }
-
-    /* --- CARD COMPRAS CON ESTILO HERO (AZUL/VIOLETA) --- */
-    .card-outer {
-      background: linear-gradient(145deg, #EEF2FF 0%, #E0E7FF 100%);
-      border: 1px solid rgba(79, 70, 229, 0.15);
-      border-radius: 28px;
-      padding: 20px;
-      margin-bottom: 32px;
-      box-shadow: 0 12px 40px -8px rgba(79, 70, 229, 0.12), 0 0 0 1px rgba(79, 70, 229, 0.05) inset;
-      position: relative;
-      overflow: hidden;
-      transition: var(--transition);
-    }
-
-    .card-outer::before {
-      content: '🔥 OFERTA LIMITADA';
-      position: absolute;
-      top: 60px;
-      right: -110px;
-      background: linear-gradient(135deg, #dc9c26, #d69010);
-      color: white;
-      font-size: 14px;
-      font-weight: 800;
-      padding: 4px 120px;
-      transform: rotate(43deg);
-      letter-spacing: 0.08em;
-      box-shadow: 0 7px 12px rgba(220, 38, 38, 0.30);
-      z-index: 2;
-      border-radius: 2px;
-    }
-
-    .card-outer .card {
-      background: rgba(255, 255, 255, 0.70);
-      backdrop-filter: blur(12px);
-      -webkit-backdrop-filter: blur(12px);
-      border: 1px solid rgba(255, 255, 255, 0.50);
-      box-shadow: 0 4px 16px rgba(79, 70, 229, 0.04);
-      margin: 0;
-      padding: 28px 32px;
-      border-radius: var(--radius-lg);
-      transition: var(--transition);
-    }
-
-    .card-outer .card .eyebrow {
-      color: #4F46E5;
-      letter-spacing: 0.08em;
-    }
-
-    .card-outer .card .title {
-      color: #1E1B4B;
-      font-size: 26px;
-    }
-
-    .card-outer .qty-btn {
-      background: #EEF2FF;
-      border-color: rgba(79, 70, 229, 0.2);
-      color: #1E1B4B;
-      min-height: 48px;
-      min-width: 48px;
-      transition: var(--transition);
-    }
-
-    .card-outer .qty-btn:hover {
-      background: linear-gradient(135deg, #4F46E5, #7C3AED);
-      color: white;
-      border-color: #4F46E5;
-      transform: scale(1.05);
-    }
-
-    .card-outer .range::-webkit-slider-thumb {
-      background: linear-gradient(135deg, #4F46E5, #7C3AED);
-      box-shadow: 0 2px 12px rgba(79, 70, 229, 0.40);
-      border: 3px solid white;
-    }
-
-    .card-outer .total-box {
-      background: #EEF2FF;
-      border-color: rgba(79, 70, 229, 0.15);
-      color: #1E1B4B;
-      border-radius: var(--radius-md);
-      padding: 16px 20px;
-    }
-
-    .card-outer .total-box b {
-      background: linear-gradient(135deg, #4F46E5, #7C3AED);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-      font-size: 18px;
-    }
-
-    .card-outer .buyback {
-      background: linear-gradient(135deg, #EEF2FF, #E0E7FF);
-      border-color: rgba(79, 70, 229, 0.15);
-      color: #4338CA;
-      border-radius: var(--radius-md);
-      padding: 14px 18px;
-    }
-
-    .card-outer .method {
-      background: #F8FAFC;
-      border-color: rgba(79, 70, 229, 0.10);
-      border-radius: var(--radius-md);
-      padding: 20px 22px;
-    }
-
-    .card-outer .method .tag-validated {
-      background: linear-gradient(135deg, #10B981, #059669);
-      color: white;
-    }
-
-    /* --- ANIMACIONES --- */
-    @keyframes shimmerProgress {
-      0% {
-        background-position: 200% 0;
-      }
-      100% {
-        background-position: -200% 0;
-      }
-    }
-
-    .progress-fill {
-      height: 100%;
-      border-radius: var(--radius-full);
-      transition: width 1.2s cubic-bezier(0.22, 1, 0.36, 1);
-      background: linear-gradient(90deg, #4F46E5, #7C3AED, #4F46E5);
-      background-size: 200% 100%;
-      animation: shimmerProgress 2.5s ease-in-out infinite;
-    }
-
-    /* --- BOTONES UNIFICADOS --- */
-    .btn {
-      width: 100%;
-      height: 54px;
-      border-radius: var(--radius-md);
-      border: 0;
-      font-weight: 800;
-      font-size: 15px;
-      cursor: pointer;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 10px;
-      transition: var(--transition);
-      min-height: 54px;
-      padding: 0 24px;
-      text-decoration: none;
-      letter-spacing: 0.01em;
-    }
-
-    .btn-primary {
-      background: linear-gradient(135deg, #4F46E5, #7C3AED);
-      color: white;
-      box-shadow: 0 4px 20px rgba(79, 70, 229, 0.25);
-    }
-
-    .btn-primary:hover {
-      box-shadow: 0 8px 32px rgba(79, 70, 229, 0.35);
-      transform: translateY(-2px);
-    }
-
-    .btn-primary:disabled {
-      opacity: 0.5;
-      cursor: not-allowed;
-      transform: none;
-    }
-
-    .btn-warm {
-      background: linear-gradient(135deg, #F59E0B, #D97706);
-      color: #0B1120;
-      box-shadow: 0 4px 20px rgba(245, 158, 11, 0.30);
-    }
-
-    .btn-warm:hover {
-      box-shadow: 0 8px 32px rgba(245, 158, 11, 0.45);
-      transform: translateY(-2px);
-    }
-
-    .btn-warm:disabled {
-      opacity: 0.5;
-      cursor: not-allowed;
-      transform: none;
-    }
-
-    .btn-outline {
-      background: transparent;
-      color: white;
-      border: 2px solid rgba(255, 255, 255, 0.20);
-      backdrop-filter: blur(8px);
-    }
-
-    .btn-outline:hover {
-      background: rgba(255, 255, 255, 0.10);
-      border-color: rgba(255, 255, 255, 0.40);
-      transform: translateY(-2px);
-    }
-
-    .btn-sm {
-      height: 42px;
-      min-height: 42px;
-      font-size: 13px;
-      padding: 0 18px;
-    }
-
-    .btn-full {
-      width: 100%;
-    }
-
-    .btn-icon {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-    }
-
-    /* Botones específicos de las cards */
-    .card-outer .btn {
-      background: linear-gradient(135deg, #4F46E5, #7C3AED);
-      color: white;
-      box-shadow: 0 4px 20px rgba(79, 70, 229, 0.25);
-      border: none;
-    }
-
-    .card-outer .btn:hover {
-      box-shadow: 0 8px 32px rgba(79, 70, 229, 0.35);
-      transform: translateY(-2px);
-    }
-
-    .card-outer .btn:disabled {
-      opacity: 0.5;
-      cursor: not-allowed;
-      transform: none;
-    }
-
-    #btnConnect:not(.btn-warm):not(.btn-primary) {
-      background: linear-gradient(135deg, #4F46E5, #7C3AED);
-      color: white;
-      box-shadow: 0 4px 20px rgba(79, 70, 229, 0.25);
-    }
-
-    #btnConnect:not(.btn-warm):not(.btn-primary):hover {
-      box-shadow: 0 8px 32px rgba(79, 70, 229, 0.35);
-      transform: translateY(-2px);
-    }
-
-    .eyebrow {
-      font-size: 12px;
-      font-weight: 800;
-      letter-spacing: 0.12em;
-      color: #4F46E5;
-      text-transform: uppercase;
-      margin-bottom: 8px;
-    }
-
-    .title {
-      font-size: 24px;
-      font-weight: 800;
-      color: #1E1B4B;
-      letter-spacing: -0.02em;
-    }
-
-    .amount {
-      font-size: 36px;
-      font-weight: 800;
-      margin-top: 14px;
-      color: #1E1B4B;
-    }
-
-    .amount span {
-      background: linear-gradient(135deg, #4F46E5, #7C3AED);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-    }
-
-    .live {
-      background: linear-gradient(135deg, rgba(79, 70, 229, 0.08), rgba(124, 58, 237, 0.05));
-      border: 1px solid rgba(79, 70, 229, 0.15);
-      color: #4F46E5;
-      font-size: 11px;
-      font-weight: 800;
-      padding: 4px 14px;
-      border-radius: var(--radius-full);
-      margin-left: 12px;
-      vertical-align: middle;
-    }
-
-    .progress-bar {
-      height: 14px;
-      background: #E0E7FF;
-      border-radius: var(--radius-full);
-      overflow: hidden;
-      border: 1px solid rgba(79, 70, 229, 0.10);
-      margin-top: 16px;
-    }
-
-    /* Range & Selector Controls */
-    .qty-row {
-      display: flex;
-      align-items: center;
-      gap: 16px;
-      margin-top: 20px;
-    }
-
-    .qty-btn {
-      width: 48px;
-      height: 48px;
-      border-radius: var(--radius-md);
-      border: 1px solid rgba(79, 70, 229, 0.15);
-      background: #EEF2FF;
-      color: #1E1B4B;
-      font-size: 20px;
-      font-weight: 800;
-      cursor: pointer;
-      transition: var(--transition);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      min-height: 48px;
-      min-width: 48px;
-    }
-
-    .qty-btn:hover {
-      background: linear-gradient(135deg, #4F46E5, #7C3AED);
-      color: white;
-      border-color: #4F46E5;
-      transform: scale(1.05);
-    }
-
-    .qty-val {
-      width: 72px;
-      height: 48px;
-      border-radius: var(--radius-md);
-      border: 1px solid rgba(79, 70, 229, 0.15);
-      background: white;
-      color: #1E1B4B;
-      display: grid;
-      place-items: center;
-      font-weight: 800;
-      font-size: 18px;
-      box-shadow: var(--shadow-sm);
-    }
-
-    .range {
-      width: 100%;
-      margin-top: 20px;
-      appearance: none;
-      height: 8px;
-      border-radius: var(--radius-full);
-      background: #E0E7FF;
-      outline: none;
-    }
-
-    .range::-webkit-slider-thumb {
-      appearance: none;
-      width: 24px;
-      height: 24px;
-      border-radius: 50%;
-      background: linear-gradient(135deg, #4F46E5, #7C3AED);
-      border: 3px solid #FFFFFF;
-      cursor: pointer;
-      box-shadow: 0 2px 12px rgba(79, 70, 229, 0.40);
-      transition: var(--transition);
-    }
-
-    .range::-webkit-slider-thumb:hover {
-      transform: scale(1.1);
-    }
-
-    .total-box {
-      margin-top: 20px;
-      background: #EEF2FF;
-      border: 1px solid rgba(79, 70, 229, 0.10);
-      border-radius: var(--radius-md);
-      padding: 16px 20px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      font-size: 16px;
-      color: #1E1B4B;
-    }
-
-    .buyback {
-      background: linear-gradient(135deg, #EEF2FF, #E0E7FF);
-      border: 1px dashed rgba(79, 70, 229, 0.20);
-      color: #4338CA;
-      border-radius: var(--radius-md);
-      padding: 14px 18px;
-      margin-top: 18px;
-      font-size: 13px;
-      line-height: 1.5;
-    }
-
-    .method {
-      margin-top: 24px;
-      background: #F8FAFC;
-      border: 1px solid rgba(79, 70, 229, 0.08);
-      border-radius: var(--radius-lg);
-      padding: 20px 22px;
-    }
-
-    .tag {
-      font-size: 11px;
-      font-weight: 800;
-      padding: 5px 14px;
-      border-radius: var(--radius-full);
-    }
-
-    .tag-validated {
-      background: linear-gradient(135deg, #10B981, #059669);
-      color: white;
-    }
-
-    /* Inputs & Form Buttons */
-    .input {
-      width: 100%;
-      height: 52px;
-      border-radius: var(--radius-md);
-      border: 1px solid var(--border-color);
-      padding: 0 18px;
-      margin-bottom: 14px;
-      background: var(--bg-input);
-      color: var(--text-main);
-      font-size: 15px;
-      outline: none;
-      transition: var(--transition);
-    }
-
-    .input:focus {
-      border-color: var(--accent-primary);
-      box-shadow: 0 0 0 4px rgba(79, 70, 229, 0.10);
-    }
-
-    .ref-banner {
-      display: none;
-      background: linear-gradient(135deg, #EEF2FF, #E0E7FF);
-      border: 1px solid rgba(79, 70, 229, 0.15);
-      color: #4338CA;
-      border-radius: var(--radius-md);
-      padding: 14px 20px;
-      font-size: 13px;
-      margin-bottom: 20px;
-      line-height: 1.5;
-    }
-
-    .alert {
-      padding: 14px;
-      border-radius: var(--radius-md);
-      font-size: 13px;
-      display: none;
-      margin-top: 12px;
-      line-height: 1.5;
-    }
-
-    .alert-ok {
-      background: #DCFCE7;
-      border: 1px solid #86EFAC;
-      color: #166534;
-    }
-
-    .alert-err {
-      background: #FEE2E2;
-      border: 1px solid #FCA5A5;
-      color: #991B1B;
-    }
-
-    .user-badge {
-      background: linear-gradient(135deg, #4F46E5, #7C3AED);
-      color: white;
-      padding: 6px 18px;
-      border-radius: var(--radius-full);
-      font-size: 12px;
-      font-weight: 800;
-      display: none;
-    }
-
-    /* --- FAQ ACCORDION CON ESTILO HERO (AZUL/VIOLETA) --- */
-    #faqs {
-      margin-top: 56px;
-    }
-
-    #faqs h2 {
-      text-align: center;
-      font-size: 28px;
-      font-weight: 800;
-      letter-spacing: -0.02em;
-      margin-bottom: 28px;
-      background: linear-gradient(135deg, #4F46E5, #7C3AED);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-    }
-
-    .faq {
-      background: rgba(255, 255, 255, 0.70);
-      backdrop-filter: blur(12px);
-      -webkit-backdrop-filter: blur(12px);
-      border: 1px solid rgba(79, 70, 229, 0.10);
-      border-radius: var(--radius-md);
-      overflow: hidden;
-      margin-bottom: 14px;
-      box-shadow: 0 4px 14px rgba(79, 70, 229, 0.04);
-      transition: var(--transition);
-    }
-
-    .faq.open {
-      border-color: rgba(79, 70, 229, 0.25);
-      box-shadow: 0 8px 24px rgba(79, 70, 229, 0.08);
-    }
-
-    .faq-q {
-      width: 100%;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 20px 24px;
-      border: 0;
-      background: transparent;
-      color: #1E1B4B;
-      text-align: left;
-      font-weight: 700;
-      font-size: 16px;
-      cursor: pointer;
-      transition: var(--transition);
-    }
-
-    .faq-q:hover {
-      color: #4F46E5;
-    }
-
-    .faq-q span:last-child {
-      font-size: 22px;
-      font-weight: 300;
-      color: #4F46E5;
-      transition: var(--transition);
-    }
-
-    .faq.open .faq-q span:last-child {
-      transform: rotate(45deg);
-    }
-
-    .faq-a {
-      padding: 0 24px 24px;
-      font-size: 18px;
-      color: #4B5563;
-      display: none;
-      line-height: 1.7;
-      border-top: 1px solid rgba(79, 70, 229, 0.06);
-    }
-
-    .faq.open .faq-a {
-      display: block;
-      padding-top: 16px;
-    }
-
-    /* --- AUTH MODAL --- */
-    .auth-modal-overlay {
-      position: fixed;
-      inset: 0;
-      background: rgba(11, 17, 32, 0.75);
-      backdrop-filter: blur(12px);
-      -webkit-backdrop-filter: blur(12px);
-      z-index: 200;
-      display: none;
-      align-items: center;
-      justify-content: center;
-      padding: 24px;
-    }
-
-    .auth-modal-overlay.show {
-      display: flex;
-    }
-
-    .auth-modal {
-      width: 100%;
-      max-width: 440px;
-      background: var(--bg-card);
-      border: 1px solid var(--border-color);
-      border-radius: 28px;
-      padding: 32px 36px;
-      box-shadow: var(--shadow-lg);
-      animation: pop 0.25s ease-out;
-    }
-
-    @keyframes pop {
-      from { transform: scale(0.96) translateY(12px); opacity: 0; }
-      to { transform: scale(1) translateY(0); opacity: 1; }
-    }
-
-    .auth-modal-head {
-      display: flex;
-      justify-content: space-between;
-      align-items: flex-start;
-      margin-bottom: 16px;
-    }
-
-    .auth-modal-close {
-      width: 36px;
-      height: 36px;
-      border-radius: 50%;
-      border: 1px solid var(--border-color);
-      background: var(--bg-subtle);
-      color: var(--text-muted);
-      cursor: pointer;
-      font-weight: 800;
-      font-size: 18px;
-      display: grid;
-      place-items: center;
-      transition: var(--transition);
-    }
-
-    .auth-modal-close:hover {
-      color: var(--text-main);
-      background: #E2E8F0;
-      transform: rotate(90deg);
-    }
-
-    .auth-tabs {
-      display: flex;
-      gap: 8px;
-      background: var(--bg-subtle);
-      padding: 6px;
-      border-radius: var(--radius-full);
-      margin: 20px 0;
-    }
-
-    .auth-tab {
-      flex: 1;
-      height: 42px;
-      border-radius: var(--radius-full);
-      border: 0;
-      background: transparent;
-      color: var(--text-muted);
-      font-weight: 800;
-      cursor: pointer;
-      font-size: 12px;
-      transition: var(--transition);
-    }
-
-    .auth-tab.active {
-      background: linear-gradient(135deg, #4F46E5, #7C3AED);
-      color: white;
-      box-shadow: 0 4px 16px rgba(79, 70, 229, 0.25);
-    }
-
-    /* --- FOOTER MODERNIZADO Y REORDENADO --- */
-    footer {
-      background: #0B1120;
-      color: white;
-      padding: 56px 5% 32px;
-      margin-top: 60px;
-      border-top: 1px solid rgba(252, 211, 77, 0.08);
-    }
-
-    .footer-inner {
-      max-width: 1000px;
-      margin: 0 auto;
-      display: grid;
-      grid-template-columns: 2fr 1fr 1fr;
-      gap: 40px;
-      align-items: start;
-    }
-
-    .footer-brand {
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
-    }
-
-    .footer-brand .logo {
-      font-weight: 800;
-      font-size: 20px;
-      background: linear-gradient(135deg, #FCD34D, #F59E0B);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-    }
-
-    .footer-brand p {
-      font-size: 13px;
-      opacity: 0.6;
-      line-height: 1.6;
-      max-width: 320px;
-    }
-
-    .footer-links {
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-    }
-
-    .footer-links h4 {
-      font-size: 13px;
-      font-weight: 800;
-      color: rgba(255, 255, 255, 0.8);
-      text-transform: uppercase;
-      letter-spacing: 0.08em;
-      margin-bottom: 4px;
-    }
-
-    .footer-links a {
-      color: rgba(255, 255, 255, 0.5);
-      text-decoration: none;
-      font-size: 13px;
-      transition: var(--transition);
-    }
-
-    .footer-links a:hover {
-      color: #FCD34D;
-      transform: translateX(4px);
-    }
-
-    .footer-actions {
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
-      align-items: flex-start;
-    }
-
-    .footer-actions h4 {
-      font-size: 13px;
-      font-weight: 800;
-      color: rgba(255, 255, 255, 0.8);
-      text-transform: uppercase;
-      letter-spacing: 0.08em;
-      margin-bottom: 4px;
-    }
-
-    .footer-actions .btn {
-      min-height: 44px;
-      height: 44px;
-      font-size: 13px;
-      padding: 0 22px;
-      width: auto;
-    }
-
-    .footer-bottom {
-      max-width: 1000px;
-      margin: 32px auto 0;
-      padding-top: 20px;
-      border-top: 1px solid rgba(255, 255, 255, 0.06);
-      display: flex;
-      justify-content: space-between;
-      flex-wrap: wrap;
-      gap: 12px;
-      font-size: 11px;
-      opacity: 0.4;
-    }
-
-    @media (max-width: 768px) {
-      .footer-inner {
-        grid-template-columns: 1fr;
-        gap: 28px;
-        text-align: center;
-      }
-      .footer-brand p {
-        max-width: 100%;
-      }
-      .footer-actions {
-        align-items: center;
-      }
-      .footer-actions .btn {
-        width: 100%;
-        justify-content: center;
-      }
-      .footer-links {
-        align-items: center;
-      }
-      .footer-bottom {
-        justify-content: center;
-        text-align: center;
-      }
-    }
-
-    @media (max-width: 600px) {
-      .hero { padding: 120px 0 50px; }
-      .wrap { padding: 24px 16px 60px; }
-      .card { padding: 20px 16px !important; }
-      .card-recaudado { padding: 12px; }
-      .card-recaudado .card { padding: 20px 16px; }
-      .card-outer { padding: 12px; }
-      .card-outer .card { padding: 20px 16px; }
-      .card-outer::before { font-size: 8px; padding: 3px 60px; top: 30px; right: -60px; }
-      .card-recaudado::before { font-size: 7px; padding: 3px 60px; top: 30px; right: -60px; }
-      .countdown-box { min-width: 56px; padding: 10px 12px; }
-      .countdown-num { font-size: 22px; }
-      .amount { font-size: 28px; }
-      .btn-hero { padding: 14px 24px; font-size: 13px; margin-right: 8px; min-height: 46px; }
-      #faqs h2 { font-size: 22px; }
-      .qty-row { gap: 10px; }
-      .qty-btn { width: 40px; height: 40px; font-size: 16px; min-height: 40px; min-width: 40px; }
-      .qty-val { width: 56px; height: 40px; font-size: 15px; }
-      .total-box { padding: 14px 16px; font-size: 14px; }
-      .method { padding: 18px 16px; }
-      .auth-modal { padding: 24px 20px; }
-      .btn { height: 48px; min-height: 48px; font-size: 14px; }
-    }
-    .txcount{
-      font-size:19px;
-      color:rgba(234, 255, 43,0.8);
-      font-weight:800;
-    }
+      --bg-main: #F6F8FE; --bg-card: #FFFFFF; --bg-subtle: #EEF2FF; --bg-input: #FFFFFF;
+      --accent-primary: #4F46E5; --accent-primary-hover: #4338CA; --accent-electric: #2563EB; --accent-violet: #7C3AED; --accent-cyan: #06B6D4; --accent-gold: #EAB308; --accent-green: #10B981;
+      --contrast-orange: #F59E0B; --contrast-amber: #D97706; --contrast-yellow: #FCD34D;
+      --text-main: #0B1120; --text-muted: #6B7280; --border-color: #E5E7EB; --border-strong: #D1D5DB;
+      --radius-sm: 8px; --radius-md: 16px; --radius-lg: 24px; --radius-full: 999px;
+      --shadow-sm: 0 4px 14px rgba(79,70,229,0.06); --shadow-md: 0 12px 40px -8px rgba(79,70,229,0.12); --shadow-lg: 0 28px 60px -16px rgba(79,70,229,0.15);
+      --transition: all 0.25s cubic-bezier(0.25,0.46,0.45,0.94);
+    }
+    html, body { overflow-x:hidden; max-width:100%; min-height:100vh; background: linear-gradient(160deg,#EEF2FF 0%,#F6F8FE 40%,#FEF3C7 100%); color: var(--text-main); font-family: 'Plus Jakarta Sans', system-ui; line-height:1.65; -webkit-font-smoothing: antialiased; }
+    .nav { position:fixed; top:0; left:0; right:0; height:80px; background: rgba(11,17,32,0.92); backdrop-filter: blur(18px); border-bottom:1px solid rgba(255,255,255,0.08); display:flex; align-items:center; justify-content:space-between; padding:0 40px; z-index:100; gap:20px; }
+    .nav .logo { color:white; font-weight:800; font-size:21px; letter-spacing:-0.02em; white-space:nowrap; flex-shrink:0; background: linear-gradient(135deg,#FCD34D,#F59E0B); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; }
+    .nav .links { display:flex; gap:24px; font-size:13px; font-weight:700; color: rgba(255,255,255,0.6); align-items:center; white-space:nowrap; }
+    .nav .links a { color:inherit; text-decoration:none; transition:var(--transition); padding:6px 0; border-bottom:2px solid transparent; }
+    .nav .links a:hover { color:#FCD34D; border-bottom-color:#FCD34D; }
+    .nav .links a.highlight { background: linear-gradient(135deg,#F59E0B,#D97706); color:#0B1120!important; padding:10px 22px; border-radius:999px; font-weight:800; box-shadow:0 4px 20px rgba(245,158,11,0.35); border-bottom:none; -webkit-text-fill-color:#0B1120; }
+    .hamburger { display:none; flex-direction:column; gap:5px; background:transparent; border:none; cursor:pointer; padding:6px; z-index:101; }
+    .hamburger span { display:block; width:28px; height:3px; background:white; border-radius:4px; transition:var(--transition); transform-origin:center; }
+    .hamburger.active span:nth-child(1){transform:rotate(45deg) translate(6px,6px)} .hamburger.active span:nth-child(2){opacity:0;transform:scaleX(0)} .hamburger.active span:nth-child(3){transform:rotate(-45deg) translate(6px,-6px)}
+    .mobile-menu-overlay { display:none; position:fixed; inset:0; background:rgba(11,17,32,0.95); backdrop-filter:blur(20px); z-index:99; padding:100px 32px 40px; flex-direction:column; align-items:center; gap:20px; }
+    .mobile-menu-overlay.open{display:flex} .mobile-menu-overlay a{color:rgba(255,255,255,0.8); text-decoration:none; font-size:20px; font-weight:700; padding:12px 0; width:100%; text-align:center; border-bottom:2px solid rgba(255,255,255,0.05)} .mobile-menu-overlay a.highlight{background:linear-gradient(135deg,#F59E0B,#D97706); color:#0B1120!important; padding:14px 22px; border-radius:999px; font-weight:800}
+    @media(max-width:768px){.nav{padding:0 20px;height:68px}.nav .links{display:none}.hamburger{display:flex}.nav .logo{font-size:17px}.nav #langBtn{display:none}}
+    .hero { width:100%; background: radial-gradient(ellipse at 50% 0%, rgba(79,70,229,0.15) 0%, transparent 70%), linear-gradient(180deg,#21418f 0%,#332891 40%,#5e80e1 100%); padding:150px 0 70px; display:flex; justify-content:center; position:relative; overflow:hidden; }
+    .hero-inner { max-width:920px; width:100%; padding:0 28px; display:grid; grid-template-columns:1.3fr 0.7fr; gap:48px; align-items:center; position:relative; z-index:1; }
+    .hero-text .badge { background:rgba(252,211,77,0.15); border:1px solid rgba(252,211,77,0.25); color:#FCD34D; border-radius:999px; padding:8px 18px; font-size:12px; font-weight:800; letter-spacing:0.04em; text-transform:uppercase; margin-bottom:24px; display:inline-block; }
+    .hero-text h1 { font-size:42px; font-weight:800; line-height:1.2; letter-spacing:-0.03em; color:white; margin-bottom:28px; }
+    .hero-text h1 span{background:linear-gradient(135deg,#FCD34D,#F59E0B);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+    .btn-hero { padding:16px 32px; border-radius:16px; margin-top:16px; margin-right:14px; font-weight:800; font-size:14px; cursor:pointer; border:0; display:inline-flex; align-items:center; justify-content:center; gap:10px; transition:all 0.25s; min-height:54px; }
+    .btn-hero-primary { background:linear-gradient(135deg,#FCD34D,#F59E0B); color:#0B1120; box-shadow:0 8px 28px rgba(245,158,11,0.40); animation:pulseBreath 2.2s ease-in-out infinite; transform-origin:center; }
+    .btn-hero-primary:hover{transform:translateY(-3px) scale(1.02); box-shadow:0 14px 44px rgba(245,158,11,0.55); animation-play-state:paused}
+    @keyframes pulseBreath{0%{transform:scale(1);box-shadow:0 8px 28px rgba(245,158,11,0.40)}50%{transform:scale(1.06);box-shadow:0 12px 40px rgba(245,158,11,0.60),0 0 60px rgba(245,158,11,0.15)}100%{transform:scale(1);box-shadow:0 8px 28px rgba(245,158,11,0.40)}}
+    .btn-hero-secondary{background:rgba(255,255,255,0.10); color:white; border:1px solid rgba(255,255,255,0.15); backdrop-filter:blur(8px)} .btn-hero-secondary:hover{background:rgba(255,255,255,0.20); transform:translateY(-3px)}
+    .countdown{display:flex; gap:14px; margin:28px 0 16px} .countdown-box{background:rgba(255,255,255,0.06); border:1px solid rgba(255,255,255,0.10); color:white; border-radius:16px; padding:14px 18px; min-width:72px; text-align:center; backdrop-filter:blur(8px)} .countdown-num{font-size:28px; font-weight:800; background:linear-gradient(135deg,#FCD34D,#F59E0B); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text} .countdown-label{font-size:10px; font-weight:700; color:rgba(255,255,255,0.5); text-transform:uppercase}
+    .hero-cert-wrap{display:flex; justify-content:center} .hero-cert{width:260px; transform:rotate(3deg); filter:drop-shadow(0 24px 44px rgba(245,158,11,0.25)); animation:float 5s ease-in-out infinite} @keyframes float{0%,100%{transform:rotate(3deg) translateY(0)}50%{transform:rotate(3deg) translateY(-14px)}}
+    @media(max-width:760px){.hero-inner{grid-template-columns:1fr; text-align:center}.countdown{justify-content:center}.hero-cert-wrap{order:-1}.hero-cert{width:200px}.hero-text h1{font-size:30px}}
+    .wrap{max-width:920px; margin:0 auto; padding:40px 28px 80px}
+    .card-recaudado{background:linear-gradient(145deg,#EEF2FF 0%,#E0E7FF 100%); border:1px solid rgba(79,70,229,0.15); border-radius:28px; padding:20px; margin-bottom:28px; box-shadow:0 12px 40px -8px rgba(79,70,229,0.12); position:relative; overflow:hidden}
+    .card-recaudado::before{content:'📊 VENTA ANTICIPADA'; position:absolute; top:60px; right:-115px; background:linear-gradient(135deg,#4F46E5,#7C3AED); color:white; font-size:14px; font-weight:800; padding:4px 120px; transform:rotate(43deg); letter-spacing:0.06em; box-shadow:0 2px 12px rgba(79,70,229,0.30); z-index:2; border-radius:4px}
+    .card-recaudado .card{background:rgba(255,255,255,0.70); backdrop-filter:blur(12px); border:1px solid rgba(255,255,255,0.50); margin:0; padding:28px 32px; border-radius:24px}
+    .card-outer{background:linear-gradient(145deg,#EEF2FF 0%,#E0E7FF 100%); border:1px solid rgba(79,70,229,0.15); border-radius:28px; padding:20px; margin-bottom:32px; box-shadow:0 12px 40px -8px rgba(79,70,229,0.12); position:relative; overflow:hidden}
+    .card-outer::before{content:'🔥 OFERTA LIMITADA'; position:absolute; top:60px; right:-110px; background:linear-gradient(135deg,#dc9c26,#d69010); color:white; font-size:14px; font-weight:800; padding:4px 120px; transform:rotate(43deg); letter-spacing:0.08em; box-shadow:0 7px 12px rgba(220,38,38,0.30); z-index:2; border-radius:2px}
+    .card-outer .card{background:rgba(255,255,255,0.70); backdrop-filter:blur(12px); border:1px solid rgba(255,255,255,0.50); margin:0; padding:28px 32px; border-radius:24px}
+    .eyebrow{font-size:12px; font-weight:800; letter-spacing:0.12em; color:#4F46E5; text-transform:uppercase; margin-bottom:8px} .title{font-size:24px; font-weight:800; color:#1E1B4B; letter-spacing:-0.02em} .amount{font-size:36px; font-weight:800; margin-top:14px; color:#1E1B4B} .amount span{background:linear-gradient(135deg,#4F46E5,#7C3AED); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text}
+    .live{background:linear-gradient(135deg,rgba(79,70,229,0.08),rgba(124,58,237,0.05)); border:1px solid rgba(79,70,229,0.15); color:#4F46E5; font-size:11px; font-weight:800; padding:4px 14px; border-radius:999px; margin-left:12px}
+    .progress-bar{height:14px; background:#E0E7FF; border-radius:999px; overflow:hidden; border:1px solid rgba(79,70,229,0.10); margin-top:16px} .progress-fill{height:100%; border-radius:999px; transition:width 1.2s cubic-bezier(0.22,1,0.36,1); background:linear-gradient(90deg,#4F46E5,#7C3AED,#4F46E5); background-size:200% 100%; animation:shimmerProgress 2.5s ease-in-out infinite}
+    @keyframes shimmerProgress{0%{background-position:200% 0}100%{background-position:-200% 0}}
+    .btn{width:100%; height:54px; border-radius:16px; border:0; font-weight:800; font-size:15px; cursor:pointer; display:inline-flex; align-items:center; justify-content:center; gap:10px; transition:all 0.25s; min-height:54px; padding:0 24px; text-decoration:none; letter-spacing:0.01em} .btn-primary{background:linear-gradient(135deg,#4F46E5,#7C3AED); color:white; box-shadow:0 4px 20px rgba(79,70,229,0.25)} .btn-primary:hover{box-shadow:0 8px 32px rgba(79,70,229,0.35); transform:translateY(-2px)} .btn-warm{background:linear-gradient(135deg,#F59E0B,#D97706); color:#0B1120; box-shadow:0 4px 20px rgba(245,158,11,0.30)} .btn-outline{background:transparent; color:white; border:2px solid rgba(255,255,255,0.20); backdrop-filter:blur(8px)} .btn-sm{height:42px; min-height:42px; font-size:13px; padding:0 18px}
+    .qty-row{display:flex; align-items:center; gap:16px; margin-top:20px} .qty-btn{width:48px; height:48px; border-radius:16px; border:1px solid rgba(79,70,229,0.15); background:#EEF2FF; color:#1E1B4B; font-size:20px; font-weight:800; cursor:pointer; transition:all 0.25s; display:flex; align-items:center; justify-content:center; min-height:48px; min-width:48px} .qty-btn:hover{background:linear-gradient(135deg,#4F46E5,#7C3AED); color:white; border-color:#4F46E5; transform:scale(1.05)} .qty-val{width:72px; height:48px; border-radius:16px; border:1px solid rgba(79,70,229,0.15); background:white; color:#1E1B4B; display:grid; place-items:center; font-weight:800; font-size:18px; box-shadow:0 4px 14px rgba(79,70,229,0.06)}
+    .range{width:100%; margin-top:20px; appearance:none; height:8px; border-radius:999px; background:#E0E7FF; outline:none} .range::-webkit-slider-thumb{appearance:none; width:24px; height:24px; border-radius:50%; background:linear-gradient(135deg,#4F46E5,#7C3AED); border:3px solid #FFFFFF; cursor:pointer; box-shadow:0 2px 12px rgba(79,70,229,0.40)}
+    .total-box{margin-top:20px; background:#EEF2FF; border:1px solid rgba(79,70,229,0.10); border-radius:16px; padding:16px 20px; display:flex; justify-content:space-between; align-items:center; font-size:16px; color:#1E1B4B} .total-box b{background:linear-gradient(135deg,#4F46E5,#7C3AED); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; font-size:18px}
+    .buyback{background:linear-gradient(135deg,#EEF2FF,#E0E7FF); border:1px dashed rgba(79,70,229,0.20); color:#4338CA; border-radius:16px; padding:14px 18px; margin-top:18px; font-size:13px; line-height:1.5}
+    .method{margin-top:24px; background:#F8FAFC; border:1px solid rgba(79,70,229,0.08); border-radius:24px; padding:20px 22px} .tag{font-size:11px; font-weight:800; padding:5px 14px; border-radius:999px} .tag-validated{background:linear-gradient(135deg,#10B981,#059669); color:white}
+    .input{width:100%; height:52px; border-radius:16px; border:1px solid #E5E7EB; padding:0 18px; margin-bottom:14px; background:white; color:#0B1120; font-size:15px; outline:none; transition:all 0.25s} .input:focus{border-color:#4F46E5; box-shadow:0 0 0 4px rgba(79,70,229,0.10)}
+    .ref-banner{display:none; background:linear-gradient(135deg,#EEF2FF,#E0E7FF); border:1px solid rgba(79,70,229,0.15); color:#4338CA; border-radius:16px; padding:14px 20px; font-size:13px; margin-bottom:20px}
+    .alert{padding:14px; border-radius:16px; font-size:13px; display:none; margin-top:12px; line-height:1.5} .alert-ok{background:#DCFCE7; border:1px solid #86EFAC; color:#166534} .alert-err{background:#FEE2E2; border:1px solid #FCA5A5; color:#991B1B}
+    .user-badge{background:linear-gradient(135deg,#4F46E5,#7C3AED); color:white; padding:6px 18px; border-radius:999px; font-size:12px; font-weight:800; display:none}
+    #faqs{margin-top:56px} #faqs h2{text-align:center; font-size:28px; font-weight:800; letter-spacing:-0.02em; margin-bottom:28px; background:linear-gradient(135deg,#4F46E5,#7C3AED); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text}
+    .faq{background:rgba(255,255,255,0.70); backdrop-filter:blur(12px); border:1px solid rgba(79,70,229,0.10); border-radius:16px; overflow:hidden; margin-bottom:14px; box-shadow:0 4px 14px rgba(79,70,229,0.04); transition:all 0.25s} .faq.open{border-color:rgba(79,70,229,0.25); box-shadow:0 8px 24px rgba(79,70,229,0.08)} .faq-q{width:100%; display:flex; justify-content:space-between; align-items:center; padding:20px 24px; border:0; background:transparent; color:#1E1B4B; text-align:left; font-weight:700; font-size:16px; cursor:pointer} .faq-a{padding:0 24px 24px; font-size:18px; color:#4B5563; display:none; line-height:1.7; border-top:1px solid rgba(79,70,229,0.06)} .faq.open .faq-a{display:block; padding-top:16px}
+    .auth-modal-overlay{position:fixed; inset:0; background:rgba(11,17,32,0.75); backdrop-filter:blur(12px); z-index:200; display:none; align-items:center; justify-content:center; padding:24px} .auth-modal-overlay.show{display:flex} .auth-modal{width:100%; max-width:440px; background:white; border:1px solid #E5E7EB; border-radius:28px; padding:32px 36px; box-shadow:0 28px 60px -16px rgba(79,70,229,0.15); animation:pop 0.25s ease-out} @keyframes pop{from{transform:scale(0.96) translateY(12px);opacity:0}to{transform:scale(1) translateY(0);opacity:1}}
+    .auth-modal-head{display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:16px} .auth-modal-close{width:36px; height:36px; border-radius:50%; border:1px solid #E5E7EB; background:#EEF2FF; color:#6B7280; cursor:pointer; font-weight:800; font-size:18px; display:grid; place-items:center}
+    .auth-tabs{display:flex; gap:8px; background:#EEF2FF; padding:6px; border-radius:999px; margin:20px 0} .auth-tab{flex:1; height:42px; border-radius:999px; border:0; background:transparent; color:#6B7280; font-weight:800; cursor:pointer; font-size:12px; transition:all 0.25s} .auth-tab.active{background:linear-gradient(135deg,#4F46E5,#7C3AED); color:white; box-shadow:0 4px 16px rgba(79,70,229,0.25)}
+    footer{background:#0B1120; color:white; padding:56px 5% 32px; margin-top:60px; border-top:1px solid rgba(252,211,77,0.08)} .footer-inner{max-width:1000px; margin:0 auto; display:grid; grid-template-columns:2fr 1fr 1fr; gap:40px; align-items:start} .footer-brand .logo{font-weight:800; font-size:20px; background:linear-gradient(135deg,#FCD34D,#F59E0B); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text} .footer-brand p{font-size:13px; opacity:0.6; line-height:1.6; max-width:320px} .footer-links{display:flex; flex-direction:column; gap:10px} .footer-links h4{font-size:13px; font-weight:800; color:rgba(255,255,255,0.8); text-transform:uppercase; letter-spacing:0.08em; margin-bottom:4px} .footer-links a{color:rgba(255,255,255,0.5); text-decoration:none; font-size:13px} .footer-links a:hover{color:#FCD34D; transform:translateX(4px)} .footer-actions{display:flex; flex-direction:column; gap:12px; align-items:flex-start} .footer-actions h4{font-size:13px; font-weight:800; color:rgba(255,255,255,0.8); text-transform:uppercase; letter-spacing:0.08em; margin-bottom:4px} .footer-bottom{max-width:1000px; margin:32px auto 0; padding-top:20px; border-top:1px solid rgba(255,255,255,0.06); display:flex; justify-content:space-between; flex-wrap:wrap; gap:12px; font-size:11px; opacity:0.4}
+    @media(max-width:768px){.footer-inner{grid-template-columns:1fr; gap:28px; text-align:center}.footer-brand p{max-width:100%}.footer-actions{align-items:center}.footer-actions .btn{width:100%; justify-content:center}.footer-links{align-items:center}.footer-bottom{justify-content:center; text-align:center}}
+    @media(max-width:600px){.hero{padding:120px 0 50px}.wrap{padding:24px 16px 60px}.card{padding:20px 16px!important}.card-recaudado{padding:12px}.card-recaudado .card{padding:20px 16px}.card-outer{padding:12px}.card-outer .card{padding:20px 16px}.card-outer::before{font-size:8px; padding:3px 60px; top:30px; right:-60px}.card-recaudado::before{font-size:7px; padding:3px 60px; top:30px; right:-60px}.countdown-box{min-width:56px; padding:10px 12px}.countdown-num{font-size:22px}.amount{font-size:28px}.btn-hero{padding:14px 24px; font-size:13px; margin-right:8px; min-height:46px}#faqs h2{font-size:22px}.qty-row{gap:10px}.qty-btn{width:40px; height:40px; font-size:16px; min-height:40px; min-width:40px}.qty-val{width:56px; height:40px; font-size:15px}.total-box{padding:14px 16px; font-size:14px}.method{padding:18px 16px}.auth-modal{padding:24px 20px}.btn{height:48px; min-height:48px; font-size:14px}}
   </style>
 </head>
 <body>
-  <!-- NAV BAR CON HAMBURGER -->
   <nav class="nav">
     <div class="logo">founders.wasa.chat</div>
     <div style="display:flex;align-items:center;gap:10px">
@@ -1362,81 +86,56 @@
       </div>
       <span id="navUser" class="user-badge"></span>
       <button id="langBtn" class="btn btn-sm btn-outline" style="width:auto;height:36px;min-height:36px;padding:0 14px;font-size:11px;">EN</button>
-      <button class="hamburger" id="hamburgerBtn" aria-label="Toggle menu">
-        <span></span>
-        <span></span>
-        <span></span>
-      </button>
+      <button class="hamburger" id="hamburgerBtn" aria-label="Toggle menu"><span></span><span></span><span></span></button>
     </div>
   </nav>
-
-  <!-- MOBILE MENU OVERLAY -->
   <div class="mobile-menu-overlay" id="mobileMenu">
     <a href="/index.html">HOME</a>
     <a href="/dashboard.html" id="mobileDashboard" style="display:none">DASHBOARD</a>
     <a href="#" onclick="goReferidos();return false;" class="highlight">Gana USDT aquí</a>
     <a href="#" id="mobileLogin" onclick="openAuthModal('login');return false;">LOGIN</a>
     <span id="mobileUserBadge" class="user-badge-mobile" style="display:none"></span>
-    <div class="nav-actions">
-      <button class="lang-btn-mobile">EN</button> 
-    </div>
+    <div class="nav-actions"><button class="lang-btn-mobile">EN</button></div>
   </div>
-
   <div class="hero"><div class="hero-inner">
     <div class="hero-text"><div class="badge">● Preventa con 20% OFF hasta el 21 de Septiembre ●</div><h1>COMPRA EL <span>FOUNDERS PASS</span> Y RECIBE USDT EN COMISIONES TODOS LOS MESES</h1>
-      <div class="txcount">OFERTA POR TIEMPO LIMITADO</div>
+      <div>Tiempo restante</div>
       <div id="countdown" class="countdown">
         <div class="countdown-box"><div class="countdown-num" id="cdD">00</div><div class="countdown-label">Días</div></div>
         <div class="countdown-box"><div class="countdown-num" id="cdH">00</div><div class="countdown-label">Horas</div></div>
         <div class="countdown-box"><div class="countdown-num" id="cdM">00</div><div class="countdown-label">Min</div></div>
         <div class="countdown-box"><div class="countdown-num" id="cdS">00</div><div class="countdown-label">Seg</div></div>
       </div>
-      <!-- BOTÓN CON ANIMACIÓN DE RESPIRACIÓN (pulseBreath) -->
       <button type="button" class="btn-hero btn-hero-primary" onclick="bajarSeccion()">COMPRAR WASA BLOCK</button>
       <button type="button" class="btn-hero btn-hero-secondary" onclick="goReferidos()">GANA 10% REFIRIENDO</button>
     </div>
     <div class="hero-cert-wrap"><img class="hero-cert" src="assets/img/founderpass.png" alt="cert"></div>
   </div></div>
-
   <div class="wrap">
     <div id="refBanner" class="ref-banner">🎉 Entraste con link de referido <b id="refCodeShow"></b> - tu referidor cobra 10% automático.</div>
-
-    <!-- CARD RECAUDADO CON ESTILO HERO -->
     <div class="card-recaudado">
       <div class="card">
         <div class="eyebrow">• VENTA EN TIEMPO REAL</div>
-        <div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap">
-          <div class="title">VENDIDOS DESDE 1/09/2026</div>
-          <span class="live">EN VIVO</span>
-        </div>
+        <div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap"><div class="title">VENDIDOS DESDE 1/09/2026</div><span class="live">EN VIVO</span></div>
         <div style="font-size:10px;opacity:.6" id="sheetLive">Conectando...</div>
         <div class="amount">Compraron <span id="recaudado">-</span> <span style="font-size:11px;opacity:.6">• <span id="progressPct">-</span></span></div>
-        <div class="progress-bar">
-          <div class="progress-fill" id="progressFill" style="width:0%"></div>
-        </div>
-        <div style="display:flex;justify-content:space-between;margin-top:6px;font-size:11px;flex-wrap:wrap;gap:4px">
-          <span><b id="sold">-</b> vendidos</span>
-          <span>Quedan <b id="left">-</b> WASABLOCKS</span>
-        </div>
+        <div class="progress-bar"><div class="progress-fill" id="progressFill" style="width:0%"></div></div>
+        <div style="display:flex;justify-content:space-between;margin-top:6px;font-size:11px;flex-wrap:wrap;gap:4px"><span><b id="sold">-</b> vendidos</span><span>Quedan <b id="left">-</b> WASABLOCKS</span></div>
         <div style="font-size:11px;opacity:.6;margin-top:8px">Hasta agotar stock (50 wasablocks) o hasta el 21/09/2026. 1 WASABLOCK = 0.5% comisiones mensuales.</div>
       </div>
     </div>
-
-    <!-- BUY SECTION CON ESTILO HERO -->
     <div class="card-outer" id="buyCard"><div class="card"><div class="eyebrow">🔥 PARTICIPACIÓN FOUNDER PERPETUA</div><div class="title">COMPRA EL FOUNDER PASS</div><div style="font-size:11px;opacity:.6;margin-top:4px"><span id="costoLabel">Cargando precio...</span> <span id="dispVal">-</span> disponibles</div>
       <div class="qty-row"><button class="qty-btn" id="btnMinus">−</button><div class="qty-val" id="qtyVal">1</div><button class="qty-btn" id="btnPlus">+</button><div style="margin-left:auto;font-size:11px"><span id="qtySlots">1 wasa block</span> = <b id="qtyPercent">0.5%</b> perpetuo</div></div><input type="range" min="1" max="10" value="1" class="range" id="range"><div class="total-box"><span style="font-size:16px;">Total a pagar:</span><b>$<span id="total">-</span> USDT</b></div>
-      
       <div class="method"><div style="display:flex;justify-content:space-between;margin-bottom:8px"><b style="font-size:13px">Pago On-Chain Validado</b><span class="tag tag-validated">VALIDADO</span></div>
         <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px"><div style="width:32px;height:32px;border-radius:50%;background:#26A17B;display:grid;place-items:center;color:white;font-weight:800;font-size:10px">₮</div><div><div style="font-weight:700;font-size:13px">USDT en BNB Chain</div><div style="font-size:10px;opacity:.6">BEP-20 • Confirmación on-chain antes de registrar</div></div></div>
         <div id="formError" style="font-size:11px;color:#DC2626;background:#FEF2F2;border:1px solid #FECACA;border-radius:8px;padding:6px 10px;display:none;margin-bottom:8px">⚠ Logueate para comprar</div>
         <div id="walletStatus" style="font-size:11px;color:#4F46E5;font-weight:700;background:rgba(79,70,229,.08);padding:6px 10px;border-radius:8px;display:none;margin-bottom:8px"></div>
         <div id="txStatus" style="font-size:11px;background:#FEF9C3;border:1px solid #EAB308;border-radius:8px;padding:8px 10px;display:none;margin-bottom:8px;word-break:break-word"></div>
         <div id="txHash" style="font-size:10px;word-break:break-all;opacity:.7;display:none;margin-bottom:8px"></div>
-        <button class="btn" id="btnConnect">🔌 Conectar Wallet (Trust Wallet / MetaMask / Rabby)</button>
+        <button class="btn" id="btnConnect">🔌 Conectar Wallet (MetaMask, Trust, SafePal, Rabby...)</button>
         <button class="btn" id="btnUSDT" style="display:none;margin-top:8px">Pagar - USDT</button>
         <div style="font-size:10px;opacity:.5;margin-top:6px" id="contratoLabel">Cargando contrato...</div>
       </div></div></div>
-
     <div id="faqs"><h2>Preguntas frecuentes</h2>
       <div class="faq open"><button class="faq-q" onclick="this.parentElement.classList.toggle('open')"><span>¿Qué es el Founder Pass de wasa.chat?</span><span>+</span></button><div class="faq-a">Es un pase que otorga beneficios como descuentos exclusivos y recibir comisiones mensuales en USDT a partir de Abril de 2027.</div></div>
       <div class="faq"><button class="faq-q" onclick="this.parentElement.classList.toggle('open')"><span>¿Qué es un WASABLOCK?</span><span>+</span></button><div class="faq-a">Es un porcentaje que representa la cantidad de comisiones a recibir mensualmente. 1 WASABLOCK = 0.5% del total de ventas.</div></div>
@@ -1448,7 +147,6 @@
       <div class="faq"><button class="faq-q" onclick="this.parentElement.classList.toggle('open')"><span>¿Cuánto USDT recibiré?</span><span>+</span></button><div class="faq-a">Recibirás un porcentaje sobre cada venta. Cada WASABLOCK representa un 0,5% sobre el total de ventas. Cuantos más WASABLOCKS tengas mayor es el porcentaje que recibirás.</div></div>
       <div class="faq"><button class="faq-q" onclick="this.parentElement.classList.toggle('open')"><span>¿Dónde puedo ver los Términos y Condiciones?</span><span>+</span></button><div class="faq-a">Ingresa a https://founders.wasa.chat/terminos.html</div></div>
     </div></div>
-
   <div id="authModal" class="auth-modal-overlay" onclick="if(event.target===this) closeAuthModal()">
     <div class="auth-modal">
       <div class="auth-modal-head">
@@ -1497,20 +195,15 @@
       </div>
     </div>
   </div>
-
   <script>
-    // --- HAMBURGER MENU TOGGLE ---
     const hamburgerBtn = document.getElementById('hamburgerBtn');
     const mobileMenu = document.getElementById('mobileMenu');
-
     hamburgerBtn.addEventListener('click', function(e) {
       e.stopPropagation();
       this.classList.toggle('active');
       mobileMenu.classList.toggle('open');
       document.body.style.overflow = mobileMenu.classList.contains('open') ? 'hidden' : '';
     });
-
-    // Close menu when clicking a link
     mobileMenu.querySelectorAll('a, button').forEach(el => {
       el.addEventListener('click', function() {
         hamburgerBtn.classList.remove('active');
@@ -1518,8 +211,6 @@
         document.body.style.overflow = '';
       });
     });
-
-    // Close menu on ESC key
     document.addEventListener('keydown', function(e) {
       if (e.key === 'Escape' && mobileMenu.classList.contains('open')) {
         hamburgerBtn.classList.remove('active');
@@ -1527,7 +218,6 @@
         document.body.style.overflow = '';
       }
     });
-
     const WASA_WORKER_URL = window.WASA_WORKER_URL || 'https://founderswasablocks.javimsites.workers.dev';
     const WASA_WEBHOOK_URL = WASA_WORKER_URL;
   </script>
@@ -1545,7 +235,6 @@
     function formatPrice(v){ return Number(v).toFixed(4); }
     function update(){ if(!CONFIG_DYNAMIC) return; qtyVal.textContent=qty; range.value=qty; let t=qty*Number(CONFIG_DYNAMIC.PRICE_PER_SLOT); totalEl.textContent=formatPrice(t); document.getElementById('btnUSDT').textContent=`Pagar ${formatPrice(t)} USDT`; document.getElementById('qtyPercent').textContent=(qty*Number(CONFIG_DYNAMIC.PERCENT_PER_SLOT)).toFixed(1)+'%'; document.getElementById('qtySlots').textContent=qty===1?'1 wasablock':qty+' wasablocks'; }
     document.getElementById('btnMinus').onclick=()=>{if(qty>1){qty--;update();}}; document.getElementById('btnPlus').onclick=()=>{let max=parseInt(range.max)||50; if(qty<max){qty++;update();}}; range.oninput=e=>{qty=parseInt(e.target.value);update();};
-
     function openAuthModal(tab='login'){ document.getElementById('authModal').classList.add('show'); switchAuth(tab); }
     function closeAuthModal(){ document.getElementById('authModal').classList.remove('show'); }
     function switchAuth(t){
@@ -1624,47 +313,179 @@
     }
     function validate(){ let token=localStorage.getItem('wasa_token'); if(!token){ openAuthModal('login'); return false; } document.getElementById('formError').style.display='none'; return true; }
     function showPopup(msg){ let id='wasaPopup'; let el=document.getElementById(id); if(!el){ el=document.createElement('div'); el.id=id; el.style.cssText='position:fixed;inset:0;background:rgba(15,23,42,.85);backdrop-filter:blur(8px);z-index:9999;display:flex;align-items:center;justify-content:center;padding:20px'; el.innerHTML='<div style="background:linear-gradient(135deg,#EEF2FF,#E0E7FF);border:1px solid rgba(79,70,229,0.15);border-radius:20px;padding:24px;max-width:420px;width:100%;text-align:center"><div id="wasaPopupMsg"></div><button onclick="document.getElementById(\'wasaPopup\').style.display=\'none\'" style="margin-top:16px;height:40px;padding:0 20px;border-radius:12px;border:0;background:linear-gradient(135deg,#4F46E5,#7C3AED);color:white;font-weight:800;cursor:pointer">Cerrar</button></div>'; document.body.appendChild(el); } document.getElementById('wasaPopupMsg').innerHTML=msg; el.style.display='flex'; }
+    // ==== NUEVA CONEXIÓN MULTIWALLET CON WALLETCONNECT v2 ====
+    let web3ModalInstance=null;
+    let ethersProvider=null;
+    let ethersSigner=null;
+    let wcProjectId = window.WC_PROJECT_ID || 'a0c2d7e8f1b3c4d5e6f7a8b9c0d1e2f3';
+    
+    async function initWeb3Modal(){
+      if(web3ModalInstance) return web3ModalInstance;
+      const { createWeb3Modal, defaultConfig } = await import('@web3modal/ethers');
+      const bscMainnet = {
+        chainId: 56,
+        name: 'BNB Smart Chain',
+        currency: 'BNB',
+        explorerUrl: 'https://bscscan.com',
+        rpcUrl: 'https://bsc-dataseed.binance.org/'
+      };
+      const metadata = {
+        name: 'Wasa.chat Founders',
+        description: 'Compra Wasablocks - Founders Pass',
+        url: location.origin,
+        icons: [location.origin+'/assets/img/founderswasa.png']
+      };
+      web3ModalInstance = createWeb3Modal({
+        ethersConfig: defaultConfig({
+          metadata,
+          defaultChainId: 56,
+          enableEIP6963: true,
+          enableInjected: true,
+          enableCoinbase: true,
+          rpcUrl: 'https://bsc-dataseed.binance.org/',
+          enableEmail: false
+        }),
+        chains: [bscMainnet],
+        projectId: wcProjectId,
+        themeMode: 'dark',
+        themeVariables: { '--w3m-accent': '#4F46E5' },
+        enableAnalytics: false,
+        featuredWalletIds: [
+          'c57ca95b47569778a828d19178114d12', // MetaMask
+          '4622a2b2d6af1c9844944291e5e7351a', // Trust Wallet
+          '1ae92b26df02f0abca6304df07debccd', // Ledger
+          '0b415a746fb9ee0779694d1cc7e56a6f', // Rabby
+          'a797a7a43b4d1e5371f5cc8c39c54b59'  // SafePal
+        ]
+      });
+      return web3ModalInstance;
+    }
+
+    async function connectWithWeb3Modal(){
+      const modal = await initWeb3Modal();
+      await modal.open();
+      return new Promise((resolve,reject)=>{
+        let unsub = modal.subscribeProvider(async ({provider, chainId, address, isConnected})=>{
+          if(isConnected && address){
+            try{
+              const { BrowserProvider } = await import('ethers');
+              const ethers = await import('ethers');
+              const bp = new BrowserProvider(provider);
+              const signer = await bp.getSigner();
+              ethersProvider = bp;
+              ethersSigner = signer;
+              accountFull = address;
+              // verificar BSC
+              let net = await bp.getNetwork();
+              if(Number(net.chainId)!==56){
+                try{
+                  await provider.request({method:'wallet_switchEthereumChain', params:[{chainId:'0x38'}]});
+                }catch(e){
+                  // try add chain
+                  try{
+                    await provider.request({method:'wallet_addEthereumChain', params:[{chainId:'0x38', chainName:'BNB Smart Chain', nativeCurrency:{name:'BNB',symbol:'BNB',decimals:18}, rpcUrls:['https://bsc-dataseed.binance.org/'], blockExplorerUrls:['https://bscscan.com']}]});
+                  }catch{}
+                }
+              }
+              resolve({provider: bp, signer, address});
+              // no unsubscribe immediately, keep for disconnect
+            }catch(err){ reject(err); }
+          }
+        });
+        // timeout
+        setTimeout(()=>{ /* modal stays open */ }, 100);
+      });
+    }
+
     document.getElementById('btnConnect').onclick=async()=>{
       if(!await checkAuth()){ openAuthModal('login'); return; }
-      if(!window.ethereum){alert('Install MetaMask');return;}
       let btn=document.getElementById('btnConnect'); btn.textContent='Conectando...'; btn.disabled=true;
-      try{ let accs=await window.ethereum.request({method:'eth_requestAccounts'}); accountFull=accs[0]; document.getElementById('walletStatus').style.display='block'; document.getElementById('walletStatus').textContent='✅ '+accountFull.slice(0,6)+'...'+accountFull.slice(-4)+' → '+CONFIG_DYNAMIC.RECEIVER_ADDRESS.slice(0,6)+'...'; btn.style.display='none'; document.getElementById('btnUSDT').style.display='flex'; }catch(e){alert(e.message);}finally{btn.disabled=false;}
+      try{
+        // Intentar primero inyectado si está en desktop, si no abrir Web3Modal con QR
+        let connected=false;
+        if(window.ethereum && !/Mobi|Android|iPhone|iPad/i.test(navigator.userAgent)){
+          try{
+            let accs=await window.ethereum.request({method:'eth_requestAccounts'});
+            if(accs && accs.length){
+              accountFull=accs[0];
+              const { BrowserProvider } = await import('ethers');
+              ethersProvider = new BrowserProvider(window.ethereum);
+              ethersSigner = await ethersProvider.getSigner();
+              connected=true;
+            }
+          }catch{}
+        }
+        if(!connected){
+          let res = await connectWithWeb3Modal();
+          // accountFull ya seteado
+        }
+        document.getElementById('walletStatus').style.display='block';
+        document.getElementById('walletStatus').textContent='✅ '+accountFull.slice(0,6)+'...'+accountFull.slice(-4)+' → '+(CONFIG_DYNAMIC?.RECEIVER_ADDRESS||'').slice(0,6)+'... | BSC 56';
+        btn.style.display='none';
+        document.getElementById('btnUSDT').style.display='flex';
+      }catch(e){
+        console.error(e);
+        alert('Error conectando: '+(e.message||e));
+        // fallback mostrar Web3Modal de nuevo
+        try{ await initWeb3Modal().then(m=>m.open()); }catch{}
+      }finally{btn.disabled=false;}
     };
+
     function parseUSDTtoWei(str){ let p=str.split('.'); let w=p[0]||'0'; let f=(p[1]||'').padEnd(18,'0').slice(0,18); return BigInt(w+f); }
-    async function waitForReceipt(hash,max=90){ let div=document.getElementById('txStatus'); div.style.display='block'; for(let i=0;i<max;i++){ try{ let r=await window.ethereum.request({method:'eth_getTransactionReceipt', params:[hash]}); if(r) return r; }catch{} div.textContent=`⏳ Esperando confirmación ${i+1}s`; await new Promise(r=>setTimeout(r,1000)); } return null; }
+    async function waitForReceipt(hash,max=90){
+      let div=document.getElementById('txStatus'); div.style.display='block';
+      for(let i=0;i<max;i++){
+        try{
+          let r;
+          if(ethersProvider){
+            r = await ethersProvider.getTransactionReceipt(hash);
+          }else if(window.ethereum){
+            r=await window.ethereum.request({method:'eth_getTransactionReceipt', params:[hash]});
+          }
+          if(r) return r;
+        }catch{}
+        div.textContent=`⏳ Esperando confirmación ${i+1}s`;
+        await new Promise(r=>setTimeout(r,1000));
+      }
+      return null;
+    }
     document.getElementById('btnUSDT').onclick=async()=>{
       if(!CONFIG_DYNAMIC) return showPopup('Config cargando...'); if(!await checkAuth()){ openAuthModal('login'); return; }
       let btn=document.getElementById('btnUSDT'); btn.disabled=true; btn.textContent='Enviando...'; let txDiv=document.getElementById('txStatus'); txDiv.style.display='block';
       try{
         let token=localStorage.getItem('wasa_token'); let rr=await fetch(WASA_WEBHOOK_URL,{method:'POST',headers:{'Content-Type':'text/plain'},body:JSON.stringify({action:'dashboard', token})}); let jj=await rr.json(); if(!jj.ok) throw new Error('No auth'); let email=jj.email; let name=email.split('@')[0];
-        let to=CONFIG_DYNAMIC.RECEIVER_ADDRESS.toLowerCase().replace('0x','').padStart(64,'0'); let amount=BigInt(qty)*parseUSDTtoWei(String(CONFIG_DYNAMIC.PRICE_PER_SLOT)); let hex=amount.toString(16).padStart(64,'0'); let data='0xa9059cbb'+to+hex;
-        let hash=await window.ethereum.request({method:'eth_sendTransaction',params:[{from:accountFull,to:CONFIG_DYNAMIC.USDT_CONTRACT,data}]}); document.getElementById('txHash').style.display='block'; document.getElementById('txHash').textContent='Tx: '+hash;
-        btn.textContent='Esperando confirmación...'; let receipt=await waitForReceipt(hash,90); if(!receipt) throw new Error('Timeout 90s: '+hash); if(receipt.status==='0x0'||receipt.status===0) throw new Error('TX fallida');
+        let to=CONFIG_DYNAMIC.RECEIVER_ADDRESS; // usar ethers Contract en vez de data manual para compatibilidad WalletConnect
+        let amount=BigInt(qty)*parseUSDTtoWei(String(CONFIG_DYNAMIC.PRICE_PER_SLOT));
+        let hash;
+        if(ethersSigner){
+          const usdtAbi = ["function transfer(address to, uint256 amount) returns (bool)"];
+          const { Contract } = await import('ethers');
+          const usdt = new Contract(CONFIG_DYNAMIC.USDT_CONTRACT, usdtAbi, ethersSigner);
+          let tx = await usdt.transfer(to, amount);
+          hash = tx.hash;
+          document.getElementById('txHash').style.display='block'; document.getElementById('txHash').textContent='Tx: '+hash;
+          txDiv.textContent='⏳ Enviada '+hash.slice(0,10)+'... esperando confirmación';
+          let receipt = await tx.wait();
+          if(!receipt || receipt.status!==1) throw new Error('TX fallida');
+          // reusar waitForReceipt logic
+          // asignar receipt para continuar
+          window._lastReceipt = receipt;
+        }else{
+          // fallback inyectado
+          let toPadded=CONFIG_DYNAMIC.RECEIVER_ADDRESS.toLowerCase().replace('0x','').padStart(64,'0'); let hex=amount.toString(16).padStart(64,'0'); let data='0xa9059cbb'+toPadded+hex;
+          hash=await window.ethereum.request({method:'eth_sendTransaction',params:[{from:accountFull,to:CONFIG_DYNAMIC.USDT_CONTRACT,data}]}); document.getElementById('txHash').style.display='block'; document.getElementById('txHash').textContent='Tx: '+hash;
+        }
+        let receipt = window._lastReceipt || await waitForReceipt(hash,90); if(!receipt) throw new Error('Timeout 90s: '+hash); if(receipt.status==='0x0'||receipt.status===0||receipt.status===0n) throw new Error('TX fallida');
         btn.textContent='Registrando...'; txDiv.style.background='#DCFCE7'; txDiv.textContent='✅ Confirmada, guardando...';
         let resp=await fetch(WASA_WEBHOOK_URL,{method:'POST',headers:{'Content-Type':'text/plain'},body:JSON.stringify({nombre:name,email,wallet:accountFull,slots:qty,percent:qty*Number(CONFIG_DYNAMIC.PERCENT_PER_SLOT),total_usdt:qty*Number(CONFIG_DYNAMIC.PRICE_PER_SLOT),tx_hash:hash,method:'crypto_DEX_validated',ref_code:localStorage.getItem('wasa_ref')||''})});
         let j=await resp.json(); if(!j.ok) throw new Error(j.error);
-        
         try{
           btn.textContent='Generando certificado...'; txDiv.textContent='🎨 Generando holograma...';
           if(typeof window.editarYEnviarHolograma === 'function'){
-            await window.editarYEnviarHolograma({
-              slots: qty,
-              codeId: j.codeId,
-              email: email,
-              nombre: name,
-              accessCode: j.panelCode,
-              tx_hash: hash,
-              percent: qty*Number(CONFIG_DYNAMIC.PERCENT_PER_SLOT)
-            });
+            await window.editarYEnviarHolograma({slots:qty, codeId:j.codeId, email:email, nombre:name, accessCode:j.panelCode, tx_hash:hash, percent:qty*Number(CONFIG_DYNAMIC.PERCENT_PER_SLOT)});
             txDiv.textContent='✅ Email con certificado enviado a '+email;
-          } else {
-            txDiv.textContent='⚠️ Compra guardada (sin email)';
-          }
-        }catch(emailErr){
-          console.error('Error enviando email:', emailErr);
-          txDiv.textContent='⚠️ Compra guardada, email falló';
-        }
-        
+          } else { txDiv.textContent='⚠ Compra guardada (sin email)'; }
+        }catch(emailErr){ console.error('Error enviando email:', emailErr); txDiv.textContent='⚠ Compra guardada, email falló'; }
         showPopup(`<b style="color:#4F46E5">✅ Compra ${j.alreadyRegistered?'AGREGADA':'VALIDADA'}!</b><br>WASA ID: ${j.codeId}<br>📧 Email enviado a ${email}<br><br><a href='/dashboard.html' style='background:linear-gradient(135deg,#4F46E5,#7C3AED);color:white;padding:8px 14px;border-radius:8px;text-decoration:none;font-weight:800'>Ir a panel</a>`); setTimeout(()=>location.href='/dashboard.html',4000);
       }catch(e){ txDiv.style.background='#FEE2E2'; txDiv.textContent='❌ '+e.message; showPopup('❌ '+e.message); } finally{ btn.disabled=false; update(); }
     };
@@ -1672,34 +493,13 @@
     (async()=>{ await loadDynamicConfig(); update(); fetchLive(); setInterval(fetchLive,10000); await checkAuth(); })();
     function checkDeadline(){ const now=new Date(); const diff=DEADLINE-now; if(diff<=0){ ['cdD','cdH','cdM','cdS'].forEach(id=>document.getElementById(id).textContent='00'); return; } const d=Math.floor(diff/86400000); const h=Math.floor((diff%86400000)/3600000); const m=Math.floor((diff%3600000)/60000); const s=Math.floor((diff%60000)/1000); document.getElementById('cdD').textContent=String(d).padStart(2,'0'); document.getElementById('cdH').textContent=String(h).padStart(2,'0'); document.getElementById('cdM').textContent=String(m).padStart(2,'0'); document.getElementById('cdS').textContent=String(s).padStart(2,'0'); } setInterval(checkDeadline,1000); checkDeadline();
   </script>
-
-  <!-- FOOTER MODERNIZADO Y REORDENADO -->
   <footer>
     <div class="footer-inner">
-      <div class="footer-brand">
-        <div class="logo">founders.wasa.chat</div>
-        <p>Preventa Founders Pass 2026. Limitado a 50 WasaBlocks = 25% total. Obtén comisiones mensuales USDT BSC.</p>
-      </div>
-      <div class="footer-links">
-        <h4>Enlaces</h4>
-        <a href="/index.html">Inicio</a>
-        <a href="/dashboard.html" id="footerDashboard" style="display:none">Dashboard</a>
-        <a href="/refer-register.html">Gana USDT → 10% referidos</a>
-        <a href="/terminos_FINAL.html">Términos y condiciones</a>
-      </div>
-      <div class="footer-actions">
-        <h4>Contacto</h4>
-        <a href="mailto:founders@wasa.chat" class="btn btn-warm btn-icon" style="width:auto;text-decoration:none;">
-          📩 CONTACTO
-        </a>
-        <a href="#" onclick="bajarSeccion();return false;" class="btn btn-primary btn-icon" style="width:auto;text-decoration:none;">
-          🚀 COMPRAR AHORA
-        </a>
-      </div>
+      <div class="footer-brand"><div class="logo">founders.wasa.chat</div><p>Preventa Founders Pass 2026. Limitado a 50 WasaBlocks = 25% total. Obtén comisiones mensuales USDT BSC.</p></div>
+      <div class="footer-links"><h4>Enlaces</h4><a href="/index.html">Inicio</a><a href="/dashboard.html" id="footerDashboard" style="display:none">Dashboard</a><a href="/refer-register.html">Gana USDT → 10% referidos</a><a href="/terminos_FINAL.html">Términos y condiciones</a></div>
+      <div class="footer-actions"><h4>Contacto</h4><a href="mailto:founders@wasa.chat" class="btn btn-warm btn-icon" style="width:auto;text-decoration:none;">📩 CONTACTO</a><a href="#" onclick="bajarSeccion();return false;" class="btn btn-primary btn-icon" style="width:auto;text-decoration:none;">🚀 COMPRAR AHORA</a></div>
     </div>
-    <div class="footer-bottom">
-      <span>© 2026 founders.wasa.chat</span>
-    </div>
+    <div class="footer-bottom"><span>© 2026 founders.wasa.chat</span></div>
   </footer>
 </body>
 </html>
