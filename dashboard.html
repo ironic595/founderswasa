@@ -5,6 +5,17 @@
 <title>Panel Founders - wasa.chat</title>
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/ethers@6.13.2/dist/ethers.umd.min.js"></script>
+<script type="importmap">
+{
+  "imports": {
+    "ethers": "https://esm.sh/ethers@6.13.2",
+    "@web3modal/ethers": "https://esm.sh/@web3modal/ethers@5.1.11?external=ethers"
+  }
+}
+</script>
+<script>
+  window.WC_PROJECT_ID = window.WC_PROJECT_ID || 'a0c2d7e8f1b3c4d5e6f7a8b9c0d1e2f3';
+</script>
 <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     :root {
@@ -188,8 +199,61 @@ async function getMarketConfig(){
 }
 
 async function buy(id){
+  // ==== MULTIWALLET: Web3Modal + injected ====
+  let web3ModalInstance=null;
+  let ethersProviderWC=null;
+  let ethersSignerWC=null;
+  async function initWeb3ModalDashboard(){
+    if(web3ModalInstance) return web3ModalInstance;
+    const { createWeb3Modal, defaultConfig } = await import('@web3modal/ethers');
+    const bscMainnet = { chainId: 56, name: 'BNB Smart Chain', currency: 'BNB', explorerUrl: 'https://bscscan.com', rpcUrl: 'https://bsc-dataseed.binance.org/' };
+    const metadata = { name: 'Wasa.chat Dashboard', description: 'Marketplace Wasablocks', url: location.origin, icons: [location.origin+'/assets/img/founderswasa.png'] };
+    web3ModalInstance = createWeb3Modal({
+      ethersConfig: defaultConfig({ metadata, defaultChainId: 56, enableEIP6963: true, enableInjected: true, enableCoinbase: true, rpcUrl: 'https://bsc-dataseed.binance.org/' }),
+      chains: [bscMainnet],
+      projectId: window.WC_PROJECT_ID || 'a0c2d7e8f1b3c4d5e6f7a8b9c0d1e2f3',
+      themeMode: 'dark',
+      themeVariables: { '--w3m-accent': '#4F46E5' },
+      enableAnalytics: false,
+      featuredWalletIds: ['c57ca95b47569778a828d19178114d12','4622a2b2d6af1c9844944291e5e7351a','0b415a746fb9ee0779694d1cc7e56a6f','a797a7a43b4d1e5371f5cc8c39c54b59']
+    });
+    return web3ModalInstance;
+  }
+  async function getWalletConnection(){
+    // Intentar inyectado primero en desktop
+    if(window.ethereum && !/Mobi|Android|iPhone|iPad/i.test(navigator.userAgent)){
+      try{
+        await window.ethereum.request({method:'eth_requestAccounts'});
+        const provider = new ethers.BrowserProvider(window.ethereum);
+        const signer = await provider.getSigner();
+        const net = await provider.getNetwork();
+        if(Number(net.chainId)!==56){
+          try{ await window.ethereum.request({method:'wallet_switchEthereumChain', params:[{chainId:'0x38'}]}); }catch(e){ /* ignore */ }
+        }
+        return {provider, signer, fromInjected:true};
+      }catch{}
+    }
+    // Si no, abrir Web3Modal
+    const modal = await initWeb3ModalDashboard();
+    await modal.open();
+    return await new Promise((resolve,reject)=>{
+      let done=false;
+      modal.subscribeProvider(async ({provider, address, isConnected})=>{
+        if(isConnected && address && !done){
+          done=true;
+          try{
+            const { BrowserProvider } = await import('ethers');
+            const bp = new BrowserProvider(provider);
+            const signer = await bp.getSigner();
+            resolve({provider: bp, signer, address, fromInjected:false, rawProvider: provider});
+          }catch(err){ reject(err); }
+        }
+      });
+    });
+  }
   try{
-    if(!window.ethereum){ alert('Necesitás MetaMask o Trust Wallet para comprar. Instalá la extensión y probá de nuevo.'); return; }
+    // no exigir window.ethereum, usamos getWalletConnection
+
     // Buscar listing - schema real: price_total, fee_75, seller_recv_925
     let listing = GLOBAL_MARKET.find(l=>l.id===id);
     if(!listing){ alert('Listing no encontrado, recargá.'); return; }
@@ -234,14 +298,22 @@ async function buy(id){
       if(!confirm(`Vas a comprar ${listing.slots.toFixed(2)} WASABLOCKS por $${total} TOTAL.\n\nSe abrirá tu wallet y hará 2 pagos automáticos FEE PRIMERO:\n1) $${feeDisplay.toFixed(6)} fee (7.5%) → ${platformWallet.slice(0,6)}... (MARKETPLACE FEE)\n2) $${sellerDisplay.toFixed(6)} vendedor (92.5%) → ${sellerWallet.slice(0,6)}...\n\nFounders wallet: ${foundersWallet.slice(0,6)}...\n\n¿Continuar?`)) return;
     }
 
-    // Conectar wallet
-    await window.ethereum.request({method:'eth_requestAccounts'});
-    const provider = new ethers.BrowserProvider(window.ethereum);
-    const signer = await provider.getSigner();
+    // Conectar wallet multichain
+    let conn;
+    try{
+      conn = await getWalletConnection();
+    }catch(e){
+      alert('Error conectando wallet: '+(e.message||e));
+      return;
+    }
+    const provider = conn.provider;
+    const signer = conn.signer;
     const network = await provider.getNetwork();
-    // Verificar BSC 56
     if(Number(network.chainId)!==56){
-      try{ await window.ethereum.request({method:'wallet_switchEthereumChain', params:[{chainId:'0x38'}]}); }catch(e){ alert('Cambiá a BSC Mainnet (Chain 56) en tu wallet.'); return; }
+      try{
+        let raw = conn.rawProvider || window.ethereum;
+        if(raw) await raw.request({method:'wallet_switchEthereumChain', params:[{chainId:'0x38'}]});
+      }catch(e){ alert('Cambiá a BSC Mainnet (Chain 56) en tu wallet.'); return; }
     }
     const usdtAbi = ["function transfer(address to, uint256 amount) returns (bool)", "function decimals() view returns (uint8)", "function balanceOf(address) view returns (uint256)"];
     const usdt = new ethers.Contract(usdtContract, usdtAbi, signer);
